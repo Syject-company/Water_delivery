@@ -1,17 +1,19 @@
 part of 'splash_cubit.dart';
 
 @immutable
-class SplashState extends Equatable {
-  SplashState({required this.progress});
+abstract class SplashState extends Equatable {}
 
-  final double progress;
-
-  SplashState copyWith({double? progress}) {
-    return SplashState(
-      progress: progress ?? this.progress,
-    );
-  }
-
+class SplashInitial extends SplashState {
   @override
-  List<Object?> get props => [progress];
+  List<Object?> get props => [];
+}
+
+class SplashLoading extends SplashState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SplashVideo extends SplashState {
+  @override
+  List<Object?> get props => [];
 }

@@ -1,53 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
+import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/splash/widgets/splash_loading_icon.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  static const String _videoPath = 'assets/video/gulfa_splash_screen.mp4';
+
+  late final VideoPlayerController _videoController;
+
+  @override
+  void initState() {
+    super.initState();
+    _videoController =
+        VideoPlayerController.asset(_videoPath)
+          ..addListener(() => setState(() {}))
+          ..initialize().then((_) async {
+            await Future.delayed(_videoController.value.duration);
+            // TODO: load select language screen
+          })
+          ..play();
+  }
+
+  @override
+  void dispose() {
+    _videoController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildLoadingIcon(),
-            const SizedBox(height: 16.0),
-            _buildLoadingText(),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<SplashCubit>().simulateFakeProgress();
+      body: BlocBuilder<SplashCubit, SplashState>(
+        builder: (_, state) {
+          if (state is SplashVideo) {}
+
+          return AnimatedSwitcher(
+            duration: Duration(milliseconds: 350),
+            child: state is SplashVideo
+                ? _buildVideoPlayer()
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _buildLoadingIcon(),
+                        const SizedBox(height: 16.0),
+                        _buildLoadingText(state),
+                      ],
+                    ),
+                  ),
+          );
         },
       ),
     );
   }
 
+  Widget _buildVideoPlayer() {
+    return _videoController.value.isInitialized
+        ? VideoPlayer(_videoController)
+        : const SizedBox.shrink();
+  }
+
   Widget _buildLoadingIcon() {
     return const SplashLoadingIcon(
-      color: const Color.fromARGB(255, 210, 244, 255),
-      fillColor: const Color.fromARGB(255, 0, 92, 185),
+      color: AppColors.splashIconColor,
+      fillColor: AppColors.splashFillIconColor,
     );
   }
 
-  Widget _buildLoadingText() {
+  Widget _buildLoadingText(SplashState state) {
     return BlocBuilder<SplashCubit, SplashState>(
       builder: (_, state) {
-        if (state.progress > 0.0)
-          return const Text(
-            'Loading...',
-            style: TextStyle(
-              color: Color.fromARGB(255, 47, 55, 65),
-              fontSize: 24.0,
-              fontWeight: FontWeight.w500,
+        final loadingStatus = state is SplashLoading ? 'Loading...' : '';
+
+        return Text(
+          loadingStatus,
+          style: GoogleFonts.poppins(
+            textStyle: const TextStyle(
+              color: AppColors.splashTextColor,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w600,
             ),
-          );
-        else
-          return SizedBox.shrink();
+          ),
+        );
       },
     );
   }

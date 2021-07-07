@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        create: (_) => SplashCubit(),
+        create: (_) => SplashCubit()..startLoading(),
         child: SplashScreen(),
       ),
       debugShowCheckedModeBanner: false,
