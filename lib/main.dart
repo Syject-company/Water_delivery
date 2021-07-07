@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
 
+import 'ui/select_language/select_language_screen.dart';
 import 'ui/splash/splash_screen.dart';
 
 void main() {
@@ -16,10 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-        create: (_) => SplashCubit()..startLoading(),
-        child: SplashScreen(),
-      ),
+      // home: BlocProvider(
+      //   create: (_) => SplashCubit()..startLoading(),
+      //   child: SplashScreen(),
+      // ),
+      home: SelectLanguageScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
