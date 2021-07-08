@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  static const String _videoPath = 'assets/video/gulfa_splash_screen.mp4';
+  static const String _splashVideoPath = 'assets/video/splash_video.mp4';
 
   late final VideoPlayerController _videoController;
 
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _videoController =
-        VideoPlayerController.asset(_videoPath)
+        VideoPlayerController.asset(_splashVideoPath)
           ..addListener(() => setState(() {}))
           ..initialize().then((_) async {
             await Future.delayed(_videoController.value.duration);

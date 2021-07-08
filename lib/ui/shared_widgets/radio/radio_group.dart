@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'radio_button.dart';
 
 class RadioGroup<T> extends StatefulWidget {
-  const RadioGroup({
+  RadioGroup({
     Key? key,
     required this.values,
     required this.labels,
@@ -29,12 +29,12 @@ class RadioGroup<T> extends StatefulWidget {
 }
 
 class _RadioGroupState<E> extends State<RadioGroup<E>> {
-  late E selectedValue;
+  late E selectedValue = widget.groupValue;
 
   @override
   void initState() {
     super.initState();
-    selectedValue = widget.groupValue;
+    print(widget.groupValue);
   }
 
   @override

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:water/bloc/localization/localization_cubit.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
-
-enum Language {
-  English,
-  Arabic,
-}
+import 'package:water/util/localization.dart';
 
 class SelectLanguageScreen extends StatefulWidget {
   const SelectLanguageScreen({Key? key}) : super(key: key);
@@ -17,36 +15,32 @@ class SelectLanguageScreen extends StatefulWidget {
 }
 
 class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
-  static const String _logoIconPath = 'assets/svg/drop_icon.svg';
+  static const String _logoIconPath = 'assets/svg/logo_icon.svg';
   static const String _logoTextPath = 'assets/svg/logo_text_red.svg';
   static const double _iconWidthFactor = 4.5;
   static const double _logoTextWidthFactor = 3.5;
 
-  Language _language = Language.English;
-  TextDirection _textDirection = TextDirection.ltr;
+  late Language _currentLanguage = Localization.currentLanguage(context);
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: _textDirection,
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildLogoIcon(),
-                const SizedBox(height: 24.0),
-                _buildLogoText(),
-                const SizedBox(height: 32.0),
-                _buildSelectLanguageLabel(),
-                const SizedBox(height: 32.0),
-                _buildLanguagePicker(),
-                const SizedBox(height: 40.0),
-                _buildSaveButton(),
-              ],
-            ),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _buildLogoIcon(),
+              const SizedBox(height: 24.0),
+              _buildLogoText(),
+              const SizedBox(height: 32.0),
+              _buildSelectLanguageLabel(),
+              const SizedBox(height: 32.0),
+              _buildLanguagePicker(),
+              const SizedBox(height: 40.0),
+              _buildSaveButton(),
+            ],
           ),
         ),
       ),
@@ -70,7 +64,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
 
   Widget _buildSelectLanguageLabel() {
     return Text(
-      'Select Language',
+      'text.select_language'.localize(context),
       style: GoogleFonts.poppins(
         textStyle: const TextStyle(
           color: AppColors.primaryTextColor,
@@ -78,18 +72,18 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
           fontWeight: FontWeight.w600,
         ),
       ),
+      strutStyle: const StrutStyle(
+        forceStrutHeight: true,
+        height: 2.0,
+      ),
     );
   }
 
   Widget _buildLanguagePicker() {
     return RadioGroup<Language>(
-      onChanged: (value) {
-        setState(() {
-          if (value == Language.English)
-            _textDirection = TextDirection.ltr;
-          else
-            _textDirection = TextDirection.rtl;
-        });
+      onChanged: (value) async {
+        final locale = await Localization.changeLanguage(context, value);
+        context.read<LocalizationCubit>().changeLocale(locale);
       },
       values: [
         Language.English,
@@ -99,30 +93,36 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
         'English',
         'ةيبرعلا',
       ],
-      groupValue: _language,
+      groupValue: _currentLanguage,
     );
   }
 
   Widget _buildSaveButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Localization.saveLocale(Localization.currentLocale(context));
+      },
       style: TextButton.styleFrom(
         elevation: 0.0,
         padding: EdgeInsets.zero,
         fixedSize: Size(MediaQuery.of(context).size.width, 58),
         backgroundColor: AppColors.primaryColor,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
         ),
       ),
       child: Text(
-        'Save',
+        'button.save'.localize(context),
         style: GoogleFonts.poppins(
           textStyle: const TextStyle(
             color: Colors.white,
             fontSize: 16.0,
             fontWeight: FontWeight.w600,
           ),
+        ),
+        strutStyle: const StrutStyle(
+          forceStrutHeight: true,
+          height: 1.25,
         ),
       ),
     );
