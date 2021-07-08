@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildLoadingIcon() {
     return const SplashLoadingIcon(
       color: AppColors.splashIconColor,
-      fillColor: AppColors.splashFillIconColor,
+      fillColor: AppColors.primaryColor,
     );
   }
 
@@ -86,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
           loadingStatus,
           style: GoogleFonts.poppins(
             textStyle: const TextStyle(
-              color: AppColors.splashTextColor,
+              color: AppColors.primaryTextColor,
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),
