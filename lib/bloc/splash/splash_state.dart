@@ -17,3 +17,8 @@ class SplashVideo extends SplashState {
   @override
   List<Object?> get props => [];
 }
+
+class SplashHome extends SplashState {
+  @override
+  List<Object?> get props => [];
+}

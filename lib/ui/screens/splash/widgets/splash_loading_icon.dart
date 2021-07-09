@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/shared_widgets/logo.dart';
 
 class SplashLoadingIcon extends StatefulWidget {
-  const SplashLoadingIcon({
-    Key? key,
-    required this.color,
-    required this.fillColor,
-  }) : super(key: key);
-
-  final Color color;
-  final Color fillColor;
+  const SplashLoadingIcon({Key? key}) : super(key: key);
 
   @override
   _SplashLoadingIconState createState() => _SplashLoadingIconState();
@@ -17,9 +11,7 @@ class SplashLoadingIcon extends StatefulWidget {
 
 class _SplashLoadingIconState extends State<SplashLoadingIcon>
     with SingleTickerProviderStateMixin {
-  static const String _iconPath = 'assets/svg/logo_icon.svg';
   static const Duration _fillDuration = Duration(seconds: 1);
-  static const double _iconWidthFactor = 4.5;
 
   late final AnimationController _fillAnimationController;
 
@@ -47,8 +39,8 @@ class _SplashLoadingIconState extends State<SplashLoadingIcon>
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              widget.fillColor,
-              widget.fillColor,
+              AppColors.primaryColor,
+              AppColors.primaryColor,
               Colors.transparent,
             ],
             stops: [
@@ -57,11 +49,7 @@ class _SplashLoadingIconState extends State<SplashLoadingIcon>
               _fillAnimationController.value,
             ]).createShader(bounds);
       },
-      child: SvgPicture.asset(
-        _iconPath,
-        color: widget.color,
-        width: MediaQuery.of(context).size.width / _iconWidthFactor,
-      ),
+      child: Logo(showLabel: false),
     );
   }
 }
