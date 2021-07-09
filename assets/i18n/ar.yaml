@@ -1,5 +1,10 @@
-# select language screen
 text:
+  # SELECT_LANGUAGE_SCREEN
   select_language: اختار اللغة
+
 button:
+  # SELECT_LANGUAGE_SCREEN
   save: يحفظ
+  # HOME_SCREEN
+  sign_in: تسجيل الدخول
+  sign_up: إنشاء حساب

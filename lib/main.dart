@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/splash/splash_cubit.dart';
+import 'package:water/ui/screens/splash/splash_screen.dart';
 
-import 'ui/select_language/select_language_screen.dart';
 import 'util/localization.dart';
 
 void main() async {
@@ -32,11 +34,10 @@ class GulfaWaterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gulfa Water',
-      // home: BlocProvider(
-      //   create: (_) => SplashCubit()..startLoading(),
-      //   child: SplashScreen(),
-      // ),
-      home: SelectLanguageScreen(),
+      home: BlocProvider<SplashCubit>(
+        create: (_) => SplashCubit(),
+        child: SplashScreen(),
+      ),
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,

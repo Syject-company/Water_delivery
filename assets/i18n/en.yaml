@@ -1,5 +1,10 @@
-# select language screen
 text:
+  # SELECT_LANGUAGE_SCREEN
   select_language: Select Language
+
 button:
+  # SELECT_LANGUAGE_SCREEN
   save: Save
+  # HOME_SCREEN
+  sign_in: I have an account
+  sign_up: Sign up free
