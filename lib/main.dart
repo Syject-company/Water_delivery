@@ -1,64 +1,46 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:water/bloc/localization/localization_cubit.dart';
 
 import 'ui/select_language/select_language_screen.dart';
 import 'util/localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  final startLocale = await Localization.loadLocale();
 
-  final savedLocale = await Localization.loadLocale();
-  final flutterI18nDelegate = FlutterI18nDelegate(
-    translationLoader: FileTranslationLoader(
-      basePath: i18nBasePath,
-      useCountryCode: false,
-      fallbackFile: defaultLocale,
-      forcedLocale: savedLocale,
+  runApp(
+    EasyLocalization(
+      saveLocale: false,
+      startLocale: startLocale,
+      supportedLocales: Localization.locales,
+      path: Localization.i18nBasePath,
+      useOnlyLangCode: !Localization.useCountryCode,
+      fallbackLocale: Localization.defaultLocale,
+      useFallbackTranslations: true,
+      assetLoader: YamlAssetLoader(),
+      child: GulfaWaterApp(),
     ),
   );
-
-  await flutterI18nDelegate.load(savedLocale);
-  runApp(GulfaWaterApp(
-      flutterI18nDelegate: flutterI18nDelegate, locale: savedLocale));
 }
 
 class GulfaWaterApp extends StatelessWidget {
-  GulfaWaterApp({
-    Key? key,
-    required this.flutterI18nDelegate,
-    required this.locale,
-  }) : super(key: key);
-
-  final FlutterI18nDelegate flutterI18nDelegate;
-
-  final Locale locale;
+  GulfaWaterApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LocalizationCubit(locale: locale),
-      child: BlocBuilder<LocalizationCubit, LocalizationState>(
-        builder: (_, state) => MaterialApp(
-          title: 'Gulfa Water',
-          // home: BlocProvider(
-          //   create: (_) => SplashCubit()..startLoading(),
-          //   child: SplashScreen(),
-          // ),
-          home: SelectLanguageScreen(),
-          locale: state.locale,
-          localizationsDelegates: [
-            flutterI18nDelegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: Localization.locales.values,
-          debugShowCheckedModeBanner: false,
-        ),
-      ),
+    return MaterialApp(
+      title: 'Gulfa Water',
+      // home: BlocProvider(
+      //   create: (_) => SplashCubit()..startLoading(),
+      //   child: SplashScreen(),
+      // ),
+      home: SelectLanguageScreen(),
+      locale: context.locale,
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -6,20 +6,17 @@ class RadioGroup<T> extends StatefulWidget {
   RadioGroup({
     Key? key,
     required this.values,
-    required this.labels,
-    required this.groupValue,
     required this.onChanged,
+    this.currentValue,
     this.axis = Axis.vertical,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.spaceBetween = 16.0,
-  })  : assert(values.length == labels.length),
-        assert(spaceBetween >= 0.0),
+  })  : assert(spaceBetween >= 0.0),
         super(key: key);
 
-  final List<T> values;
-  final List<String> labels;
-  final T groupValue;
+  final Map<T, String> values;
   final ValueChanged<T> onChanged;
+  final T? currentValue;
   final Axis axis;
   final MainAxisAlignment mainAxisAlignment;
   final double spaceBetween;
@@ -29,13 +26,7 @@ class RadioGroup<T> extends StatefulWidget {
 }
 
 class _RadioGroupState<E> extends State<RadioGroup<E>> {
-  late E selectedValue = widget.groupValue;
-
-  @override
-  void initState() {
-    super.initState();
-    print(widget.groupValue);
-  }
+  late E? _selectedValue = widget.currentValue;
 
   @override
   Widget build(BuildContext context) {
@@ -55,28 +46,28 @@ class _RadioGroupState<E> extends State<RadioGroup<E>> {
   List<Widget> _buildRadioButtons() {
     final buttons = <Widget>[];
 
-    for (int i = 0; i < widget.values.length; i++) {
+    widget.values.forEach((value, label) {
       buttons.add(
         GestureDetector(
           onTap: () {
-            setState(() {
-              selectedValue = widget.values[i];
-            });
-            widget.onChanged(selectedValue);
+            if (_selectedValue != value) {
+              setState(() => _selectedValue = value);
+              widget.onChanged(_selectedValue!);
+            }
           },
           child: RadioButton(
-            label: widget.labels[i],
-            selected: selectedValue == widget.values[i],
+            label: label,
+            selected: _selectedValue != null && _selectedValue == value,
           ),
         ),
       );
 
-      if (i != widget.values.length - 1) {
+      if (value != widget.values.keys.last) {
         buttons.add(widget.axis == Axis.vertical
             ? SizedBox(height: widget.spaceBetween)
             : SizedBox(width: widget.spaceBetween));
       }
-    }
+    });
 
     return buttons;
   }

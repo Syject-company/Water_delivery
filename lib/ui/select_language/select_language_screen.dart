@@ -1,8 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water/bloc/localization/localization_cubit.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
 import 'package:water/util/localization.dart';
@@ -19,8 +18,6 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
   static const String _logoTextPath = 'assets/svg/logo_text_red.svg';
   static const double _iconWidthFactor = 4.5;
   static const double _logoTextWidthFactor = 3.5;
-
-  late Language _currentLanguage = Localization.currentLanguage(context);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +61,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
 
   Widget _buildSelectLanguageLabel() {
     return Text(
-      'text.select_language'.localize(context),
+      'text.select_language'.tr(),
       style: GoogleFonts.poppins(
         textStyle: const TextStyle(
           color: AppColors.primaryTextColor,
@@ -80,39 +77,36 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
   }
 
   Widget _buildLanguagePicker() {
-    return RadioGroup<Language>(
-      onChanged: (value) async {
-        final locale = await Localization.changeLanguage(context, value);
-        context.read<LocalizationCubit>().changeLocale(locale);
+    return RadioGroup<Locale>(
+      onChanged: (locale) {
+        Localization.changeLocale(context, locale);
       },
-      values: [
-        Language.English,
-        Language.Arabic,
-      ],
-      labels: [
-        'English',
-        'ةيبرعلا',
-      ],
-      groupValue: _currentLanguage,
+      values: {
+        const Locale('en'): 'English',
+        const Locale('ar'): 'ةيبرعلا',
+      },
+      currentValue: Localization.currentLocale(context),
     );
   }
 
   Widget _buildSaveButton() {
     return ElevatedButton(
       onPressed: () {
-        Localization.saveLocale(Localization.currentLocale(context));
+        final currentLocale = Localization.currentLocale(context);
+        Localization.saveLocale(currentLocale);
+        // TODO: navigate to home
       },
       style: TextButton.styleFrom(
         elevation: 0.0,
         padding: EdgeInsets.zero,
-        fixedSize: Size(MediaQuery.of(context).size.width, 58),
+        fixedSize: Size(MediaQuery.of(context).size.width, 58.0),
         backgroundColor: AppColors.primaryColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
         ),
       ),
       child: Text(
-        'button.save'.localize(context),
+        'button.save'.tr(),
         style: GoogleFonts.poppins(
           textStyle: const TextStyle(
             color: Colors.white,
