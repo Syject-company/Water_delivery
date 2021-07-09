@@ -17,7 +17,7 @@ class SplashLoadingIcon extends StatefulWidget {
 
 class _SplashLoadingIconState extends State<SplashLoadingIcon>
     with SingleTickerProviderStateMixin {
-  static const String _iconPath = 'assets/svg/drop_icon.svg';
+  static const String _iconPath = 'assets/svg/logo_icon.svg';
   static const Duration _fillDuration = Duration(seconds: 1);
   static const double _iconWidthFactor = 4.5;
 

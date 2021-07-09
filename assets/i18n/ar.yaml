@@ -1,0 +1,5 @@
+# select language screen
+text:
+  select_language: اختار اللغة
+button:
+  save: يحفظ
