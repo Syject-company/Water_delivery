@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:water/ui/constants/colors.dart';
 
 class RadioButton extends StatelessWidget {
@@ -36,12 +35,10 @@ class RadioButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
             label,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                color: AppColors.secondaryTextColor,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w600,
-              ),
+            style: const TextStyle(
+              color: AppColors.secondaryTextColor,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         )

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/home/home_screen.dart';
+import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/screens/select_language/select_language_screen.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
@@ -53,8 +52,8 @@ class _SplashScreenState extends State<SplashScreen>
           await _videoController.play();
           await Future.delayed(_videoController.value.duration);
           _navigateTo(SelectLanguageScreen());
-        } else if (state is SplashHome) {
-          _navigateTo(HomeScreen());
+        } else if (state is SplashAuth) {
+          _navigateTo(AuthScreen());
         }
       },
       builder: (_, state) {
@@ -92,12 +91,10 @@ class _SplashScreenState extends State<SplashScreen>
       opacity: _fadeAnimationController,
       child: Text(
         'Loading...',
-        style: GoogleFonts.poppins(
-          textStyle: const TextStyle(
-            color: AppColors.primaryTextColor,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w600,
-          ),
+        style: const TextStyle(
+          color: AppColors.primaryTextColor,
+          fontSize: 18.0,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

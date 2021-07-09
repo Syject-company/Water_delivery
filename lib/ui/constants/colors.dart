@@ -6,4 +6,6 @@ class AppColors {
 
   static const primaryTextColor = Color(0xFF2F3741);
   static const secondaryTextColor = Color(0xFF92ABBA);
+
+  static const inputDefaultBorderColor = Color(0xFFE8E8E8);
 }

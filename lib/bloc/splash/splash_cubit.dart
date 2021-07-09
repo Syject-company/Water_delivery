@@ -22,7 +22,7 @@ class SplashCubit extends Cubit<SplashState> {
     if (firstLaunch) {
       emit(SplashVideo());
     } else {
-      emit(SplashHome());
+      emit(SplashAuth());
     }
   }
 }

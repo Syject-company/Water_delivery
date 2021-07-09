@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/home/home_screen.dart';
+import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/logo.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
@@ -39,12 +39,10 @@ class SelectLanguageScreen extends StatelessWidget {
   Widget _buildSelectLanguageLabel() {
     return Text(
       'text.select_language'.tr(),
-      style: GoogleFonts.poppins(
-        textStyle: const TextStyle(
-          color: AppColors.primaryTextColor,
-          fontSize: 24.0,
-          fontWeight: FontWeight.w600,
-        ),
+      style: const TextStyle(
+        color: AppColors.primaryTextColor,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w600,
       ),
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
@@ -78,10 +76,10 @@ class SelectLanguageScreen extends StatelessWidget {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('first_launch', false);
 
-        // Load Home Screen
+        // Load Auth Screen
         Navigator.of(context).pushReplacement(
           SlideWithFadeRoute(
-            builder: (_) => HomeScreen(),
+            builder: (_) => AuthScreen(),
           ),
         );
       },

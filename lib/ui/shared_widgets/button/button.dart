@@ -38,12 +38,10 @@ class Button extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: GoogleFonts.poppins(
-          textStyle: TextStyle(
-            color: foregroundColor,
-            fontSize: _textSize,
-            fontWeight: FontWeight.w600,
-          ),
+        style: TextStyle(
+          color: foregroundColor,
+          fontSize: _textSize,
+          fontWeight: FontWeight.w600,
         ),
         strutStyle: const StrutStyle(
           forceStrutHeight: true,

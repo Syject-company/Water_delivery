@@ -41,3 +41,4 @@ flutter:
     - assets/i18n/
     - assets/svg/
     - assets/video/
+    - google_fonts/
