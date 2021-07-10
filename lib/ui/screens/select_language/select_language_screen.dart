@@ -1,12 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/logo.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
+import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
@@ -22,7 +21,7 @@ class SelectLanguageScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Logo(),
+              const Logo(),
               const SizedBox(height: 32.0),
               _buildSelectLanguageLabel(),
               const SizedBox(height: 32.0),
@@ -71,10 +70,8 @@ class SelectLanguageScreen extends StatelessWidget {
         final currentLocale = Localization.currentLocale(context);
         await Localization.saveLocale(currentLocale);
 
-        // TODO: extract
         // Disable first launch
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('first_launch', false);
+        await LocalStorage.setFirstLaunch(false);
 
         // Load Auth Screen
         Navigator.of(context).pushReplacement(

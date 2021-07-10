@@ -14,13 +14,12 @@ class ChooseAuthScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(24.0),
             physics: const BouncingScrollPhysics(),
-            reverse: true,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Logo(labelWidthFactor: 3.0),
+                const Logo(),
                 const SizedBox(height: 96.0),
                 _buildSignInButton(context),
                 const SizedBox(height: 12.0),

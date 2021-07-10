@@ -2,21 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
 import 'package:water/ui/screens/splash/splash_screen.dart';
+import 'package:water/util/local_storage.dart';
 
 import 'util/localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  final startLocale = await Localization.loadLocale();
+  await LocalStorage.ensureInitialized();
 
   runApp(
     EasyLocalization(
       saveLocale: false,
-      startLocale: startLocale,
+      startLocale: Localization.loadLocale(),
       supportedLocales: Localization.locales,
       path: Localization.i18nBasePath,
       useOnlyLangCode: !Localization.useCountryCode,
@@ -38,11 +38,6 @@ class GulfaWaterApp extends StatelessWidget {
       home: BlocProvider<SplashCubit>(
         create: (_) => SplashCubit(),
         child: SplashScreen(),
-      ),
-      theme: ThemeData(
-        textTheme:
-            GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).copyWith(
-        ),
       ),
       locale: context.locale,
       supportedLocales: context.supportedLocales,

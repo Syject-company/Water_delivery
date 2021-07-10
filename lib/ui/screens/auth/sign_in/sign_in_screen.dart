@@ -1,193 +1,196 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
+import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/logo.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  SignInScreen({Key? key}) : super(key: key) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
+  }
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _buildAppBar(context),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                physics: const BouncingScrollPhysics(),
-                reverse: true,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Logo(),
-                    const SizedBox(height: 32.0),
-                    Text(
-                      'Sign In',
-                      style: const TextStyle(
-                        color: AppColors.primaryTextColor,
-                        fontSize: 21.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 48.0),
-                    TextField(
-                      cursorColor: AppColors.primaryColor,
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                          color: AppColors.primaryTextColor,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding:
-                        const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(19.0)),
-                          borderSide: BorderSide(
-                            color: AppColors.inputDefaultBorderColor,
-                            width: 1.0,
-                          ),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(19.0)),
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2.0,
-                          ),
-                        ),
-                        labelStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            color: AppColors.secondaryTextColor,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        labelText: 'Email',
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextField(
-                      cursorColor: AppColors.primaryColor,
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                          color: AppColors.primaryTextColor,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 24.0,
-                          vertical: 16.0,
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(19.0)),
-                          borderSide: BorderSide(
-                            color: AppColors.inputDefaultBorderColor,
-                            width: 1.0,
-                          ),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(19.0)),
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2.0,
-                          ),
-                        ),
-                        labelStyle: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            color: AppColors.secondaryTextColor,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        labelText: 'Password',
-                      ),
-                    ),
-                    const SizedBox(height: 24.0),
-                    Text(
-                      'Forgot your password?',
-                      style: const TextStyle(
-                        color: AppColors.primaryColor,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    RichText(
-                      text: TextSpan(
-                        text: 'New in?',
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                            color: AppColors.secondaryTextColor,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Sign up',
-                            style: const TextStyle(
-                              color: AppColors.primaryColor,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 32.0),
-                    Text(
-                      'Sign up with',
-                      style: const TextStyle(
-                        color: AppColors.primaryTextColor,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 32.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        RoundedButton(
-                          iconPath: 'assets/svg/facebook.svg',
-                        ),
-                        const SizedBox(width: 18.0),
-                        RoundedButton(
-                          iconPath: 'assets/svg/google.svg',
-                        ),
-                        const SizedBox(width: 18.0),
-                        RoundedButton(
-                          iconPath: 'assets/svg/apple.svg',
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32.0),
-                    Button(
-                      onPressed: () {},
-                      text: 'Log In',
-                    )
-                  ],
-                ),
-              ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            physics: const BouncingScrollPhysics(),
+            controller: _scrollController,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Logo(),
+                const SizedBox(height: 32.0),
+                _buildSignInLabel(),
+                const SizedBox(height: 48.0),
+                _buildInputForm(),
+                const SizedBox(height: 24.0),
+                _buildForgotPasswordLink(),
+                const SizedBox(height: 16.0),
+                _buildSignUpLink(),
+                const SizedBox(height: 32.0),
+                _buildSignUpLabel(),
+                const SizedBox(height: 32.0),
+                _buildSignUpButtons(),
+                const SizedBox(height: 32.0),
+                _buildLogInButton(),
+              ],
             ),
-            // PreferredSize(
-            //   preferredSize: Size(0, kToolbarHeight),
-            //   child: AppBar(
-            //     backgroundColor: Colors.transparent,
-            //     elevation: 1,
-            //   ),
-            // ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      leading: AppBarBackButton(
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+    );
+  }
+
+  Widget _buildSignInLabel() {
+    return Text(
+      'Sign In',
+      style: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          color: AppColors.primaryTextColor,
+          fontSize: 24.0,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputForm() {
+    final emailPattern = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+    return Form(
+      child: Column(
+        children: <Widget>[
+          FormInput(
+            validator: (value) {
+              if (value != null && !emailPattern.hasMatch(value)) {
+                return 'Wrong email address';
+              }
+              return null;
+            },
+            labelText: 'Email',
+            keyboardType: TextInputType.emailAddress,
+          ),
+          const SizedBox(height: 16.0),
+          FormInput(
+            validator: (value) {
+              if (value != null && value.isEmpty) {
+                return 'Wrong password';
+              }
+              return null;
+            },
+            labelText: 'Password',
+            keyboardType: TextInputType.visiblePassword,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildForgotPasswordLink() {
+    return GestureDetector(
+      onTap: () {
+        // TODO: navigate to Forgot Password screen
+      },
+      child: Text(
+        'Forgot your password?',
+        style: GoogleFonts.poppins(
+          textStyle: const TextStyle(
+            color: AppColors.primaryColor,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpLink() {
+    return RichText(
+      text: TextSpan(
+        text: 'New in?',
+        style: GoogleFonts.poppins(
+          textStyle: const TextStyle(
+            color: AppColors.secondaryTextColor,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: ' Sign up',
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                // TODO: navigate to Sign Up screen
+              },
+            style: const TextStyle(
+              color: AppColors.primaryColor,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSignUpLabel() {
+    return Text(
+      'Sign up with',
+      style: const TextStyle(
+        color: AppColors.primaryTextColor,
+        fontSize: 18.0,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _buildSignUpButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RoundedButton(
+          onPressed: () {},
+          iconPath: 'assets/svg/facebook.svg',
+        ),
+        const SizedBox(width: 18.0),
+        RoundedButton(
+          onPressed: () {},
+          iconPath: 'assets/svg/google.svg',
+        ),
+        const SizedBox(width: 18.0),
+        RoundedButton(
+          onPressed: () {},
+          iconPath: 'assets/svg/apple.svg',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLogInButton() {
+    return Button(
+      onPressed: () {},
+      text: 'Log In',
     );
   }
 }

@@ -15,7 +15,7 @@ class Button extends StatelessWidget {
   static const double _width = double.infinity;
   static const double _height = 58.0;
   static const double _borderRadius = 15.0;
-  static const double _textSize = 17.0;
+  static const double _textSize = 16.0;
   static const double _textLineHeight = 1.25;
 
   final VoidCallback onPressed;
@@ -38,10 +38,12 @@ class Button extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
-          color: foregroundColor,
-          fontSize: _textSize,
-          fontWeight: FontWeight.w600,
+        style: GoogleFonts.poppins(
+          textStyle: TextStyle(
+            color: foregroundColor,
+            fontSize: _textSize,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         strutStyle: const StrutStyle(
           forceStrutHeight: true,

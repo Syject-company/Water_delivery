@@ -5,15 +5,17 @@ import 'package:water/ui/constants/colors.dart';
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
     Key? key,
+    required this.onPressed,
     required this.iconPath,
   }) : super(key: key);
 
+  final VoidCallback onPressed;
   final String iconPath;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: TextButton.styleFrom(
           elevation: 0.0,
           padding: EdgeInsets.zero,
