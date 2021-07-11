@@ -1,12 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/logo.dart';
+import 'package:water/ui/validators/email.dart';
+import 'package:water/ui/validators/password.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({Key? key}) : super(key: key) {
@@ -33,7 +35,7 @@ class SignInScreen extends StatelessWidget {
                 const Logo(),
                 const SizedBox(height: 32.0),
                 _buildSignInLabel(),
-                const SizedBox(height: 48.0),
+                const SizedBox(height: 32.0),
                 _buildInputForm(),
                 const SizedBox(height: 24.0),
                 _buildForgotPasswordLink(),
@@ -66,41 +68,26 @@ class SignInScreen extends StatelessWidget {
   Widget _buildSignInLabel() {
     return Text(
       'Sign In',
-      style: GoogleFonts.poppins(
-        textStyle: const TextStyle(
-          color: AppColors.primaryTextColor,
-          fontSize: 24.0,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      style: const TextStyle(
+        color: AppColors.primaryTextColor,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w600,
+      ).poppins,
     );
   }
 
   Widget _buildInputForm() {
-    final emailPattern = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
     return Form(
       child: Column(
         children: <Widget>[
           FormInput(
-            validator: (value) {
-              if (value != null && !emailPattern.hasMatch(value)) {
-                return 'Wrong email address';
-              }
-              return null;
-            },
+            validator: const EmailValidator().validator,
             labelText: 'Email',
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           FormInput(
-            validator: (value) {
-              if (value != null && value.isEmpty) {
-                return 'Wrong password';
-              }
-              return null;
-            },
+            validator: const PasswordValidator(maxLength: 24).validator,
             labelText: 'Password',
             keyboardType: TextInputType.visiblePassword,
           ),
@@ -116,13 +103,11 @@ class SignInScreen extends StatelessWidget {
       },
       child: Text(
         'Forgot your password?',
-        style: GoogleFonts.poppins(
-          textStyle: const TextStyle(
-            color: AppColors.primaryColor,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        style: const TextStyle(
+          color: AppColors.primaryColor,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w500,
+        ).poppins,
       ),
     );
   }
@@ -131,13 +116,11 @@ class SignInScreen extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: 'New in?',
-        style: GoogleFonts.poppins(
-          textStyle: const TextStyle(
-            color: AppColors.secondaryTextColor,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        style: const TextStyle(
+          color: AppColors.secondaryTextColor,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w500,
+        ).poppins,
         children: <TextSpan>[
           TextSpan(
             text: ' Sign up',
@@ -155,7 +138,7 @@ class SignInScreen extends StatelessWidget {
   }
 
   Widget _buildSignUpLabel() {
-    return Text(
+    return const Text(
       'Sign up with',
       style: const TextStyle(
         color: AppColors.primaryTextColor,
