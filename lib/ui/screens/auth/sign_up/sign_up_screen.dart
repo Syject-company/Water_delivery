@@ -1,10 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/auth/sign_in/sign_in_bloc.dart';
+import 'package:water/bloc/auth/sign_up/sign_up_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
-import 'package:water/ui/screens/auth/router.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
@@ -13,16 +11,18 @@ import 'package:water/ui/shared_widgets/logo.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
 
-class SignInScreen extends StatelessWidget {
-  SignInScreen({Key? key}) : super(key: key) {
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({Key? key}) : super(key: key) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     });
   }
 
-  final GlobalKey<FormState> _signInFormKey = GlobalKey();
+  final GlobalKey<FormState> _signUpFormKey = GlobalKey();
   final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
   final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
+  final GlobalKey<FormInputState> _confirmPasswordInputKey =
+      GlobalKey<FormInputState>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -40,19 +40,15 @@ class SignInScreen extends StatelessWidget {
               children: <Widget>[
                 const Logo(),
                 const SizedBox(height: 32.0),
-                _buildSignInLabel(),
+                _buildCreateAccountLabel(),
                 const SizedBox(height: 8.0),
-                _buildInputForm(),
-                const SizedBox(height: 24.0),
-                _buildForgotPasswordLink(),
-                const SizedBox(height: 16.0),
-                _buildSignUpLink(context),
+                _buildInputForm(context),
                 const SizedBox(height: 32.0),
                 _buildSignUpLabel(),
                 const SizedBox(height: 24.0),
                 _buildSignUpButtons(),
                 const SizedBox(height: 24.0),
-                _buildLogInButton(context),
+                _buildRegisterButton(context),
               ],
             ),
           ),
@@ -71,9 +67,9 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSignInLabel() {
+  Widget _buildCreateAccountLabel() {
     return Text(
-      'Sign In',
+      'Create account',
       style: const TextStyle(
         color: AppColors.primaryTextColor,
         fontSize: 24.0,
@@ -82,15 +78,15 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInputForm() {
+  Widget _buildInputForm(BuildContext context) {
     return Form(
-      key: _signInFormKey,
+      key: _signUpFormKey,
       child: Column(
         children: <Widget>[
-          BlocBuilder<SignInBloc, SignInState>(
+          BlocBuilder<SignUpBloc, SignUpState>(
             builder: (_, state) {
               return Text(
-                state is SignInError ? state.error : '',
+                state is SignUpError ? state.error : '',
                 style: const TextStyle(
                   color: AppColors.errorTextColor,
                   fontSize: 15.0,
@@ -102,58 +98,27 @@ class SignInScreen extends StatelessWidget {
           const SizedBox(height: 16.0),
           FormInput(
             key: _emailInputKey,
-            validator: const EmailValidator().validator,
             labelText: 'Email',
+            onEditingComplete: () => _register(context),
+            validator: const EmailValidator().validator,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           FormInput(
             key: _passwordInputKey,
-            validator: const PasswordValidator().validator,
             labelText: 'Password',
+            onEditingComplete: () => _register(context),
+            validator: const PasswordValidator().validator,
             keyboardType: TextInputType.visiblePassword,
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildForgotPasswordLink() {
-    return GestureDetector(
-      onTap: () {
-        // TODO: navigate to Forgot Password screen
-      },
-      child: Text(
-        'Forgot your password?',
-        style: const TextStyle(
-          color: AppColors.primaryColor,
-          fontSize: 16.0,
-          fontWeight: FontWeight.w500,
-        ).poppins,
-      ),
-    );
-  }
-
-  Widget _buildSignUpLink(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        text: 'New in?',
-        style: const TextStyle(
-          color: AppColors.secondaryTextColor,
-          fontSize: 16.0,
-          fontWeight: FontWeight.w500,
-        ).poppins,
-        children: <TextSpan>[
-          TextSpan(
-            text: ' Sign up',
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Navigator.of(context).pushNamed(AuthRoutes.SignUp);
-              },
-            style: const TextStyle(
-              color: AppColors.primaryColor,
-            ),
-          )
+          const SizedBox(height: 16.0),
+          FormInput(
+            key: _confirmPasswordInputKey,
+            labelText: 'Confirm Password',
+            onEditingComplete: () => _register(context),
+            validator: const PasswordValidator().validator,
+            keyboardType: TextInputType.visiblePassword,
+          ),
         ],
       ),
     );
@@ -192,28 +157,30 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLogInButton(BuildContext context) {
+  Widget _buildRegisterButton(BuildContext context) {
     return Button(
       onPressed: () {
-        _login(context);
+        _register(context);
 
-        if (_signInFormKey.currentState!.validate()) {
-          // TODO: successful sign in
-        } else {
-          // TODO: show error text
-        }
+        // if (_signUpFormKey.currentState!.validate()) {
+        //   // TODO: handle sign up
+        // } else {
+        //   // TODO: show error text
+        // }
       },
-      text: 'Log In',
+      text: 'Registration',
     );
   }
 
-  void _login(BuildContext context) {
+  void _register(BuildContext context) {
     final email = _emailInputKey.currentState!.value;
     final password = _passwordInputKey.currentState!.value;
+    final confirmPassword = _confirmPasswordInputKey.currentState!.value;
 
-    context.read<SignInBloc>().login(
+    context.read<SignUpBloc>().register(
           email: email,
           password: password,
+          confirmPassword: confirmPassword,
         );
   }
 }

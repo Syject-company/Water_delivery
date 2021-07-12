@@ -2,9 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
 
+const int _errorMaxLines = 3;
+const double _fontSize = 15.0;
+const double _labelFontSize = 15.0;
+const double _errorFontSize = 14.0;
+const double _borderRadius = 19.0;
+const double _borderWidth = 1.0;
+const EdgeInsetsGeometry _contentPadding =
+    EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0);
+const OutlineInputBorder _defaultBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+  borderSide: BorderSide(
+    color: AppColors.inputDefaultBorderColor,
+    width: _borderWidth,
+  ),
+);
+const OutlineInputBorder _focusedBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+  borderSide: BorderSide(
+    color: AppColors.inputFocusedBorderColor,
+    width: _borderWidth,
+  ),
+);
+const OutlineInputBorder _errorBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+  borderSide: BorderSide(
+    color: AppColors.inputErrorBorderColor,
+    width: _borderWidth,
+  ),
+);
+
 class FormInput extends StatefulWidget {
   const FormInput({
     Key? key,
+    this.onEditingComplete,
     this.readOnly = false,
     this.keyboardType = TextInputType.text,
     this.validator,
@@ -12,6 +43,7 @@ class FormInput extends StatefulWidget {
     this.labelText,
   }) : super(key: key);
 
+  final VoidCallback? onEditingComplete;
   final bool readOnly;
   final TextInputType keyboardType;
   final FormFieldValidator<String>? validator;
@@ -19,47 +51,19 @@ class FormInput extends StatefulWidget {
   final String? labelText;
 
   @override
-  _FormInputState createState() => _FormInputState();
+  FormInputState createState() => FormInputState();
 }
 
-class _FormInputState extends State<FormInput> {
-  static const int _errorMaxLines = 3;
-  static const double _fontSize = 15.0;
-  static const double _labelFontSize = 15.0;
-  static const double _errorFontSize = 14.0;
-  static const double _borderRadius = 19.0;
-  static const double _borderWidth = 1.0;
-  static const EdgeInsetsGeometry _contentPadding =
-      const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0);
-  static const OutlineInputBorder _defaultBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-    borderSide: BorderSide(
-      color: AppColors.inputDefaultBorderColor,
-      width: _borderWidth,
-    ),
-  );
-  static const OutlineInputBorder _focusedBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-    borderSide: BorderSide(
-      color: AppColors.inputFocusedBorderColor,
-      width: _borderWidth,
-    ),
-  );
-  static const OutlineInputBorder _errorBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-    borderSide: BorderSide(
-      color: AppColors.inputErrorBorderColor,
-      width: _borderWidth,
-    ),
-  );
+class FormInputState extends State<FormInput> {
+  final GlobalKey<FormFieldState<String>> _formInputKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final isPassword = widget.keyboardType == TextInputType.visiblePassword;
 
     return TextFormField(
-      textInputAction: TextInputAction.next,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      key: _formInputKey,
+      onEditingComplete: widget.onEditingComplete,
       readOnly: widget.readOnly,
       validator: widget.validator,
       initialValue: widget.initialValue,
@@ -93,6 +97,11 @@ class _FormInputState extends State<FormInput> {
         errorMaxLines: _errorMaxLines,
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
+
+  String get value => _formInputKey.currentState!.value ?? '';
+
+  String get errorText => _formInputKey.currentState!.errorText ?? '';
 }

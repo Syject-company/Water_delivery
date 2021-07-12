@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/auth/sign_in/sign_in_bloc.dart';
+import 'package:water/bloc/auth/sign_up/sign_up_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/auth/choose_auth/choose_auth_screen.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
+import 'choose_auth/choose_auth_screen.dart';
 import 'sign_in/sign_in_screen.dart';
+import 'sign_up/sign_up_screen.dart';
 
 abstract class AuthRoutes {
   static const String ChooseAuth = 'choose-auth';
   static const String SignIn = 'sign-in';
+  static const String SignUp = 'sign-up';
 }
 
 class AuthRouter {
@@ -19,11 +24,21 @@ class AuthRouter {
         );
       case AuthRoutes.SignIn:
         return SlideWithFadeRoute(
-          builder: (_) => SignInScreen(),
+          builder: (_) => BlocProvider(
+            create: (_) => SignInBloc(),
+            child: SignInScreen(),
+          ),
+        );
+      case AuthRoutes.SignUp:
+        return SlideWithFadeRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => SignUpBloc(),
+            child: SignUpScreen(),
+          ),
         );
       default:
         return SlideWithFadeRoute(
-          builder: (context) {
+          builder: (_) {
             return Scaffold(
               body: Center(
                 child: Text(

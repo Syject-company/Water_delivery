@@ -19,7 +19,7 @@ class ChooseAuthScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Logo(),
+                const Logo(labelWidthFactor: 2.25),
                 const SizedBox(height: 96.0),
                 _buildSignInButton(context),
                 const SizedBox(height: 12.0),
@@ -43,7 +43,9 @@ class ChooseAuthScreen extends StatelessWidget {
 
   Widget _buildSignUpButton(BuildContext context) {
     return Button(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed(AuthRoutes.SignUp);
+      },
       text: 'button.sign_up'.tr(),
       backgroundColor: AppColors.secondaryColor,
       foregroundColor: AppColors.primaryColor,

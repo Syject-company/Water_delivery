@@ -4,16 +4,21 @@ final _emailPattern = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
 class EmailValidator extends Validator {
-  const EmailValidator({this.minLength, this.maxLength});
-
-  final int? minLength;
-  final int? maxLength;
+  const EmailValidator({
+    bool required = true,
+    int? minLength,
+    int? maxLength,
+  }) : super(
+          required: required,
+          minLength: minLength,
+          maxLength: maxLength,
+        );
 
   String? _validator(String? email) {
     final errorText = StringBuffer();
 
     if (email != null) {
-      if (email.isEmpty) {
+      if (required && email.isEmpty) {
         errorText.write('• Email can not be empty\n');
       } else if (minLength != null && email.length < minLength!) {
         errorText

@@ -5,13 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
 import 'package:water/ui/screens/splash/splash_screen.dart';
 import 'package:water/util/local_storage.dart';
+import 'package:water/util/localization.dart';
+import 'package:water/util/session.dart';
 
-import 'util/localization.dart';
+import 'locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await LocalStorage.ensureInitialized();
+  await Session.ensureInitialized();
+  setupLocator();
 
   runApp(
     EasyLocalization(
