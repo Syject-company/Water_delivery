@@ -13,8 +13,8 @@ class Logo extends StatelessWidget {
 
   static const String _logoIconPath = 'assets/svg/logo_icon.svg';
   static const String _logoLabelPath = 'assets/svg/logo_label.svg';
-  static const double _iconWidthFactor = 4.5;
-  static const double _labelWidthFactor = 4.0;
+  static const double _iconWidthFactor = 3.25;
+  static const double _labelWidthFactor = 2.75;
 
   final bool showIcon;
   final bool showLabel;

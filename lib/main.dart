@@ -4,18 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
 import 'package:water/ui/screens/splash/splash_screen.dart';
+import 'package:water/util/local_storage.dart';
+import 'package:water/util/localization.dart';
+import 'package:water/util/session.dart';
 
-import 'util/localization.dart';
+import 'locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  final startLocale = await Localization.loadLocale();
+  await LocalStorage.ensureInitialized();
+  await Session.ensureInitialized();
+  setupLocator();
 
   runApp(
     EasyLocalization(
       saveLocale: false,
-      startLocale: startLocale,
+      startLocale: Localization.loadLocale(),
       supportedLocales: Localization.locales,
       path: Localization.i18nBasePath,
       useOnlyLangCode: !Localization.useCountryCode,

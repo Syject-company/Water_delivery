@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/text_style.dart';
 
 class Button extends StatelessWidget {
   const Button({
@@ -15,7 +15,7 @@ class Button extends StatelessWidget {
   static const double _width = double.infinity;
   static const double _height = 58.0;
   static const double _borderRadius = 15.0;
-  static const double _textSize = 17.0;
+  static const double _textSize = 16.0;
   static const double _textLineHeight = 1.25;
 
   final VoidCallback onPressed;
@@ -38,13 +38,11 @@ class Button extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: GoogleFonts.poppins(
-          textStyle: TextStyle(
-            color: foregroundColor,
-            fontSize: _textSize,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        style: TextStyle(
+          color: foregroundColor,
+          fontSize: _textSize,
+          fontWeight: FontWeight.w600,
+        ).poppins,
         strutStyle: const StrutStyle(
           forceStrutHeight: true,
           height: _textLineHeight,

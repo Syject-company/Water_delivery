@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+
+import 'local_storage.dart';
 
 class Localization {
-  static const String _appLocaleKey = 'app_locale';
-
   static const Locale defaultLocale = const Locale('en');
   static const String i18nBasePath = 'assets/i18n';
   static const bool useCountryCode = false;
@@ -22,15 +21,11 @@ class Localization {
     context.setLocale(locale);
   }
 
-  static Future<Locale> loadLocale() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey(_appLocaleKey)
-        ? Locale(prefs.getString(_appLocaleKey)!)
-        : defaultLocale;
+  static Locale loadLocale() {
+    return Locale(LocalStorage.locale ?? defaultLocale.languageCode);
   }
 
   static Future<void> saveLocale(Locale locale) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_appLocaleKey, locale.languageCode);
+    await LocalStorage.setLocale(locale.languageCode);
   }
 }

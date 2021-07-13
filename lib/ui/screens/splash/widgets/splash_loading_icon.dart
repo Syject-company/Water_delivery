@@ -49,7 +49,7 @@ class _SplashLoadingIconState extends State<SplashLoadingIcon>
               _fillAnimationController.value,
             ]).createShader(bounds);
       },
-      child: Logo(showLabel: false),
+      child: const Logo(showLabel: false),
     );
   }
 }

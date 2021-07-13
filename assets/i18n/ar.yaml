@@ -1,10 +1,29 @@
-text:
-  # SELECT_LANGUAGE_SCREEN
-  select_language: اختار اللغة
+# GLOBAL
+global:
+  save: "يحفظ"
+  email: "بريد إلكتروني"
+  password: "كلمه السر"
+  confirm_password: "تأكيد كلمة المرور"
+  sign_up_with: "سجل مع"
 
-button:
-  # SELECT_LANGUAGE_SCREEN
-  save: يحفظ
-  # HOME_SCREEN
-  sign_in: تسجيل الدخول
-  sign_up: إنشاء حساب
+# SELECT LANGUAGE SCREEN
+select_language:
+  title: "اختار اللغة"
+
+# CHOOSE AUTH SCREEN
+choose_auth:
+  sign_in: "لدي حساب"
+  sign_up: "الاشتراك مجانا"
+
+# SIGN IN SCREEN
+sign_in:
+  title: "تسجيل الدخول"
+  forgot_password: "نسيت رقمك السري؟"
+  new_in: "الجديد في؟"
+  sign_up: " اشتراك"
+  login: "تسجيل الدخول"
+
+# SIGN UP SCREEN
+sign_up:
+  title: "إنشاء حساب"
+  register: "يسجل"

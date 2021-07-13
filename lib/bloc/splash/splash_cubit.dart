@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:water/util/local_storage.dart';
 
 part 'splash_state.dart';
 
@@ -13,8 +13,7 @@ class SplashCubit extends Cubit<SplashState> {
   static const Duration _loadingDuration = Duration(seconds: 1);
 
   void _checkForFirstLaunch() async {
-    final prefs = await SharedPreferences.getInstance();
-    final firstLaunch = prefs.getBool('first_launch') ?? true;
+    final firstLaunch = LocalStorage.firstLaunch ?? true;
 
     emit(SplashLoading());
     await Future.delayed(_loadingDuration);
@@ -22,7 +21,7 @@ class SplashCubit extends Cubit<SplashState> {
     if (firstLaunch) {
       emit(SplashVideo());
     } else {
-      emit(SplashHome());
+      emit(SplashAuth());
     }
   }
 }
