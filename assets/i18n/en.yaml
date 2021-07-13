@@ -1,10 +1,29 @@
-text:
-  # SELECT_LANGUAGE_SCREEN
-  select_language: Select Language
+# GLOBAL
+global:
+  save: "Save"
+  email: "Email"
+  password: "Password"
+  confirm_password: "Confirm Password"
+  sign_up_with: "Sign up with"
 
-button:
-  # SELECT_LANGUAGE_SCREEN
-  save: Save
-  # HOME_SCREEN
-  sign_in: I have an account
-  sign_up: Sign up free
+# SELECT LANGUAGE SCREEN
+select_language:
+  title: "Select Language"
+
+# CHOOSE AUTH SCREEN
+choose_auth:
+  sign_in: "I have an account"
+  sign_up: "Sign up free"
+
+# SIGN IN SCREEN
+sign_in:
+  title: "Sign In"
+  forgot_password: "Forgot your password?"
+  new_in: "New in?"
+  sign_up: " Sign up"
+  login: "Log In"
+
+# SIGN UP SCREEN
+sign_up:
+  title: "Create account"
+  register: "Register"

@@ -35,18 +35,18 @@ class ChooseAuthScreen extends StatelessWidget {
   Widget _buildSignInButton(BuildContext context) {
     return Button(
       onPressed: () {
-        Navigator.of(context).pushNamed(AuthRoutes.SignIn);
+        Navigator.of(context).pushNamed(AuthRoutes.signIn);
       },
-      text: 'button.sign_in'.tr(),
+      text: 'choose_auth.sign_in'.tr(),
     );
   }
 
   Widget _buildSignUpButton(BuildContext context) {
     return Button(
       onPressed: () {
-        Navigator.of(context).pushNamed(AuthRoutes.SignUp);
+        Navigator.of(context).pushNamed(AuthRoutes.signUp);
       },
-      text: 'button.sign_up'.tr(),
+      text: 'choose_auth.sign_up'.tr(),
       backgroundColor: AppColors.secondaryColor,
       foregroundColor: AppColors.primaryColor,
     );

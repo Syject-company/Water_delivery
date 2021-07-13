@@ -8,6 +8,7 @@ import 'package:water/ui/shared_widgets/radio/radio_group.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/slide_with_fade_route.dart';
+import 'package:water/ui/extensions/text_style.dart';
 
 class SelectLanguageScreen extends StatelessWidget {
   const SelectLanguageScreen({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class SelectLanguageScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Logo(),
-              const SizedBox(height: 32.0),
+              const SizedBox(height: 64.0),
               _buildSelectLanguageLabel(),
               const SizedBox(height: 32.0),
               _buildLanguagePicker(context),
@@ -37,12 +38,12 @@ class SelectLanguageScreen extends StatelessWidget {
 
   Widget _buildSelectLanguageLabel() {
     return Text(
-      'text.select_language'.tr(),
+      'select_language.title'.tr(),
       style: const TextStyle(
         color: AppColors.primaryTextColor,
         fontSize: 24.0,
         fontWeight: FontWeight.w600,
-      ),
+      ).poppins,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
         height: 2.0,
@@ -80,7 +81,7 @@ class SelectLanguageScreen extends StatelessWidget {
           ),
         );
       },
-      text: 'button.save'.tr(),
+      text: 'global.save'.tr(),
     );
   }
 }

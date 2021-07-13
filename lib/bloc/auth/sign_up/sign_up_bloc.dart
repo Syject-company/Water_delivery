@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/auth/sign_up_form.dart';
 import 'package:water/domain/repository/user_repository.dart';
 import 'package:water/locator.dart';
@@ -10,17 +12,25 @@ import 'package:water/locator.dart';
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
+extension BlocGetter on BuildContext {
+  SignUpBloc get signUpBloc => this.read<SignUpBloc>();
+}
+
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc() : super(SignUpInitial());
 
   final UserRepository _userRepository = locator<UserRepository>();
 
-  void register(
-      {required String email,
-      required String password,
-      required String confirmPassword}) {
+  void register({
+    required String email,
+    required String password,
+    required String confirmPassword,
+  }) {
     add(Register(
-        email: email, password: password, confirmPassword: confirmPassword));
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    ));
   }
 
   @override

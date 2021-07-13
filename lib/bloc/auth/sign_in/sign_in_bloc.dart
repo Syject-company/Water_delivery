@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/auth/sign_in_form.dart';
 import 'package:water/domain/repository/user_repository.dart';
 import 'package:water/locator.dart';
@@ -10,6 +12,10 @@ import 'package:water/util/session.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
+
+extension BlocGetter on BuildContext {
+  SignInBloc get signInBloc => this.read<SignInBloc>();
+}
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc() : super(SignInInitial());

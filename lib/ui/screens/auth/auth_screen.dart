@@ -8,7 +8,7 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      initialRoute: AuthRoutes.ChooseAuth,
+      initialRoute: AuthRoutes.chooseAuth,
       onGenerateRoute: AuthRouter.generateRoute,
     );
   }

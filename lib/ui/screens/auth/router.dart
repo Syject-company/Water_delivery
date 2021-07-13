@@ -10,26 +10,26 @@ import 'sign_in/sign_in_screen.dart';
 import 'sign_up/sign_up_screen.dart';
 
 abstract class AuthRoutes {
-  static const String ChooseAuth = 'choose-auth';
-  static const String SignIn = 'sign-in';
-  static const String SignUp = 'sign-up';
+  static const String chooseAuth = 'choose-auth';
+  static const String signIn = 'sign-in';
+  static const String signUp = 'sign-up';
 }
 
 class AuthRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AuthRoutes.ChooseAuth:
+      case AuthRoutes.chooseAuth:
         return SlideWithFadeRoute(
           builder: (_) => ChooseAuthScreen(),
         );
-      case AuthRoutes.SignIn:
+      case AuthRoutes.signIn:
         return SlideWithFadeRoute(
           builder: (_) => BlocProvider(
             create: (_) => SignInBloc(),
             child: SignInScreen(),
           ),
         );
-      case AuthRoutes.SignUp:
+      case AuthRoutes.signUp:
         return SlideWithFadeRoute(
           builder: (_) => BlocProvider(
             create: (_) => SignUpBloc(),

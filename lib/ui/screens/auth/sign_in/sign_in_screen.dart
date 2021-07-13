@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,7 +74,7 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildSignInLabel() {
     return Text(
-      'Sign In',
+      'sign_in.title'.tr(),
       style: const TextStyle(
         color: AppColors.primaryTextColor,
         fontSize: 24.0,
@@ -103,14 +104,14 @@ class SignInScreen extends StatelessWidget {
           FormInput(
             key: _emailInputKey,
             validator: const EmailValidator().validator,
-            labelText: 'Email',
+            labelText: 'global.email'.tr(),
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           FormInput(
             key: _passwordInputKey,
             validator: const PasswordValidator().validator,
-            labelText: 'Password',
+            labelText: 'global.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
         ],
@@ -124,7 +125,7 @@ class SignInScreen extends StatelessWidget {
         // TODO: navigate to Forgot Password screen
       },
       child: Text(
-        'Forgot your password?',
+        'sign_in.forgot_password'.tr(),
         style: const TextStyle(
           color: AppColors.primaryColor,
           fontSize: 16.0,
@@ -137,7 +138,7 @@ class SignInScreen extends StatelessWidget {
   Widget _buildSignUpLink(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: 'New in?',
+        text: 'sign_in.new_in'.tr(),
         style: const TextStyle(
           color: AppColors.secondaryTextColor,
           fontSize: 16.0,
@@ -145,10 +146,10 @@ class SignInScreen extends StatelessWidget {
         ).poppins,
         children: <TextSpan>[
           TextSpan(
-            text: ' Sign up',
+            text: 'sign_in.sign_up'.tr(),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                Navigator.of(context).pushNamed(AuthRoutes.SignUp);
+                Navigator.of(context).pushNamed(AuthRoutes.signUp);
               },
             style: const TextStyle(
               color: AppColors.primaryColor,
@@ -160,13 +161,13 @@ class SignInScreen extends StatelessWidget {
   }
 
   Widget _buildSignUpLabel() {
-    return const Text(
-      'Sign up with',
+    return Text(
+      'global.sign_up_with'.tr(),
       style: const TextStyle(
         color: AppColors.primaryTextColor,
         fontSize: 18.0,
         fontWeight: FontWeight.w600,
-      ),
+      ).poppins,
     );
   }
 
@@ -203,7 +204,7 @@ class SignInScreen extends StatelessWidget {
           // TODO: show error text
         }
       },
-      text: 'Log In',
+      text: 'sign_in.login'.tr(),
     );
   }
 
@@ -211,9 +212,9 @@ class SignInScreen extends StatelessWidget {
     final email = _emailInputKey.currentState!.value;
     final password = _passwordInputKey.currentState!.value;
 
-    context.read<SignInBloc>().login(
-          email: email,
-          password: password,
-        );
+    context.signInBloc.login(
+      email: email,
+      password: password,
+    );
   }
 }

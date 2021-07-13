@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/sign_up/sign_up_bloc.dart';
@@ -69,7 +70,7 @@ class SignUpScreen extends StatelessWidget {
 
   Widget _buildCreateAccountLabel() {
     return Text(
-      'Create account',
+      'sign_up.title'.tr(),
       style: const TextStyle(
         color: AppColors.primaryTextColor,
         fontSize: 24.0,
@@ -98,7 +99,7 @@ class SignUpScreen extends StatelessWidget {
           const SizedBox(height: 16.0),
           FormInput(
             key: _emailInputKey,
-            labelText: 'Email',
+            labelText: 'global.email'.tr(),
             onEditingComplete: () => _register(context),
             validator: const EmailValidator().validator,
             keyboardType: TextInputType.emailAddress,
@@ -106,7 +107,7 @@ class SignUpScreen extends StatelessWidget {
           const SizedBox(height: 16.0),
           FormInput(
             key: _passwordInputKey,
-            labelText: 'Password',
+            labelText: 'global.password'.tr(),
             onEditingComplete: () => _register(context),
             validator: const PasswordValidator().validator,
             keyboardType: TextInputType.visiblePassword,
@@ -114,7 +115,7 @@ class SignUpScreen extends StatelessWidget {
           const SizedBox(height: 16.0),
           FormInput(
             key: _confirmPasswordInputKey,
-            labelText: 'Confirm Password',
+            labelText: 'global.confirm_password'.tr(),
             onEditingComplete: () => _register(context),
             validator: const PasswordValidator().validator,
             keyboardType: TextInputType.visiblePassword,
@@ -125,13 +126,13 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildSignUpLabel() {
-    return const Text(
-      'Sign up with',
+    return Text(
+      'global.sign_up_with'.tr(),
       style: const TextStyle(
         color: AppColors.primaryTextColor,
         fontSize: 18.0,
         fontWeight: FontWeight.w600,
-      ),
+      ).poppins,
     );
   }
 
@@ -168,7 +169,7 @@ class SignUpScreen extends StatelessWidget {
         //   // TODO: show error text
         // }
       },
-      text: 'Registration',
+      text: 'sign_up.register'.tr(),
     );
   }
 
@@ -177,10 +178,10 @@ class SignUpScreen extends StatelessWidget {
     final password = _passwordInputKey.currentState!.value;
     final confirmPassword = _confirmPasswordInputKey.currentState!.value;
 
-    context.read<SignUpBloc>().register(
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-        );
+    context.signUpBloc.register(
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
   }
 }
