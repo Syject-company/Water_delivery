@@ -11,24 +11,30 @@ class ChooseAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _buildAppBar(),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Logo(labelWidthFactor: 2.25),
-                const SizedBox(height: 96.0),
-                _buildSignInButton(context),
-                const SizedBox(height: 12.0),
-                _buildSignUpButton(context),
-              ],
-            ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Logo(labelWidthFactor: 2.25),
+              const SizedBox(height: 128.0),
+              _buildSignInButton(context),
+              const SizedBox(height: 12.0),
+              _buildSignUpButton(context),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
     );
   }
 

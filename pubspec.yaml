@@ -32,6 +32,10 @@ dependencies:
   easy_localization: ^3.0.0
   easy_localization_loader: ^1.0.0
 
+  # social auth
+  flutter_facebook_auth: ^3.5.0
+  google_sign_in: ^5.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

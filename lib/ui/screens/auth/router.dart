@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/auth/sign_in/sign_in_bloc.dart';
-import 'package:water/bloc/auth/sign_up/sign_up_bloc.dart';
+import 'package:water/bloc/auth/forgot_password/forgot_password_cubit.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
 import 'choose_auth/choose_auth_screen.dart';
+import 'forgot_password/forgot_password.dart';
 import 'sign_in/sign_in_screen.dart';
 import 'sign_up/sign_up_screen.dart';
 
@@ -13,6 +13,7 @@ abstract class AuthRoutes {
   static const String chooseAuth = 'choose-auth';
   static const String signIn = 'sign-in';
   static const String signUp = 'sign-up';
+  static const String forgotPassword = 'forgot-password';
 }
 
 class AuthRouter {
@@ -24,16 +25,17 @@ class AuthRouter {
         );
       case AuthRoutes.signIn:
         return SlideWithFadeRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => SignInBloc(),
-            child: SignInScreen(),
-          ),
+          builder: (_) => SignInScreen(),
         );
       case AuthRoutes.signUp:
         return SlideWithFadeRoute(
+          builder: (_) => SignUpScreen(),
+        );
+      case AuthRoutes.forgotPassword:
+        return SlideWithFadeRoute(
           builder: (_) => BlocProvider(
-            create: (_) => SignUpBloc(),
-            child: SignUpScreen(),
+            create: (_) => ForgotPasswordCubit(),
+            child: ForgotPasswordScreen(),
           ),
         );
       default:
