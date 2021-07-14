@@ -1,14 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/logo.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
+import 'package:water/ui/shared_widgets/text/label.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/slide_with_fade_route.dart';
-import 'package:water/ui/extensions/text_style.dart';
 
 class SelectLanguageScreen extends StatelessWidget {
   const SelectLanguageScreen({Key? key}) : super(key: key);
@@ -16,9 +15,11 @@ class SelectLanguageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
+      appBar: _buildAppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -36,18 +37,18 @@ class SelectLanguageScreen extends StatelessWidget {
     );
   }
 
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+    );
+  }
+
   Widget _buildSelectLanguageLabel() {
-    return Text(
+    return Label(
       'select_language.title'.tr(),
-      style: const TextStyle(
-        color: AppColors.primaryTextColor,
-        fontSize: 24.0,
-        fontWeight: FontWeight.w600,
-      ).poppins,
-      strutStyle: const StrutStyle(
-        forceStrutHeight: true,
-        height: 2.0,
-      ),
+      fontSize: 24.0,
+      lineHeight: 2.0,
     );
   }
 

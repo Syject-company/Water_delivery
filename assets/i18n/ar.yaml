@@ -27,3 +27,8 @@ sign_in:
 sign_up:
   title: "إنشاء حساب"
   register: "يسجل"
+
+# FORGOT_PASSWORD SCREEN
+forgot_password:
+  title: "هل نسيت كلمة السر"
+  reset_password: "إعادة تعيين كلمة المرور"

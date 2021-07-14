@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/text_style.dart';
+import 'package:water/ui/shared_widgets/text/label.dart';
+
+const double _elevation = 0.0;
+const double _width = double.infinity;
+const double _height = 58.0;
+const double _borderRadius = 15.0;
+const double _textSize = 16.0;
+const double _textLineHeight = 1.25;
 
 class Button extends StatelessWidget {
   const Button({
@@ -10,13 +17,6 @@ class Button extends StatelessWidget {
     this.backgroundColor = AppColors.primaryColor,
     this.foregroundColor = Colors.white,
   }) : super(key: key);
-
-  static const double _elevation = 0.0;
-  static const double _width = double.infinity;
-  static const double _height = 58.0;
-  static const double _borderRadius = 15.0;
-  static const double _textSize = 16.0;
-  static const double _textLineHeight = 1.25;
 
   final VoidCallback onPressed;
   final String text;
@@ -33,20 +33,14 @@ class Button extends StatelessWidget {
         minimumSize: Size(_width, _height),
         backgroundColor: backgroundColor,
         shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(_borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
         ),
       ),
-      child: Text(
+      child: Label(
         text,
-        style: TextStyle(
-          color: foregroundColor,
-          fontSize: _textSize,
-          fontWeight: FontWeight.w600,
-        ).poppins,
-        strutStyle: const StrutStyle(
-          forceStrutHeight: true,
-          height: _textLineHeight,
-        ),
+        color: foregroundColor,
+        fontSize: _textSize,
+        lineHeight: _textLineHeight,
       ),
     );
   }

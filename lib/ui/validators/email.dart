@@ -1,7 +1,7 @@
 import 'package:water/ui/validators/validator.dart';
 
 final _emailPattern = RegExp(
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    r"^[\w\-\.]+@([\w]+\.)+[\w]{2,4}$");
 
 class EmailValidator extends Validator {
   const EmailValidator({
@@ -15,24 +15,15 @@ class EmailValidator extends Validator {
         );
 
   String? _validator(String? email) {
-    final errorText = StringBuffer();
-
     if (email != null) {
-      if (required && email.isEmpty) {
-        errorText.write('• Email can not be empty\n');
+      if (required && email.isEmpty || !_emailPattern.hasMatch(email)) {
+        return 'Invalid email address';
       } else if (minLength != null && email.length < minLength!) {
-        errorText
-            .write('• Length must be greater or equals $minLength chars\n');
+        return 'Email must have at least $minLength characters';
       } else if (maxLength != null && email.length > maxLength!) {
-        errorText.write('• Length must be less or equals $maxLength chars\n');
-      }
-
-      if (!_emailPattern.hasMatch(email)) {
-        errorText.write('• Invalid email address');
+        return 'Email must be less or equals $maxLength characters';
       }
     }
-
-    return errorText.isNotEmpty ? errorText.toString().trim() : null;
   }
 
   @override

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_cubit.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/screens/select_language/select_language_screen.dart';
+import 'package:water/ui/shared_widgets/text/label.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
 import 'widgets/splash_loading_icon.dart';
@@ -90,13 +89,9 @@ class _SplashScreenState extends State<SplashScreen>
   Widget _buildLoadingStatus() {
     return FadeTransition(
       opacity: _fadeAnimationController,
-      child: Text(
+      child: Label(
         'Loading...',
-        style: const TextStyle(
-          color: AppColors.primaryTextColor,
-          fontSize: 24.0,
-          fontWeight: FontWeight.w600,
-        ).poppins,
+        fontSize: 24.0,
       ),
     );
   }

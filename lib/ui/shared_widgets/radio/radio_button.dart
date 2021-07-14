@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/text_style.dart';
+import 'package:water/ui/shared_widgets/text/label.dart';
 
 class RadioButton extends StatelessWidget {
   const RadioButton({
@@ -41,17 +41,12 @@ class RadioButton extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Text(
+          child: Label(
             label,
-            style: const TextStyle(
-              color: AppColors.secondaryTextColor,
-              fontSize: _labelFontSize,
-              fontWeight: FontWeight.w600,
-            ).poppins,
-            strutStyle: const StrutStyle(
-              forceStrutHeight: true,
-              height: _labelLineHeight,
-            ),
+            color: AppColors.secondaryTextColor,
+            fontSize: _labelFontSize,
+            lineHeight: _labelLineHeight,
+            textAlign: TextAlign.left,
           ),
         )
       ],

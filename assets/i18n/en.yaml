@@ -1,6 +1,7 @@
 # GLOBAL
 global:
   save: "Save"
+  code: "Code"
   email: "Email"
   password: "Password"
   confirm_password: "Confirm Password"
@@ -27,3 +28,12 @@ sign_in:
 sign_up:
   title: "Create account"
   register: "Register"
+
+# FORGOT PASSWORD SCREEN
+forgot_password:
+  enter_email:
+    title: "Forgot password"
+    reset_password: "Reset Password"
+  enter_new_password:
+    title: "Enter New Password"
+    login: "Log In"

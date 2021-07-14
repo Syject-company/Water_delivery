@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'package:water/domain/repository/user_repository.dart';
+import 'package:water/domain/service/auth_service.dart';
 
 final locator = GetIt.instance;
 
 void setupLocator() {
-  locator.registerSingleton<UserRepository>(UserRepository());
+  locator.registerSingleton<AuthService>(AuthService());
 }
