@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
-import 'package:water/bloc/splash/splash_cubit.dart';
+import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/screens/select_language/select_language_screen.dart';
+import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/util/local_storage.dart';
 import 'package:water/util/slide_with_fade_route.dart';
-
-import 'widgets/splash_loading_icon.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,9 +19,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   static const String _splashVideoPath = 'assets/video/splash_video.mp4';
-  static const Duration _fadeDuration = Duration(milliseconds: 375);
+  static const Duration _scaleDuration = Duration(milliseconds: 375);
 
-  late final AnimationController _fadeAnimationController;
+  late final AnimationController _scaleAnimationController;
 
   final VideoPlayerController _videoController =
       VideoPlayerController.asset(_splashVideoPath);
@@ -29,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _fadeAnimationController = AnimationController(
-      duration: _fadeDuration,
+    _scaleAnimationController = AnimationController(
+      duration: _scaleDuration,
       vsync: this,
     )..forward();
     _videoController.addListener(() => setState(() {}));
@@ -38,28 +38,33 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _fadeAnimationController.dispose();
+    _scaleAnimationController.dispose();
     _videoController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SplashCubit, SplashState>(
+    return BlocConsumer<SplashBloc, SplashState>(
       listener: (_, state) async {
-        if (state is SplashVideo) {
+        if (state is SplashLoading) {
           await _videoController.initialize();
           await _videoController.play();
+          context.splash.add(LoadVideo());
+
           await Future.delayed(_videoController.value.duration);
-          _navigateTo(SelectLanguageScreen());
-        } else if (state is SplashAuth) {
-          _navigateTo(AuthScreen());
+
+          if (state.firstLaunch) {
+            _navigateTo(SelectLanguageScreen());
+          } else {
+            _navigateTo(AuthScreen());
+          }
         }
       },
       builder: (_, state) {
         return Scaffold(
           body: AnimatedSwitcher(
-            duration: _fadeDuration,
+            duration: _scaleDuration,
             child: state is SplashVideo ? _buildVideoPlayer() : _buildLogo(),
           ),
         );
@@ -68,27 +73,30 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildVideoPlayer() {
-    return _videoController.value.isInitialized
-        ? VideoPlayer(_videoController)
-        : const SizedBox.shrink();
+    return VideoPlayer(_videoController);
   }
 
   Widget _buildLogo() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SplashLoadingIcon(),
-          const SizedBox(height: 16.0),
-          _buildLoadingStatus(),
-        ],
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const AnimatedLogo(),
+            const SizedBox(height: 16.0),
+            _buildLoadingStatus(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildLoadingStatus() {
-    return FadeTransition(
-      opacity: _fadeAnimationController,
+    return ScaleTransition(
+      scale: CurvedAnimation(
+        parent: _scaleAnimationController,
+        curve: Curves.easeInOutCubic,
+      ),
       child: Label(
         'Loading...',
         fontSize: 24.0,

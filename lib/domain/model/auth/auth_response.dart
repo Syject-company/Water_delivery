@@ -11,21 +11,19 @@ class AuthResponse extends Equatable {
     required this.token,
   });
 
-  final int id;
+  final String id;
   final String token;
 
   AuthResponse.fromJson(Map<String, dynamic> json)
       : this(
-          id: json[AuthResponseFields.id] as int,
+          id: json[AuthResponseFields.id] as String,
           token: json[AuthResponseFields.token] as String,
         );
 
-  Map<String, dynamic> toJson() {
-    return {
-      AuthResponseFields.id: id,
-      AuthResponseFields.token: token,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        AuthResponseFields.id: id,
+        AuthResponseFields.token: token,
+      };
 
   @override
   List<Object?> get props => [id, token];

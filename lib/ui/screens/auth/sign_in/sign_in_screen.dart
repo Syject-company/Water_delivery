@@ -2,7 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/auth/auth_cubit.dart';
+import 'package:water/bloc/auth/sign_in/sign_in_bloc.dart';
+import 'package:water/bloc/auth/social/social_auth_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/screens/auth/router.dart';
@@ -10,7 +11,9 @@ import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
-import 'package:water/ui/shared_widgets/logo.dart';
+import 'package:water/ui/shared_widgets/loader.dart';
+import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
+import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
@@ -27,35 +30,51 @@ class SignInScreen extends StatelessWidget {
   final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
 
+  // showOverlay(BuildContext context) {
+  //   final overlay = Overlay.of(context)!;
+  //   final entry = OverlayEntry(builder: (_) {
+  //     return Positioned(
+  //       width: MediaQuery.of(context).size.width,
+  //       height: MediaQuery.of(context).size.height,
+  //       child: Container(
+  //         color: Colors.white70,
+  //         child: Center(
+  //           child: AnimatedLogo(),
+  //         ),
+  //       ),
+  //     );
+  //   });
+  //
+  //   overlay.insert(entry);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-          physics: const BouncingScrollPhysics(),
-          controller: _scrollController,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Logo(),
-              const SizedBox(height: 32.0),
-              _buildSignInLabel(),
-              const SizedBox(height: 8.0),
-              _buildInputForm(),
-              const SizedBox(height: 24.0),
-              _buildForgotPasswordLink(context),
-              const SizedBox(height: 16.0),
-              _buildSignUpLink(context),
-              const SizedBox(height: 32.0),
-              _buildSignUpLabel(),
-              const SizedBox(height: 24.0),
-              _buildSignUpButtons(context),
-              const SizedBox(height: 24.0),
-              _buildLogInButton(context),
-            ],
-          ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+        physics: const BouncingScrollPhysics(),
+        controller: _scrollController,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Logo(),
+            const SizedBox(height: 36.0),
+            _buildSignInLabel(),
+            const SizedBox(height: 12.0),
+            _buildInputForm(),
+            const SizedBox(height: 24.0),
+            _buildForgotPasswordLink(context),
+            const SizedBox(height: 16.0),
+            _buildSignUpLink(context),
+            const SizedBox(height: 32.0),
+            _buildSignUpLabel(),
+            const SizedBox(height: 24.0),
+            _buildSignUpButtons(context),
+            const SizedBox(height: 24.0),
+            _buildLogInButton(context),
+          ],
         ),
       ),
     );
@@ -84,10 +103,10 @@ class SignInScreen extends StatelessWidget {
       key: _signInFormKey,
       child: Column(
         children: <Widget>[
-          BlocBuilder<AuthCubit, AuthState>(
+          BlocBuilder<SignInBloc, SignInState>(
             builder: (_, state) {
               return Label(
-                state is AuthError ? state.error : '',
+                state is SignInError ? state.message : '',
                 color: AppColors.errorTextColor,
                 fontSize: 15.0,
                 lineHeight: 1.25,
@@ -160,7 +179,7 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildSignUpLabel() {
     return Label(
-      'global.sign_up_with'.tr(),
+      'global.sign_in_with'.tr(),
       fontSize: 18.0,
       lineHeight: 1.5,
     );
@@ -171,12 +190,12 @@ class SignInScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RoundedButton(
-          onPressed: () => context.authCubit.signInWithFacebook(),
+          onPressed: () => context.socialAuth.add(SignInWithFacebook()),
           iconPath: 'assets/svg/facebook.svg',
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
-          onPressed: () => context.authCubit.signInWithGoogle(),
+          onPressed: () => context.socialAuth.add(SignInWithGoogle()),
           iconPath: 'assets/svg/google.svg',
         ),
         const SizedBox(width: 18.0),
@@ -191,25 +210,20 @@ class SignInScreen extends StatelessWidget {
   Widget _buildLogInButton(BuildContext context) {
     return Button(
       onPressed: () {
-        _login(context);
-
-        if (_signInFormKey.currentState!.validate()) {
-          // TODO: successful sign in
-        } else {
+        if (!_signInFormKey.currentState!.validate()) {
           // TODO: show error text
+          return;
         }
+
+        final email = _emailInputKey.currentState!.value;
+        final password = _passwordInputKey.currentState!.value;
+
+        context.signIn.add(Login(
+          email: email,
+          password: password,
+        ));
       },
       text: 'sign_in.login'.tr(),
-    );
-  }
-
-  void _login(BuildContext context) {
-    final email = _emailInputKey.currentState!.value;
-    final password = _passwordInputKey.currentState!.value;
-
-    context.authCubit.signIn(
-      email: email,
-      password: password,
     );
   }
 }

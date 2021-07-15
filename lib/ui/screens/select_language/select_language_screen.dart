@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/ui/screens/auth/auth_screen.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/logo.dart';
+import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
 import 'package:water/util/local_storage.dart';
@@ -16,22 +16,20 @@ class SelectLanguageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Logo(),
-              const SizedBox(height: 64.0),
-              _buildSelectLanguageLabel(),
-              const SizedBox(height: 32.0),
-              _buildLanguagePicker(context),
-              const SizedBox(height: 40.0),
-              _buildSaveButton(context),
-            ],
-          ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Logo(),
+            const SizedBox(height: 64.0),
+            _buildSelectLanguageLabel(),
+            const SizedBox(height: 32.0),
+            _buildLanguagePicker(context),
+            const SizedBox(height: 40.0),
+            _buildSaveButton(context),
+          ],
         ),
       ),
     );

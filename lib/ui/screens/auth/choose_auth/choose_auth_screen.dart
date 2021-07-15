@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/auth/router.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/logo.dart';
+import 'package:water/ui/shared_widgets/logo/logo.dart';
 
 class ChooseAuthScreen extends StatelessWidget {
   const ChooseAuthScreen({Key? key}) : super(key: key);
@@ -12,20 +12,18 @@ class ChooseAuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Logo(labelWidthFactor: 2.25),
-              const SizedBox(height: 128.0),
-              _buildSignInButton(context),
-              const SizedBox(height: 12.0),
-              _buildSignUpButton(context),
-            ],
-          ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Logo(labelWidthFactor: 2.25),
+            const SizedBox(height: 128.0),
+            _buildSignInButton(context),
+            const SizedBox(height: 12.0),
+            _buildSignUpButton(context),
+          ],
         ),
       ),
     );

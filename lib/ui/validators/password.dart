@@ -16,7 +16,7 @@ class PasswordValidator extends Validator {
   String? _validator(String? password) {
     if (password != null) {
       if (required && password.isEmpty) {
-        return 'Invalid password';
+        return 'The Password field is required';
       } else if (password.length < minLength!) {
         return 'Password must have at least $minLength characters';
       } else if (password.length > maxLength!) {

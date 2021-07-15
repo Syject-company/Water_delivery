@@ -1,10 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
+import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
-import 'package:water/ui/shared_widgets/logo.dart';
+import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
-import 'package:water/ui/validators/email.dart';
+import 'package:water/ui/validators/field.dart';
+import 'package:water/ui/validators/password.dart';
 
 class EnterNewPassword extends StatelessWidget {
   EnterNewPassword({Key? key}) : super(key: key);
@@ -23,9 +27,9 @@ class EnterNewPassword extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Logo(),
-          const SizedBox(height: 32.0),
+          const SizedBox(height: 36.0),
           _buildEnterNewPasswordLabel(),
-          const SizedBox(height: 32.0),
+          const SizedBox(height: 12.0),
           _buildInputForm(),
           const SizedBox(height: 32.0),
           _buildLogInButton(context),
@@ -47,23 +51,35 @@ class EnterNewPassword extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: <Widget>[
+          BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+            builder: (_, state) {
+              return Label(
+                state is ForgotPasswordError ? state.message : '',
+                color: AppColors.errorTextColor,
+                fontSize: 15.0,
+                lineHeight: 1.25,
+              );
+            },
+          ),
+          const SizedBox(height: 16.0),
           FormInput(
             key: _codeInputKey,
-            validator: const EmailValidator().validator,
+            validator: const FieldValidator(fieldName: 'Code').validator,
             labelText: 'global.code'.tr(),
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16.0),
           FormInput(
             key: _passwordInputKey,
-            validator: const EmailValidator().validator,
+            validator: const PasswordValidator().validator,
             labelText: 'global.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
           FormInput(
             key: _confirmPasswordInputKey,
-            validator: const EmailValidator().validator,
+            validator:
+                const FieldValidator(fieldName: 'Confirm Password').validator,
             labelText: 'global.confirm_password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
@@ -75,11 +91,20 @@ class EnterNewPassword extends StatelessWidget {
   Widget _buildLogInButton(BuildContext context) {
     return Button(
       onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          // TODO: successful sign in
-        } else {
+        if (!_formKey.currentState!.validate()) {
           // TODO: show error text
+          return;
         }
+
+        final code = _codeInputKey.currentState!.value;
+        final password = _passwordInputKey.currentState!.value;
+        final confirmPassword = _confirmPasswordInputKey.currentState!.value;
+
+        context.forgotPassword.add(ConfirmNewPassword(
+          code: code,
+          password: password,
+          confirmPassword: confirmPassword,
+        ));
       },
       text: 'forgot_password.enter_new_password.login'.tr(),
     );

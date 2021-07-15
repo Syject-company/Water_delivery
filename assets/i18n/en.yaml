@@ -5,6 +5,7 @@ global:
   email: "Email"
   password: "Password"
   confirm_password: "Confirm Password"
+  sign_in_with: "Sign in with"
   sign_up_with: "Sign up with"
 
 # SELECT LANGUAGE SCREEN

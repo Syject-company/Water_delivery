@@ -22,6 +22,7 @@ dependencies:
   # graphics
   flutter_svg: ^0.22.0
   google_fonts: ^2.1.0
+  lottie: ^1.1.0
 
   # bloc
   bloc: ^7.0.0
@@ -45,6 +46,7 @@ flutter:
 
   assets:
     - assets/i18n/
+    - assets/lottie/
     - assets/svg/
     - assets/video/
     - google_fonts/

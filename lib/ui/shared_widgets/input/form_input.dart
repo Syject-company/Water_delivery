@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
 
 const int _errorMaxLines = 3;
 const double _fontSize = 15.0;
+const double _lineHeight = 1.5;
 const double _labelFontSize = 15.0;
 const double _errorFontSize = 14.0;
 const double _borderRadius = 19.0;
@@ -35,20 +37,20 @@ const OutlineInputBorder _errorBorder = OutlineInputBorder(
 class FormInput extends StatefulWidget {
   const FormInput({
     Key? key,
-    this.onEditingComplete,
     this.readOnly = false,
     this.keyboardType = TextInputType.text,
     this.validator,
     this.initialValue,
     this.labelText,
+    this.onEditingComplete,
   }) : super(key: key);
 
-  final VoidCallback? onEditingComplete;
   final bool readOnly;
   final TextInputType keyboardType;
   final FormFieldValidator<String>? validator;
   final String? initialValue;
   final String? labelText;
+  final VoidCallback? onEditingComplete;
 
   @override
   FormInputState createState() => FormInputState();
@@ -63,11 +65,11 @@ class FormInputState extends State<FormInput> {
 
     return TextFormField(
       key: _formInputKey,
-      onEditingComplete: widget.onEditingComplete,
       readOnly: widget.readOnly,
       validator: widget.validator,
       initialValue: widget.initialValue,
       keyboardType: widget.keyboardType,
+      onEditingComplete: widget.onEditingComplete,
       obscureText: isPassword,
       enableSuggestions: !isPassword,
       autocorrect: !isPassword,
@@ -77,6 +79,10 @@ class FormInputState extends State<FormInput> {
         fontSize: _fontSize,
         fontWeight: FontWeight.w500,
       ).poppins,
+      strutStyle: const StrutStyle(
+        forceStrutHeight: true,
+        height: _lineHeight,
+      ),
       decoration: InputDecoration(
         contentPadding: _contentPadding,
         enabledBorder: _defaultBorder,
@@ -98,6 +104,7 @@ class FormInputState extends State<FormInput> {
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      textInputAction: TextInputAction.next,
     );
   }
 

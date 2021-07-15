@@ -1,24 +1,29 @@
-part of 'splash_cubit.dart';
+part of 'splash_bloc.dart';
 
 @immutable
-abstract class SplashState extends Equatable {}
+abstract class SplashState extends Equatable {
+  const SplashState();
+}
 
 class SplashInitial extends SplashState {
+  const SplashInitial();
+
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class SplashLoading extends SplashState {
+  const SplashLoading({required this.firstLaunch});
+
+  final bool firstLaunch;
+
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [firstLaunch];
 }
 
 class SplashVideo extends SplashState {
-  @override
-  List<Object?> get props => [];
-}
+  const SplashVideo();
 
-class SplashAuth extends SplashState {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
