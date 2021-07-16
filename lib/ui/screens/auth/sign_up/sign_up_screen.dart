@@ -8,6 +8,7 @@ import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
+import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
 import 'package:water/ui/validators/email.dart';
@@ -30,27 +31,32 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-        physics: const BouncingScrollPhysics(),
-        controller: _scrollController,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Logo(),
-            const SizedBox(height: 36.0),
-            _buildCreateAccountLabel(),
-            const SizedBox(height: 12.0),
-            _buildInputForm(context),
-            const SizedBox(height: 48.0),
-            _buildSignUpLabel(),
-            const SizedBox(height: 24.0),
-            _buildSignUpButtons(context),
-            const SizedBox(height: 24.0),
-            _buildRegisterButton(context),
-          ],
+    return BlocListener<SignUpBloc, SignUpState>(
+      listener: (_, state) =>
+          state is SignUpLoading ? context.showLoader() : context.hideLoader(),
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
+          controller: _scrollController,
+          clipBehavior: Clip.none,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Logo(),
+              const SizedBox(height: 36.0),
+              _buildCreateAccountLabel(),
+              const SizedBox(height: 12.0),
+              _buildInputForm(),
+              const SizedBox(height: 48.0),
+              _buildSignUpLabel(),
+              const SizedBox(height: 24.0),
+              _buildSignUpButtons(context),
+              const SizedBox(height: 24.0),
+              _buildRegisterButton(context),
+            ],
+          ),
         ),
       ),
     );
@@ -74,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInputForm(BuildContext context) {
+  Widget _buildInputForm() {
     return Form(
       key: _signUpFormKey,
       child: Column(
@@ -129,17 +135,26 @@ class SignUpScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RoundedButton(
-          onPressed: () => context.socialAuth.add(SignInWithFacebook()),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            context.socialAuth.add(SignInWithFacebook());
+          },
           iconPath: 'assets/svg/facebook.svg',
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
-          onPressed: () => context.socialAuth.add(SignInWithGoogle()),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            context.socialAuth.add(SignInWithGoogle());
+          },
           iconPath: 'assets/svg/google.svg',
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
-          onPressed: () {},
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            context.socialAuth.add(SignInWithApple());
+          },
           iconPath: 'assets/svg/apple.svg',
         ),
       ],
@@ -149,8 +164,8 @@ class SignUpScreen extends StatelessWidget {
   Widget _buildRegisterButton(BuildContext context) {
     return Button(
       onPressed: () {
+        FocusScope.of(context).unfocus();
         if (!_signUpFormKey.currentState!.validate()) {
-          // TODO: show error text
           return;
         }
 

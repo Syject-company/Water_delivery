@@ -104,7 +104,7 @@ class FormInputState extends State<FormInput> {
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
     );
   }
 

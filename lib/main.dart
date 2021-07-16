@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/domain/model/auth/new_password_form.dart';
+import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/screens/splash/splash_screen.dart';
+import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
@@ -42,10 +44,8 @@ class GulfaWaterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gulfa Water',
-      home: BlocProvider<SplashBloc>(
-        create: (_) => SplashBloc()..add(Loading()),
-        child: SplashScreen(),
-      ),
+      initialRoute: AppRoutes.splash,
+      onGenerateRoute: RootRouter.generateRoute,
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,

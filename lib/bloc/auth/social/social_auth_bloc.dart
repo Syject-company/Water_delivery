@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart' as apple;
 import 'package:water/domain/model/auth/auth_response.dart';
 import 'package:water/domain/model/auth/token.dart';
 import 'package:water/domain/service/auth_service.dart';
@@ -72,8 +73,29 @@ class SocialAuthBloc extends Bloc<SocialAuthEvent, SocialAuthState> {
   }
 
   Stream<SocialAuthState> _mapSignInWithAppleToState() async* {
-    yield const SocialAuthError(message: 'Unable to sign in with Apple');
-    // TODO: implement apple sign in
+    try {
+      yield const SocialAuthLoading();
+
+      final clientId = 'com.syject.water.glitch';
+      final redirectUri =
+          'https://gulfa-water.glitch.me/callbacks/sign_in_with_apple';
+      final auth = await apple.SignInWithApple.getAppleIDCredential(
+        scopes: [apple.AppleIDAuthorizationScopes.email],
+        webAuthenticationOptions: apple.WebAuthenticationOptions(
+            clientId: clientId, redirectUri: Uri.parse(redirectUri)),
+      );
+
+      print(auth);
+      print(auth.identityToken);
+
+      final token = auth.identityToken!;
+
+      yield* _signInWithSocial(Social.Apple, token: token);
+    } on apple.SignInWithAppleAuthorizationException catch (e) {
+      if (e.code != apple.AuthorizationErrorCode.canceled) {
+        yield SocialAuthError(message: e.message.trim());
+      }
+    }
   }
 
   Stream<SocialAuthState> _signInWithSocial(
@@ -82,7 +104,6 @@ class SocialAuthBloc extends Bloc<SocialAuthEvent, SocialAuthState> {
   }) async* {
     try {
       final AuthResponse auth;
-
       switch (social) {
         case Social.Facebook:
           auth = await _authService.signInWithFacebook(Token(token: token));
@@ -97,7 +118,7 @@ class SocialAuthBloc extends Bloc<SocialAuthEvent, SocialAuthState> {
       await Session.open(token: auth.token, userId: auth.id);
       yield const SocialAuthSuccess();
     } on HttpException catch (e) {
-      yield SocialAuthError(message: e.message);
+      yield SocialAuthError(message: e.message.trim());
     }
   }
 }

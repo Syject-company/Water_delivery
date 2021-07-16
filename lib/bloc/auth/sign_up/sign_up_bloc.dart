@@ -51,7 +51,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
       yield const SignUpSuccess();
     } on HttpException catch (e) {
-      yield SignUpError(message: e.message);
+      yield SignUpError(message: e.message.trim());
+      yield const SignUpInitial();
     }
   }
 }

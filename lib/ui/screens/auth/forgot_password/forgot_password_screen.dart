@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
-import 'package:water/ui/screens/auth/forgot_password/pages/enter_new_password.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
+import 'package:water/ui/shared_widgets/loader_overlay.dart';
 
 import 'pages/enter_email.dart';
+import 'pages/enter_new_password.dart';
+
+const Duration _pageSwapDuration = Duration(milliseconds: 375);
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -13,23 +16,28 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
-        listener: (_, state) {
-          if (state is ForgotPasswordNewPasswordInput) {
-            _pageController.nextPage(
-              duration: Duration(milliseconds: 375),
-              curve: Curves.easeInOutCubic,
-            );
-          }
-        },
-        child: PageView(
+    return BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
+      listener: (_, state) {
+        state is ForgotPasswordLoading
+            ? context.showLoader()
+            : context.hideLoader();
+
+        if (state is ForgotPasswordNewPasswordInput) {
+          _pageController.nextPage(
+            duration: _pageSwapDuration,
+            curve: Curves.easeInOutCubic,
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
+          clipBehavior: Clip.none,
           children: <Widget>[
-            EnterEmail(),
-            EnterNewPassword(),
+            EnterEmailPage(),
+            EnterNewPasswordPage(),
           ],
         ),
       ),
@@ -40,10 +48,6 @@ class ForgotPasswordScreen extends StatelessWidget {
     return AppBar(
       leading: AppBarBackButton(
         onPressed: () => Navigator.of(context).pop(),
-        // onPressed: () => _pageController.previousPage(
-        //   duration: Duration(milliseconds: 375),
-        //   curve: Curves.easeInOutCubic,
-        // ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,

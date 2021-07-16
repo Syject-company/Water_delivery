@@ -42,7 +42,7 @@ class ForgotPasswordBloc
       await _authService.resetPassword(ForgotPasswordForm(email: event.email));
       yield ForgotPasswordNewPasswordInput(email: event.email);
     } on HttpException catch (e) {
-      yield ForgotPasswordError(message: e.message);
+      yield ForgotPasswordError(message: e.message.trim());
     }
   }
 
@@ -54,21 +54,27 @@ class ForgotPasswordBloc
     }
 
     if (state is ForgotPasswordNewPasswordInput) {
-      yield const ForgotPasswordLoading();
-
       final state = this.state as ForgotPasswordNewPasswordInput;
-      final auth = await _authService.confirmNewPassword(NewPasswordForm(
-        email: state.email,
-        resetCode: event.code,
-        newPassword: event.password,
-      ));
 
-      await Session.open(token: auth.token, userId: auth.id);
-      print(Session.token);
-      print(Session.userId);
-      print(Session.isActive);
+      try {
+        yield const ForgotPasswordLoading();
 
-      yield const ForgotPasswordSuccess();
+        final auth = await _authService.confirmNewPassword(NewPasswordForm(
+          email: state.email,
+          resetCode: event.code,
+          newPassword: event.password,
+        ));
+
+        await Session.open(token: auth.token, userId: auth.id);
+        print(Session.token);
+        print(Session.userId);
+        print(Session.isActive);
+
+        yield const ForgotPasswordSuccess();
+      } on HttpException catch (e) {
+        yield ForgotPasswordError(message: e.message.trim());
+        yield ForgotPasswordNewPasswordInput(email: state.email);
+      }
     }
   }
 }

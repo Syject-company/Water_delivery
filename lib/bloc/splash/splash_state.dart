@@ -13,17 +13,17 @@ class SplashInitial extends SplashState {
 }
 
 class SplashLoading extends SplashState {
-  const SplashLoading({required this.firstLaunch});
+  const SplashLoading();
+
+  @override
+  List<Object> get props => [];
+}
+
+class SplashVideo extends SplashState {
+  const SplashVideo({required this.firstLaunch});
 
   final bool firstLaunch;
 
   @override
   List<Object> get props => [firstLaunch];
-}
-
-class SplashVideo extends SplashState {
-  const SplashVideo();
-
-  @override
-  List<Object> get props => [];
 }

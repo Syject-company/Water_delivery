@@ -46,7 +46,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       yield const SignInSuccess();
     } on HttpException catch (e) {
-      yield SignInError(message: e.message);
+      yield SignInError(message: e.message.trim());
+      yield const SignInInitial();
     }
   }
 }

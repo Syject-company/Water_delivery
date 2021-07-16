@@ -9,8 +9,8 @@ import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
 import 'package:water/ui/validators/email.dart';
 
-class EnterEmail extends StatelessWidget {
-  EnterEmail({Key? key}) : super(key: key);
+class EnterEmailPage extends StatelessWidget {
+  EnterEmailPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
@@ -73,8 +73,8 @@ class EnterEmail extends StatelessWidget {
   Widget _buildResetPasswordButton(BuildContext context) {
     return Button(
       onPressed: () {
+        FocusScope.of(context).unfocus();
         if (!_formKey.currentState!.validate()) {
-          // TODO: show error text
           return;
         }
 

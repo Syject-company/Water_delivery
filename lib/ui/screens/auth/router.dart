@@ -8,7 +8,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
 import 'choose_auth/choose_auth_screen.dart';
-import 'forgot_password/forgot_password.dart';
+import 'forgot_password/forgot_password_screen.dart';
 import 'sign_in/sign_in_screen.dart';
 import 'sign_up/sign_up_screen.dart';
 

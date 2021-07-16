@@ -15,6 +15,7 @@ class ChooseAuthScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
         physics: const BouncingScrollPhysics(),
+        clipBehavior: Clip.none,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -38,18 +39,14 @@ class ChooseAuthScreen extends StatelessWidget {
 
   Widget _buildSignInButton(BuildContext context) {
     return Button(
-      onPressed: () {
-        Navigator.of(context).pushNamed(AuthRoutes.signIn);
-      },
+      onPressed: () => Navigator.of(context).pushNamed(AuthRoutes.signIn),
       text: 'choose_auth.sign_in'.tr(),
     );
   }
 
   Widget _buildSignUpButton(BuildContext context) {
     return Button(
-      onPressed: () {
-        Navigator.of(context).pushNamed(AuthRoutes.signUp);
-      },
+      onPressed: () => Navigator.of(context).pushNamed(AuthRoutes.signUp),
       text: 'choose_auth.sign_up'.tr(),
       backgroundColor: AppColors.secondaryColor,
       foregroundColor: AppColors.primaryColor,

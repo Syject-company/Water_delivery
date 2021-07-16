@@ -29,13 +29,12 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   Stream<SplashState> _mapLoadingToState() async* {
-    final firstLaunch = LocalStorage.firstLaunch ?? true;
-    yield SplashLoading(firstLaunch: firstLaunch);
     await Future.delayed(_loadingDuration);
-    yield const SplashVideo();
+    yield const SplashLoading();
   }
 
   Stream<SplashState> _mapLoadVideoToState() async* {
-    yield const SplashVideo();
+    final firstLaunch = LocalStorage.firstLaunch ?? true;
+    yield SplashVideo(firstLaunch: firstLaunch);
   }
 }
