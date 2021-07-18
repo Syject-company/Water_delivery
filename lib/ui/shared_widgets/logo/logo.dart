@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/constants/paths.dart';
+
+const double _iconWidthFactor = 3.25;
+const double _labelWidthFactor = 2.75;
 
 class Logo extends StatelessWidget {
   const Logo({
@@ -10,11 +14,6 @@ class Logo extends StatelessWidget {
     this.iconWidthFactor = _iconWidthFactor,
     this.labelWidthFactor = _labelWidthFactor,
   }) : super(key: key);
-
-  static const String _logoIconPath = 'assets/svg/logo_icon.svg';
-  static const String _logoLabelPath = 'assets/svg/logo_label.svg';
-  static const double _iconWidthFactor = 3.25;
-  static const double _labelWidthFactor = 2.75;
 
   final bool showIcon;
   final bool showLabel;
@@ -35,7 +34,7 @@ class Logo extends StatelessWidget {
 
   Widget _buildIcon(BuildContext context) {
     return SvgPicture.asset(
-      _logoIconPath,
+      Paths.logoIcon,
       color: AppColors.secondaryColor,
       width: MediaQuery.of(context).size.width / iconWidthFactor,
     );
@@ -43,7 +42,7 @@ class Logo extends StatelessWidget {
 
   Widget _buildLabel(BuildContext context) {
     return SvgPicture.asset(
-      _logoLabelPath,
+      Paths.logoLabel,
       width: MediaQuery.of(context).size.width / labelWidthFactor,
     );
   }

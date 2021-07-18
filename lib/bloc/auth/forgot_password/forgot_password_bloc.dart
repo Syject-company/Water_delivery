@@ -64,11 +64,7 @@ class ForgotPasswordBloc
           resetCode: event.code,
           newPassword: event.password,
         ));
-
-        await Session.open(token: auth.token, userId: auth.id);
-        print(Session.token);
-        print(Session.userId);
-        print(Session.isActive);
+        await Session.open(auth: auth);
 
         yield const ForgotPasswordSuccess();
       } on HttpException catch (e) {

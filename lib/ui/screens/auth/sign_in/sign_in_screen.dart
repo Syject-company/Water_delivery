@@ -2,11 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/auth/sign_in/sign_in_bloc.dart';
-import 'package:water/bloc/auth/social/social_auth_bloc.dart';
+import 'package:water/bloc/auth/auth_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/screens/auth/router.dart';
+import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
@@ -18,28 +19,28 @@ import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignInScreen extends StatelessWidget {
-  SignInScreen({Key? key}) : super(key: key) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    });
-  }
+  SignInScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey();
   final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
   final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
-  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignInBloc, SignInState>(
-      listener: (_, state) =>
-          state is SignInLoading ? context.showLoader() : context.hideLoader(),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (_, state) {
+        state is AuthLoading ? context.showLoader() : context.hideLoader();
+
+        if (state is AuthSuccess) {
+          Navigator.of(context, rootNavigator: true)
+              .pushReplacementNamed(AppRoutes.home);
+        }
+      },
       child: Scaffold(
         appBar: _buildAppBar(context),
         body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
           physics: const BouncingScrollPhysics(),
-          controller: _scrollController,
           clipBehavior: Clip.none,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +57,7 @@ class SignInScreen extends StatelessWidget {
               const SizedBox(height: 32.0),
               _buildSignUpLabel(),
               const SizedBox(height: 24.0),
-              _buildSignUpButtons(context),
+              _buildSignInButtons(context),
               const SizedBox(height: 24.0),
               _buildLogInButton(context),
             ],
@@ -89,10 +90,12 @@ class SignInScreen extends StatelessWidget {
       key: _signInFormKey,
       child: Column(
         children: <Widget>[
-          BlocBuilder<SignInBloc, SignInState>(
+          BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (_, state) =>
+                (state is AuthLoading || state is AuthError),
             builder: (_, state) {
               return Label(
-                state is SignInError ? state.message : '',
+                state is AuthError ? state.message : '',
                 color: AppColors.errorTextColor,
                 fontSize: 15.0,
                 lineHeight: 1.25,
@@ -144,9 +147,8 @@ class SignInScreen extends StatelessWidget {
           TextSpan(
             text: 'sign_in.sign_up'.tr(),
             recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Navigator.of(context).pushNamed(AuthRoutes.signUp);
-              },
+              ..onTap =
+                  () => Navigator.of(context).pushNamed(AuthRoutes.signUp),
             style: const TextStyle(
               color: AppColors.primaryColor,
             ),
@@ -169,32 +171,32 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSignUpButtons(BuildContext context) {
+  Widget _buildSignInButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
-            context.socialAuth.add(SignInWithFacebook());
+            context.auth.add(FacebookLogin());
           },
-          iconPath: 'assets/svg/facebook.svg',
+          iconPath: Paths.facebookIcon,
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
-            context.socialAuth.add(SignInWithGoogle());
+            context.auth.add(GoogleLogin());
           },
-          iconPath: 'assets/svg/google.svg',
+          iconPath: Paths.googleIcon,
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
-          onPressed: () async {
+          onPressed: () {
             FocusScope.of(context).unfocus();
-            context.socialAuth.add(SignInWithApple());
+            context.auth.add(AppleLogin());
           },
-          iconPath: 'assets/svg/apple.svg',
+          iconPath: Paths.appleIcon,
         ),
       ],
     );
@@ -211,7 +213,7 @@ class SignInScreen extends StatelessWidget {
         final email = _emailInputKey.currentState!.value;
         final password = _passwordInputKey.currentState!.value;
 
-        context.signIn.add(Login(
+        context.auth.add(Login(
           email: email,
           password: password,
         ));

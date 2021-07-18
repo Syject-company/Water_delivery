@@ -20,6 +20,7 @@ class EnterEmailPage extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

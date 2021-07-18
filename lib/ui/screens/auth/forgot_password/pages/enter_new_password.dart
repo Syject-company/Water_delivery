@@ -23,6 +23,7 @@ class EnterNewPasswordPage extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -52,7 +53,7 @@ class EnterNewPasswordPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-            buildWhen: (previousState, state) =>
+            buildWhen: (_, state) =>
                 state is ForgotPasswordLoading || state is ForgotPasswordError,
             builder: (_, state) {
               return Label(

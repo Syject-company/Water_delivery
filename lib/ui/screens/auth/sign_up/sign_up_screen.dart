@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/auth/sign_up/sign_up_bloc.dart';
-import 'package:water/bloc/auth/social/social_auth_bloc.dart';
+import 'package:water/bloc/auth/auth_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/constants/paths.dart';
+import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/rounded_button.dart';
@@ -16,30 +17,30 @@ import 'package:water/ui/validators/field.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignUpScreen extends StatelessWidget {
-  SignUpScreen({Key? key}) : super(key: key) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    });
-  }
+  SignUpScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey();
   final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
   final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
   final GlobalKey<FormInputState> _confirmPasswordInputKey =
       GlobalKey<FormInputState>();
-  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignUpBloc, SignUpState>(
-      listener: (_, state) =>
-          state is SignUpLoading ? context.showLoader() : context.hideLoader(),
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (_, state) {
+        state is AuthLoading ? context.showLoader() : context.hideLoader();
+
+        if (state is AuthSuccess) {
+          Navigator.of(context, rootNavigator: true)
+              .pushReplacementNamed(AppRoutes.home);
+        }
+      },
       child: Scaffold(
         appBar: _buildAppBar(context),
         body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
           physics: const BouncingScrollPhysics(),
-          controller: _scrollController,
           clipBehavior: Clip.none,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -85,10 +86,12 @@ class SignUpScreen extends StatelessWidget {
       key: _signUpFormKey,
       child: Column(
         children: <Widget>[
-          BlocBuilder<SignUpBloc, SignUpState>(
+          BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (_, state) =>
+                (state is AuthLoading || state is AuthError),
             builder: (_, state) {
               return Label(
-                state is SignUpError ? state.message : '',
+                state is AuthError ? state.message : '',
                 color: AppColors.errorTextColor,
                 fontSize: 15.0,
                 lineHeight: 1.25,
@@ -137,25 +140,25 @@ class SignUpScreen extends StatelessWidget {
         RoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
-            context.socialAuth.add(SignInWithFacebook());
+            context.auth.add(FacebookLogin());
           },
-          iconPath: 'assets/svg/facebook.svg',
+          iconPath: Paths.facebookIcon,
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
-            context.socialAuth.add(SignInWithGoogle());
+            context.auth.add(GoogleLogin());
           },
-          iconPath: 'assets/svg/google.svg',
+          iconPath: Paths.googleIcon,
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
-            context.socialAuth.add(SignInWithApple());
+            context.auth.add(AppleLogin());
           },
-          iconPath: 'assets/svg/apple.svg',
+          iconPath: Paths.appleIcon,
         ),
       ],
     );
@@ -173,7 +176,7 @@ class SignUpScreen extends StatelessWidget {
         final password = _passwordInputKey.currentState!.value;
         final confirmPassword = _confirmPasswordInputKey.currentState!.value;
 
-        context.signUp.add(Register(
+        context.auth.add(Register(
           email: email,
           password: password,
           confirmPassword: confirmPassword,

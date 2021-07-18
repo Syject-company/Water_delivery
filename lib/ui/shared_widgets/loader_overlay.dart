@@ -44,11 +44,19 @@ class LoaderOverlayState extends State<LoaderOverlay> {
   }
 
   void showLoader() {
-    setState(() => _showLoader = true);
+    if (!_showLoader) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        setState(() => _showLoader = true);
+      });
+    }
   }
 
   void hideLoader() {
-    setState(() => _showLoader = false);
+    if (_showLoader) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        setState(() => _showLoader = false);
+      });
+    }
   }
 
   Widget _buildLogo() {
