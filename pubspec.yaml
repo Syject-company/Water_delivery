@@ -47,7 +47,13 @@ flutter:
 
   assets:
     - assets/i18n/
+    - assets/images/
     - assets/lottie/
     - assets/svg/
     - assets/video/
     - google_fonts/
+
+  fonts:
+    - family: AppIcons
+      fonts:
+        - asset: assets/fonts/AppIcons.ttf

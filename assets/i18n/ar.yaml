@@ -1,9 +1,11 @@
 # GLOBAL
 global:
   save: "يحفظ"
+  code: "شفرة"
   email: "بريد إلكتروني"
   password: "كلمه السر"
   confirm_password: "تأكيد كلمة المرور"
+  sign_in_with: "تسجيل الدخول ب"
   sign_up_with: "سجل مع"
 
 # SELECT LANGUAGE SCREEN
@@ -28,7 +30,11 @@ sign_up:
   title: "إنشاء حساب"
   register: "يسجل"
 
-# FORGOT_PASSWORD SCREEN
+# FORGOT PASSWORD SCREEN
 forgot_password:
-  title: "هل نسيت كلمة السر"
-  reset_password: "إعادة تعيين كلمة المرور"
+  enter_email:
+    title: "هل نسيت كلمة السر"
+    reset_password: "إعادة تعيين كلمة المرور"
+  enter_new_password:
+    title: "أدخل كلمة مرور جديدة"
+    login: "تسجيل الدخول"

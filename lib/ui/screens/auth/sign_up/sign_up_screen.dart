@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/auth_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/constants/paths.dart';
+import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
@@ -42,6 +42,7 @@ class SignUpScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
           physics: const BouncingScrollPhysics(),
           clipBehavior: Clip.none,
+          reverse: true,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -58,6 +59,7 @@ class SignUpScreen extends StatelessWidget {
               _buildRegisterButton(context),
             ],
           ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         ),
       ),
     );
@@ -142,7 +144,7 @@ class SignUpScreen extends StatelessWidget {
             FocusScope.of(context).unfocus();
             context.auth.add(FacebookLogin());
           },
-          iconPath: Paths.facebookIcon,
+          icon: AppIcons.facebook,
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
@@ -150,7 +152,7 @@ class SignUpScreen extends StatelessWidget {
             FocusScope.of(context).unfocus();
             context.auth.add(GoogleLogin());
           },
-          iconPath: Paths.googleIcon,
+          icon: AppIcons.google,
         ),
         const SizedBox(width: 18.0),
         RoundedButton(
@@ -158,7 +160,7 @@ class SignUpScreen extends StatelessWidget {
             FocusScope.of(context).unfocus();
             context.auth.add(AppleLogin());
           },
-          iconPath: Paths.appleIcon,
+          icon: AppIcons.apple,
         ),
       ],
     );

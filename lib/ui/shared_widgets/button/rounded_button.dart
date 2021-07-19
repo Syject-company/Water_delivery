@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/ui/constants/colors.dart';
 
 const Size _size = Size(60.0, 60.0);
@@ -8,11 +7,11 @@ class RoundedButton extends StatelessWidget {
   const RoundedButton({
     Key? key,
     required this.onPressed,
-    required this.iconPath,
+    required this.icon,
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final String iconPath;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +25,8 @@ class RoundedButton extends StatelessWidget {
         shape: const CircleBorder(),
       ),
       child: Center(
-        child: SvgPicture.asset(
-          iconPath,
+        child: Icon(
+          icon,
           color: AppColors.primaryColor,
         ),
       ),

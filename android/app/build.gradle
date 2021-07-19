@@ -42,11 +42,20 @@ android {
             storeFile file('debug.keystore')
             storePassword 'android'
         }
+        release {
+            keyAlias 'androidreleasekey'
+            keyPassword 'android'
+            storeFile file('release.keystore')
+            storePassword 'android'
+        }
     }
 
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
         }
     }
 }

@@ -21,6 +21,7 @@ class EnterEmailPage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
       clipBehavior: Clip.none,
+      reverse: true,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -33,6 +34,7 @@ class EnterEmailPage extends StatelessWidget {
           _buildResetPasswordButton(context),
         ],
       ),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }
 

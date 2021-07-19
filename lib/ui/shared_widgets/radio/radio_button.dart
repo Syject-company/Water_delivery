@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
 
+const Duration _fadeDuration = const Duration(milliseconds: 125);
+const double _circleWidth = 24.0;
+const double _circleHeight = 24.0;
+const double _circleBorderWidth = 1.0;
+const double _labelFontSize = 18.0;
+const double _labelLineHeight = 1.75;
+
 class RadioButton extends StatelessWidget {
   const RadioButton({
     Key? key,
     required this.label,
     this.selected = false,
   }) : super(key: key);
-
-  static const Duration _fadeDuration = const Duration(milliseconds: 125);
-  static const double _circleWidth = 24.0;
-  static const double _circleHeight = 24.0;
-  static const double _circleBorderWidth = 1.0;
-  static const double _labelFontSize = 18.0;
-  static const double _labelLineHeight = 1.75;
 
   final String label;
   final bool selected;
