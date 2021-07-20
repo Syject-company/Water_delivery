@@ -6,9 +6,9 @@ part 'bottom_nav_bar_item.dart';
 
 typedef SelectCallback = void Function(int index);
 
-const double _bottomNavBarHeight = 96.0;
+const double _bottomNavBarHeight = 80.0;
 const EdgeInsetsGeometry _contentPadding =
-    EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0);
+    EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0);
 
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({

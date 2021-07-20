@@ -21,13 +21,20 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final VideoPlayerController _videoController =
-      VideoPlayerController.asset(Paths.splashVideo);
+  VideoPlayerController.asset(Paths.splashVideo);
   final PageController _pageController = PageController();
 
   @override
   void initState() {
     super.initState();
     _videoController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override

@@ -37,7 +37,7 @@ class GulfaWaterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gulfa Water',
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.home,
       onGenerateRoute: RootRouter.generateRoute,
       locale: context.locale,
       supportedLocales: context.supportedLocales,

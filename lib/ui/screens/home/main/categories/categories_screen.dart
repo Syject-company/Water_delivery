@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/shared_widgets/carousel.dart';
+import 'package:water/ui/shared_widgets/carousel_slider/carousel_slider.dart';
 import 'package:water/ui/shared_widgets/text/label.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -11,7 +11,30 @@ class CategoriesScreen extends StatelessWidget {
       padding: const EdgeInsets.only(top: 12.0),
       child: Column(
         children: <Widget>[
-          CarouselSlider(),
+          CarouselSlider(
+            options: CarouselOptions(
+              aspectRatio: 320 / 168,
+              viewportFraction: 0.75,
+              spaceBetween: 24.0,
+            ),
+            items: <Widget>[
+              Image.asset(
+                'assets/images/banner_1.jpg',
+                fit: BoxFit.fill,
+                filterQuality: FilterQuality.high,
+              ),
+              Image.asset(
+                'assets/images/banner_2.jpg',
+                fit: BoxFit.fill,
+                filterQuality: FilterQuality.high,
+              ),
+              Image.asset(
+                'assets/images/shrink_wrap_500ml_v1.png',
+                fit: BoxFit.fill,
+                filterQuality: FilterQuality.high,
+              ),
+            ],
+          ),
           const SizedBox(height: 16.0),
           Label(
             'Wallet balance: \$0',
@@ -37,7 +60,7 @@ class CategoriesScreen extends StatelessWidget {
                     index: 6, path: 'assets/images/shrink_wrap_500ml_v1.png'),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
