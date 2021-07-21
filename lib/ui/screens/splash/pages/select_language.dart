@@ -4,7 +4,7 @@ import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 
@@ -21,7 +21,7 @@ class SelectLanguagePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Logo(),
+            const WaterLogo(),
             const SizedBox(height: 64.0),
             _buildSelectLanguageLabel(),
             const SizedBox(height: 32.0),
@@ -42,7 +42,7 @@ class SelectLanguagePage extends StatelessWidget {
   }
 
   Widget _buildSelectLanguageLabel() {
-    return Label(
+    return WaterText(
       'select_language.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
@@ -50,7 +50,7 @@ class SelectLanguagePage extends StatelessWidget {
   }
 
   Widget _buildLanguagePicker(BuildContext context) {
-    return RadioGroup<Locale>(
+    return WaterRadioGroup<Locale>(
       onChanged: (locale) {
         Localization.changeLocale(context, locale);
       },
@@ -63,7 +63,7 @@ class SelectLanguagePage extends StatelessWidget {
   }
 
   Widget _buildSaveButton(BuildContext context) {
-    return Button(
+    return WaterButton(
       onPressed: () async {
         final currentLocale = Localization.currentLocale(context);
         await Localization.saveLocale(currentLocale);

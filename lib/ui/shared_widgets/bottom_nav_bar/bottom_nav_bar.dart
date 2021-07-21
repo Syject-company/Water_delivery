@@ -8,7 +8,7 @@ typedef SelectCallback = void Function(int index);
 
 const double _bottomNavBarHeight = 80.0;
 const EdgeInsetsGeometry _contentPadding =
-    EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0);
+    EdgeInsets.symmetric(vertical: 12.0, horizontal: 36.0);
 
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({
@@ -28,7 +28,7 @@ class BottomNavBar extends StatelessWidget {
     return Container(
       padding: _contentPadding,
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: Color(0xFFE5E5E5))),
+        border: Border(top: BorderSide(color: AppColors.borderColor)),
       ),
       height: _bottomNavBarHeight,
       child: Row(

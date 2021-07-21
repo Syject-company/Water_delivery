@@ -11,7 +11,7 @@ import 'package:water/ui/shared_widgets/button/rounded_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/field.dart';
 import 'package:water/ui/validators/password.dart';
@@ -45,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Logo(),
+              const WaterLogo(),
               const SizedBox(height: 36.0),
               _buildCreateAccountLabel(),
               const SizedBox(height: 12.0),
@@ -75,7 +75,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildCreateAccountLabel() {
-    return Label(
+    return WaterText(
       'sign_up.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
@@ -91,7 +91,7 @@ class SignUpScreen extends StatelessWidget {
             buildWhen: (_, state) =>
                 (state is AuthLoading || state is AuthError),
             builder: (_, state) {
-              return Label(
+              return WaterText(
                 state is AuthError ? state.message : '',
                 color: AppColors.errorTextColor,
                 fontSize: 15.0,
@@ -127,7 +127,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildSignUpLabel() {
-    return Label(
+    return WaterText(
       'global.sign_up_with'.tr(),
       fontSize: 18.0,
       lineHeight: 1.5,
@@ -138,7 +138,7 @@ class SignUpScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        RoundedButton(
+        WaterRoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(FacebookLogin());
@@ -146,7 +146,7 @@ class SignUpScreen extends StatelessWidget {
           icon: AppIcons.facebook,
         ),
         const SizedBox(width: 18.0),
-        RoundedButton(
+        WaterRoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(GoogleLogin());
@@ -154,7 +154,7 @@ class SignUpScreen extends StatelessWidget {
           icon: AppIcons.google,
         ),
         const SizedBox(width: 18.0),
-        RoundedButton(
+        WaterRoundedButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(AppleLogin());
@@ -166,7 +166,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildRegisterButton(BuildContext context) {
-    return Button(
+    return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
         if (!_signUpFormKey.currentState!.validate()) {

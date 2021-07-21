@@ -26,6 +26,10 @@ class AppIcons {
       IconData(0xe808, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData google =
       IconData(0xe809, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData plus =
+      IconData(0xe80a, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData minus =
+      IconData(0xe80b, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData notification =
       IconData(0xe80c, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData whatsapp =

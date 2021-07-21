@@ -11,4 +11,6 @@ abstract class AppColors {
   static const Color inputDefaultBorderColor = Color(0xFFE8E8E8);
   static const Color inputFocusedBorderColor = Color(0xFF005CB9);
   static const Color inputErrorBorderColor = Color(0xFFED1C24);
+
+  static const Color borderColor = Color(0xFFE5E5E5);
 }

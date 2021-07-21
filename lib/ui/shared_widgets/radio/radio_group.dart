@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'radio_button.dart';
 
-class RadioGroup<T> extends StatefulWidget {
-  RadioGroup({
+class WaterRadioGroup<T> extends StatefulWidget {
+  WaterRadioGroup({
     Key? key,
     required this.values,
     required this.onChanged,
@@ -22,10 +22,10 @@ class RadioGroup<T> extends StatefulWidget {
   final double spaceBetween;
 
   @override
-  _RadioGroupState<T> createState() => _RadioGroupState();
+  _WaterRadioGroupState<T> createState() => _WaterRadioGroupState();
 }
 
-class _RadioGroupState<E> extends State<RadioGroup<E>> {
+class _WaterRadioGroupState<E> extends State<WaterRadioGroup<E>> {
   late E? _selectedValue = widget.currentValue;
 
   @override
@@ -55,7 +55,7 @@ class _RadioGroupState<E> extends State<RadioGroup<E>> {
               widget.onChanged(_selectedValue!);
             }
           },
-          child: RadioButton(
+          child: WaterRadioButton(
             label: label,
             selected: _selectedValue != null && _selectedValue == value,
           ),

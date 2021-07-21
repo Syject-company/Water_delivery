@@ -6,25 +6,27 @@ class AppBarIconButton extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.onPressed,
-    this.iconSize = 24.0,
+    this.margin = const EdgeInsets.only(right: 16.0),
+    this.iconSize = 32.0,
   }) : super(key: key);
 
   final IconData icon;
   final VoidCallback onPressed;
+  final EdgeInsetsGeometry margin;
   final double iconSize;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: Icon(
-          icon,
-          color: AppColors.primaryTextColor,
-          size: iconSize,
+    return Container(
+      margin: margin,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Center(
+          child: Icon(
+            icon,
+            color: AppColors.primaryTextColor,
+            size: iconSize,
+          ),
         ),
       ),
     );

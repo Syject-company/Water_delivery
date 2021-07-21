@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 
 const Duration _fadeDuration = const Duration(milliseconds: 125);
 const double _circleWidth = 24.0;
@@ -9,8 +9,8 @@ const double _circleBorderWidth = 1.0;
 const double _labelFontSize = 18.0;
 const double _labelLineHeight = 1.75;
 
-class RadioButton extends StatelessWidget {
-  const RadioButton({
+class WaterRadioButton extends StatelessWidget {
+  const WaterRadioButton({
     Key? key,
     required this.label,
     this.selected = false,
@@ -41,7 +41,7 @@ class RadioButton extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Label(
+          child: WaterText(
             label,
             color: AppColors.secondaryTextColor,
             fontSize: _labelFontSize,

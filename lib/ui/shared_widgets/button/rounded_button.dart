@@ -3,8 +3,8 @@ import 'package:water/ui/constants/colors.dart';
 
 const Size _size = Size(60.0, 60.0);
 
-class RoundedButton extends StatelessWidget {
-  const RoundedButton({
+class WaterRoundedButton extends StatelessWidget {
+  const WaterRoundedButton({
     Key? key,
     required this.onPressed,
     required this.icon,
@@ -19,8 +19,8 @@ class RoundedButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         elevation: 0.0,
-        padding: EdgeInsets.zero,
         minimumSize: _size,
+        padding: EdgeInsets.zero,
         backgroundColor: AppColors.secondaryColor,
         shape: const CircleBorder(),
       ),

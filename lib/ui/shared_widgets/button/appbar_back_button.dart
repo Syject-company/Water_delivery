@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 
-const double _iconSize = 24.0;
+const double _iconSize = 32.0;
 
 class AppBarBackButton extends StatelessWidget {
   const AppBarBackButton({

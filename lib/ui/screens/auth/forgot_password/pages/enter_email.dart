@@ -6,7 +6,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/ui/validators/email.dart';
 
 class EnterEmailPage extends StatelessWidget {
@@ -24,7 +24,7 @@ class EnterEmailPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Logo(),
+          const WaterLogo(),
           const SizedBox(height: 36.0),
           _buildForgotPasswordLabel(),
           const SizedBox(height: 12.0),
@@ -38,7 +38,7 @@ class EnterEmailPage extends StatelessWidget {
   }
 
   Widget _buildForgotPasswordLabel() {
-    return Label(
+    return WaterText(
       'forgot_password.enter_email.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
@@ -52,7 +52,7 @@ class EnterEmailPage extends StatelessWidget {
         children: [
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
             builder: (_, state) {
-              return Label(
+              return WaterText(
                 state is ForgotPasswordError ? state.message : '',
                 color: AppColors.errorTextColor,
                 fontSize: 15.0,
@@ -73,7 +73,7 @@ class EnterEmailPage extends StatelessWidget {
   }
 
   Widget _buildResetPasswordButton(BuildContext context) {
-    return Button(
+    return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
         if (!_formKey.currentState!.validate()) {

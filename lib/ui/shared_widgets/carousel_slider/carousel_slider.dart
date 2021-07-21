@@ -38,6 +38,12 @@ class _CarouselSliderState extends State<CarouselSlider> {
   }
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.options.infiniteScroll) {
       _pageController = PageController(

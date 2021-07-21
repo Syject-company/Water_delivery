@@ -94,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildLogo() {
     return const SafeArea(
       child: Center(
-        child: AnimatedLogo(),
+        child: WaterAnimatedLogo(),
       ),
     );
   }

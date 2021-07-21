@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
@@ -36,7 +37,15 @@ class GulfaWaterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, widget) {
+        return ResponsiveWrapper.builder(
+          widget,
+          minWidth: 414,
+          defaultScale: true,
+        );
+      },
       title: 'Gulfa Water',
+      // TODO: test only
       initialRoute: AppRoutes.home,
       onGenerateRoute: RootRouter.generateRoute,
       locale: context.locale,

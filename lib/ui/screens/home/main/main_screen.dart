@@ -4,7 +4,7 @@ import 'package:water/ui/screens/home/main/categories/categories_screen.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:water/ui/shared_widgets/button/appbar_icon_button.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/session.dart';
 
 class MainScreen extends StatelessWidget {
@@ -49,15 +49,16 @@ class MainScreen extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Label(
+      toolbarHeight: 72.0,
+      centerTitle: true,
+      title: WaterText(
         'Categories',
-        fontSize: 21.0,
+        fontSize: 24.0,
       ),
       actions: <Widget>[
         AppBarIconButton(
           icon: AppIcons.whatsapp,
           onPressed: () {},
-          iconSize: 32.0,
         ),
         AppBarIconButton(
           icon: AppIcons.notification,
@@ -66,7 +67,6 @@ class MainScreen extends StatelessWidget {
             Navigator.of(context, rootNavigator: true)
                 .pushReplacementNamed(AppRoutes.auth);
           },
-          iconSize: 32.0,
         ),
       ],
       backgroundColor: Colors.transparent,

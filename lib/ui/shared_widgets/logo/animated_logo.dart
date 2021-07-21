@@ -4,8 +4,8 @@ import 'package:water/ui/constants/paths.dart';
 
 const double _iconWidthFactor = 3.25;
 
-class AnimatedLogo extends StatelessWidget {
-  const AnimatedLogo({Key? key}) : super(key: key);
+class WaterAnimatedLogo extends StatelessWidget {
+  const WaterAnimatedLogo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

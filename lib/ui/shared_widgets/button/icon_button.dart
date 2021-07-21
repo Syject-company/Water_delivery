@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
 
-const double _elevation = 0.0;
-const double _width = double.infinity;
-const double _height = 58.0;
-const double _borderRadius = 15.0;
-const double _textSize = 17.0;
-const double _textLineHeight = 1.25;
+const Size _size = Size(45.0, 45.0);
 
-class WaterButton extends StatelessWidget {
-  const WaterButton({
+class WaterIconButton extends StatelessWidget {
+  const WaterIconButton({
     Key? key,
     required this.onPressed,
-    required this.text,
+    required this.icon,
+    this.iconSize = 26.0,
     this.backgroundColor = AppColors.primaryColor,
     this.foregroundColor = Colors.white,
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final String text;
+  final IconData icon;
+  final double iconSize;
   final Color backgroundColor;
   final Color foregroundColor;
 
@@ -28,19 +24,18 @@ class WaterButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        elevation: _elevation,
+        elevation: 0.0,
+        minimumSize: _size,
         padding: EdgeInsets.zero,
-        minimumSize: Size(_width, _height),
         backgroundColor: backgroundColor,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
       ),
-      child: WaterText(
-        text,
+      child: Icon(
+        icon,
         color: foregroundColor,
-        fontSize: _textSize,
-        lineHeight: _textLineHeight,
+        size: iconSize,
       ),
     );
   }

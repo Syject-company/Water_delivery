@@ -110,7 +110,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     print(auth.accessToken);
 
     yield* _signInWith(Social.Google, token: token);
-    await GoogleSignIn().signOut();
   }
 
   Stream<AuthState> _mapAppleLoginToState() async* {

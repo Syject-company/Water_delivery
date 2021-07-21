@@ -1,36 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 
-class ProductsPage extends StatelessWidget {
-  const ProductsPage({Key? key}) : super(key: key);
+class CategoriesPage extends StatelessWidget {
+  const CategoriesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.count(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        crossAxisCount: 2,
-        childAspectRatio: 260 / 330,
-        children: <Widget>[
-          ProductListItem(index: 1, path: 'assets/images/bottle_1.5l.png'),
-          ProductListItem(index: 2, path: 'assets/images/bottle_330ml.png'),
-          ProductListItem(index: 3, path: 'assets/images/bottle_500ml.png'),
-          ProductListItem(index: 4, path: 'assets/images/mini_cup.png'),
-          ProductListItem(
-              index: 5, path: 'assets/images/shrink_wrap_1.5l_v1.png'),
-          ProductListItem(
-              index: 6, path: 'assets/images/shrink_wrap_500ml_v1.png'),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        const SizedBox(height: 24.0),
+        WaterText(
+          'Wallet balance: \$24',
+          fontSize: 18.0,
+        ),
+        const SizedBox(height: 24.0),
+        Expanded(
+          child: GridView.count(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+            children: <Widget>[
+              CategoryListItem(index: 1, path: 'assets/images/bottle_1.5l.png'),
+              CategoryListItem(
+                  index: 2, path: 'assets/images/bottle_330ml.png'),
+              CategoryListItem(
+                  index: 3, path: 'assets/images/bottle_500ml.png'),
+              CategoryListItem(index: 4, path: 'assets/images/mini_cup.png'),
+              CategoryListItem(
+                  index: 5, path: 'assets/images/shrink_wrap_1.5l_v1.png'),
+              CategoryListItem(
+                  index: 6, path: 'assets/images/shrink_wrap_500ml_v1.png'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
 
-class ProductListItem extends StatelessWidget {
-  const ProductListItem({
+class CategoryListItem extends StatelessWidget {
+  const CategoryListItem({
     Key? key,
     required this.index,
     required this.path,
@@ -42,7 +54,7 @@ class ProductListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(18.0),
+      borderRadius: BorderRadius.circular(19.0),
       child: Container(
         padding: const EdgeInsets.all(24.0),
         decoration: const BoxDecoration(
@@ -51,8 +63,8 @@ class ProductListItem extends StatelessWidget {
               Color(0xFFFFFFFF),
               Color(0xFFD2F4FF),
             ],
-            begin: const FractionalOffset(-0.25, -0.25),
-            end: const FractionalOffset(0.75, 0.75),
+            begin: const FractionalOffset(-0.33, -0.33),
+            end: const FractionalOffset(0.66, 0.66),
             stops: [0.0, 1.0],
           ),
         ),
@@ -60,10 +72,16 @@ class ProductListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: Image.asset(path),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Image.asset(path),
+              ),
             ),
             const SizedBox(height: 16.0),
-            Label('Category $index', fontSize: 18.0),
+            WaterText(
+              'Category $index',
+              fontSize: 18.0,
+            ),
           ],
         ),
       ),

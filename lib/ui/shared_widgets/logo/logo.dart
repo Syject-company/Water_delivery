@@ -6,8 +6,8 @@ import 'package:water/ui/constants/paths.dart';
 const double _iconWidthFactor = 3.25;
 const double _labelWidthFactor = 2.75;
 
-class Logo extends StatelessWidget {
-  const Logo({
+class WaterLogo extends StatelessWidget {
+  const WaterLogo({
     Key? key,
     this.showIcon = true,
     this.showLabel = true,

@@ -6,7 +6,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
-import 'package:water/ui/shared_widgets/text/label.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/ui/validators/field.dart';
 import 'package:water/ui/validators/password.dart';
 
@@ -27,7 +27,7 @@ class EnterNewPasswordPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Logo(),
+          const WaterLogo(),
           const SizedBox(height: 36.0),
           _buildEnterNewPasswordLabel(),
           const SizedBox(height: 12.0),
@@ -41,7 +41,7 @@ class EnterNewPasswordPage extends StatelessWidget {
   }
 
   Widget _buildEnterNewPasswordLabel() {
-    return Label(
+    return WaterText(
       'forgot_password.enter_new_password.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
@@ -57,7 +57,7 @@ class EnterNewPasswordPage extends StatelessWidget {
             buildWhen: (_, state) =>
                 state is ForgotPasswordLoading || state is ForgotPasswordError,
             builder: (_, state) {
-              return Label(
+              return WaterText(
                 state is ForgotPasswordError ? state.message : '',
                 color: AppColors.errorTextColor,
                 fontSize: 15.0,
@@ -93,7 +93,7 @@ class EnterNewPasswordPage extends StatelessWidget {
   }
 
   Widget _buildLogInButton(BuildContext context) {
-    return Button(
+    return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
         if (!_formKey.currentState!.validate()) {
