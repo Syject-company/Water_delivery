@@ -30,10 +30,10 @@ class WaterButton extends StatelessWidget {
       style: TextButton.styleFrom(
         elevation: _elevation,
         padding: EdgeInsets.zero,
-        minimumSize: Size(_width, _height),
+        minimumSize: const Size(_width, _height),
         backgroundColor: backgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_borderRadius),
         ),
       ),
       child: WaterText(

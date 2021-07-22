@@ -46,7 +46,6 @@ class WaterRadioButton extends StatelessWidget {
             color: AppColors.secondaryTextColor,
             fontSize: _labelFontSize,
             lineHeight: _labelLineHeight,
-            textAlign: TextAlign.left,
           ),
         )
       ],

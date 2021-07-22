@@ -42,6 +42,7 @@ class EnterEmailPage extends StatelessWidget {
       'forgot_password.enter_email.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -54,9 +55,10 @@ class EnterEmailPage extends StatelessWidget {
             builder: (_, state) {
               return WaterText(
                 state is ForgotPasswordError ? state.message : '',
-                color: AppColors.errorTextColor,
                 fontSize: 15.0,
                 lineHeight: 1.25,
+                textAlign: TextAlign.center,
+                color: AppColors.errorTextColor,
               );
             },
           ),

@@ -15,14 +15,17 @@ class AppBarBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
-      child: Icon(
-        _getPlatformIconData(),
-        color: AppColors.primaryTextColor,
-        size: _iconSize,
+    return Container(
+      margin: const EdgeInsets.only(left: 16.0),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Center(
+          child: Icon(
+            _getPlatformIconData(),
+            color: AppColors.primaryTextColor,
+            size: _iconSize,
+          ),
+        ),
       ),
     );
   }

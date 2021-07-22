@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water/bloc/home/main/categories/categories_bloc.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -9,7 +10,7 @@ class CategoriesPage extends StatelessWidget {
     return Column(
       children: <Widget>[
         const SizedBox(height: 24.0),
-        WaterText(
+        const WaterText(
           'Wallet balance: \$24',
           fontSize: 18.0,
         ),
@@ -23,15 +24,15 @@ class CategoriesPage extends StatelessWidget {
             crossAxisCount: 2,
             childAspectRatio: 0.75,
             children: <Widget>[
-              CategoryListItem(index: 1, path: 'assets/images/bottle_1.5l.png'),
-              CategoryListItem(
+              const CategoryListItem(index: 1, path: 'assets/images/bottle_1.5l.png'),
+              const CategoryListItem(
                   index: 2, path: 'assets/images/bottle_330ml.png'),
-              CategoryListItem(
+              const CategoryListItem(
                   index: 3, path: 'assets/images/bottle_500ml.png'),
-              CategoryListItem(index: 4, path: 'assets/images/mini_cup.png'),
-              CategoryListItem(
+              const CategoryListItem(index: 4, path: 'assets/images/mini_cup.png'),
+              const CategoryListItem(
                   index: 5, path: 'assets/images/shrink_wrap_1.5l_v1.png'),
-              CategoryListItem(
+              const CategoryListItem(
                   index: 6, path: 'assets/images/shrink_wrap_500ml_v1.png'),
             ],
           ),
@@ -53,36 +54,41 @@ class CategoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(19.0),
-      child: Container(
-        padding: const EdgeInsets.all(24.0),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFFFFFFF),
-              Color(0xFFD2F4FF),
-            ],
-            begin: const FractionalOffset(-0.33, -0.33),
-            end: const FractionalOffset(0.66, 0.66),
-            stops: [0.0, 1.0],
+    return GestureDetector(
+      onTap: () {
+        context.categories.add(LoadProducts(category: ''));
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(19.0),
+        child: Container(
+          padding: const EdgeInsets.all(24.0),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFFD2F4FF),
+              ],
+              begin: FractionalOffset(-0.33, -0.33),
+              end: FractionalOffset(0.66, 0.66),
+              stops: [0.0, 1.0],
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Image.asset(path),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.asset(path),
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            WaterText(
-              'Category $index',
-              fontSize: 18.0,
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              WaterText(
+                'Category $index',
+                fontSize: 18.0,
+              ),
+            ],
+          ),
         ),
       ),
     );

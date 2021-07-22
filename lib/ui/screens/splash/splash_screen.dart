@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/paths.dart';
@@ -21,7 +22,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final VideoPlayerController _videoController =
-  VideoPlayerController.asset(Paths.splashVideo);
+      VideoPlayerController.asset(Paths.splashVideo);
   final PageController _pageController = PageController();
 
   @override
@@ -78,6 +79,11 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       },
     );
+  }
+
+  Future<String> getFileUrl(String fileName) async {
+    final directory = await getApplicationDocumentsDirectory();
+    return "${directory.path}/$fileName";
   }
 
   Widget _buildPageView() {

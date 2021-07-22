@@ -10,7 +10,7 @@ import 'package:water/ui/screens/auth/router.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/button/rounded_button.dart';
+import 'package:water/ui/shared_widgets/button/circle_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
@@ -19,11 +19,15 @@ import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignInScreen extends StatelessWidget {
-  SignInScreen({Key? key}) : super(key: key);
+  SignInScreen({Key? key}) : super(key: key) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) =>
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent));
+  }
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey();
   final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
   final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class SignInScreen extends StatelessWidget {
         body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
           physics: const BouncingScrollPhysics(),
+          controller: _scrollController,
           clipBehavior: Clip.none,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +88,7 @@ class SignInScreen extends StatelessWidget {
       'sign_in.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -97,9 +103,10 @@ class SignInScreen extends StatelessWidget {
             builder: (_, state) {
               return WaterText(
                 state is AuthError ? state.message : '',
-                color: AppColors.errorTextColor,
                 fontSize: 15.0,
                 lineHeight: 1.25,
+                textAlign: TextAlign.center,
+                color: AppColors.errorTextColor,
               );
             },
           ),
@@ -129,8 +136,9 @@ class SignInScreen extends StatelessWidget {
         'sign_in.forgot_password'.tr(),
         color: AppColors.primaryColor,
         fontSize: 16.0,
-        fontWeight: FontWeight.w500,
         lineHeight: 1.5,
+        fontWeight: FontWeight.w500,
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -169,6 +177,7 @@ class SignInScreen extends StatelessWidget {
       'global.sign_in_with'.tr(),
       fontSize: 18.0,
       lineHeight: 1.5,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -176,7 +185,7 @@ class SignInScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        WaterRoundedButton(
+        WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(FacebookLogin());
@@ -184,7 +193,7 @@ class SignInScreen extends StatelessWidget {
           icon: AppIcons.facebook,
         ),
         const SizedBox(width: 18.0),
-        WaterRoundedButton(
+        WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(GoogleLogin());
@@ -192,7 +201,7 @@ class SignInScreen extends StatelessWidget {
           icon: AppIcons.google,
         ),
         const SizedBox(width: 18.0),
-        WaterRoundedButton(
+        WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(AppleLogin());

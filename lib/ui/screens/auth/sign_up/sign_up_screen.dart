@@ -7,7 +7,7 @@ import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/button/rounded_button.dart';
+import 'package:water/ui/shared_widgets/button/circle_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
@@ -17,13 +17,17 @@ import 'package:water/ui/validators/field.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignUpScreen extends StatelessWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key}) : super(key: key) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) =>
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent));
+  }
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey();
   final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
   final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
   final GlobalKey<FormInputState> _confirmPasswordInputKey =
       GlobalKey<FormInputState>();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class SignUpScreen extends StatelessWidget {
         body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
           physics: const BouncingScrollPhysics(),
+          controller: _scrollController,
           clipBehavior: Clip.none,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -79,6 +84,7 @@ class SignUpScreen extends StatelessWidget {
       'sign_up.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -93,9 +99,10 @@ class SignUpScreen extends StatelessWidget {
             builder: (_, state) {
               return WaterText(
                 state is AuthError ? state.message : '',
-                color: AppColors.errorTextColor,
                 fontSize: 15.0,
                 lineHeight: 1.25,
+                textAlign: TextAlign.center,
+                color: AppColors.errorTextColor,
               );
             },
           ),
@@ -131,6 +138,7 @@ class SignUpScreen extends StatelessWidget {
       'global.sign_up_with'.tr(),
       fontSize: 18.0,
       lineHeight: 1.5,
+      textAlign: TextAlign.center,
     );
   }
 
@@ -138,7 +146,7 @@ class SignUpScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        WaterRoundedButton(
+        WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(FacebookLogin());
@@ -146,7 +154,7 @@ class SignUpScreen extends StatelessWidget {
           icon: AppIcons.facebook,
         ),
         const SizedBox(width: 18.0),
-        WaterRoundedButton(
+        WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(GoogleLogin());
@@ -154,7 +162,7 @@ class SignUpScreen extends StatelessWidget {
           icon: AppIcons.google,
         ),
         const SizedBox(width: 18.0),
-        WaterRoundedButton(
+        WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
             context.auth.add(AppleLogin());

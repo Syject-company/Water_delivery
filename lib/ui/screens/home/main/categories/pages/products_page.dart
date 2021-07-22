@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/button/icon_button.dart';
+import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/toast.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({Key? key}) : super(key: key);
@@ -129,7 +131,6 @@ class _ProductListItemState extends State<ProductListItem> {
           fontSize: 19.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
-          textAlign: TextAlign.left,
           overflow: TextOverflow.ellipsis,
         ),
         if (widget.discount) const SizedBox(width: 12.0),
@@ -139,7 +140,6 @@ class _ProductListItemState extends State<ProductListItem> {
             maxLines: 1,
             fontSize: 15.0,
             fontWeight: FontWeight.w500,
-            textAlign: TextAlign.left,
             overflow: TextOverflow.ellipsis,
             decoration: TextDecoration.lineThrough,
             color: AppColors.secondaryTextColor,
@@ -154,7 +154,6 @@ class _ProductListItemState extends State<ProductListItem> {
       maxLines: 2,
       fontSize: 15.0,
       lineHeight: 1.5,
-      textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
     );
   }
@@ -166,7 +165,6 @@ class _ProductListItemState extends State<ProductListItem> {
       fontSize: 15.0,
       lineHeight: 1.5,
       fontWeight: FontWeight.w500,
-      textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       color: AppColors.secondaryTextColor,
     );
@@ -183,7 +181,6 @@ class _ProductListItemState extends State<ProductListItem> {
           });
         },
         icon: AppIcons.plus,
-        iconSize: 21.0,
         backgroundColor: AppColors.secondaryColor,
         foregroundColor: AppColors.primaryTextColor,
       ),
@@ -191,37 +188,41 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildAmountPicker() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        WaterIconButton(
-          onPressed: () {
-            setState(() {
-              if ((_amount -= 1) == 0) {
-                _addedToCart = false;
-              }
-            });
-          },
-          icon: AppIcons.minus,
-          iconSize: 21.0,
-        ),
-        Flexible(
-          child: WaterText(
-            '$_amount',
-            maxLines: 1,
-            fontSize: 18.0,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
+    return WaterNumberPicker(
+      onChanged: (value) {
+        print(value);
+        setState(() {
+          _addedToCart = value > 0;
+        });
+        Toast.showToast(
+          context,
+          child: Container(
+            padding: EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: AppColors.borderColor),
+              borderRadius: BorderRadius.circular(19.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  spreadRadius: 0.0,
+                  blurRadius: 10.0,
+                  offset: Offset(0.0, 4.0), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Center(
+              child: WaterText(
+                'Product has been added to the cart!',
+                fontSize: 16.0,
+              ),
+            ),
           ),
-        ),
-        WaterIconButton(
-          onPressed: () {
-            setState(() => _amount += 1);
-          },
-          icon: AppIcons.plus,
-          iconSize: 21.0,
-        ),
-      ],
+          duration: const Duration(seconds: 2),
+        );
+      },
+      initialValue: 1,
+      showBorder: false,
     );
   }
 }

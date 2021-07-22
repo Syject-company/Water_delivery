@@ -1,41 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 
-const Size _size = Size(45.0, 45.0);
+const double _elevation = 0.0;
+const double _defaultWidth = 45.0;
+const double _defaultHeight = 45.0;
+const double _defaultBorderRadius = 10.0;
+const double _defaultIconSize = 21.0;
 
 class WaterIconButton extends StatelessWidget {
   const WaterIconButton({
     Key? key,
     required this.onPressed,
     required this.icon,
-    this.iconSize = 26.0,
     this.backgroundColor = AppColors.primaryColor,
     this.foregroundColor = Colors.white,
+    this.width,
+    this.height,
+    this.borderRadius,
+    this.iconSize,
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final IconData icon;
-  final double iconSize;
   final Color backgroundColor;
   final Color foregroundColor;
+  final double? width;
+  final double? height;
+  final double? borderRadius;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        elevation: 0.0,
-        minimumSize: _size,
-        padding: EdgeInsets.zero,
-        backgroundColor: backgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    return SizedBox(
+      width: width ?? _defaultWidth,
+      height: height ?? _defaultHeight,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          elevation: _elevation,
+          padding: EdgeInsets.zero,
+          backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              borderRadius ?? _defaultBorderRadius,
+            ),
+          ),
         ),
-      ),
-      child: Icon(
-        icon,
-        color: foregroundColor,
-        size: iconSize,
+        child: Icon(
+          icon,
+          color: foregroundColor,
+          size: iconSize ?? _defaultIconSize,
+        ),
       ),
     );
   }

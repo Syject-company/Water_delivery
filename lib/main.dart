@@ -9,6 +9,8 @@ import 'package:water/util/session.dart';
 
 import 'locator.dart';
 
+const double _iPhoneProMaxWidth = 414;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -26,13 +28,13 @@ void main() async {
       fallbackLocale: Localization.defaultLocale,
       useFallbackTranslations: true,
       assetLoader: YamlAssetLoader(),
-      child: GulfaWaterApp(),
+      child: const GulfaWaterApp(),
     ),
   );
 }
 
 class GulfaWaterApp extends StatelessWidget {
-  GulfaWaterApp({Key? key}) : super(key: key);
+  const GulfaWaterApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class GulfaWaterApp extends StatelessWidget {
       builder: (context, widget) {
         return ResponsiveWrapper.builder(
           widget,
-          minWidth: 414,
+          minWidth: _iPhoneProMaxWidth,
           defaultScale: true,
         );
       },

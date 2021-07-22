@@ -46,6 +46,7 @@ class SelectLanguagePage extends StatelessWidget {
       'select_language.title'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
+      textAlign: TextAlign.center,
     );
   }
 
