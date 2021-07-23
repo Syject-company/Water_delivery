@@ -48,11 +48,17 @@ class WaterBottomNavigationBar extends StatelessWidget {
       buttons.add(
         GestureDetector(
           onTap: () {
-            _buttonsKeys.where((key) => key != buttonKey).forEach((key) {
-              key.currentState!.selected = false;
-            });
-            buttonKey.currentState!.selected = true;
-            onSelected(index);
+            if (item.selectable) {
+              _buttonsKeys.where((key) => key != buttonKey).forEach((key) {
+                key.currentState!.selected = false;
+              });
+              buttonKey.currentState!.selected = true;
+              onSelected(index);
+            }
+
+            if (item.onPressed != null) {
+              item.onPressed!();
+            }
           },
           child: WaterBottomNavigationBarButton(
             key: buttonKey,

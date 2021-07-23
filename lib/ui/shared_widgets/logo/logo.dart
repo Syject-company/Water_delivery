@@ -35,7 +35,7 @@ class WaterLogo extends StatelessWidget {
   Widget _buildIcon(BuildContext context) {
     return SvgPicture.asset(
       Paths.logoIcon,
-      color: AppColors.secondaryColor,
+      color: AppColors.secondary,
       width: MediaQuery.of(context).size.width / iconWidthFactor,
     );
   }

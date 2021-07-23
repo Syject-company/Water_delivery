@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
 import 'package:water/ui/screens/router.dart';
-import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
 
 import 'pages/enter_email.dart';

@@ -1,51 +1,82 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
+const Duration _animationDuration = Duration(milliseconds: 250);
+
 class Toast {
+  static final ListQueue<_ToastEntry> _toastQueue = ListQueue();
+  static _ToastEntry? _currentToast;
+
   static void showToast(
     BuildContext context, {
     required Widget child,
     required Duration duration,
-    Curve curve = Curves.linear,
+    Curve curve = Curves.easeInOutCubic,
   }) async {
-    final toast = ToastEntry(
-      duration: duration,
-      child: child,
-    );
     final entry = OverlayEntry(
       builder: (context) {
         return Positioned(
-          top: 24 + 72.0,
+          top: 12.0,
           left: 12.0,
           right: 12.0,
-          child: toast,
+          child: _ToastWidget(
+            duration: duration,
+            curve: curve,
+            child: child,
+          ),
         );
       },
     );
+    _toastQueue.add(_ToastEntry(entry: entry, duration: duration));
 
-    final state = Overlay.of(context);
-    state?.insert(entry);
+    _showToastFromQueue(context);
+  }
 
-    await Future.delayed(duration + Duration(milliseconds: 375));
+  static void _showToastFromQueue(BuildContext context) async {
+    if (_toastQueue.isNotEmpty && _currentToast == null) {
+      final toast = _currentToast = _toastQueue.first;
+      final state = Overlay.of(context);
+      state?.insert(toast.entry);
 
-    entry.remove();
+      await Future.delayed(toast.duration + _animationDuration);
+
+      _toastQueue.remove(toast);
+      toast.entry.remove();
+      _currentToast = null;
+
+      _showToastFromQueue(context);
+    }
   }
 }
 
-class ToastEntry extends StatefulWidget {
-  const ToastEntry({
+class _ToastEntry {
+  const _ToastEntry({
+    required this.entry,
+    required this.duration,
+  });
+
+  final OverlayEntry entry;
+  final Duration duration;
+}
+
+class _ToastWidget extends StatefulWidget {
+  const _ToastWidget({
     Key? key,
     required this.duration,
     required this.child,
+    required this.curve,
   }) : super(key: key);
 
   final Duration duration;
   final Widget child;
+  final Curve curve;
 
   @override
-  _ToastEntryState createState() => _ToastEntryState();
+  _ToastWidgetState createState() => _ToastWidgetState();
 }
 
-class _ToastEntryState extends State<ToastEntry>
+class _ToastWidgetState extends State<_ToastWidget>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final CurvedAnimation _curvedAnimation;
@@ -54,13 +85,13 @@ class _ToastEntryState extends State<ToastEntry>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 375),
+      duration: _animationDuration,
       vsync: this,
     )
       ..addListener(() => setState(() {}))
       ..forward();
-    _curvedAnimation = CurvedAnimation(
-        parent: _animationController, curve: Curves.easeInOutCubic);
+    _curvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: widget.curve);
 
     Future.delayed(widget.duration, () {
       _animationController.reverse();
@@ -75,13 +106,15 @@ class _ToastEntryState extends State<ToastEntry>
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _curvedAnimation,
+    return SafeArea(
       child: SlideTransition(
         position:
             Tween<Offset>(begin: Offset(0.0, -0.25), end: Offset(0.0, 0.0))
                 .animate(_curvedAnimation),
-        child: widget.child,
+        child: FadeTransition(
+          opacity: _curvedAnimation,
+          child: widget.child,
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
-import 'package:water/ui/shared_widgets/button/appbar_icon_button.dart';
+import 'package:water/ui/shared_widgets/app_bar.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_notification_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
@@ -60,9 +62,8 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      toolbarHeight: 72.0,
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return WaterAppBar(
       leading: AppBarBackButton(
         onPressed: () {},
       ),
@@ -71,13 +72,10 @@ class ProductScreen extends StatelessWidget {
           icon: AppIcons.whatsapp,
           onPressed: () {},
         ),
-        AppBarIconButton(
-          icon: AppIcons.notification,
+        AppBarNotificationButton(
           onPressed: () {},
         ),
       ],
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
     );
   }
 
@@ -95,7 +93,7 @@ class ProductScreen extends StatelessWidget {
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.right,
-      color: AppColors.secondaryTextColor,
+      color: AppColors.secondaryText,
     );
   }
 
@@ -126,7 +124,7 @@ class ProductScreen extends StatelessWidget {
       fontSize: 16.0,
       lineHeight: 2.0,
       fontWeight: FontWeight.w500,
-      color: AppColors.secondaryTextColor,
+      color: AppColors.secondaryText,
     );
   }
 

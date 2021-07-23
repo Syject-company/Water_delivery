@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/main/main_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
@@ -13,7 +15,10 @@ class HomeRouter {
     switch (settings.name) {
       case HomeRoutes.main:
         return SlideWithFadeRoute(
-          builder: (_) => MainScreen(),
+          builder: (_) => BlocProvider(
+            create: (_) => MainBloc(),
+            child: MainScreen(),
+          ),
         );
       default:
         return SlideWithFadeRoute(
@@ -24,7 +29,7 @@ class HomeRouter {
                   'No route defined for ${settings.name}',
                   style: const TextStyle(
                     fontSize: 18.0,
-                    color: AppColors.primaryTextColor,
+                    color: AppColors.primaryText,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

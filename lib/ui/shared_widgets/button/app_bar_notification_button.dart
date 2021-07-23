@@ -53,7 +53,7 @@ class AppBarNotificationButton extends StatelessWidget {
   Widget _buildIcon() {
     return Icon(
       AppIcons.notification,
-      color: AppColors.primaryTextColor,
+      color: AppColors.primaryText,
       size: _iconSize,
     );
   }
@@ -63,7 +63,7 @@ class AppBarNotificationButton extends StatelessWidget {
       width: 14.0,
       height: 14.0,
       decoration: BoxDecoration(
-        color: AppColors.primaryColor,
+        color: AppColors.primary,
         shape: BoxShape.circle,
       ),
       child: Padding(
@@ -74,7 +74,7 @@ class AppBarNotificationButton extends StatelessWidget {
           fontSize: 9.0,
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
-          color: Colors.white,
+          color: AppColors.white,
         ),
       ),
     );

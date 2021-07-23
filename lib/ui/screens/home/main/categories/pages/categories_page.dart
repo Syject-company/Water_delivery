@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/main/categories/categories_bloc.dart';
+import 'package:water/bloc/home/main/main_bloc.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -57,6 +58,7 @@ class CategoryListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.categories.add(LoadProducts(category: ''));
+        context.main.add(ChangeScreen(screen: Screen.products));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(19.0),

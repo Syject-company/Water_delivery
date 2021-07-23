@@ -30,12 +30,12 @@ class WaterRadioButton extends StatelessWidget {
           height: _circleHeight,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: selected ? AppColors.primaryColor : Colors.transparent,
+            color: selected ? AppColors.primary : Colors.transparent,
             border: Border.all(
               width: _circleBorderWidth,
               color: selected
-                  ? AppColors.primaryColor
-                  : AppColors.secondaryTextColor,
+                  ? AppColors.primary
+                  : AppColors.secondaryText,
             ),
           ),
         ),
@@ -43,7 +43,7 @@ class WaterRadioButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: WaterText(
             label,
-            color: AppColors.secondaryTextColor,
+            color: AppColors.secondaryText,
             fontSize: _labelFontSize,
             lineHeight: _labelLineHeight,
           ),

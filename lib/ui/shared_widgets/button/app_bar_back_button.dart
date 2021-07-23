@@ -22,7 +22,7 @@ class AppBarBackButton extends StatelessWidget {
         child: Center(
           child: Icon(
             _getPlatformIconData(),
-            color: AppColors.primaryTextColor,
+            color: AppColors.primaryText,
             size: _iconSize,
           ),
         ),
@@ -37,7 +37,7 @@ class AppBarBackButton extends StatelessWidget {
         Platform.isWindows) {
       return Icons.arrow_back;
     } else if (Platform.isIOS || Platform.isMacOS) {
-      return Icons.arrow_back_ios_new;
+      return Icons.arrow_back_ios;
     }
   }
 }

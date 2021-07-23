@@ -45,7 +45,7 @@ class RootRouter {
                 'No route defined for ${settings.name}',
                 style: const TextStyle(
                   fontSize: 18.0,
-                  color: AppColors.primaryTextColor,
+                  color: AppColors.primaryText,
                   fontWeight: FontWeight.w600,
                 ),
               ),

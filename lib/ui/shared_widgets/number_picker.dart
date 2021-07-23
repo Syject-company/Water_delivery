@@ -40,17 +40,13 @@ class WaterNumberPicker extends StatefulWidget {
 }
 
 class _WaterNumberPickerState extends State<WaterNumberPicker> {
-  late int _counter = 0;
+  late int _counter;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (widget.initialValue != null) {
-        _counter = widget.initialValue!;
-        widget.onChanged(_counter);
-      }
-    });
+    _counter = widget.initialValue ?? widget.minValue;
+    widget.onChanged(_counter);
   }
 
   @override
@@ -69,7 +65,6 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
                   widget.size == PickerSize.small
                       ? _smallBorderRadius
                       : _largeBorderRadius),
-              // color: Colors.blue,
             ),
           ),
         Row(
@@ -112,7 +107,7 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
   Widget _buildIncrementButton() {
     return _buildButton(
       onPressed: () {
-        if (_counter - widget.step > widget.maxValue) {
+        if (_counter + widget.step > widget.maxValue) {
           setState(() => _counter = widget.maxValue);
         } else {
           setState(() => _counter += widget.step);
@@ -140,8 +135,8 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
           ? _smallBorderRadius
           : _largeBorderRadius,
       backgroundColor:
-          _counter > 0 ? AppColors.primaryColor : AppColors.secondaryColor,
-      foregroundColor: _counter > 0 ? Colors.white : AppColors.primaryTextColor,
+          _counter > 0 ? AppColors.primary : AppColors.secondary,
+      foregroundColor: _counter > 0 ? AppColors.white : AppColors.primaryText,
     );
   }
 }

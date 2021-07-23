@@ -1,20 +1,23 @@
 part of 'main_bloc.dart';
 
-abstract class MainState extends Equatable {
-  const MainState();
+enum Screen {
+  categories,
+  products,
+  profile,
+  shoppingCart,
+  menu,
 }
 
-enum Pages {
-  Categories,
-  Products,
-  Profile,
-  ShoppingCart,
-  Menu,
-}
+class MainState extends Equatable {
+  const MainState({required this.screen});
 
-class MainInitial extends MainState {
-  const MainInitial();
+  final Screen screen;
+
+  MainState copyWith({
+    Screen? screen,
+  }) =>
+      MainState(screen: screen ?? this.screen);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [screen];
 }

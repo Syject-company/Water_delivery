@@ -63,7 +63,7 @@ class EnterNewPasswordPage extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
-                color: AppColors.errorTextColor,
+                color: AppColors.errorText,
               );
             },
           ),

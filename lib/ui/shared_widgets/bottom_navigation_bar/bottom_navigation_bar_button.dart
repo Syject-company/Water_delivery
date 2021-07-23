@@ -1,8 +1,8 @@
 part of 'bottom_navigation_bar.dart';
 
 const double _iconSize = 26.0;
-const Color _selectedIconColor = Colors.white;
-const Color _unselectedIconColor = AppColors.primaryTextColor;
+const Color _selectedIconColor = AppColors.white;
+const Color _unselectedIconColor = AppColors.primaryText;
 const double _borderRadius = 15.0;
 
 class WaterBottomNavigationBarButton extends StatefulWidget {
@@ -36,7 +36,7 @@ class WaterBottomNavigationBarButtonState
       aspectRatio: 1.0,
       child: Container(
         decoration: BoxDecoration(
-          color: _selected ? AppColors.primaryColor : Colors.transparent,
+          color: _selected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(_borderRadius),
         ),
         child: IconTheme(

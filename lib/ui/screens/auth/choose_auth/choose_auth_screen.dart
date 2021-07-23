@@ -48,8 +48,8 @@ class ChooseAuthScreen extends StatelessWidget {
     return WaterButton(
       onPressed: () => Navigator.of(context).pushNamed(AuthRoutes.signUp),
       text: 'choose_auth.sign_up'.tr(),
-      backgroundColor: AppColors.secondaryColor,
-      foregroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.secondary,
+      foregroundColor: AppColors.primary,
     );
   }
 }

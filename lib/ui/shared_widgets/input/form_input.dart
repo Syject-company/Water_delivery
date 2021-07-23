@@ -15,21 +15,21 @@ const EdgeInsetsGeometry _contentPadding =
 const OutlineInputBorder _defaultBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
   borderSide: BorderSide(
-    color: AppColors.inputDefaultBorderColor,
+    color: AppColors.inputDefaultBorder,
     width: _borderWidth,
   ),
 );
 const OutlineInputBorder _focusedBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
   borderSide: BorderSide(
-    color: AppColors.inputFocusedBorderColor,
+    color: AppColors.inputFocusedBorder,
     width: _borderWidth,
   ),
 );
 const OutlineInputBorder _errorBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
   borderSide: BorderSide(
-    color: AppColors.inputErrorBorderColor,
+    color: AppColors.inputErrorBorder,
     width: _borderWidth,
   ),
 );
@@ -73,9 +73,9 @@ class FormInputState extends State<FormInput> {
       obscureText: isPassword,
       enableSuggestions: !isPassword,
       autocorrect: !isPassword,
-      cursorColor: AppColors.primaryColor,
+      cursorColor: AppColors.primary,
       style: const TextStyle(
-        color: AppColors.primaryTextColor,
+        color: AppColors.primaryText,
         fontSize: _fontSize,
         fontWeight: FontWeight.w500,
       ).poppins,
@@ -91,12 +91,12 @@ class FormInputState extends State<FormInput> {
         errorBorder: _errorBorder,
         labelText: widget.labelText,
         labelStyle: const TextStyle(
-          color: AppColors.secondaryTextColor,
+          color: AppColors.secondaryText,
           fontSize: _labelFontSize,
           fontWeight: FontWeight.w500,
         ).poppins,
         errorStyle: const TextStyle(
-          color: AppColors.errorTextColor,
+          color: AppColors.errorText,
           fontSize: _errorFontSize,
           fontWeight: FontWeight.w600,
         ).poppins,

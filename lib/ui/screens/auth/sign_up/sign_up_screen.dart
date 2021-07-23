@@ -5,7 +5,7 @@ import 'package:water/bloc/auth/auth_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/router.dart';
-import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/circle_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
@@ -102,7 +102,7 @@ class SignUpScreen extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
-                color: AppColors.errorTextColor,
+                color: AppColors.errorText,
               );
             },
           ),

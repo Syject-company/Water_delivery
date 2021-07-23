@@ -8,7 +8,7 @@ import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/auth/router.dart';
 import 'package:water/ui/screens/router.dart';
-import 'package:water/ui/shared_widgets/button/appbar_back_button.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/circle_button.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
@@ -106,7 +106,7 @@ class SignInScreen extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
-                color: AppColors.errorTextColor,
+                color: AppColors.errorText,
               );
             },
           ),
@@ -134,7 +134,7 @@ class SignInScreen extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(AuthRoutes.forgotPassword),
       child: WaterText(
         'sign_in.forgot_password'.tr(),
-        color: AppColors.primaryColor,
+        color: AppColors.primary,
         fontSize: 16.0,
         lineHeight: 1.5,
         fontWeight: FontWeight.w500,
@@ -148,7 +148,7 @@ class SignInScreen extends StatelessWidget {
       text: TextSpan(
         text: 'sign_in.new_in'.tr(),
         style: const TextStyle(
-          color: AppColors.secondaryTextColor,
+          color: AppColors.secondaryText,
           fontSize: 16.0,
           fontWeight: FontWeight.w500,
         ).poppins,
@@ -159,7 +159,7 @@ class SignInScreen extends StatelessWidget {
               ..onTap =
                   () => Navigator.of(context).pushNamed(AuthRoutes.signUp),
             style: const TextStyle(
-              color: AppColors.primaryColor,
+              color: AppColors.primary,
             ),
           )
         ],

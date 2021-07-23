@@ -14,8 +14,8 @@ class WaterButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
-    this.backgroundColor = AppColors.primaryColor,
-    this.foregroundColor = Colors.white,
+    this.backgroundColor = AppColors.primary,
+    this.foregroundColor = AppColors.white,
   }) : super(key: key);
 
   final VoidCallback onPressed;

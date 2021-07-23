@@ -23,13 +23,13 @@ class WaterCircleButton extends StatelessWidget {
         elevation: _elevation,
         minimumSize: const Size(_width, _height),
         padding: EdgeInsets.zero,
-        backgroundColor: AppColors.secondaryColor,
+        backgroundColor: AppColors.secondary,
         shape: const CircleBorder(),
       ),
       child: Center(
         child: Icon(
           icon,
-          color: AppColors.primaryColor,
+          color: AppColors.primary,
         ),
       ),
     );

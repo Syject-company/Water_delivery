@@ -26,35 +26,35 @@ class ProductsPage extends StatelessWidget {
               ProductListItem(
                 index: 1,
                 text: 'Buxton Pure Lite',
-                path: 'assets/images/bottle_1.5l.png',
+                imagePath: 'assets/images/bottle_1.5l.png',
                 discount: true,
               ),
               ProductListItem(
                 index: 2,
                 text:
                     'Buxton Pure Lite Bux Pure Lite Buxton Pure Buxton Pure Buxton Pure',
-                path: 'assets/images/bottle_330ml.png',
+                imagePath: 'assets/images/bottle_330ml.png',
               ),
               ProductListItem(
                 index: 3,
                 text: 'Buxton Pure Lite',
-                path: 'assets/images/bottle_500ml.png',
+                imagePath: 'assets/images/bottle_500ml.png',
               ),
               ProductListItem(
                 index: 4,
                 text: 'Buxton Pure Lite Buxton Pure Lite',
-                path: 'assets/images/mini_cup.png',
+                imagePath: 'assets/images/mini_cup.png',
                 discount: true,
               ),
               ProductListItem(
                 index: 5,
                 text: 'Buxton Pure Lite',
-                path: 'assets/images/shrink_wrap_1.5l_v1.png',
+                imagePath: 'assets/images/shrink_wrap_1.5l_v1.png',
               ),
               ProductListItem(
                 index: 6,
                 text: 'Buxton Pure Lite',
-                path: 'assets/images/shrink_wrap_500ml_v1.png',
+                imagePath: 'assets/images/shrink_wrap_500ml_v1.png',
                 discount: true,
               ),
             ],
@@ -70,13 +70,13 @@ class ProductListItem extends StatefulWidget {
     Key? key,
     required this.text,
     required this.index,
-    required this.path,
+    required this.imagePath,
     this.discount = false,
   }) : super(key: key);
 
   final String text;
   final int index;
-  final String path;
+  final String imagePath;
   final bool discount;
 
   @override
@@ -85,7 +85,6 @@ class ProductListItem extends StatefulWidget {
 
 class _ProductListItemState extends State<ProductListItem> {
   bool _addedToCart = false;
-  int _amount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +99,7 @@ class _ProductListItemState extends State<ProductListItem> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Expanded(child: Image.asset(widget.path)),
+            Expanded(child: Image.asset(widget.imagePath)),
             const SizedBox(height: 16.0),
             Expanded(
               child: Column(
@@ -142,7 +141,7 @@ class _ProductListItemState extends State<ProductListItem> {
             fontWeight: FontWeight.w500,
             overflow: TextOverflow.ellipsis,
             decoration: TextDecoration.lineThrough,
-            color: AppColors.secondaryTextColor,
+            color: AppColors.secondaryText,
           ),
       ],
     );
@@ -166,7 +165,7 @@ class _ProductListItemState extends State<ProductListItem> {
       lineHeight: 1.5,
       fontWeight: FontWeight.w500,
       overflow: TextOverflow.ellipsis,
-      color: AppColors.secondaryTextColor,
+      color: AppColors.secondaryText,
     );
   }
 
@@ -175,14 +174,12 @@ class _ProductListItemState extends State<ProductListItem> {
       alignment: Alignment.bottomRight,
       child: WaterIconButton(
         onPressed: () {
-          setState(() {
-            _amount += 1;
-            _addedToCart = true;
-          });
+          _showToast('Product has been added to the cart!');
+          setState(() => _addedToCart = true);
         },
         icon: AppIcons.plus,
-        backgroundColor: AppColors.secondaryColor,
-        foregroundColor: AppColors.primaryTextColor,
+        backgroundColor: AppColors.secondary,
+        foregroundColor: AppColors.primaryText,
       ),
     );
   }
@@ -190,39 +187,51 @@ class _ProductListItemState extends State<ProductListItem> {
   Widget _buildAmountPicker() {
     return WaterNumberPicker(
       onChanged: (value) {
-        print(value);
-        setState(() {
-          _addedToCart = value > 0;
-        });
-        Toast.showToast(
-          context,
-          child: Container(
-            padding: EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: AppColors.borderColor),
-              borderRadius: BorderRadius.circular(19.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.25),
-                  spreadRadius: 0.0,
-                  blurRadius: 10.0,
-                  offset: Offset(0.0, 4.0), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Center(
-              child: WaterText(
-                'Product has been added to the cart!',
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-          duration: const Duration(seconds: 2),
-        );
+        if (value == 0) {
+          _showToast('Product has been removed from the cart!');
+          setState(() => _addedToCart = false);
+        }
       },
       initialValue: 1,
       showBorder: false,
+    );
+  }
+
+  void _showToast(String message) {
+    return Toast.showToast(
+      context,
+      child: Container(
+        height: 96.0,
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.borderColor),
+          borderRadius: BorderRadius.circular(19.0),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.25),
+              spreadRadius: 0.0,
+              blurRadius: 10.0,
+              offset: const Offset(0.0, 4.0), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(
+          children: <Widget>[
+            AspectRatio(aspectRatio: 1.0, child: Image.asset(widget.imagePath)),
+            const SizedBox(width: 12.0),
+            Expanded(
+              child: WaterText(
+                message,
+                fontSize: 16.0,
+                textAlign: TextAlign.center,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ],
+        ),
+      ),
+      duration: const Duration(seconds: 2),
     );
   }
 }
