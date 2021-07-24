@@ -3,16 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/constants/paths.dart';
 
-const double _iconWidthFactor = 3.25;
-const double _labelWidthFactor = 2.75;
-
 class WaterLogo extends StatelessWidget {
   const WaterLogo({
     Key? key,
     this.showIcon = true,
     this.showLabel = true,
-    this.iconWidthFactor = _iconWidthFactor,
-    this.labelWidthFactor = _labelWidthFactor,
+    this.iconWidthFactor = 3.25,
+    this.labelWidthFactor = 2.75,
   }) : super(key: key);
 
   final bool showIcon;
@@ -26,7 +23,7 @@ class WaterLogo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         if (showIcon) _buildIcon(context),
-        if (showLabel) const SizedBox(height: 24.0),
+        if (showIcon && showLabel) const SizedBox(height: 24.0),
         if (showLabel) _buildLabel(context),
       ],
     );

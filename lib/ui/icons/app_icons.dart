@@ -36,4 +36,28 @@ class AppIcons {
       IconData(0xe80d, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData apple =
       IconData(0xe80e, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData wallet =
+      IconData(0xe80f, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData instagram =
+      IconData(0xe811, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData twitter =
+      IconData(0xe812, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData drop =
+      IconData(0xe813, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData orders =
+      IconData(0xe814, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData refer_friend =
+      IconData(0xe816, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData profile =
+      IconData(0xe817, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData terms =
+      IconData(0xe819, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData faq =
+      IconData(0xe81a, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData log_out =
+      IconData(0xe81b, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData support =
+      IconData(0xe81c, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData subscription =
+      IconData(0xe81d, fontFamily: _fontFamily, fontPackage: _fontPackage);
 }

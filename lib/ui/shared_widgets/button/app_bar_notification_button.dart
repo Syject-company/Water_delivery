@@ -4,7 +4,6 @@ import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 const double _iconSize = 32.0;
-const EdgeInsetsGeometry _margin = const EdgeInsets.only(right: 16.0);
 
 class AppBarNotificationButton extends StatelessWidget {
   const AppBarNotificationButton({
@@ -18,33 +17,30 @@ class AppBarNotificationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: _margin,
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Center(
-          child: Stack(
-            children: [
-              _buildIcon(),
-              Positioned(
-                right: 0.0,
-                bottom: 0.0,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 375),
-                  reverseDuration: const Duration(milliseconds: 375),
-                  switchInCurve: Curves.easeInOutCubic,
-                  switchOutCurve: Curves.easeInOutCubic,
-                  transitionBuilder: (child, animation) => ScaleTransition(
-                    scale: animation,
-                    child: child,
-                  ),
-                  child: notificationsCount == null
-                      ? const SizedBox.shrink()
-                      : _buildBadge(),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Center(
+        child: Stack(
+          children: [
+            _buildIcon(),
+            PositionedDirectional(
+              end: 0.0,
+              bottom: 0.0,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 375),
+                reverseDuration: const Duration(milliseconds: 375),
+                switchInCurve: Curves.easeInOutCubic,
+                switchOutCurve: Curves.easeInOutCubic,
+                transitionBuilder: (child, animation) => ScaleTransition(
+                  scale: animation,
+                  child: child,
                 ),
+                child: notificationsCount == null
+                    ? const SizedBox.shrink()
+                    : _buildBadge(),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

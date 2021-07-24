@@ -93,17 +93,16 @@ class _ProductListItemState extends State<ProductListItem> {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.borderColor),
           borderRadius: BorderRadius.circular(19.0),
+          border: Border.all(color: AppColors.borderColor),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(child: Image.asset(widget.imagePath)),
             const SizedBox(height: 16.0),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   _buildPriceText(),
                   const SizedBox(height: 2.0),
@@ -171,7 +170,7 @@ class _ProductListItemState extends State<ProductListItem> {
 
   Widget _buildAddToCartButton() {
     return Align(
-      alignment: Alignment.bottomRight,
+      alignment: AlignmentDirectional.bottomEnd,
       child: WaterIconButton(
         onPressed: () {
           _showToast('Product has been added to the cart!');
@@ -217,9 +216,10 @@ class _ProductListItemState extends State<ProductListItem> {
           ],
         ),
         child: Row(
+          textDirection: Directionality.of(context),
           children: <Widget>[
             AspectRatio(aspectRatio: 1.0, child: Image.asset(widget.imagePath)),
-            const SizedBox(width: 12.0),
+            const SizedBox(width: 24.0),
             Expanded(
               child: WaterText(
                 message,

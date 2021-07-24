@@ -15,16 +15,13 @@ class AppBarBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 16.0),
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Center(
-          child: Icon(
-            _getPlatformIconData(),
-            color: AppColors.primaryText,
-            size: _iconSize,
-          ),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Center(
+        child: Icon(
+          _getPlatformIconData(),
+          color: AppColors.primaryText,
+          size: _iconSize,
         ),
       ),
     );

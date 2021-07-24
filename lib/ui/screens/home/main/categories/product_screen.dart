@@ -92,7 +92,6 @@ class ProductScreen extends StatelessWidget {
       '0.33LT',
       fontSize: 24.0,
       lineHeight: 2.0,
-      textAlign: TextAlign.right,
       color: AppColors.secondaryText,
     );
   }

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 
-const double _elevation = 0.0;
 const double _width = 60.0;
 const double _height = 60.0;
+const double _elevation = 0.0;
 
 class WaterCircleButton extends StatelessWidget {
   const WaterCircleButton({
     Key? key,
     required this.onPressed,
     required this.icon,
+    this.iconSize,
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final IconData icon;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class WaterCircleButton extends StatelessWidget {
         child: Icon(
           icon,
           color: AppColors.primary,
+          size: iconSize,
         ),
       ),
     );

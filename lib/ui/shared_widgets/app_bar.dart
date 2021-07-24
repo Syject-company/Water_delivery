@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 const double appBarHeight = 72.0;
+
+const double _actionsSpaceBetween = 16.0;
 const double _elevation = 0.0;
 
 class WaterAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,12 +22,19 @@ class WaterAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: title,
       leading: leading,
-      actions: actions,
+      actions: _buildActionsButtons(),
       elevation: _elevation,
       toolbarHeight: appBarHeight,
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
     );
+  }
+
+  List<Widget> _buildActionsButtons() {
+    final buttons = <Widget>[];
+    actions?.forEach((action) =>
+        buttons.addAll([action, const SizedBox(width: _actionsSpaceBetween)]));
+    return buttons;
   }
 
   @override

@@ -7,7 +7,7 @@ class WaterText extends StatelessWidget {
     this.text, {
     Key? key,
     this.fontSize = 15.0,
-    this.textAlign = TextAlign.left,
+    this.textAlign = TextAlign.start,
     this.fontWeight = FontWeight.w600,
     this.color = AppColors.primaryText,
     this.softWrap,
@@ -36,6 +36,7 @@ class WaterText extends StatelessWidget {
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
+      textDirection: Directionality.of(context),
       style: TextStyle(
         color: color,
         fontSize: fontSize,
