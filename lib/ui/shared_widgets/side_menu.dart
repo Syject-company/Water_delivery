@@ -10,7 +10,7 @@ const double _velocity = 1.0;
 const double _elevation = 8.0;
 const double _maxWidth = 372.0;
 const double _minFlingVelocity = 365.0;
-const Duration _settleDuration = Duration(milliseconds: 350);
+const Duration _settleDuration = Duration(milliseconds: 250);
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -40,6 +40,9 @@ class SideMenu extends StatefulWidget {
 
   /// Optional callback that is called when a [SideMenu] is opened or closed.
   final DrawerCallback? drawerCallback;
+
+  static SideMenuState of(BuildContext context) =>
+      context.findAncestorStateOfType<SideMenuState>()!;
 
   @override
   SideMenuState createState() => SideMenuState();
@@ -73,7 +76,7 @@ class SideMenuState extends State<SideMenu>
     _controller = AnimationController(
       duration: _settleDuration,
       vsync: this,
-      value: 1.0,
+      value: 0.0,
     )
       ..addListener(() => setState(() {}))
       ..addStatusListener(_animationStatusChanged);

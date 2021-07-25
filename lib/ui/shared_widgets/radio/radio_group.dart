@@ -11,6 +11,8 @@ class WaterRadioGroup<T> extends StatefulWidget {
     this.axis = Axis.vertical,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.spaceBetween = 16.0,
+    this.labelFontSize,
+    this.labelLineHeight,
   })  : assert(spaceBetween >= 0.0),
         super(key: key);
 
@@ -20,6 +22,8 @@ class WaterRadioGroup<T> extends StatefulWidget {
   final Axis axis;
   final MainAxisAlignment mainAxisAlignment;
   final double spaceBetween;
+  final double? labelFontSize;
+  final double? labelLineHeight;
 
   @override
   _WaterRadioGroupState<T> createState() => _WaterRadioGroupState();
@@ -58,6 +62,8 @@ class _WaterRadioGroupState<E> extends State<WaterRadioGroup<E>> {
           child: WaterRadioButton(
             label: label,
             selected: _selectedValue != null && _selectedValue == value,
+            labelFontSize: widget.labelFontSize,
+            labelLineHeight: widget.labelLineHeight,
           ),
         ),
       );

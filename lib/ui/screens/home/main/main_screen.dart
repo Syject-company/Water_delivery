@@ -4,7 +4,6 @@ import 'package:water/bloc/home/main/categories/categories_bloc.dart';
 import 'package:water/bloc/home/main/main_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/screens/home/main/categories/categories_screen.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/app_bar.dart';
 import 'package:water/ui/shared_widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
@@ -17,11 +16,14 @@ import 'package:water/ui/shared_widgets/side_menu.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/session.dart';
 
+import 'categories/categories_screen.dart';
+import 'profile/profile_screen.dart';
+
 class MainScreen extends StatelessWidget {
   MainScreen({Key? key}) : super(key: key);
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -40,34 +42,34 @@ class MainScreen extends StatelessWidget {
                   create: (context) => CategoriesBloc(),
                   child: CategoriesScreen(),
                 ),
+                ProfileScreen(),
               ],
             ),
-            bottomNavigationBar: Builder(
-              builder: (context) => WaterBottomNavigationBar(
-                onSelected: (index) {},
-                items: <WaterBottomNavigationBarItem>[
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_categories),
-                    selectedIcon: Icon(AppIcons.bar_categories_filled),
-                  ),
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_profile),
-                    selectedIcon: Icon(AppIcons.bar_profile_filled),
-                  ),
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_shopping_cart),
-                    selectedIcon: Icon(AppIcons.bar_shopping_cart_filled),
-                  ),
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_menu),
-                    selectedIcon: Icon(AppIcons.bar_menu_filled),
-                    selectable: false,
-                    onPressed: () {
-                      _sideMenuKey.currentState!.open();
-                    },
-                  ),
-                ],
-              ),
+            bottomNavigationBar: WaterBottomNavigationBar(
+              onSelected: (index) => _pageController.jumpToPage(index),
+              items: <WaterBottomNavigationBarItem>[
+                WaterBottomNavigationBarItem(
+                  icon: Icon(AppIcons.bar_categories),
+                  selectedIcon: Icon(AppIcons.bar_categories_filled),
+                ),
+                WaterBottomNavigationBarItem(
+                  icon: Icon(AppIcons.bar_profile),
+                  selectedIcon: Icon(AppIcons.bar_profile_filled),
+                ),
+                WaterBottomNavigationBarItem(
+                  icon: Icon(AppIcons.bar_shopping_cart),
+                  selectedIcon: Icon(AppIcons.bar_shopping_cart_filled),
+                ),
+                WaterBottomNavigationBarItem(
+                  icon: Icon(AppIcons.bar_menu),
+                  selectedIcon: Icon(AppIcons.bar_menu_filled),
+                  selectable: false,
+                  onPressed: () {
+                    // SideMenu.of(context).open();
+                    _sideMenuKey.currentState!.open();
+                  },
+                ),
+              ],
             ),
           ),
         );

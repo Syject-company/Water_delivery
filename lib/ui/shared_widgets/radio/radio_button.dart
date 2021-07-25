@@ -14,10 +14,14 @@ class WaterRadioButton extends StatelessWidget {
     Key? key,
     required this.label,
     this.selected = false,
+    this.labelFontSize,
+    this.labelLineHeight,
   }) : super(key: key);
 
   final String label;
   final bool selected;
+  final double? labelFontSize;
+  final double? labelLineHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +37,7 @@ class WaterRadioButton extends StatelessWidget {
             color: selected ? AppColors.primary : Colors.transparent,
             border: Border.all(
               width: _circleBorderWidth,
-              color: selected
-                  ? AppColors.primary
-                  : AppColors.secondaryText,
+              color: selected ? AppColors.primary : AppColors.secondaryText,
             ),
           ),
         ),
@@ -44,8 +46,8 @@ class WaterRadioButton extends StatelessWidget {
           child: WaterText(
             label,
             color: AppColors.secondaryText,
-            fontSize: _labelFontSize,
-            lineHeight: _labelLineHeight,
+            fontSize: labelFontSize ?? _labelFontSize,
+            lineHeight: labelLineHeight ?? _labelLineHeight,
           ),
         )
       ],

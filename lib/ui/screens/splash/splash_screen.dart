@@ -8,7 +8,7 @@ import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
 import 'package:water/util/session.dart';
 
-import 'pages/select_language.dart';
+import 'pages/select_language_page.dart';
 
 const Duration _fadeDuration = Duration(milliseconds: 375);
 const Duration _pageSwapDuration = Duration(milliseconds: 375);

@@ -39,13 +39,16 @@ class GulfaWaterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, widget) {
+      builder: (_, child) {
         return ResponsiveWrapper.builder(
-          widget,
+          child,
           minWidth: _iPhoneProMaxWidth,
           defaultScale: true,
         );
       },
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+      ),
       title: 'Gulfa Water',
       // TODO: test only
       initialRoute: AppRoutes.home,

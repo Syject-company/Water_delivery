@@ -79,7 +79,8 @@ class _ToastWidget extends StatefulWidget {
 class _ToastWidgetState extends State<_ToastWidget>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
-  late final CurvedAnimation _curvedAnimation;
+  late final Animation<Offset> _positionAnimation;
+  late final Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -90,8 +91,20 @@ class _ToastWidgetState extends State<_ToastWidget>
     )
       ..addListener(() => setState(() {}))
       ..forward();
-    _curvedAnimation =
-        CurvedAnimation(parent: _animationController, curve: widget.curve);
+    _positionAnimation = Tween<Offset>(
+      begin: Offset(0.0, -0.25),
+      end: Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: widget.curve,
+    ));
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: widget.curve,
+    ));
 
     Future.delayed(widget.duration, () {
       _animationController.reverse();
@@ -108,11 +121,9 @@ class _ToastWidgetState extends State<_ToastWidget>
   Widget build(BuildContext context) {
     return SafeArea(
       child: SlideTransition(
-        position:
-            Tween<Offset>(begin: Offset(0.0, -0.25), end: Offset(0.0, 0.0))
-                .animate(_curvedAnimation),
+        position: _positionAnimation,
         child: FadeTransition(
-          opacity: _curvedAnimation,
+          opacity: _opacityAnimation,
           child: widget.child,
         ),
       ),

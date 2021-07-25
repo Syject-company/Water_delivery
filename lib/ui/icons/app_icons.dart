@@ -46,10 +46,14 @@ class AppIcons {
       IconData(0xe813, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData orders =
       IconData(0xe814, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData phone =
+      IconData(0xe815, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData refer_friend =
       IconData(0xe816, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData profile =
       IconData(0xe817, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData arrow_down =
+      IconData(0xe818, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData terms =
       IconData(0xe819, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData faq =
