@@ -4,78 +4,84 @@ import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/button/icon_button.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
-const double _smallFontSize = 18.0;
-const double _smallIconSize = 21.0;
-const double _smallBorderRadius = 10.0;
-const double _smallButtonSize = 45.0;
+const double _smallFontSize = 15.0;
+const double _smallIconSize = 16.0;
+const double _smallBorderRadius = 8.0;
+const double _smallButtonSize = 34.0;
+
+const double _mediumFontSize = 18.0;
+const double _mediumIconSize = 21.0;
+const double _mediumBorderRadius = 10.0;
+const double _mediumButtonSize = 45.0;
+
 const double _largeFontSize = 24.0;
 const double _largeIconSize = 26.0;
 const double _largeBorderRadius = 12.0;
 const double _largeButtonSize = 56.0;
 
-enum PickerSize { small, large }
+enum PickerSize { small, medium, large }
 
 class WaterNumberPicker extends StatefulWidget {
   const WaterNumberPicker({
     Key? key,
     required this.onChanged,
+    this.alignment = Alignment.center,
+    this.size = PickerSize.medium,
     this.minValue = 0,
     this.maxValue = 999,
     this.step = 1,
     this.showBorder = true,
     this.initialValue,
-    this.size = PickerSize.small,
+    this.maxWidth,
   }) : super(key: key);
 
   final ValueChanged<int> onChanged;
+  final AlignmentGeometry alignment;
+  final PickerSize size;
   final int minValue;
   final int maxValue;
   final int step;
   final bool showBorder;
   final int? initialValue;
-  final PickerSize size;
+  final double? maxWidth;
 
   @override
   _WaterNumberPickerState createState() => _WaterNumberPickerState();
 }
 
 class _WaterNumberPickerState extends State<WaterNumberPicker> {
-  late int _counter;
-
-  @override
-  void initState() {
-    super.initState();
-    _counter = widget.initialValue ?? widget.minValue;
-    widget.onChanged(_counter);
-  }
+  late int _counter = widget.initialValue ?? widget.minValue;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        if (widget.showBorder)
-          Container(
-            height: widget.size == PickerSize.small
-                ? _smallButtonSize
-                : _largeButtonSize,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.borderColor),
-              borderRadius: BorderRadius.circular(
-                  widget.size == PickerSize.small
-                      ? _smallBorderRadius
-                      : _largeBorderRadius),
-            ),
-          ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Align(
+      alignment: widget.alignment,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: widget.maxWidth ?? double.infinity,
+        ),
+        child: Stack(
           children: <Widget>[
-            _buildDecrementButton(),
-            Flexible(child: _buildCounter()),
-            _buildIncrementButton(),
+            if (!widget.showBorder)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.borderColor),
+                    borderRadius: BorderRadius.circular(_sizes.borderRadius),
+                  ),
+                ),
+              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildDecrementButton(),
+                Flexible(child: _buildCounter()),
+                _buildIncrementButton(),
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 
@@ -97,8 +103,7 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
     return WaterText(
       '$_counter',
       maxLines: 1,
-      fontSize:
-          widget.size == PickerSize.small ? _smallFontSize : _largeFontSize,
+      fontSize: _sizes.fontSize,
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
     );
@@ -125,18 +130,52 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
     return WaterIconButton(
       onPressed: onPressed,
       icon: icon,
-      width:
-          widget.size == PickerSize.small ? _smallButtonSize : _largeButtonSize,
-      height:
-          widget.size == PickerSize.small ? _smallButtonSize : _largeButtonSize,
-      iconSize:
-          widget.size == PickerSize.small ? _smallIconSize : _largeIconSize,
-      borderRadius: widget.size == PickerSize.small
-          ? _smallBorderRadius
-          : _largeBorderRadius,
-      backgroundColor:
-          _counter > 0 ? AppColors.primary : AppColors.secondary,
+      width: _sizes.buttonSize,
+      height: _sizes.buttonSize,
+      iconSize: _sizes.iconSize,
+      borderRadius: _sizes.borderRadius,
+      backgroundColor: _counter > 0 ? AppColors.primary : AppColors.secondary,
       foregroundColor: _counter > 0 ? AppColors.white : AppColors.primaryText,
     );
   }
+
+  _Sizes get _sizes {
+    switch (widget.size) {
+      case PickerSize.small:
+        return const _Sizes(
+          fontSize: _smallFontSize,
+          iconSize: _smallIconSize,
+          borderRadius: _smallBorderRadius,
+          buttonSize: _smallButtonSize,
+        );
+      case PickerSize.medium:
+        return const _Sizes(
+          fontSize: _mediumFontSize,
+          iconSize: _mediumIconSize,
+          borderRadius: _mediumBorderRadius,
+          buttonSize: _mediumButtonSize,
+        );
+      case PickerSize.large:
+        return const _Sizes(
+          fontSize: _largeFontSize,
+          iconSize: _largeIconSize,
+          borderRadius: _largeBorderRadius,
+          buttonSize: _largeButtonSize,
+        );
+    }
+  }
+}
+
+class _Sizes {
+  const _Sizes({
+    required this.fontSize,
+    required this.iconSize,
+    required this.borderRadius,
+    required this.buttonSize,
+  });
+
+  final double fontSize;
+  final double iconSize;
+  final double borderRadius;
+  final double buttonSize;
 }

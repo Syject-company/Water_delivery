@@ -14,9 +14,9 @@ class EnterNewPasswordPage extends StatelessWidget {
   EnterNewPasswordPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<FormInputState> _codeInputKey = GlobalKey();
-  final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
-  final GlobalKey<FormInputState> _confirmPasswordInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _codeInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _passwordInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _confirmPasswordInputKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -68,25 +68,25 @@ class EnterNewPasswordPage extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _codeInputKey,
             validator: const FieldValidator(fieldName: 'Code').validator,
-            labelText: 'global.code'.tr(),
+            hintText: 'global.code'.tr(),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _passwordInputKey,
             validator: const PasswordValidator().validator,
-            labelText: 'global.password'.tr(),
+            hintText: 'global.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _confirmPasswordInputKey,
             validator:
                 const FieldValidator(fieldName: 'Confirm Password').validator,
-            labelText: 'global.confirm_password'.tr(),
+            hintText: 'global.confirm_password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
         ],

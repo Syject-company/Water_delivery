@@ -25,8 +25,8 @@ class SignInScreen extends StatelessWidget {
   }
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey();
-  final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
-  final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _passwordInputKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -111,17 +111,17 @@ class SignInScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _emailInputKey,
             validator: const EmailValidator().validator,
-            labelText: 'global.email'.tr(),
+            hintText: 'global.email'.tr(),
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _passwordInputKey,
             validator: const PasswordValidator().validator,
-            labelText: 'global.password'.tr(),
+            hintText: 'global.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
         ],

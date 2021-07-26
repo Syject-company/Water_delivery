@@ -4,6 +4,7 @@ import 'package:water/bloc/home/main/categories/categories_bloc.dart';
 import 'package:water/bloc/home/main/main_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/screens/home/main/shopping_cart/shopping_cart_screen.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/app_bar.dart';
 import 'package:water/ui/shared_widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
@@ -23,7 +24,7 @@ class MainScreen extends StatelessWidget {
   MainScreen({Key? key}) : super(key: key);
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
-  final PageController _pageController = PageController(initialPage: 1);
+  final PageController _pageController = PageController(initialPage: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class MainScreen extends StatelessWidget {
                   child: CategoriesScreen(),
                 ),
                 ProfileScreen(),
+                ShoppingCartScreen(),
               ],
             ),
             bottomNavigationBar: WaterBottomNavigationBar(

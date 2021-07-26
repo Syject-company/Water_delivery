@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
+import 'package:water/ui/shared_widgets/input/form_datepicker.dart';
 import 'package:water/ui/shared_widgets/input/form_input.dart';
-import 'package:water/ui/shared_widgets/input/select_form_input.dart';
+import 'package:water/ui/shared_widgets/input/form_select.dart';
+import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/localization.dart';
@@ -23,12 +25,14 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 24.0),
           _buildLanguagePicker(context),
           const SizedBox(height: 24.0),
-          _buildUserInputForm(),
+          _buildUserInputForm(context),
           const SizedBox(height: 24.0),
           _buildDeliveryText(),
           const SizedBox(height: 24.0),
           _buildDeliveryInputForm(),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 24.0),
+          _buildFamilyMembersPicker(),
+          const SizedBox(height: 24.0),
           _buildSaveButton(),
           const SizedBox(height: 16.0),
           _buildChangePasswordButton(),
@@ -66,28 +70,28 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUserInputForm() {
+  Widget _buildUserInputForm(BuildContext context) {
     return Form(
       child: Column(
         children: <Widget>[
-          FormInput(
-            labelText: 'First Name',
+          WaterFormInput(
+            hintText: 'First Name',
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
-            labelText: 'Last Name',
+          WaterFormInput(
+            hintText: 'Last Name',
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
-            labelText: 'Email',
+          WaterFormInput(
+            hintText: 'Email',
             readOnly: true,
             initialValue: 'example@example.com',
           ),
           const SizedBox(height: 16.0),
-          FormInput(
-            labelText: '+1234567890',
+          WaterFormInput(
+            hintText: '+1234567890',
             prefixIcon: Icon(
               AppIcons.phone,
               size: 32.0,
@@ -95,13 +99,16 @@ class ProfileScreen extends StatelessWidget {
             keyboardType: TextInputType.phone,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
-            labelText: 'Birthday',
-            keyboardType: TextInputType.text,
+          WaterFormDatePicker(
+            hintText: 'Birthday',
           ),
           const SizedBox(height: 16.0),
-          SelectFormInput(
-            labelText: 'Nationality',
+          WaterFormSelect(
+            hintText: 'Nationality',
+            items: [
+              'Nationality 1',
+              'Nationality 2',
+            ],
           ),
         ],
       ),
@@ -122,25 +129,60 @@ class ProfileScreen extends StatelessWidget {
     return Form(
       child: Column(
         children: <Widget>[
-          SelectFormInput(
-            labelText: 'Select City',
+          WaterFormSelect(
+            hintText: 'Select City',
+            items: [
+              'Small City',
+              'Medium City',
+              'Big City',
+            ],
           ),
           const SizedBox(height: 16.0),
-          SelectFormInput(
-            labelText: 'Select District',
+          WaterFormSelect(
+            hintText: 'Select District',
+            items: [
+              'District 10',
+              'District 20',
+              'District 30',
+              'District 40',
+              'District 50',
+            ],
           ),
           const SizedBox(height: 16.0),
-          FormInput(
-            labelText: 'Select Street',
+          WaterFormInput(
+            hintText: 'Select Street',
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
-            labelText: 'Select Building',
+          WaterFormInput(
+            hintText: 'Select Building',
             keyboardType: TextInputType.text,
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFamilyMembersPicker() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: WaterText(
+            'Family Members',
+            fontSize: 18.0,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(end: 12.0),
+          child: WaterNumberPicker(
+            onChanged: (value) {},
+            maxWidth: 144.0,
+            minValue: 1,
+          ),
+        )
+      ],
     );
   }
 

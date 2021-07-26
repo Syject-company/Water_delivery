@@ -13,7 +13,7 @@ class EnterEmailPage extends StatelessWidget {
   EnterEmailPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +63,10 @@ class EnterEmailPage extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _emailInputKey,
             validator: const EmailValidator().validator,
-            labelText: 'global.email'.tr(),
+            hintText: 'global.email'.tr(),
             keyboardType: TextInputType.emailAddress,
           )
         ],

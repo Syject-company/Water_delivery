@@ -23,10 +23,10 @@ class SignUpScreen extends StatelessWidget {
   }
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey();
-  final GlobalKey<FormInputState> _emailInputKey = GlobalKey();
-  final GlobalKey<FormInputState> _passwordInputKey = GlobalKey();
-  final GlobalKey<FormInputState> _confirmPasswordInputKey =
-      GlobalKey<FormInputState>();
+  final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _passwordInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _confirmPasswordInputKey =
+      GlobalKey<WaterFormInputState>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -107,23 +107,23 @@ class SignUpScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _emailInputKey,
-            labelText: 'global.email'.tr(),
+            hintText: 'global.email'.tr(),
             validator: const EmailValidator().validator,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _passwordInputKey,
-            labelText: 'global.password'.tr(),
+            hintText: 'global.password'.tr(),
             validator: const PasswordValidator().validator,
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
-          FormInput(
+          WaterFormInput(
             key: _confirmPasswordInputKey,
-            labelText: 'global.confirm_password'.tr(),
+            hintText: 'global.confirm_password'.tr(),
             validator:
                 const FieldValidator(fieldName: 'Confirm Password').validator,
             keyboardType: TextInputType.visiblePassword,

@@ -6,7 +6,7 @@ import 'package:water/ui/extensions/text_style.dart';
 const int _errorMaxLines = 3;
 const double _fontSize = 15.0;
 const double _lineHeight = 1.5;
-const double _labelFontSize = 15.0;
+const double _hintFontSize = 15.0;
 const double _errorFontSize = 14.0;
 const double _borderRadius = 19.0;
 const double _borderWidth = 1.0;
@@ -34,14 +34,14 @@ const OutlineInputBorder _errorBorder = OutlineInputBorder(
   ),
 );
 
-class FormInput extends StatefulWidget {
-  const FormInput({
+class WaterFormInput extends StatefulWidget {
+  const WaterFormInput({
     Key? key,
     this.readOnly = false,
     this.keyboardType = TextInputType.text,
     this.validator,
     this.initialValue,
-    this.labelText,
+    this.hintText,
     this.onTap,
     this.onEditingComplete,
     this.prefixIcon,
@@ -51,16 +51,16 @@ class FormInput extends StatefulWidget {
   final TextInputType keyboardType;
   final FormFieldValidator<String>? validator;
   final String? initialValue;
-  final String? labelText;
+  final String? hintText;
   final VoidCallback? onTap;
   final VoidCallback? onEditingComplete;
   final Widget? prefixIcon;
 
   @override
-  FormInputState createState() => FormInputState();
+  WaterFormInputState createState() => WaterFormInputState();
 }
 
-class FormInputState extends State<FormInput> {
+class WaterFormInputState extends State<WaterFormInput> {
   final GlobalKey<FormFieldState<String>> _formInputKey = GlobalKey();
   final FocusNode _focusNode = FocusNode();
 
@@ -94,16 +94,21 @@ class FormInputState extends State<FormInput> {
       validator: widget.validator,
       initialValue: widget.initialValue,
       keyboardType: widget.keyboardType,
-      onTap: widget.onTap,
+      onTap: () {
+        if (widget.readOnly) {
+          _focusNode.unfocus();
+        }
+        widget.onTap?.call();
+      },
       onEditingComplete: widget.onEditingComplete,
       obscureText: _isPassword,
       enableSuggestions: !_isPassword,
       autocorrect: !_isPassword,
       cursorColor: AppColors.primary,
       style: const TextStyle(
-        color: AppColors.primaryText,
         fontSize: _fontSize,
         fontWeight: FontWeight.w500,
+        color: AppColors.primaryText,
       ).poppins,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
@@ -124,21 +129,24 @@ class FormInputState extends State<FormInput> {
                 child: widget.prefixIcon!,
               )
             : null,
-        hintText: widget.labelText,
+        hintText: widget.hintText,
         hintStyle: const TextStyle(
-          color: AppColors.secondaryText,
-          fontSize: _labelFontSize,
+          height: _lineHeight,
+          fontSize: _hintFontSize,
           fontWeight: FontWeight.w500,
+          color: AppColors.secondaryText,
         ).poppins,
         errorStyle: const TextStyle(
-          color: AppColors.errorText,
+          height: _lineHeight,
           fontSize: _errorFontSize,
           fontWeight: FontWeight.w600,
+          color: AppColors.errorText,
         ).poppins,
         errorMaxLines: _errorMaxLines,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       textInputAction: TextInputAction.done,
+      enableInteractiveSelection: !widget.readOnly,
     );
   }
 

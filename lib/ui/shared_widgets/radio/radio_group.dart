@@ -65,6 +65,7 @@ class _WaterRadioGroupState<E> extends State<WaterRadioGroup<E>> {
             labelFontSize: widget.labelFontSize,
             labelLineHeight: widget.labelLineHeight,
           ),
+          behavior: HitTestBehavior.opaque,
         ),
       );
 
