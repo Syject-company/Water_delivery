@@ -31,6 +31,7 @@ class WaterNumberPicker extends StatefulWidget {
     this.maxValue = 999,
     this.step = 1,
     this.showBorder = true,
+    this.dynamicColor = true,
     this.initialValue,
     this.maxWidth,
   }) : super(key: key);
@@ -42,6 +43,7 @@ class WaterNumberPicker extends StatefulWidget {
   final int maxValue;
   final int step;
   final bool showBorder;
+  final bool dynamicColor;
   final int? initialValue;
   final double? maxWidth;
 
@@ -62,7 +64,7 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
         ),
         child: Stack(
           children: <Widget>[
-            if (!widget.showBorder)
+            if (widget.showBorder)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -134,8 +136,12 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
       height: _sizes.buttonSize,
       iconSize: _sizes.iconSize,
       borderRadius: _sizes.borderRadius,
-      backgroundColor: _counter > 0 ? AppColors.primary : AppColors.secondary,
-      foregroundColor: _counter > 0 ? AppColors.white : AppColors.primaryText,
+      backgroundColor: _counter > 0 && widget.dynamicColor
+          ? AppColors.primary
+          : AppColors.secondary,
+      foregroundColor: _counter > 0 && widget.dynamicColor
+          ? AppColors.white
+          : AppColors.primaryText,
     );
   }
 

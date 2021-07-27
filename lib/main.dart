@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
@@ -46,9 +47,7 @@ class GulfaWaterApp extends StatelessWidget {
           defaultScale: true,
         );
       },
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-      ),
+      theme: theme,
       title: 'Gulfa Water',
       // TODO: test only
       initialRoute: AppRoutes.home,
@@ -57,6 +56,15 @@ class GulfaWaterApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
       debugShowCheckedModeBanner: false,
+    );
+  }
+
+  ThemeData get theme {
+    return ThemeData(
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColors.white,
+      dialogBackgroundColor: AppColors.white,
+      backgroundColor: AppColors.white,
     );
   }
 }

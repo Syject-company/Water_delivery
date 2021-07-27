@@ -13,7 +13,9 @@ extension BlocGetter on BuildContext {
 }
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  CategoriesBloc() : super(CategoriesInitial());
+  CategoriesBloc() : super(CategoriesInitial()) {
+    print('awdawd');
+  }
 
   @override
   Stream<CategoriesState> mapEventToState(CategoriesEvent event) async* {

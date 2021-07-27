@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
       },
       values: {
         const Locale('en'): 'English',
-        const Locale('ar'): 'ةيبرعلا',
+        const Locale('ar'): 'العربية',
       },
       currentValue: Localization.currentLocale(context),
       axis: Axis.horizontal,

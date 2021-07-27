@@ -8,7 +8,7 @@ import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'pages/enter_email.dart';
 import 'pages/enter_new_password.dart';
 
-const Duration _pageSwapDuration = Duration(milliseconds: 375);
+const Duration _pageSwapDuration = Duration.zero;
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -24,10 +24,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             : context.hideLoader();
 
         if (state is ForgotPasswordNewPasswordInput) {
-          _pageController.nextPage(
-            duration: _pageSwapDuration,
-            curve: Curves.easeInOutCubic,
-          );
+          _pageController.jumpToPage(1);
         } else if (state is ForgotPasswordSuccess) {
           Navigator.of(context, rootNavigator: true)
               .pushReplacementNamed(AppRoutes.home);

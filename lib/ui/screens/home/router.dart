@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/main/cart/cart_bloc.dart';
+import 'package:water/bloc/home/main/categories/categories_bloc.dart';
 import 'package:water/bloc/home/main/main_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
@@ -15,8 +17,12 @@ class HomeRouter {
     switch (settings.name) {
       case HomeRoutes.main:
         return SlideWithFadeRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => MainBloc(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => MainBloc()),
+              BlocProvider(create: (context) => CategoriesBloc()),
+              BlocProvider(create: (context) => CartBloc()),
+            ],
             child: MainScreen(),
           ),
         );

@@ -1,12 +1,12 @@
 # GLOBAL
 global:
-  save: "يحفظ"
-  code: "شفرة"
+  save: "حفظ"
+  code: "رمز"
   email: "بريد إلكتروني"
   password: "كلمه السر"
-  confirm_password: "تأكيد كلمة المرور"
-  sign_in_with: "تسجيل الدخول ب"
-  sign_up_with: "سجل مع"
+  confirm_password: "تأكيد كلمة السر"
+  sign_in_with: "تسجيل الدخول باستخدام"
+  sign_up_with: " اشترك مجانا باستخدام"
 
 # SELECT LANGUAGE SCREEN
 select_language:
@@ -20,9 +20,9 @@ choose_auth:
 # SIGN IN SCREEN
 sign_in:
   title: "تسجيل الدخول"
-  forgot_password: "نسيت رقمك السري؟"
+  forgot_password: "نسيت كلمه السر؟"
   new_in: "الجديد في؟"
-  sign_up: " اشتراك"
+  sign_up: " اشترك"
   login: "تسجيل الدخول"
 
 # SIGN UP SCREEN
@@ -34,7 +34,7 @@ sign_up:
 forgot_password:
   enter_email:
     title: "هل نسيت كلمة السر"
-    reset_password: "إعادة تعيين كلمة المرور"
+    reset_password: "إعادة تعيين كلمة السر"
   enter_new_password:
-    title: "أدخل كلمة مرور جديدة"
+    title: "أدخل كلمة سر جديدة"
     login: "تسجيل الدخول"

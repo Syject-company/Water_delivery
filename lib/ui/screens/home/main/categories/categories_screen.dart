@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/main/main_bloc.dart';
-import 'package:water/bloc/home/main/categories/categories_bloc.dart';
 import 'package:water/ui/screens/home/main/categories/pages/products_page.dart';
 import 'package:water/ui/shared_widgets/carousel_slider/carousel_slider.dart';
+
 import 'pages/categories_page.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -15,9 +15,9 @@ class CategoriesScreen extends StatelessWidget {
       builder: (_, state) {
         Widget screen = const SizedBox.shrink();
         if (state.screen == Screen.categories) {
-          screen = CategoriesPage();
+          screen = const CategoriesPage();
         } else if (state.screen == Screen.products) {
-          screen = ProductsPage();
+          screen = const ProductsPage();
         }
 
         return Column(

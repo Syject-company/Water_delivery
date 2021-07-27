@@ -36,7 +36,6 @@ class WaterText extends StatelessWidget {
       maxLines: maxLines,
       overflow: overflow,
       textAlign: textAlign,
-      textDirection: Directionality.of(context),
       style: TextStyle(
         color: color,
         fontSize: fontSize,

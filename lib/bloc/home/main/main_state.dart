@@ -4,8 +4,7 @@ enum Screen {
   categories,
   products,
   profile,
-  shoppingCart,
-  menu,
+  cart,
 }
 
 class MainState extends Equatable {

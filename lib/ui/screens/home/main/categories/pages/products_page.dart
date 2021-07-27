@@ -131,16 +131,20 @@ class _ProductListItemState extends State<ProductListItem> {
           fontWeight: FontWeight.w500,
           overflow: TextOverflow.ellipsis,
         ),
-        if (widget.discount) const SizedBox(width: 12.0),
         if (widget.discount)
-          WaterText(
-            '\$27.00',
-            maxLines: 1,
-            fontSize: 15.0,
-            fontWeight: FontWeight.w500,
-            overflow: TextOverflow.ellipsis,
-            decoration: TextDecoration.lineThrough,
-            color: AppColors.secondaryText,
+          Row(
+            children: <Widget>[
+              const SizedBox(width: 12.0),
+              WaterText(
+                '\$27.00',
+                maxLines: 1,
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                overflow: TextOverflow.ellipsis,
+                decoration: TextDecoration.lineThrough,
+                color: AppColors.secondaryText,
+              ),
+            ],
           ),
       ],
     );

@@ -148,7 +148,6 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
                 borderRadius: BorderRadius.circular(_borderRadius),
               ),
             ),
-            platform: TargetPlatform.iOS,
             textTheme: TextTheme(
               // help style
               overline: _datePickerTextStyle.poppins,
@@ -189,6 +188,7 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
             ),
             highlightColor: AppColors.transparent,
             splashFactory: NoSplash.splashFactory,
+            platform: TargetPlatform.iOS,
           ),
           child: child!,
         );
