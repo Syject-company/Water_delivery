@@ -1,24 +1,26 @@
 import 'package:equatable/equatable.dart';
-import 'package:water/domain/model/home/shop_item.dart';
+import 'package:water/domain/model/home/shop/product.dart';
 
 class CartItem extends Equatable {
   const CartItem({
-    required this.item,
+    required this.product,
     required this.amount,
   });
 
-  final ShopItem item;
+  final Product product;
   final int amount;
 
   CartItem copyWith({
-    ShopItem? item,
+    Product? product,
     int? amount,
   }) =>
       CartItem(
-        item: item ?? this.item,
+        product: product ?? this.product,
         amount: amount ?? this.amount,
       );
 
+
+
   @override
-  List<Object> get props => [item, amount];
+  List<Object> get props => [product, amount];
 }

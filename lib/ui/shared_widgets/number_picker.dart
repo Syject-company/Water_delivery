@@ -32,7 +32,7 @@ class WaterNumberPicker extends StatefulWidget {
     this.step = 1,
     this.showBorder = true,
     this.dynamicColor = true,
-    this.initialValue,
+    this.value,
     this.maxWidth,
   }) : super(key: key);
 
@@ -44,7 +44,7 @@ class WaterNumberPicker extends StatefulWidget {
   final int step;
   final bool showBorder;
   final bool dynamicColor;
-  final int? initialValue;
+  final int? value;
   final double? maxWidth;
 
   @override
@@ -52,7 +52,13 @@ class WaterNumberPicker extends StatefulWidget {
 }
 
 class _WaterNumberPickerState extends State<WaterNumberPicker> {
-  late int _counter = widget.initialValue ?? widget.minValue;
+  late int _counter = widget.value ?? widget.minValue;
+
+  @override
+  void didUpdateWidget(WaterNumberPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _counter = widget.value ?? _counter;
+  }
 
   @override
   Widget build(BuildContext context) {

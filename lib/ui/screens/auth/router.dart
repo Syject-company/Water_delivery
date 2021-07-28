@@ -5,13 +5,13 @@ import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
-import 'choose_auth/choose_auth_screen.dart';
+import 'auth_screen.dart';
 import 'forgot_password/forgot_password_screen.dart';
 import 'sign_in/sign_in_screen.dart';
 import 'sign_up/sign_up_screen.dart';
 
 abstract class AuthRoutes {
-  static const String chooseAuth = 'choose-auth';
+  static const String main = '/';
   static const String signIn = 'sign-in';
   static const String signUp = 'sign-up';
   static const String forgotPassword = 'forgot-password';
@@ -20,9 +20,9 @@ abstract class AuthRoutes {
 class AuthRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AuthRoutes.chooseAuth:
+      case AuthRoutes.main:
         return SlideWithFadeRoute(
-          builder: (_) => ChooseAuthScreen(),
+          builder: (_) => AuthScreen(),
         );
       case AuthRoutes.signIn:
         return SlideWithFadeRoute(

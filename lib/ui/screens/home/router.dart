@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/main/cart/cart_bloc.dart';
-import 'package:water/bloc/home/main/categories/categories_bloc.dart';
-import 'package:water/bloc/home/main/main_bloc.dart';
+import 'package:water/bloc/home/cart/cart_bloc.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
-import 'main/main_screen.dart';
+import 'home_screen.dart';
 
 abstract class HomeRoutes {
-  static const String main = 'main';
+  static const String main = '/';
 }
 
 class HomeRouter {
@@ -19,11 +19,13 @@ class HomeRouter {
         return SlideWithFadeRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => MainBloc()),
-              BlocProvider(create: (context) => CategoriesBloc()),
+              BlocProvider(create: (context) => NavigationBloc()),
+              BlocProvider(
+                create: (context) => ShopBloc()..add(LoadCategories()),
+              ),
               BlocProvider(create: (context) => CartBloc()),
             ],
-            child: MainScreen(),
+            child: HomeScreen(),
           ),
         );
       default:

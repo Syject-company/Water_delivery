@@ -6,31 +6,30 @@ part 'bottom_navigation_bar_item.dart';
 
 typedef SelectCallback = void Function(int index);
 
-const double _bottomNavBarHeight = 80.0;
+const double bottomNavigationBarHeight = 80.0;
 const EdgeInsetsGeometry _contentPadding =
     EdgeInsets.symmetric(vertical: 12.0, horizontal: 36.0);
 
 class WaterBottomNavigationBar extends StatelessWidget {
   WaterBottomNavigationBar({
     Key? key,
-    required this.onSelected,
     required this.items,
-    this.currentIndex = 0,
+    this.selectedIndex = 0,
+    this.onSelected,
   }) : super(key: key);
 
-  final SelectCallback onSelected;
   final List<WaterBottomNavigationBarItem> items;
-  final int currentIndex;
-  final List<GlobalKey<WaterBottomNavigationBarButtonState>> _buttonsKeys = [];
+  final int selectedIndex;
+  final SelectCallback? onSelected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: _contentPadding,
+      height: bottomNavigationBarHeight,
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: AppColors.borderColor)),
       ),
-      height: _bottomNavBarHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: _buildButtons(),
@@ -39,37 +38,25 @@ class WaterBottomNavigationBar extends StatelessWidget {
   }
 
   List<Widget> _buildButtons() {
-    final buttons = <Widget>[];
-
-    items.asMap().forEach((index, item) {
-      final buttonKey = GlobalKey<WaterBottomNavigationBarButtonState>();
-      _buttonsKeys.add(buttonKey);
-
-      buttons.add(
-        GestureDetector(
-          onTap: () {
-            if (item.selectable) {
-              _buttonsKeys.where((key) => key != buttonKey).forEach((key) {
-                key.currentState!.selected = false;
-              });
-              buttonKey.currentState!.selected = true;
-              onSelected(index);
-            }
-
-            if (item.onPressed != null) {
-              item.onPressed!();
-            }
-          },
-          child: WaterBottomNavigationBarButton(
-            key: buttonKey,
-            icon: item.icon,
-            selectedIcon: item.selectedIcon,
-            selected: index == currentIndex,
-          ),
-        ),
-      );
-    });
-
-    return buttons;
+    return items
+        .asMap().map((index, item) {
+          return MapEntry(
+            index,
+            GestureDetector(
+              onTap: () {
+                if (item.selectable) {
+                  onSelected?.call(index);
+                }
+                item.onPressed?.call();
+              },
+              child: WaterBottomNavigationBarButton(
+                key: ValueKey(item),
+                icon: item.icon,
+                selectedIcon: item.selectedIcon,
+                selected: index == selectedIndex,
+              ),
+            ),
+          );
+        }).values.toList();
   }
 }

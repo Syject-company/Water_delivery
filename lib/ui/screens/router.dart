@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/home/home_screen.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/util/slide_with_fade_route.dart';
 
-import 'auth/auth_screen.dart';
+import 'auth/auth_navigator.dart';
 import 'splash/splash_screen.dart';
 
 abstract class AppRoutes {
@@ -28,13 +28,13 @@ class RootRouter {
       case AppRoutes.auth:
         return SlideWithFadeRoute(
           builder: (_) => LoaderOverlay(
-            child: AuthScreen(),
+            child: AuthNavigator(),
           ),
         );
       case AppRoutes.home:
         return SlideWithFadeRoute(
           builder: (_) => LoaderOverlay(
-            child: HomeScreen(),
+            child: HomeNavigator(),
           ),
         );
       default:

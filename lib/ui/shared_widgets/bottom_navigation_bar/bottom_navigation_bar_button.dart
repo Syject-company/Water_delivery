@@ -18,33 +18,27 @@ class WaterBottomNavigationBarButton extends StatefulWidget {
   final bool selected;
 
   @override
-  WaterBottomNavigationBarButtonState createState() =>
-      WaterBottomNavigationBarButtonState();
+  _WaterBottomNavigationBarButtonState createState() =>
+      _WaterBottomNavigationBarButtonState();
 }
 
-class WaterBottomNavigationBarButtonState
+class _WaterBottomNavigationBarButtonState
     extends State<WaterBottomNavigationBarButton> {
-  late bool _selected = widget.selected;
-
-  set selected(bool selected) {
-    setState(() => _selected = selected);
-  }
-
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.0,
       child: Container(
         decoration: BoxDecoration(
-          color: _selected ? AppColors.primary : Colors.transparent,
+          color: widget.selected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(_borderRadius),
         ),
         child: IconTheme(
           data: IconThemeData(
             size: _iconSize,
-            color: _selected ? _selectedIconColor : _unselectedIconColor,
+            color: widget.selected ? _selectedIconColor : _unselectedIconColor,
           ),
-          child: _selected ? widget.selectedIcon : widget.icon,
+          child: widget.selected ? widget.selectedIcon : widget.icon,
         ),
       ),
     );

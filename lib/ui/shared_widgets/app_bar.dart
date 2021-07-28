@@ -22,6 +22,7 @@ class WaterAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: title,
       leading: leading,
+      centerTitle: true,
       actions: _buildActionsButtons(),
       elevation: _elevation,
       toolbarHeight: appBarHeight,

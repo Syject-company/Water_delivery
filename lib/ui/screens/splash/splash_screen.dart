@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
 import 'package:water/util/session.dart';
+import 'package:water/util/slide_with_fade_route.dart';
 
-import 'pages/select_language_page.dart';
+import 'select_language_screen.dart';
 
 const Duration _fadeDuration = Duration(milliseconds: 375);
 const Duration _pageSwapDuration = Duration(milliseconds: 375);
@@ -22,8 +22,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final VideoPlayerController _videoController =
-      VideoPlayerController.asset(Paths.splashVideo);
-  final PageController _pageController = PageController();
+      VideoPlayerController.asset(Paths.splash_video);
 
   @override
   void initState() {
@@ -57,13 +56,13 @@ class _SplashScreenState extends State<SplashScreen> {
           await Future.delayed(_videoController.value.duration);
 
           if (state.firstLaunch) {
-            _pageController.nextPage(
-              duration: _pageSwapDuration,
-              curve: Curves.easeInOutCubic,
+            Navigator.of(context).pushReplacement(
+              SlideWithFadeRoute(builder: (_) => SelectLanguagePage()),
             );
           } else {
             Navigator.of(context).pushReplacementNamed(
-                Session.isActive ? AppRoutes.home : AppRoutes.auth);
+              Session.isActive ? AppRoutes.home : AppRoutes.auth,
+            );
           }
         }
       },
@@ -74,34 +73,20 @@ class _SplashScreenState extends State<SplashScreen> {
             reverseDuration: _fadeDuration,
             switchInCurve: Curves.easeInOutCubic,
             switchOutCurve: Curves.easeInOutCubic,
-            child: state is SplashVideo ? _buildPageView() : _buildLogo(),
+            child: state is SplashVideo ? _buildVideo() : _buildLogo(),
           ),
         );
       },
     );
   }
 
-  Future<String> getFileUrl(String fileName) async {
-    final directory = await getApplicationDocumentsDirectory();
-    return "${directory.path}/$fileName";
-  }
-
-  Widget _buildPageView() {
-    return PageView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: _pageController,
-      children: <Widget>[
-        VideoPlayer(_videoController),
-        const SelectLanguagePage(),
-      ],
-    );
+  Widget _buildVideo() {
+    return VideoPlayer(_videoController);
   }
 
   Widget _buildLogo() {
     return const SafeArea(
-      child: Center(
-        child: WaterAnimatedLogo(),
-      ),
+      child: Center(child: WaterAnimatedLogo()),
     );
   }
 }

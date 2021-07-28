@@ -12,8 +12,8 @@ global:
 select_language:
   title: "Select Language"
 
-# CHOOSE AUTH SCREEN
-choose_auth:
+# AUTH SCREEN
+auth:
   sign_in: "I have an account"
   sign_up: "Sign up free"
 

@@ -16,6 +16,7 @@ class AnimatedWaterText extends StatefulWidget {
     this.maxLines,
     this.overflow,
     this.decoration,
+    this.duration = const Duration(milliseconds: 375),
   }) : super(key: key);
 
   final String text;
@@ -29,6 +30,7 @@ class AnimatedWaterText extends StatefulWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final TextDecoration? decoration;
+  final Duration duration;
 
   @override
   AnimatedWaterTextState createState() => AnimatedWaterTextState();
@@ -48,12 +50,12 @@ class AnimatedWaterTextState extends State<AnimatedWaterText>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 250),
+      duration: widget.duration,
       vsync: this,
     )..addListener(() => setState(() {}));
     _curvedAnimation = CurvedAnimation(
       parent: _animationController,
-      curve: Curves.fastOutSlowIn,
+      curve: Curves.easeInOutCubic,
     );
   }
 

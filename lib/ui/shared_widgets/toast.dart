@@ -4,12 +4,31 @@ import 'package:flutter/material.dart';
 
 const Duration _animationDuration = Duration(milliseconds: 250);
 
-class Toast {
-  static final ListQueue<_ToastEntry> _toastQueue = ListQueue();
-  static _ToastEntry? _currentToast;
+class ToastBuilder extends StatefulWidget {
+  ToastBuilder({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
 
-  static void showToast(
-    BuildContext context, {
+  final Widget child;
+
+  static _ToastBuilderState of(BuildContext context) =>
+      context.findAncestorStateOfType<_ToastBuilderState>()!;
+
+  @override
+  _ToastBuilderState createState() => _ToastBuilderState();
+}
+
+class _ToastBuilderState extends State<ToastBuilder> {
+  final ListQueue<_ToastEntry> _toastQueue = ListQueue();
+  _ToastEntry? _currentToast;
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+
+  void showToast({
     required Widget child,
     required Duration duration,
     Curve curve = Curves.easeInOutCubic,
@@ -30,10 +49,10 @@ class Toast {
     );
     _toastQueue.add(_ToastEntry(entry: entry, duration: duration));
 
-    _showToastFromQueue(context);
+    _showToastFromQueue();
   }
 
-  static void _showToastFromQueue(BuildContext context) async {
+  void _showToastFromQueue() async {
     if (_toastQueue.isNotEmpty && _currentToast == null) {
       final toast = _currentToast = _toastQueue.first;
       final state = Overlay.of(context);
@@ -45,7 +64,7 @@ class Toast {
       toast.entry.remove();
       _currentToast = null;
 
-      _showToastFromQueue(context);
+      _showToastFromQueue();
     }
   }
 }

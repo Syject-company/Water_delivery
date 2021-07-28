@@ -12,8 +12,8 @@ global:
 select_language:
   title: "اختار اللغة"
 
-# CHOOSE AUTH SCREEN
-choose_auth:
+# AUTH SCREEN
+auth:
   sign_in: "لدي حساب"
   sign_up: "الاشتراك مجانا"
 

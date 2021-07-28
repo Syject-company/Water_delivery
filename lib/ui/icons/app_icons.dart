@@ -6,9 +6,9 @@ class AppIcons {
   static const String _fontFamily = 'AppIcons';
   static const String? _fontPackage = null;
 
-  static const IconData bar_categories =
+  static const IconData bar_shop =
       IconData(0xe800, fontFamily: _fontFamily, fontPackage: _fontPackage);
-  static const IconData bar_categories_filled =
+  static const IconData bar_shop_filled =
       IconData(0xe801, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData bar_menu =
       IconData(0xe802, fontFamily: _fontFamily, fontPackage: _fontPackage);

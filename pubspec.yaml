@@ -49,6 +49,8 @@ flutter:
   assets:
     - assets/i18n/
     - assets/images/
+    - assets/images/categories/
+    - assets/images/products/
     - assets/lottie/
     - assets/svg/
     - assets/video/
