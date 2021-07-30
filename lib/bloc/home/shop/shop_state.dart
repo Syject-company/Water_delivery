@@ -2,10 +2,6 @@ part of 'shop_bloc.dart';
 
 abstract class ShopState extends Equatable {
   const ShopState();
-}
-
-class ShopInitial extends ShopState {
-  const ShopInitial();
 
   @override
   List<Object> get props => [];
@@ -27,11 +23,4 @@ class Products extends ShopState {
 
   @override
   List<Object> get props => [products];
-}
-
-class CategorySelected extends ShopState {
-  const CategorySelected();
-
-  @override
-  List<Object> get props => [];
 }

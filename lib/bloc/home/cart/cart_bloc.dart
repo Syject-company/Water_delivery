@@ -18,12 +18,12 @@ extension BlocGetter on BuildContext {
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc() : super(CartState(items: [], totalPrice: 0.0));
 
-  CartItem? getItemById(String id) {
+  CartItem? findItem(String id) {
     return state.items.firstWhereOrNull((item) => item.product.id == id);
   }
 
   bool contains(Product product) {
-    return getItemById(product.id) != null;
+    return findItem(product.id) != null;
   }
 
   @override
@@ -40,47 +40,47 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Stream<CartState> _mapAddToCartToState(
     AddToCart event,
   ) async* {
-    final List<CartItem> newItems;
-    if (getItemById(event.product.id) != null) {
-      newItems = state.items
-          .map((cartItem) => cartItem.product.id == event.product.id
-              ? cartItem.copyWith(amount: event.amount)
-              : cartItem)
+    final List<CartItem> items;
+    if (findItem(event.product.id) != null) {
+      items = state.items
+          .map((item) => item.product.id == event.product.id
+              ? item.copyWith(amount: event.amount)
+              : item)
           .toList();
     } else {
-      newItems = [
+      items = [
         ...state.items,
         CartItem(product: event.product, amount: event.amount),
       ];
     }
 
     yield state.copyWith(
-      items: newItems,
-      totalPrice: _calculateTotalPrice(newItems),
+      items: items,
+      totalPrice: _calculateTotalPrice(items),
     );
   }
 
   Stream<CartState> _mapRemoveFromCartToState(
     RemoveFromCart event,
   ) async* {
-    final newItems = state.items
+    final items = state.items
         .where((item) => item.product.id != event.product.id)
         .toList();
 
     yield state.copyWith(
-      items: newItems,
-      totalPrice: _calculateTotalPrice(newItems),
+      items: items,
+      totalPrice: _calculateTotalPrice(items),
     );
   }
 }
 
-double _calculateTotalPrice(List<CartItem> cartItems) {
+double _calculateTotalPrice(List<CartItem> items) {
   double totalPrice = 0.0;
 
-  cartItems.forEach((cartItem) {
-    final sale = cartItem.product.sale;
+  items.forEach((item) {
+    final sale = item.product.sale;
     final discount = sale != null ? sale.percent : 0.0;
-    final price = cartItem.product.price * cartItem.amount;
+    final price = item.product.price * item.amount;
     totalPrice += price - (price * discount);
   });
 

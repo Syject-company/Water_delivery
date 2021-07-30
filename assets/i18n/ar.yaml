@@ -21,7 +21,7 @@ auth:
 sign_in:
   title: "تسجيل الدخول"
   forgot_password: "نسيت كلمه السر؟"
-  new_in: "الجديد في؟"
+  new_in: "مستخدم جديد؟"
   sign_up: " اشترك"
   login: "تسجيل الدخول"
 

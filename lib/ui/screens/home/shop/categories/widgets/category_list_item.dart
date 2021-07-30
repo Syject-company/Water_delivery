@@ -17,7 +17,7 @@ class CategoryListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.shop.add(LoadProducts(products: category.products));
-        context.navigation.add(NavigateTo(name: HomeScreens.products));
+        // context.navigation.add(NavigateTo(screen: Screen.shop));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(19.0),

@@ -14,12 +14,12 @@ class WaterBottomNavigationBar extends StatelessWidget {
   WaterBottomNavigationBar({
     Key? key,
     required this.items,
-    this.selectedIndex = 0,
+    this.selectedIndex,
     this.onSelected,
   }) : super(key: key);
 
   final List<WaterBottomNavigationBarItem> items;
-  final int selectedIndex;
+  final int? selectedIndex;
   final SelectCallback? onSelected;
 
   @override

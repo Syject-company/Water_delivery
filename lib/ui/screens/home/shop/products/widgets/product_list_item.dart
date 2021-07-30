@@ -155,7 +155,7 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildAmountPicker() {
-    final item = context.cart.getItemById(_product.id);
+    final item = context.cart.findItem(_product.id);
 
     return WaterNumberPicker(
       value: item?.amount ?? 0,

@@ -121,13 +121,13 @@ class WaterFormSelectState extends State<WaterFormSelect>
             hintStyle: const TextStyle(
               height: _lineHeight,
               fontSize: _hintFontSize,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               color: AppColors.secondaryText,
             ).poppins,
             errorStyle: const TextStyle(
               height: _lineHeight,
               fontSize: _errorFontSize,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               color: AppColors.errorText,
             ).poppins,
             errorMaxLines: _errorMaxLines,

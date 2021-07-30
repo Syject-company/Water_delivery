@@ -50,7 +50,7 @@ class EnterEmailPage extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
+        children: <Widget>[
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
             builder: (_, state) {
               return WaterText(

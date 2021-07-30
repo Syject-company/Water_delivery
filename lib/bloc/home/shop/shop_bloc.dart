@@ -17,7 +17,7 @@ extension BlocGetter on BuildContext {
 }
 
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
-  ShopBloc() : super(ShopInitial());
+  ShopBloc() : super(Categories(categories: _categories));
 
   @override
   Stream<ShopState> mapEventToState(ShopEvent event) async* {

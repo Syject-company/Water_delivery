@@ -10,7 +10,7 @@ import 'package:water/ui/shared_widgets/text/text.dart';
 import 'widget/cart_list_item.dart';
 
 class CartScreen extends StatefulWidget {
-  CartScreen({Key? key}) : super(key: key);
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
   _CartScreenState createState() => _CartScreenState();

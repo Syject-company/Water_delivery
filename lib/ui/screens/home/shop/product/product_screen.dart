@@ -34,7 +34,7 @@ class ProductScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(32.0, 0, 32.0, 32.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               LayoutBuilder(
                 builder: (_, constraints) {
                   return Image.asset(
@@ -146,7 +146,7 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _buildAmountPicker(BuildContext context) {
-    final item = context.cart.getItemById(product.id);
+    final item = context.cart.findItem(product.id);
 
     return WaterNumberPicker(
       value: item?.amount ?? 0,
@@ -176,7 +176,7 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _buildCheckoutPanel(BuildContext context) {
-    final item = context.cart.getItemById(product.id);
+    final item = context.cart.findItem(product.id);
 
     final sale = product.sale;
     final discount = sale != null ? sale.percent : 0.0;

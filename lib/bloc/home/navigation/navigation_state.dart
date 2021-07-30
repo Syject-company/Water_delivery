@@ -1,23 +1,34 @@
 part of 'navigation_bloc.dart';
 
-class NavigationState extends Equatable {
-  const NavigationState({
-    required this.screens,
-    required this.selectedScreen,
-  });
+abstract class NavigationState extends Equatable {
+  const NavigationState({required this.title});
 
-  final List<_Screen> screens;
-  final _Screen selectedScreen;
-
-  NavigationState copyWith({
-    List<_Screen>? screens,
-    _Screen? selectedScreen,
-  }) =>
-      NavigationState(
-        screens: screens ?? this.screens,
-        selectedScreen: selectedScreen ?? this.selectedScreen,
-      );
+  final String title;
 
   @override
-  List<Object> get props => [screens, selectedScreen];
+  List<Object?> get props => [title];
+}
+
+class Shop extends NavigationState {
+  const Shop({required String title}) : super(title: title);
+}
+
+class ShopCategories extends Shop {
+  const ShopCategories() : super(title: 'Categories');
+}
+
+class ShopProducts extends Shop {
+  const ShopProducts() : super(title: 'Products');
+}
+
+class Profile extends NavigationState {
+  const Profile() : super(title: 'Profile');
+}
+
+class Cart extends NavigationState {
+  const Cart() : super(title: 'Cart');
+}
+
+class Wallet extends NavigationState {
+  const Wallet() : super(title: 'Wallet');
 }

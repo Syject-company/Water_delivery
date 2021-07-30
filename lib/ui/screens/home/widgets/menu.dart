@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/circle_button.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
+import 'package:water/ui/shared_widgets/side_menu.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/session.dart';
 
@@ -14,75 +16,13 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        children: [
+        children: <Widget>[
           _buildHeader(),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 26.0),
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.drop,
-                    label: 'Shop Now',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.wallet,
-                    label: 'Wallet',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.orders,
-                    label: 'Orders',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.subscription,
-                    label: 'Subscription',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.refer_friend,
-                    label: 'Refer A Friend',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.profile,
-                    label: 'Profile',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.support,
-                    label: 'Support',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.terms,
-                    label: 'Terms & Conditions',
-                  ),
-                  _buildActionButton(
-                    onPressed: () {},
-                    icon: AppIcons.faq,
-                    label: 'F.A.Q',
-                  ),
-                  const SizedBox(height: 13.0),
-                  _buildActionButton(
-                    onPressed: () {
-                      Session.close();
-                      Navigator.of(context, rootNavigator: true)
-                          .pushReplacementNamed(AppRoutes.auth);
-                    },
-                    icon: AppIcons.log_out,
-                    label: 'Log Out',
-                    iconColor: AppColors.secondaryText,
-                    labelColor: AppColors.secondaryText,
-                  ),
-                  const SizedBox(height: 26.0),
-                  _buildSocialButtons(),
-                ],
-              ),
+              child: _buildActionButtons(context),
             ),
           ),
         ],
@@ -109,6 +49,72 @@ class Menu extends StatelessWidget {
           showIcon: false,
         ),
       ),
+    );
+  }
+
+  Widget _buildActionButtons(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        _buildActionButton(
+          onPressed: () => _navigateTo(context, Screen.shop),
+          icon: AppIcons.drop,
+          label: 'Shop Now',
+        ),
+        _buildActionButton(
+          onPressed: () => _navigateTo(context, Screen.wallet),
+          icon: AppIcons.wallet,
+          label: 'Wallet',
+        ),
+        _buildActionButton(
+          onPressed: () {},
+          icon: AppIcons.orders,
+          label: 'Orders',
+        ),
+        _buildActionButton(
+          onPressed: () {},
+          icon: AppIcons.subscription,
+          label: 'Subscription',
+        ),
+        _buildActionButton(
+          onPressed: () {},
+          icon: AppIcons.refer_friend,
+          label: 'Refer A Friend',
+        ),
+        _buildActionButton(
+          onPressed: () => _navigateTo(context, Screen.profile),
+          icon: AppIcons.profile,
+          label: 'Profile',
+        ),
+        _buildActionButton(
+          onPressed: () {},
+          icon: AppIcons.support,
+          label: 'Support',
+        ),
+        _buildActionButton(
+          onPressed: () {},
+          icon: AppIcons.terms,
+          label: 'Terms & Conditions',
+        ),
+        _buildActionButton(
+          onPressed: () {},
+          icon: AppIcons.faq,
+          label: 'F.A.Q',
+        ),
+        const SizedBox(height: 13.0),
+        _buildActionButton(
+          onPressed: () {
+            Session.close();
+            Navigator.of(context, rootNavigator: true)
+                .pushReplacementNamed(AppRoutes.auth);
+          },
+          icon: AppIcons.log_out,
+          label: 'Log Out',
+          iconColor: AppColors.secondaryText,
+          labelColor: AppColors.secondaryText,
+        ),
+        const SizedBox(height: 26.0),
+        _buildSocialButtons(),
+      ],
     );
   }
 
@@ -170,5 +176,10 @@ class Menu extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _navigateTo(BuildContext context, Screen screen) {
+    context.navigation.add(NavigateTo(screen: screen));
+    SideMenu.of(context).close();
   }
 }

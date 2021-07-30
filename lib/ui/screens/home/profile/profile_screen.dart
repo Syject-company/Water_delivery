@@ -11,7 +11,7 @@ import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/localization.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

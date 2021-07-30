@@ -19,11 +19,11 @@ class HomeRouter {
         return SlideWithFadeRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => NavigationBloc()),
-              BlocProvider(
-                create: (context) => ShopBloc()..add(LoadCategories()),
-              ),
+              BlocProvider(create: (context) => ShopBloc()),
               BlocProvider(create: (context) => CartBloc()),
+              BlocProvider(
+                create: (context) => NavigationBloc(shopBloc: context.shop),
+              ),
             ],
             child: HomeScreen(),
           ),
