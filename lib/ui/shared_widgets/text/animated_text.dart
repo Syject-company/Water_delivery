@@ -11,12 +11,12 @@ class AnimatedWaterText extends StatefulWidget {
     this.fontWeight = FontWeight.w600,
     this.color = AppColors.primaryText,
     this.alignment = Alignment.center,
+    this.duration = const Duration(milliseconds: 375),
     this.softWrap,
     this.lineHeight,
     this.maxLines,
     this.overflow,
     this.decoration,
-    this.duration = const Duration(milliseconds: 375),
   }) : super(key: key);
 
   final String text;

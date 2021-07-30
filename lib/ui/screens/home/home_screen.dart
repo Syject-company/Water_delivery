@@ -14,6 +14,7 @@ import 'package:water/ui/shared_widgets/side_menu.dart';
 import 'package:water/ui/shared_widgets/text/animated_text.dart';
 
 import 'cart/cart_screen.dart';
+import 'notifications/notifications_screen.dart';
 import 'profile/profile_screen.dart';
 import 'shop/shop_screen.dart';
 import 'wallet/wallet_screen.dart';
@@ -42,6 +43,7 @@ class HomeScreen extends StatelessWidget {
                   if (state is Profile) ProfileScreen(),
                   if (state is Cart) CartScreen(),
                   if (state is Wallet) WalletScreen(),
+                  if (state is Notifications) NotificationsScreen(),
                 ],
               );
             },
@@ -135,10 +137,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {},
                 icon: AppIcons.whatsapp,
               ),
-              AppBarNotificationButton(
-                onPressed: () {},
-                notificationsCount: 9,
-              ),
+              AppBarNotificationButton(),
             ],
           );
         },

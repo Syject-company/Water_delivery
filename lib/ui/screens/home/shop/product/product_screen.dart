@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
@@ -16,7 +17,7 @@ const double _checkOutPanelHeight = 80.0;
 const EdgeInsetsGeometry _checkoutPanelContentPadding =
     EdgeInsets.symmetric(vertical: 0.0, horizontal: 32.0);
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
   const ProductScreen({
     Key? key,
     required this.product,
@@ -25,55 +26,86 @@ class ProductScreen extends StatelessWidget {
   final Product product;
 
   @override
+  _ProductScreenState createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
+  late int amount = context.cart.findItem(_product.id)?.amount ?? 0;
+
+  Product get _product => widget.product;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 32.0),
         physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(32.0, 0, 32.0, 32.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              LayoutBuilder(
-                builder: (_, constraints) {
-                  return Image.asset(
-                    product.imageUri,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            LayoutBuilder(
+              builder: (_, constraints) {
+                return Hero(
+                  tag: _product.imageUri,
+                  child: Image.asset(
+                    _product.imageUri,
                     height: constraints.maxWidth,
-                  );
-                },
+                  ),
+                );
+              },
+            ),
+            AnimationLimiter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: AnimationConfiguration.toStaggeredList(
+                  childAnimationBuilder: (widget) {
+                    return SlideAnimation(
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.fastOutSlowIn,
+                      horizontalOffset: 50.0,
+                      child: FadeInAnimation(
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.fastOutSlowIn,
+                        child: widget,
+                      ),
+                    );
+                  },
+                  children: <Widget>[
+                    const SizedBox(height: 24.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(child: _buildTitleText()),
+                        const SizedBox(width: 32.0),
+                        _buildCapacityText(),
+                      ],
+                    ),
+                    const SizedBox(height: 24.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(flex: 2, child: _buildPriceText()),
+                        const SizedBox(width: 32.0),
+                        Flexible(flex: 3, child: _buildAmountPicker()),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    _buildDescriptionText(),
+                  ],
+                ),
               ),
-              const SizedBox(height: 40.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(child: _buildTitleText()),
-                  const SizedBox(width: 32.0),
-                  _buildCapacityText(),
-                ],
-              ),
-              const SizedBox(height: 24.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(flex: 2, child: _buildPriceText()),
-                  const SizedBox(width: 32.0),
-                  Flexible(flex: 3, child: _buildAmountPicker(context)),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              _buildDescriptionText(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => _buildCheckoutPanel(context),
+        builder: (_, state) => _buildCheckoutPanel(),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       leading: AppBarBackButton(
         onPressed: () => Navigator.of(context).pop(),
@@ -84,8 +116,7 @@ class ProductScreen extends StatelessWidget {
           onPressed: () {},
         ),
         AppBarNotificationButton(
-          onPressed: () {},
-          notificationsCount: 9,
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ],
     );
@@ -93,7 +124,7 @@ class ProductScreen extends StatelessWidget {
 
   Widget _buildTitleText() {
     return WaterText(
-      product.title,
+      _product.title,
       fontSize: 24.0,
       lineHeight: 2.0,
     );
@@ -101,7 +132,7 @@ class ProductScreen extends StatelessWidget {
 
   Widget _buildCapacityText() {
     return WaterText(
-      '${product.volume} LT',
+      '${_product.volume} LT',
       fontSize: 24.0,
       lineHeight: 2.0,
       color: AppColors.secondaryText,
@@ -109,9 +140,9 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _buildPriceText() {
-    final sale = product.sale;
+    final sale = _product.sale;
     final discount = sale != null ? sale.percent : 0.0;
-    final price = product.price;
+    final price = _product.price;
     final discountPrice = price - (price * discount);
 
     return Column(
@@ -145,21 +176,20 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAmountPicker(BuildContext context) {
-    final item = context.cart.findItem(product.id);
+  Widget _buildAmountPicker() {
+    final addedToCart = context.cart.contains(_product);
+    final minValue = addedToCart ? 1 : 0;
 
     return WaterNumberPicker(
-      value: item?.amount ?? 0,
+      value: amount,
+      minValue: minValue,
       onChanged: (value) {
-        if (value == 0) {
+        if (addedToCart) {
           context.cart.add(
-            RemoveFromCart(product: product),
-          );
-        } else {
-          context.cart.add(
-            AddToCart(product: product, amount: value),
+            AddToCart(product: _product, amount: value),
           );
         }
+        setState(() => amount = value);
       },
       size: PickerSize.large,
     );
@@ -167,20 +197,19 @@ class ProductScreen extends StatelessWidget {
 
   Widget _buildDescriptionText() {
     return WaterText(
-      product.description,
+      _product.description,
       fontSize: 16.0,
-      lineHeight: 2.0,
       fontWeight: FontWeight.w500,
       color: AppColors.secondaryText,
     );
   }
 
-  Widget _buildCheckoutPanel(BuildContext context) {
-    final item = context.cart.findItem(product.id);
+  Widget _buildCheckoutPanel() {
+    final addedToCart = context.cart.contains(_product);
 
-    final sale = product.sale;
+    final sale = _product.sale;
     final discount = sale != null ? sale.percent : 0.0;
-    final totalPrice = product.price * (item?.amount ?? 0);
+    final totalPrice = _product.price * amount;
     final totalDiscountPrice = totalPrice - (totalPrice * discount);
 
     return Container(
@@ -205,13 +234,40 @@ class ProductScreen extends StatelessWidget {
           const SizedBox(width: 16.0),
           Expanded(
             flex: 3,
-            child: WaterButton(
-              onPressed: () {},
-              text: 'Add To Cart',
-            ),
+            child: addedToCart
+                ? _buildRemoveFromCartButton()
+                : _buildAddToCartButton(),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAddToCartButton() {
+    return WaterButton(
+      onPressed: amount > 0
+          ? () {
+              context.cart.add(
+                AddToCart(product: _product, amount: amount),
+              );
+              setState(() {});
+            }
+          : null,
+      text: 'Add To Cart',
+      backgroundColor: amount > 0 ? AppColors.primary : AppColors.disabled,
+      foregroundColor: amount > 0 ? AppColors.white : AppColors.white,
+    );
+  }
+
+  Widget _buildRemoveFromCartButton() {
+    return WaterButton(
+      onPressed: () {
+        context.cart.add(
+          RemoveFromCart(product: _product),
+        );
+        setState(() => amount = 0);
+      },
+      text: 'Remove From Cart',
     );
   }
 }

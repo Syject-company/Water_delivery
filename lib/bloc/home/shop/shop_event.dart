@@ -19,12 +19,3 @@ class LoadProducts extends ShopEvent {
   @override
   List<Object> get props => [products];
 }
-
-class LoadProduct extends ShopEvent {
-  const LoadProduct({required this.id});
-
-  final String id;
-
-  @override
-  List<Object> get props => [id];
-}

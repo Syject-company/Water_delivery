@@ -7,8 +7,8 @@ abstract class ShopState extends Equatable {
   List<Object> get props => [];
 }
 
-class Categories extends ShopState {
-  const Categories({required this.categories});
+class CategoriesLoaded extends ShopState {
+  const CategoriesLoaded({required this.categories});
 
   final List<Category> categories;
 
@@ -16,8 +16,8 @@ class Categories extends ShopState {
   List<Object> get props => [categories];
 }
 
-class Products extends ShopState {
-  const Products({required this.products});
+class ProductsLoaded extends ShopState {
+  const ProductsLoaded({required this.products});
 
   final List<Product> products;
 

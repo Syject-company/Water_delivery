@@ -17,7 +17,7 @@ extension BlocGetter on BuildContext {
 }
 
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
-  ShopBloc() : super(Categories(categories: _categories));
+  ShopBloc() : super(CategoriesLoaded(categories: _categories));
 
   @override
   Stream<ShopState> mapEventToState(ShopEvent event) async* {
@@ -29,11 +29,11 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
   }
 
   Stream<ShopState> _mapLoadCategoriesToState() async* {
-    yield Categories(categories: _categories);
+    yield CategoriesLoaded(categories: _categories);
   }
 
   Stream<ShopState> _mapLoadProductsToState(LoadProducts event) async* {
-    yield Products(products: event.products);
+    yield ProductsLoaded(products: event.products);
   }
 }
 

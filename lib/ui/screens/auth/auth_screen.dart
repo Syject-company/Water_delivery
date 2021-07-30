@@ -17,7 +17,6 @@ class AuthScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         clipBehavior: Clip.none,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const WaterLogo(labelWidthFactor: 2.25),
             const SizedBox(height: 128.0),

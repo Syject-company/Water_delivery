@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/notification/notification_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
@@ -24,8 +26,6 @@ class ProductListItem extends StatefulWidget {
 }
 
 class _ProductListItemState extends State<ProductListItem> {
-  // late bool _addedToCart = context.cart.getItemById(widget.product.id) != null;
-
   Product get _product => widget.product;
 
   @override
@@ -36,8 +36,12 @@ class _ProductListItemState extends State<ProductListItem> {
         onTap: () {
           Navigator.of(context).push(
             SlideWithFadeRoute(
-              builder: (_) => BlocProvider.value(
-                value: context.cart,
+              builder: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: context.cart),
+                  BlocProvider.value(value: context.navigation),
+                  BlocProvider.value(value: context.notifications),
+                ],
                 child: ProductScreen(product: _product),
               ),
             ),
@@ -51,7 +55,12 @@ class _ProductListItemState extends State<ProductListItem> {
           ),
           child: Column(
             children: <Widget>[
-              Expanded(child: Image.asset(_product.imageUri)),
+              Expanded(
+                child: Hero(
+                  tag: _product.imageUri,
+                  child: Image.asset(_product.imageUri),
+                ),
+              ),
               const SizedBox(height: 16.0),
               Expanded(
                 child: Column(

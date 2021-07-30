@@ -37,8 +37,8 @@ class ShopScreen extends StatelessWidget {
             Expanded(
               child: Stack(
                 children: <Widget>[
-                  if (state is Categories) CategoriesScreen(),
-                  if (state is Products) ProductsScreen(),
+                  if (state is CategoriesLoaded) CategoriesScreen(),
+                  if (state is ProductsLoaded) ProductsScreen(),
                 ],
               ),
             ),

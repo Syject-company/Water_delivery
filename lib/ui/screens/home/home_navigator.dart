@@ -17,6 +17,7 @@ class HomeNavigator extends StatelessWidget {
           key: _navigatorKey,
           initialRoute: HomeRoutes.main,
           onGenerateRoute: HomeRouter.generateRoute,
+          observers: [HeroController()],
         ),
       ),
     );

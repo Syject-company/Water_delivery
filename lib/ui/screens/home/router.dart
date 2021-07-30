@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/notification/notification_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_route.dart';
@@ -21,6 +22,7 @@ class HomeRouter {
             providers: [
               BlocProvider(create: (context) => ShopBloc()),
               BlocProvider(create: (context) => CartBloc()),
+              BlocProvider(create: (context) => NotificationsBloc()),
               BlocProvider(
                 create: (context) => NavigationBloc(shopBloc: context.shop),
               ),

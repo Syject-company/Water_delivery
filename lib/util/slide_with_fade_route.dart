@@ -12,16 +12,16 @@ class SlideWithFadeRoute<T> extends MaterialPageRoute<T> {
   final SlideDirection slideDirection;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 375);
+  Duration get transitionDuration => Duration(milliseconds: 250);
 
   @override
-  Duration get reverseTransitionDuration => Duration(milliseconds: 375);
+  Duration get reverseTransitionDuration => Duration(milliseconds: 250);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     var slideBegin = slideDirection == SlideDirection.leftToRight
-        ? Offset(1.0, 0.0)
+        ? Offset(0.0, 0.0)
         : Offset(-1.0, 0.0);
     var slideEnd = Offset.zero;
     var fadeBegin = 0.0;

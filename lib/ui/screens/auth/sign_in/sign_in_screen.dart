@@ -48,7 +48,6 @@ class SignInScreen extends StatelessWidget {
           controller: _scrollController,
           clipBehavior: Clip.none,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const WaterLogo(),
               const SizedBox(height: 36.0),

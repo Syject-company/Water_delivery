@@ -28,12 +28,3 @@ class NavigateToChild extends NavigationEvent {
   @override
   List<Object> get props => [screen, state];
 }
-
-// class NavigateTo extends NavigationEvent {
-//   const NavigateTo({required this.name});
-//
-//   final HomeScreens name;
-//
-//   @override
-//   List<Object> get props => [name];
-// }

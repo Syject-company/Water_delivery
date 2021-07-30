@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/domain/model/home/shop/category.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
@@ -16,8 +15,9 @@ class CategoryListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.shop.add(LoadProducts(products: category.products));
-        // context.navigation.add(NavigateTo(screen: Screen.shop));
+        context.shop.add(
+          LoadProducts(products: category.products),
+        );
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(19.0),

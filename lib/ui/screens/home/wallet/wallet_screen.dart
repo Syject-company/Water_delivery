@@ -57,6 +57,7 @@ class WalletScreen extends StatelessWidget {
           width: 196.0,
           child: WaterFormInput(
             hintText: 'Enter the amount',
+            keyboardType: TextInputType.number,
           ),
         ),
         const SizedBox(width: 12.0),

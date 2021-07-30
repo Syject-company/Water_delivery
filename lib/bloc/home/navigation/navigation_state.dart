@@ -6,7 +6,7 @@ abstract class NavigationState extends Equatable {
   final String title;
 
   @override
-  List<Object?> get props => [title];
+  List<Object> get props => [title];
 }
 
 class Shop extends NavigationState {
@@ -31,4 +31,8 @@ class Cart extends NavigationState {
 
 class Wallet extends NavigationState {
   const Wallet() : super(title: 'Wallet');
+}
+
+class Notifications extends NavigationState {
+  const Notifications() : super(title: 'Notifications');
 }

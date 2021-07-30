@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
@@ -12,29 +13,53 @@ class CategoriesScreen extends StatelessWidget {
     return Column(
       children: <Widget>[
         const SizedBox(height: 24.0),
-        const WaterText(
-          'Wallet balance: \$0',
-          fontSize: 18.0,
-        ),
+        _buildWalletBalanceText(),
         const SizedBox(height: 24.0),
-        Expanded(
-          child: GridView.count(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            crossAxisCount: 2,
-            childAspectRatio: 0.75,
-            children: (context.shop.state as Categories)
-                .categories
-                .map((category) => CategoryListItem(
-                      key: ValueKey(category),
-                      category: category,
-                    ))
-                .toList(),
-          ),
-        ),
+        Expanded(child: _buildCategories(context)),
       ],
+    );
+  }
+
+  Widget _buildWalletBalanceText() {
+    return const WaterText(
+      'Wallet balance: \$0',
+      fontSize: 18.0,
+    );
+  }
+
+  Widget _buildCategories(BuildContext context) {
+    final categories = (context.shop.state as CategoriesLoaded).categories;
+
+    return AnimationLimiter(
+      child: GridView.builder(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          return AnimationConfiguration.staggeredGrid(
+            position: index,
+            columnCount: 2,
+            child: SlideAnimation(
+              duration: const Duration(milliseconds: 375),
+              curve: Curves.fastOutSlowIn,
+              child: FadeInAnimation(
+                duration: const Duration(milliseconds: 375),
+                curve: Curves.fastOutSlowIn,
+                child: CategoryListItem(
+                  key: ValueKey(categories[index]),
+                  category: categories[index],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

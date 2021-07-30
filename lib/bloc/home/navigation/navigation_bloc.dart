@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/domain/model/home/shop/product.dart';
 
 part 'navigation_event.dart';
 part 'navigation_state.dart';
@@ -15,17 +16,19 @@ extension BlocGetter on BuildContext {
 
 enum Screen {
   shop,
+  product,
   profile,
   cart,
   wallet,
   orders,
   subscriptions,
+  notifications,
 }
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc({required ShopBloc shopBloc})
       : _shopBloc = shopBloc,
-        super(Wallet()) {
+        super(ShopCategories()) {
     _shopStateSubscription = shopBloc.stream.listen((state) {
       add(NavigateToChild(screen: Screen.shop, state: state));
     });
@@ -54,9 +57,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     NavigateTo event,
   ) async* {
     if (event.screen == Screen.shop) {
-      if (_shopBloc.state is Categories) {
+      if (_shopBloc.state is CategoriesLoaded) {
         yield const ShopCategories();
-      } else if (_shopBloc.state is Products) {
+      } else if (_shopBloc.state is ProductsLoaded) {
         yield const ShopProducts();
       }
     } else if (event.screen == Screen.profile) {
@@ -65,6 +68,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       yield const Cart();
     } else if (event.screen == Screen.wallet) {
       yield const Wallet();
+    } else if (event.screen == Screen.notifications) {
+      yield const Notifications();
     }
   }
 
@@ -72,9 +77,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     NavigateToChild event,
   ) async* {
     if (event.screen == Screen.shop) {
-      if (event.state is Categories) {
+      if (event.state is CategoriesLoaded) {
         yield const ShopCategories();
-      } else if (event.state is Products) {
+      } else if (event.state is ProductsLoaded) {
         yield const ShopProducts();
       }
     }

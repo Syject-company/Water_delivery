@@ -12,13 +12,13 @@ const double _textLineHeight = 1.25;
 class WaterButton extends StatelessWidget {
   const WaterButton({
     Key? key,
-    required this.onPressed,
     required this.text,
+    this.onPressed,
     this.backgroundColor = AppColors.primary,
     this.foregroundColor = AppColors.white,
   }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final Color backgroundColor;
   final Color foregroundColor;
