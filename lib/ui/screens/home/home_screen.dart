@@ -11,7 +11,8 @@ import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
 import 'package:water/ui/shared_widgets/button/app_bar_notification_button.dart';
 import 'package:water/ui/shared_widgets/side_menu.dart';
-import 'package:water/ui/shared_widgets/text/animated_text.dart';
+import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/util/keep_alive.dart';
 
 import 'cart/cart_screen.dart';
 import 'notifications/notifications_screen.dart';
@@ -20,11 +21,16 @@ import 'shop/shop_screen.dart';
 import 'wallet/wallet_screen.dart';
 import 'widgets/menu.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  final GlobalKey<AnimatedWaterTextState> _titleTextKey = GlobalKey();
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +41,24 @@ class HomeScreen extends StatelessWidget {
         menu: Menu(),
         child: Scaffold(
           appBar: _buildAppBar(context),
-          body: BlocBuilder<NavigationBloc, NavigationState>(
-            builder: (context, state) {
-              return Stack(
-                children: <Widget>[
-                  if (state is Shop) ShopScreen(),
-                  if (state is Profile) ProfileScreen(),
-                  if (state is Cart) CartScreen(),
-                  if (state is Wallet) WalletScreen(),
-                  if (state is Notifications) NotificationsScreen(),
-                ],
-              );
-            },
+          body: PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            children: <Widget>[
+              KeepAliveChild(child: ShopScreen()),
+              KeepAliveChild(child: ProfileScreen()),
+              KeepAliveChild(child: CartScreen()),
+              WalletScreen(),
+              NotificationsScreen(),
+            ],
           ),
-          bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
-            builder: (_, state) {
-              int? selectedIndex;
-              if (state is Shop) {
-                selectedIndex = 0;
-              } else if (state is Profile) {
-                selectedIndex = 1;
-              } else if (state is Cart) {
-                selectedIndex = 2;
-              }
-
+          bottomNavigationBar: BlocConsumer<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              _pageController.jumpToPage(state.index);
+            },
+            builder: (context, state) {
               return WaterBottomNavigationBar(
-                selectedIndex: selectedIndex,
+                selectedIndex: state.index,
                 items: <WaterBottomNavigationBarItem>[
                   WaterBottomNavigationBarItem(
                     icon: Icon(AppIcons.bar_shop),
@@ -109,26 +107,19 @@ class HomeScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
-      child: BlocConsumer<NavigationBloc, NavigationState>(
-        listener: (_, state) {
-          _titleTextKey.currentState!.setNewValue(state.title);
-        },
+      child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (_, state) {
           Widget? leading;
           if (state is ShopProducts) {
             leading = AppBarBackButton(
-              onPressed: () {
-                context.shop.add(LoadCategories());
-              },
+              onPressed: () => context.shop.add(LoadCategories()),
             );
           }
 
           return WaterAppBar(
-            title: AnimatedWaterText(
+            title: WaterText(
               state.title,
-              key: _titleTextKey,
               fontSize: 24.0,
-              lineHeight: 2.0,
               textAlign: TextAlign.center,
             ),
             leading: leading,

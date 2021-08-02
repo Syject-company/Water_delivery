@@ -1,8 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
-import 'package:water/bloc/home/navigation/navigation_bloc.dart';
-import 'package:water/bloc/home/notification/notification_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
@@ -36,14 +35,7 @@ class _ProductListItemState extends State<ProductListItem> {
         onTap: () {
           Navigator.of(context).push(
             SlideWithFadeRoute(
-              builder: (_) => MultiBlocProvider(
-                providers: [
-                  BlocProvider.value(value: context.cart),
-                  BlocProvider.value(value: context.navigation),
-                  BlocProvider.value(value: context.notifications),
-                ],
-                child: ProductScreen(product: _product),
-              ),
+              builder: (_) => ProductScreen(product: _product),
             ),
           );
         },
@@ -57,7 +49,7 @@ class _ProductListItemState extends State<ProductListItem> {
             children: <Widget>[
               Expanded(
                 child: Hero(
-                  tag: _product.imageUri,
+                  tag: _product,
                   child: Image.asset(_product.imageUri),
                 ),
               ),
@@ -70,16 +62,16 @@ class _ProductListItemState extends State<ProductListItem> {
                     const SizedBox(height: 2.0),
                     Flexible(child: _buildTitleText()),
                     const SizedBox(height: 2.0),
-                    _buildCapacityText(),
+                    _buildVolumeText(),
                   ],
                 ),
               ),
               const SizedBox(height: 4.0),
               BlocBuilder<CartBloc, CartState>(
-                builder: (_, state) {
-                  return context.cart.contains(_product)
-                      ? _buildAmountPicker()
-                      : _buildAddToCartButton();
+                builder: (context, state) {
+                  return !context.cart.contains(_product)
+                      ? _buildAddToCartButton()
+                      : _buildAmountPicker();
                 },
               ),
             ],
@@ -98,27 +90,33 @@ class _ProductListItemState extends State<ProductListItem> {
     return Row(
       children: <Widget>[
         WaterText(
-          '\$${discountPrice.toStringAsFixed(2)}',
+          'AED ${discountPrice.toStringAsFixed(2)}',
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.fade,
+          softWrap: false,
         ),
         if (discount > 0.0)
-          Row(
-            children: <Widget>[
-              const SizedBox(width: 12.0),
-              WaterText(
-                '\$${price.toStringAsFixed(2)}',
-                maxLines: 1,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,
-                decoration: TextDecoration.lineThrough,
-                color: AppColors.secondaryText,
-              ),
-            ],
+          Flexible(
+            child: Row(
+              children: <Widget>[
+                const SizedBox(width: 6.0),
+                Flexible(
+                  child: WaterText(
+                    'AED ${price.toStringAsFixed(2)}',
+                    maxLines: 1,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                    overflow: TextOverflow.fade,
+                    decoration: TextDecoration.lineThrough,
+                    color: AppColors.secondaryText,
+                    softWrap: false,
+                  ),
+                ),
+              ],
+            ),
           ),
       ],
     );
@@ -126,7 +124,7 @@ class _ProductListItemState extends State<ProductListItem> {
 
   Widget _buildTitleText() {
     return WaterText(
-      _product.title,
+      _product.title.tr(),
       maxLines: 2,
       fontSize: 15.0,
       lineHeight: 1.5,
@@ -134,9 +132,17 @@ class _ProductListItemState extends State<ProductListItem> {
     );
   }
 
-  Widget _buildCapacityText() {
+  Widget _buildVolumeText() {
+    final String volume;
+    if (_product.volume < 1.0) {
+      volume =
+          '${(_product.volume * 1000).toInt()}${'global.milliliter'.tr()}';
+    } else {
+      volume = '${_product.volume}${'global.liter'.tr()}';
+    }
+
     return WaterText(
-      '${_product.volume} LT',
+      volume,
       maxLines: 1,
       fontSize: 15.0,
       lineHeight: 1.5,

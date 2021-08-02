@@ -1,7 +1,9 @@
+import 'package:animations/animations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
@@ -12,6 +14,7 @@ import 'package:water/ui/shared_widgets/button/app_bar_notification_button.dart'
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/util/animation.dart';
 
 const double _checkOutPanelHeight = 80.0;
 const EdgeInsetsGeometry _checkoutPanelContentPadding =
@@ -32,76 +35,108 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   late int amount = context.cart.findItem(_product.id)?.amount ?? 0;
 
+  final UniqueKey l1 = UniqueKey();
+  final UniqueKey l2 = UniqueKey();
+
+  bool _largeImage = false;
+
   Product get _product => widget.product;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 32.0),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            LayoutBuilder(
-              builder: (_, constraints) {
-                return Hero(
-                  tag: _product.imageUri,
-                  child: Image.asset(
-                    _product.imageUri,
-                    height: constraints.maxWidth,
-                  ),
-                );
-              },
-            ),
-            AnimationLimiter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: AnimationConfiguration.toStaggeredList(
-                  childAnimationBuilder: (widget) {
-                    return SlideAnimation(
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.fastOutSlowIn,
-                      horizontalOffset: 50.0,
-                      child: FadeInAnimation(
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.fastOutSlowIn,
-                        child: widget,
-                      ),
-                    );
-                  },
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 375),
+      reverse: !_largeImage,
+      transitionBuilder: (child, animation, secondaryAnimation) {
+        return SharedAxisTransition(
+          child: child,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.scaled,
+          fillColor: AppColors.white,
+        );
+      },
+      layoutBuilder: (entries) {
+        return Stack(
+          children: entries,
+          alignment: Alignment.topCenter,
+        );
+      },
+      child: _largeImage
+          ? Scaffold(
+              key: l1,
+              body: GestureDetector(
+                onTap: () {
+                  setState(() => _largeImage = !_largeImage);
+                },
+                child: Image.asset(
+                  _product.imageUri,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
+                ),
+              ))
+          : Scaffold(
+              key: l2,
+              appBar: _buildAppBar(),
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 32.0),
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const SizedBox(height: 24.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(child: _buildTitleText()),
-                        const SizedBox(width: 32.0),
-                        _buildCapacityText(),
-                      ],
+                    LayoutBuilder(
+                      builder: (_, constraints) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() => _largeImage = !_largeImage);
+                          },
+                          child: Hero(
+                            tag: _product,
+                            child: Image.asset(
+                              _product.imageUri,
+                              height: constraints.maxWidth,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    const SizedBox(height: 24.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(flex: 2, child: _buildPriceText()),
-                        const SizedBox(width: 32.0),
-                        Flexible(flex: 3, child: _buildAmountPicker()),
-                      ],
+                    SlideUp(
+                      child: FadeIn(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const SizedBox(height: 24.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Flexible(child: _buildTitleText()),
+                                const SizedBox(width: 16.0),
+                                _buildVolumeText(),
+                              ],
+                            ),
+                            const SizedBox(height: 24.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Flexible(flex: 2, child: _buildPriceText()),
+                                const SizedBox(width: 16.0),
+                                _buildAmountPicker(),
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            _buildDescriptionText(),
+                          ],
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 16.0),
-                    _buildDescriptionText(),
                   ],
                 ),
               ),
+              bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
+                builder: (_, state) => _buildCheckoutPanel(),
+              ),
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => _buildCheckoutPanel(),
-      ),
     );
   }
 
@@ -124,15 +159,23 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget _buildTitleText() {
     return WaterText(
-      _product.title,
+      _product.title.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
     );
   }
 
-  Widget _buildCapacityText() {
+  Widget _buildVolumeText() {
+    final String volume;
+    if (_product.volume < 1.0) {
+      volume =
+      '${(_product.volume * 1000).toInt()}${'global.milliliter'.tr()}';
+    } else {
+      volume = '${_product.volume}${'global.liter'.tr()}';
+    }
+
     return WaterText(
-      '${_product.volume} LT',
+      volume,
       fontSize: 24.0,
       lineHeight: 2.0,
       color: AppColors.secondaryText,
@@ -152,25 +195,27 @@ class _ProductScreenState extends State<ProductScreen> {
           Column(
             children: <Widget>[
               WaterText(
-                '\$${price.toStringAsFixed(2)}',
+                'AED ${price.toStringAsFixed(2)}',
                 maxLines: 1,
                 fontSize: 18.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.fade,
                 decoration: TextDecoration.lineThrough,
                 color: AppColors.secondaryText,
+                softWrap: false,
               ),
               const SizedBox(height: 6.0),
             ],
           ),
         WaterText(
-          '\$${discountPrice.toStringAsFixed(2)}',
+          'AED ${discountPrice.toStringAsFixed(2)}',
           maxLines: 1,
           fontSize: 27.0,
           lineHeight: 2,
           fontWeight: FontWeight.w500,
-          overflow: TextOverflow.ellipsis,
+          overflow: TextOverflow.fade,
+          softWrap: false,
         ),
       ],
     );
@@ -192,13 +237,15 @@ class _ProductScreenState extends State<ProductScreen> {
         setState(() => amount = value);
       },
       size: PickerSize.large,
+      maxWidth: 188.0,
     );
   }
 
   Widget _buildDescriptionText() {
     return WaterText(
-      _product.description,
+      _product.description.tr(),
       fontSize: 16.0,
+      lineHeight: 2.0,
       fontWeight: FontWeight.w500,
       color: AppColors.secondaryText,
     );
@@ -224,19 +271,19 @@ class _ProductScreenState extends State<ProductScreen> {
           Flexible(
             flex: 2,
             child: WaterText(
-              '\$${totalDiscountPrice.toStringAsFixed(2)}',
+              'AED ${totalDiscountPrice.toStringAsFixed(2)}',
               maxLines: 1,
               fontSize: 27.0,
               fontWeight: FontWeight.w500,
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.clip,
+              softWrap: false,
             ),
           ),
           const SizedBox(width: 16.0),
           Expanded(
-            flex: 3,
-            child: addedToCart
-                ? _buildRemoveFromCartButton()
-                : _buildAddToCartButton(),
+            flex: 2,
+            child:
+                addedToCart ? _buildCheckoutButton() : _buildAddToCartButton(),
           ),
         ],
       ),
@@ -259,15 +306,15 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget _buildRemoveFromCartButton() {
+  Widget _buildCheckoutButton() {
     return WaterButton(
       onPressed: () {
-        context.cart.add(
-          RemoveFromCart(product: _product),
+        context.navigation.add(
+          NavigateTo(screen: Screen.cart),
         );
-        setState(() => amount = 0);
+        Navigator.of(context).pop();
       },
-      text: 'Remove From Cart',
+      text: 'Checkout',
     );
   }
 }

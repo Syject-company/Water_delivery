@@ -11,7 +11,6 @@ import 'package:water/util/slide_with_fade_route.dart';
 import 'select_language_screen.dart';
 
 const Duration _fadeDuration = Duration(milliseconds: 375);
-const Duration _pageSwapDuration = Duration(milliseconds: 375);
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -57,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
           if (state.firstLaunch) {
             Navigator.of(context).pushReplacement(
-              SlideWithFadeRoute(builder: (_) => SelectLanguagePage()),
+              SlideWithFadeRoute(builder: (_) => SelectLanguageScreen()),
             );
           } else {
             Navigator.of(context).pushReplacementNamed(

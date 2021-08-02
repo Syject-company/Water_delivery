@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/ui/screens/router.dart';
+import 'package:water/ui/shared_widgets/app_bar.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
@@ -8,13 +9,13 @@ import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 
-class SelectLanguagePage extends StatelessWidget {
-  const SelectLanguagePage({Key? key}) : super(key: key);
+class SelectLanguageScreen extends StatelessWidget {
+  const SelectLanguageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: WaterAppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
         physics: const BouncingScrollPhysics(),
@@ -31,13 +32,6 @@ class SelectLanguagePage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
     );
   }
 

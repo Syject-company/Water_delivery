@@ -7,6 +7,8 @@ global:
   confirm_password: "Confirm Password"
   sign_in_with: "Sign in with"
   sign_up_with: "Sign up with"
+  liter: "L"
+  milliliter: "ml"
 
 # SELECT LANGUAGE SCREEN
 select_language:
@@ -38,3 +40,34 @@ forgot_password:
   enter_new_password:
     title: "Enter New Password"
     login: "Log In"
+
+# TODO test purposes only
+title:
+  bottle_1500_12_c: "12 Bottles Carton"
+  bottle_1500_6_sp: "6 Bottles Shrink Pack"
+  bottle_500_24_c: "24 Bottles Carton"
+  bottle_500_24_sp: "24 Bottles Shrink Pack "
+  bottle_500_12_sp: "12 Bottles Shrink Pack"
+  bottle_500_6_sp: "6 Bottles Shrink Pack"
+  bottle_330_24_c: "24 Bottles Carton"
+  bottle_330_24_sp: "24 Bottles Shrink Pack "
+  bottle_330_12_sp: "12 Bottles Shrink Pack"
+  bottle_330_6_sp: "6 Bottles Shrink Pack"
+  mini_cup_200_36_c: "200ml - 36 Cups Carton"
+  mini_cup_125_48_c: "125ml - 48 Cups Carton"
+  mini_cup_100_48_c: "100ml - 48 Cups Carton"
+
+description:
+  bottle_1500_12_c: "Designed with convenience in mind. The 12 bottles carton is perfect for larger families and can be purchased in bulk."
+  bottle_1500_6_sp: "Designed with convenience in mind. The 6 bottles shrink pack is convenient for smaller households to be served at the table when gathering."
+  bottle_500_24_c: "Convenient design to take away. The 24 bottles carton is perfect for larger families and can be purchased in bulk."
+  bottle_500_24_sp: "Convenient design to take away. The 24 bottles shrink pack is perfect for larger families and can be purchased in bulk."
+  bottle_500_12_sp: "Convenient design to take away. The 12 bottles shrink pack is ideal for medium sized households."
+  bottle_500_6_sp: "Convenient design to take away. The 6 bottles shrink pack is ideal for smaller households."
+  bottle_330_24_c: "Ideal size to accompany a meal on the go. The 24 bottles carton is ideal for families with children as the bottles are pefect for packed lunches."
+  bottle_330_24_sp: "Ideal size to accompany a meal on the go. The 24 bottles shrink pack is ideal for families with children as the bottles are pefect for packed lunches."
+  bottle_330_12_sp: "Ideal size to accompany a meal on the go. The 12 bottles shrink pack is ideal for families with one or two children as the bottles are pefect for packed lunches."
+  bottle_330_6_sp: "Ideal size to accompany a meal on the go. The 6 bottles shrink pack is ideal for families with one or two children or for working professionals looking for water on the go."
+  mini_cup_200_36_c: "Just the perfect size for a sip with a quick bite. The 36 cups carton is ideal for companies desiring to serve their customers a quick sip of water or for families with children."
+  mini_cup_125_48_c: "Just the perfect size for a sip with a quick bite. The 48 cups carton is ideal for companies desiring to serve their customers a quick sip of water or for families with children."
+  mini_cup_100_48_c: "Just the perfect size for a sip with a quick bite. The 48 cups carton is ideal for companies desiring to serve their customers a quick sip of water or for families with children."

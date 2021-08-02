@@ -42,7 +42,7 @@ class WalletScreen extends StatelessWidget {
 
   Widget _buildBalanceText() {
     return WaterText(
-      'Wallet balance: \$0.00',
+      'Wallet balance: AED 0.00',
       fontSize: 18.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class WalletScreen extends StatelessWidget {
         ),
         const SizedBox(width: 12.0),
         WaterText(
-          '\$',
+          'AED',
           fontSize: 18.0,
         ),
       ],

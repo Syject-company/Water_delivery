@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
@@ -27,7 +29,7 @@ class _CartScreenState extends State<CartScreen> {
       listener: (_, state) {
         final totalPrice = state.totalPrice;
         _totalPriceTextKey.currentState!.setNewValue(
-          '\$${totalPrice.toStringAsFixed(2)}',
+          'AED ${totalPrice.toStringAsFixed(2)}',
           reverse: totalPrice < _lastTotalPrice,
         );
         _lastTotalPrice = totalPrice;
@@ -119,19 +121,17 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
-            child: WaterText(
-              'Fee',
-              fontSize: 18.0,
-              lineHeight: 1.5,
-              fontWeight: FontWeight.w500,
-              color: AppColors.secondaryText,
-            ),
+          WaterText(
+            'Fee',
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w500,
+            color: AppColors.secondaryText,
           ),
-          const SizedBox(width: 24.0),
-          Expanded(
+          const SizedBox(width: 16.0),
+          Flexible(
             child: WaterText(
-              '\$0.00',
+              'AED 0.00',
               fontSize: 18.0,
               lineHeight: 1.5,
               fontWeight: FontWeight.w500,
@@ -150,17 +150,15 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
-            child: WaterText(
-              'Total',
-              fontSize: 23.0,
-              lineHeight: 2.0,
-            ),
+          WaterText(
+            'Total',
+            fontSize: 23.0,
+            lineHeight: 2.0,
           ),
           const SizedBox(width: 24.0),
-          Expanded(
+          Flexible(
             child: AnimatedWaterText(
-              '\$${(_lastTotalPrice = state.totalPrice).toStringAsFixed(2)}',
+              'AED ${(_lastTotalPrice = state.totalPrice).toStringAsFixed(2)}',
               key: _totalPriceTextKey,
               fontSize: 23.0,
               lineHeight: 2.0,
@@ -189,7 +187,7 @@ class _CartScreenState extends State<CartScreen> {
         Expanded(
           child: WaterButton(
             onPressed: () {},
-            text: 'Check Out',
+            text: 'Checkout',
           ),
         ),
       ],

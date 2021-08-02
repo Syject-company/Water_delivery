@@ -91,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: '+1234567890',
+            hintText: '00971544400611',
             prefixIcon: Icon(
               AppIcons.phone,
               size: 32.0,
@@ -130,7 +130,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         children: <Widget>[
           WaterFormSelect(
-            hintText: 'Select City',
+            hintText: 'Select Emirate',
             items: [
               'Small City',
               'Medium City',
@@ -150,12 +150,22 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Select Street',
+            hintText: 'Street Name',
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Select Building',
+            hintText: 'Building Name',
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: 16.0),
+          WaterFormInput(
+            hintText: 'Floor',
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: 16.0),
+          WaterFormInput(
+            hintText: 'Apartment',
             keyboardType: TextInputType.text,
           ),
         ],

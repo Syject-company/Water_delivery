@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
@@ -85,7 +86,7 @@ class _CartListItemState extends State<CartListItem> {
 
   Widget _buildTitleText() {
     return WaterText(
-      _item.product.title,
+      _item.product.title.tr(),
       maxLines: 2,
       lineHeight: 1.5,
       fontWeight: FontWeight.w600,
@@ -94,8 +95,16 @@ class _CartListItemState extends State<CartListItem> {
   }
 
   Widget _buildVolumeText() {
+    final String volume;
+    if (_item.product.volume < 1.0) {
+      volume =
+          '${(_item.product.volume * 1000).toInt()}${'global.milliliter'.tr()}';
+    } else {
+      volume = '${_item.product.volume}${'global.liter'.tr()}';
+    }
+
     return WaterText(
-      '${_item.product.volume} LT',
+      volume,
       maxLines: 1,
       lineHeight: 1.5,
       fontWeight: FontWeight.w600,
@@ -150,7 +159,7 @@ class _CartListItemState extends State<CartListItem> {
           Column(
             children: <Widget>[
               WaterText(
-                '\$${totalPrice.toStringAsFixed(2)}',
+                'AED ${totalPrice.toStringAsFixed(2)}',
                 maxLines: 1,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -162,7 +171,7 @@ class _CartListItemState extends State<CartListItem> {
             ],
           ),
         WaterText(
-          '\$${totalDiscountPrice.toStringAsFixed(2)}',
+          'AED ${totalDiscountPrice.toStringAsFixed(2)}',
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,

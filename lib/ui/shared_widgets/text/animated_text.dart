@@ -55,7 +55,7 @@ class AnimatedWaterTextState extends State<AnimatedWaterText>
     )..addListener(() => setState(() {}));
     _curvedAnimation = CurvedAnimation(
       parent: _animationController,
-      curve: Curves.easeInOutCubic,
+      curve: Curves.fastOutSlowIn,
     );
   }
 

@@ -27,6 +27,7 @@ dependencies:
 
   # animations
   flutter_staggered_animations: ^1.0.0
+  animations: ^2.0.1
 
   # bloc
   bloc: ^7.0.0

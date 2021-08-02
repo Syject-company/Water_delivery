@@ -53,7 +53,7 @@ class WaterBottomNavigationBar extends StatelessWidget {
                 key: ValueKey(item),
                 icon: item.icon,
                 selectedIcon: item.selectedIcon,
-                selected: index == selectedIndex,
+                selected: item.selectable && index == selectedIndex,
               ),
             ),
           );

@@ -22,7 +22,7 @@ class CategoriesScreen extends StatelessWidget {
 
   Widget _buildWalletBalanceText() {
     return const WaterText(
-      'Wallet balance: \$0',
+      'Wallet balance: AED 0.00',
       fontSize: 18.0,
     );
   }
