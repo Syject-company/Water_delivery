@@ -10,7 +10,7 @@ import 'package:water/ui/shared_widgets/button/icon_button.dart';
 import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/ui/shared_widgets/toast.dart';
-import 'package:water/util/slide_with_fade_route.dart';
+import 'package:water/util/fade_page_route.dart';
 
 class ProductListItem extends StatefulWidget {
   const ProductListItem({
@@ -34,7 +34,7 @@ class _ProductListItemState extends State<ProductListItem> {
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(
-            SlideWithFadeRoute(
+            FadePageRoute(
               builder: (_) => ProductScreen(product: _product),
             ),
           );

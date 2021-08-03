@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/auth_bloc.dart';
 import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/util/slide_with_fade_route.dart';
+import 'package:water/util/fade_page_route.dart';
 
 import 'auth_screen.dart';
 import 'forgot_password/forgot_password_screen.dart';
@@ -21,32 +21,32 @@ class AuthRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AuthRoutes.main:
-        return SlideWithFadeRoute(
+        return FadePageRoute(
           builder: (_) => AuthScreen(),
         );
       case AuthRoutes.signIn:
-        return SlideWithFadeRoute(
+        return FadePageRoute(
           builder: (_) => BlocProvider(
             create: (_) => AuthBloc(),
             child: SignInScreen(),
           ),
         );
       case AuthRoutes.signUp:
-        return SlideWithFadeRoute(
+        return FadePageRoute(
           builder: (_) => BlocProvider(
             create: (_) => AuthBloc(),
             child: SignUpScreen(),
           ),
         );
       case AuthRoutes.forgotPassword:
-        return SlideWithFadeRoute(
+        return FadePageRoute(
           builder: (_) => BlocProvider(
             create: (_) => ForgotPasswordBloc(),
             child: ForgotPasswordScreen(),
           ),
         );
       default:
-        return SlideWithFadeRoute(
+        return FadePageRoute(
           builder: (_) {
             return Scaffold(
               body: Center(

@@ -34,8 +34,8 @@ class AppBarNotificationButton extends StatelessWidget {
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 375),
                 reverseDuration: const Duration(milliseconds: 375),
-                switchInCurve: Curves.easeInOutCubic,
-                switchOutCurve: Curves.easeInOutCubic,
+                switchInCurve: Curves.fastOutSlowIn,
+                switchOutCurve: Curves.fastOutSlowIn,
                 transitionBuilder: (child, animation) => ScaleTransition(
                   scale: animation,
                   child: child,

@@ -29,7 +29,7 @@ class HomeNavigator extends StatelessWidget {
           ],
           child: Navigator(
             key: _navigatorKey,
-            initialRoute: HomeRoutes.main,
+            initialRoute: HomeRoutes.delivery,
             onGenerateRoute: HomeRouter.generateRoute,
             observers: [HeroController()],
           ),

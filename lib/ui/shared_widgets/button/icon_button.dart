@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 
-const double _elevation = 0.0;
-const double _defaultWidth = 45.0;
-const double _defaultHeight = 45.0;
-const double _defaultBorderRadius = 10.0;
-const double _defaultIconSize = 21.0;
+const double _width = 45.0;
+const double _height = 45.0;
+const double _borderRadius = 10.0;
+const double _iconSize = 21.0;
+const Duration _animationDuration = Duration(milliseconds: 125);
 
 class WaterIconButton extends StatelessWidget {
   const WaterIconButton({
@@ -31,25 +31,25 @@ class WaterIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width ?? _defaultWidth,
-      height: height ?? _defaultHeight,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          elevation: _elevation,
-          padding: EdgeInsets.zero,
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              borderRadius ?? _defaultBorderRadius,
-            ),
+    return GestureDetector(
+      onTap: onPressed,
+      child: AnimatedContainer(
+        duration: _animationDuration,
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            borderRadius ?? _borderRadius,
           ),
+          color: backgroundColor,
         ),
-        child: Icon(
-          icon,
-          color: foregroundColor,
-          size: iconSize ?? _defaultIconSize,
+        width: width ?? _width,
+        height: height ?? _height,
+        child: Center(
+          child: Icon(
+            icon,
+            color: foregroundColor,
+            size: iconSize ?? _iconSize,
+          ),
         ),
       ),
     );

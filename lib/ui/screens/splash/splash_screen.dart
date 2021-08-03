@@ -6,7 +6,7 @@ import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
 import 'package:water/util/session.dart';
-import 'package:water/util/slide_with_fade_route.dart';
+import 'package:water/util/fade_page_route.dart';
 
 import 'select_language_screen.dart';
 
@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
           if (state.firstLaunch) {
             Navigator.of(context).pushReplacement(
-              SlideWithFadeRoute(builder: (_) => SelectLanguageScreen()),
+              FadePageRoute(builder: (_) => SelectLanguageScreen()),
             );
           } else {
             Navigator.of(context).pushReplacementNamed(
@@ -70,8 +70,8 @@ class _SplashScreenState extends State<SplashScreen> {
           body: AnimatedSwitcher(
             duration: _fadeDuration,
             reverseDuration: _fadeDuration,
-            switchInCurve: Curves.easeInOutCubic,
-            switchOutCurve: Curves.easeInOutCubic,
+            switchInCurve: Curves.fastOutSlowIn,
+            switchOutCurve: Curves.fastOutSlowIn,
             child: state is SplashVideo ? _buildVideo() : _buildLogo(),
           ),
         );

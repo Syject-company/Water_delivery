@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
-const double _elevation = 0.0;
 const double _width = double.infinity;
 const double _height = 58.0;
 const double _borderRadius = 15.0;
 const double _textSize = 17.0;
 const double _textLineHeight = 1.25;
+const Duration _animationDuration = Duration(milliseconds: 125);
 
 class WaterButton extends StatelessWidget {
   const WaterButton({
@@ -25,22 +25,25 @@ class WaterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        elevation: _elevation,
-        padding: EdgeInsets.zero,
-        minimumSize: const Size(_width, _height),
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
+    return GestureDetector(
+      onTap: onPressed,
+      child: AnimatedContainer(
+        duration: _animationDuration,
+        curve: Curves.fastOutSlowIn,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(_borderRadius),
+          color: backgroundColor,
         ),
-      ),
-      child: WaterText(
-        text,
-        color: foregroundColor,
-        fontSize: _textSize,
-        lineHeight: _textLineHeight,
+        width: _width,
+        height: _height,
+        child: Center(
+          child: WaterText(
+            text,
+            color: foregroundColor,
+            fontSize: _textSize,
+            lineHeight: _textLineHeight,
+          ),
+        ),
       ),
     );
   }

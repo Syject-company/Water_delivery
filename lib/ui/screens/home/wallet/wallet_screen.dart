@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/input/form_input.dart';
+import 'package:water/ui/shared_widgets/input/form_fields.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/masked_input_controller.dart';
 

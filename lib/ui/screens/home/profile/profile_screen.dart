@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:water/domain/model/home/data/cities.dart';
+import 'package:water/domain/model/home/data/nationalities.dart';
+import 'package:water/domain/model/home/profile/city.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/input/form_datepicker.dart';
-import 'package:water/ui/shared_widgets/input/form_input.dart';
-import 'package:water/ui/shared_widgets/input/form_select.dart';
+import 'package:water/ui/shared_widgets/input/form_fields.dart';
 import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/localization.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<WaterFormSelectState> _districtSelectKey = GlobalKey();
+
+  City? _selectedCity;
 
   @override
   Widget build(BuildContext context) {
@@ -105,10 +115,9 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 16.0),
           WaterFormSelect(
             hintText: 'Nationality',
-            items: [
-              'Nationality 1',
-              'Nationality 2',
-            ],
+            items: {
+              for (final nationality in nationalities) nationality: nationality,
+            },
           ),
         ],
       ),
@@ -129,24 +138,24 @@ class ProfileScreen extends StatelessWidget {
     return Form(
       child: Column(
         children: <Widget>[
-          WaterFormSelect(
+          WaterFormSelect<City>(
             hintText: 'Select Emirate',
-            items: [
-              'Small City',
-              'Medium City',
-              'Big City',
-            ],
+            items: {
+              for (final city in cities) city: city.name,
+            },
+            onChanged: (city) {
+              setState(() => _selectedCity = city);
+              _districtSelectKey.currentState!.reset();
+            },
           ),
           const SizedBox(height: 16.0),
-          WaterFormSelect(
+          WaterFormSelect<String>(
+            key: _districtSelectKey,
             hintText: 'Select District',
-            items: [
-              'District 10',
-              'District 20',
-              'District 30',
-              'District 40',
-              'District 50',
-            ],
+            items: {
+              for (final district in _selectedCity?.districts ?? [])
+                district: district,
+            },
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(

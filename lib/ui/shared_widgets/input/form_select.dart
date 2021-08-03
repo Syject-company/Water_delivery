@@ -1,85 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/text_style.dart';
-import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+part of form_fields;
 
-const int _errorMaxLines = 3;
-const double _fontSize = 15.0;
-const double _lineHeight = 1.5;
-const double _hintFontSize = 15.0;
-const double _errorFontSize = 14.0;
-const double _borderRadius = 19.0;
-const double _borderWidth = 1.0;
-const double _iconSize = 18.0;
 const double _itemHeight = 48.0;
-const int _maxVisibleItems = 3;
-const Duration _animationDuration = Duration(milliseconds: 250);
-const EdgeInsetsGeometry _contentPadding =
-    EdgeInsetsDirectional.fromSTEB(24.0, 16.0, 12.0, 16.0);
-const OutlineInputBorder _defaultBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-  borderSide: BorderSide(
-    color: AppColors.inputDefaultBorder,
-    width: _borderWidth,
-  ),
-);
-const OutlineInputBorder _focusedBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-  borderSide: BorderSide(
-    color: AppColors.inputFocusedBorder,
-    width: _borderWidth,
-  ),
-);
-const OutlineInputBorder _errorBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-  borderSide: BorderSide(
-    color: AppColors.inputErrorBorder,
-    width: _borderWidth,
-  ),
-);
 
-class WaterFormSelect extends StatefulWidget {
+class WaterFormSelect<T> extends StatefulWidget {
   const WaterFormSelect({
     Key? key,
     required this.items,
     this.validator,
     this.initialValue,
     this.hintText,
+    this.onChanged,
   }) : super(key: key);
 
-  final List<String> items;
+  final Map<T, String> items;
   final FormFieldValidator<String>? validator;
-  final String? initialValue;
+  final T? initialValue;
   final String? hintText;
+  final void Function(T)? onChanged;
 
   @override
-  WaterFormSelectState createState() => WaterFormSelectState();
+  WaterFormSelectState<T> createState() => WaterFormSelectState<T>();
 }
 
-class WaterFormSelectState extends State<WaterFormSelect>
+class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
     with SingleTickerProviderStateMixin {
   final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  late final AnimationController _animationController;
-  late final Animation<double> _turnsAnimation;
-  late final Animation<double> _sizeAnimation;
-
   Color _iconColor = AppColors.secondaryText;
+
+  late MapEntry<T, String>? selectedValue = widget.items.entries
+      .firstWhereOrNull((entry) => entry.key == widget.initialValue);
 
   String get value => _textController.value.text;
 
   @override
-  void initState() {
-    super.initState();
-    _initAnimations();
-    _listenFocus();
-  }
-
-  @override
   void dispose() {
-    _animationController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -93,12 +49,11 @@ class WaterFormSelectState extends State<WaterFormSelect>
           focusNode: _focusNode,
           controller: _textController,
           validator: widget.validator,
-          initialValue: widget.initialValue,
+          enabled: widget.items.isNotEmpty,
+          initialValue: selectedValue?.value,
           onTap: () {
-            if (_focusNode.hasFocus) {
-              _animationController.reverse();
-              _focusNode.unfocus();
-            }
+            _focusNode.unfocus();
+            _showDropdown();
           },
           style: const TextStyle(
             color: AppColors.primaryText,
@@ -135,85 +90,99 @@ class WaterFormSelectState extends State<WaterFormSelect>
           autovalidateMode: AutovalidateMode.disabled,
           enableInteractiveSelection: false,
         ),
-        SizeTransition(
-          axisAlignment: 1.0,
-          sizeFactor: _sizeAnimation,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(_borderRadius),
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: (_itemHeight * _maxVisibleItems) + 12.0,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(_borderRadius),
-                border: Border.all(color: AppColors.borderColor),
-                color: AppColors.white,
-              ),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: widget.items.map(_buildItem).toList(),
-                ),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }
 
-  void _initAnimations() {
-    _animationController = AnimationController(
-      duration: _animationDuration,
-      vsync: this,
-    );
-    _turnsAnimation = Tween<double>(
-      begin: 0.0,
-      end: 0.5,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOutCubic,
-      ),
-    );
-    _sizeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOutCubic,
+  void reset() {
+    _textController.clear();
+  }
+
+  Widget _buildArrowIcon() {
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(end: 12.0),
+      child: Icon(
+        AppIcons.arrow_down,
+        color: _iconColor,
+        size: _iconSize,
       ),
     );
   }
 
-  void _listenFocus() {
-    _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
-        _animationController.forward();
-        setState(() => _iconColor = AppColors.primary);
-      } else {
-        _animationController.reverse();
-        setState(() => _iconColor = AppColors.secondaryText);
-      }
-    });
+  Future<DateTime?> _showDropdown() async {
+    final scrollController = ScrollController();
+    final items = widget.items.entries.toList();
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 0.0,
+          insetPadding: const EdgeInsets.all(24.0),
+          titlePadding:
+              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          contentPadding:
+              const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 6.0, 24.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(_borderRadius),
+          ),
+          title: WaterText('Select Nationality'.toUpperCase()),
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height / 1.5,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 18.0),
+                  child: WaterFormSearch(
+                    hintText: 'Search...',
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Flexible(
+                  child: RawScrollbar(
+                    isAlwaysShown: true,
+                    controller: scrollController,
+                    thumbColor: AppColors.primary,
+                    radius: Radius.circular(_borderRadius),
+                    thickness: 3.0,
+                    child: ListView.builder(
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 8.0, end: 26.0),
+                      physics: const BouncingScrollPhysics(),
+                      controller: scrollController,
+                      itemCount: items.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return _buildItem(context, items[index]);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
-  Widget _buildItem(String item) {
+  Widget _buildItem(BuildContext context, MapEntry<T, String> item) {
     return GestureDetector(
       onTap: () {
-        _textController.text = item;
-        _animationController.reverse();
-        _focusNode.unfocus();
+        widget.onChanged?.call(item.key);
+        _textController.text = item.value;
+        Navigator.of(context).pop();
       },
-      child: Container(
+      child: SizedBox(
         height: _itemHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Align(
           alignment: AlignmentDirectional.centerStart,
           child: WaterText(
-            item,
+            item.value,
             fontSize: _fontSize,
             lineHeight: _lineHeight,
             fontWeight: FontWeight.w500,
@@ -221,20 +190,6 @@ class WaterFormSelectState extends State<WaterFormSelect>
         ),
       ),
       behavior: HitTestBehavior.opaque,
-    );
-  }
-
-  Widget _buildArrowIcon() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 12.0),
-      child: RotationTransition(
-        turns: _turnsAnimation,
-        child: Icon(
-          AppIcons.arrow_down,
-          color: _iconColor,
-          size: _iconSize,
-        ),
-      ),
     );
   }
 }

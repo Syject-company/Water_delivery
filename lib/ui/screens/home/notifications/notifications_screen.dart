@@ -21,7 +21,6 @@ class NotificationsScreen extends StatelessWidget {
             position: index,
             duration: const Duration(milliseconds: 375),
             child: SlideAnimation(
-              horizontalOffset: 50.0,
               child: FadeInAnimation(
                 child: NotificationListItem(
                   key: ValueKey(notifications[index]),

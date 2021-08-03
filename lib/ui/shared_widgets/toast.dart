@@ -31,7 +31,7 @@ class _ToastBuilderState extends State<ToastBuilder> {
   void showToast({
     required Widget child,
     required Duration duration,
-    Curve curve = Curves.easeInOutCubic,
+    Curve curve = Curves.fastOutSlowIn,
   }) async {
     final entry = OverlayEntry(
       builder: (context) {

@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/home/delivery/delivery_screen.dart';
 import 'package:water/util/fade_page_route.dart';
 
-import 'home_screen.dart';
+import 'delivery_screen.dart';
 
-abstract class HomeRoutes {
+abstract class DeliveryRoutes {
   static const String main = '/';
-  static const String delivery = 'delivery';
 }
 
-class HomeRouter {
+class DeliveryRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case HomeRoutes.main:
+      case DeliveryRoutes.main:
         return FadePageRoute(
-          builder: (context) => HomeScreen(),
-        );
-      case HomeRoutes.delivery:
-        return FadePageRoute(
-          builder: (context) => DeliveryScreen(),
+          builder: (_) => DeliveryScreen(),
         );
       default:
         return FadePageRoute(
-          builder: (context) {
+          builder: (_) {
             return Scaffold(
               body: Center(
                 child: Text(

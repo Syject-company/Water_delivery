@@ -8,7 +8,7 @@ import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/button/circle_button.dart';
-import 'package:water/ui/shared_widgets/input/form_input.dart';
+import 'package:water/ui/shared_widgets/input/form_fields.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';

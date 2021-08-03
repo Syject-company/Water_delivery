@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/input/form_input.dart';
+import 'package:water/ui/shared_widgets/input/form_fields.dart';
 import 'package:water/ui/shared_widgets/logo/logo.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/ui/validators/field.dart';

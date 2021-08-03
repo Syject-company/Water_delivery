@@ -1,40 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/text_style.dart';
+part of form_fields;
 
-const int _errorMaxLines = 3;
-const double _fontSize = 15.0;
-const double _lineHeight = 1.5;
-const double _hintFontSize = 15.0;
-const double _errorFontSize = 14.0;
-const double _borderRadius = 19.0;
-const double _borderWidth = 1.0;
-const EdgeInsetsGeometry _contentPadding =
-    EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0);
-const OutlineInputBorder _defaultBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-  borderSide: BorderSide(
-    color: AppColors.inputDefaultBorder,
-    width: _borderWidth,
-  ),
-);
-const OutlineInputBorder _focusedBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-  borderSide: BorderSide(
-    color: AppColors.inputFocusedBorder,
-    width: _borderWidth,
-  ),
-);
-const OutlineInputBorder _errorBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
-  borderSide: BorderSide(
-    color: AppColors.inputErrorBorder,
-    width: _borderWidth,
-  ),
-);
 const TextStyle _datePickerTextStyle = TextStyle(
+  inherit: false,
   fontSize: _fontSize,
   fontWeight: FontWeight.w600,
 );
@@ -136,7 +103,7 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
       helpText: 'Select birthday date'.toUpperCase(),
       cancelText: 'Cancel'.toUpperCase(),
       confirmText: 'Ok'.toUpperCase(),
-      builder: (_, child) {
+      builder: (context, child) {
         return Theme(
           data: ThemeData(
             primaryIconTheme: IconThemeData(color: Colors.black),
@@ -153,6 +120,7 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
               overline: _datePickerTextStyle.poppins,
               // title style
               headline4: const TextStyle(
+                inherit: false,
                 fontSize: 24.0,
                 fontWeight: FontWeight.w600,
               ).poppins,
