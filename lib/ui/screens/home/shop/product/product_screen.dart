@@ -100,9 +100,7 @@ class _ProductScreenState extends State<ProductScreen> {
           icon: AppIcons.whatsapp,
           onPressed: () {},
         ),
-        AppBarNotificationButton(
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        AppBarNotificationButton(),
       ],
     );
   }
@@ -118,9 +116,9 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _buildVolumeText() {
     final String volume;
     if (_product.volume < 1.0) {
-      volume = '${(_product.volume * 1000).toInt()}${'global.milliliter'.tr()}';
+      volume = '${(_product.volume * 1000).toInt()}${'text.milliliter'.tr()}';
     } else {
-      volume = '${_product.volume}${'global.liter'.tr()}';
+      volume = '${_product.volume}${'text.liter'.tr()}';
     }
 
     return WaterText(
@@ -144,7 +142,7 @@ class _ProductScreenState extends State<ProductScreen> {
           Column(
             children: <Widget>[
               WaterText(
-                'AED ${price.toStringAsFixed(2)}',
+                'text.aed'.tr(args: [price.toStringAsFixed(2)]),
                 maxLines: 1,
                 fontSize: 18.0,
                 lineHeight: 1.5,
@@ -158,7 +156,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ],
           ),
         WaterText(
-          'AED ${discountPrice.toStringAsFixed(2)}',
+          'text.aed'.tr(args: [discountPrice.toStringAsFixed(2)]),
           maxLines: 1,
           fontSize: 27.0,
           lineHeight: 2,
@@ -221,7 +219,7 @@ class _ProductScreenState extends State<ProductScreen> {
         children: <Widget>[
           Flexible(
             child: WaterText(
-              'AED ${totalDiscountPrice.toStringAsFixed(2)}',
+              'text.aed'.tr(args: [totalDiscountPrice.toStringAsFixed(2)]),
               maxLines: 1,
               fontSize: 27.0,
               fontWeight: FontWeight.w500,
@@ -249,7 +247,7 @@ class _ProductScreenState extends State<ProductScreen> {
               setState(() {});
             }
           : null,
-      text: 'Add To Cart',
+      text: 'button.add_to_cart'.tr(),
       backgroundColor: amount > 0 ? AppColors.primary : AppColors.disabled,
       foregroundColor: amount > 0 ? AppColors.white : AppColors.white,
     );
@@ -263,7 +261,7 @@ class _ProductScreenState extends State<ProductScreen> {
         );
         Navigator.of(context).pop();
       },
-      text: 'Checkout',
+      text: 'button.checkout'.tr(),
     );
   }
 }

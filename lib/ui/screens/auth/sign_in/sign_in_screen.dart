@@ -84,7 +84,7 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildSignInLabel() {
     return WaterText(
-      'sign_in.title'.tr(),
+      'text.sign_in'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
@@ -113,14 +113,14 @@ class SignInScreen extends StatelessWidget {
           WaterFormInput(
             key: _emailInputKey,
             validator: const EmailValidator().validator,
-            hintText: 'global.email'.tr(),
+            hintText: 'input.email'.tr(),
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
             key: _passwordInputKey,
             validator: const PasswordValidator().validator,
-            hintText: 'global.password'.tr(),
+            hintText: 'input.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
         ],
@@ -132,7 +132,7 @@ class SignInScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(AuthRoutes.forgotPassword),
       child: WaterText(
-        'sign_in.forgot_password'.tr(),
+        'text.forgot_your_password'.tr(),
         color: AppColors.primary,
         fontSize: 16.0,
         lineHeight: 1.5,
@@ -145,7 +145,7 @@ class SignInScreen extends StatelessWidget {
   Widget _buildSignUpLink(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: 'sign_in.new_in'.tr(),
+        text: 'text.new_in'.tr(),
         style: const TextStyle(
           color: AppColors.secondaryText,
           fontSize: 16.0,
@@ -153,7 +153,7 @@ class SignInScreen extends StatelessWidget {
         ).poppins,
         children: <TextSpan>[
           TextSpan(
-            text: 'sign_in.sign_up'.tr(),
+            text: 'text.sign_up'.tr(),
             recognizer: TapGestureRecognizer()
               ..onTap =
                   () => Navigator.of(context).pushNamed(AuthRoutes.signUp),
@@ -173,7 +173,7 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildSignUpLabel() {
     return WaterText(
-      'global.sign_in_with'.tr(),
+      'text.sign_in_with'.tr(),
       fontSize: 18.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
@@ -190,6 +190,7 @@ class SignInScreen extends StatelessWidget {
             context.auth.add(FacebookLogin());
           },
           icon: AppIcons.facebook,
+          iconSize: 26.0,
         ),
         const SizedBox(width: 18.0),
         WaterCircleButton(
@@ -222,12 +223,11 @@ class SignInScreen extends StatelessWidget {
         final email = _emailInputKey.currentState!.value;
         final password = _passwordInputKey.currentState!.value;
 
-        context.auth.add(Login(
-          email: email,
-          password: password,
-        ));
+        context.auth.add(
+          Login(email: email, password: password),
+        );
       },
-      text: 'sign_in.login'.tr(),
+      text: 'button.login'.tr(),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/auth/auth_bloc.dart';
 import 'package:water/bloc/auth/forgot_password/forgot_password_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/util/fade_page_route.dart';
+import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'auth_screen.dart';
 import 'forgot_password/forgot_password_screen.dart';
@@ -21,33 +21,33 @@ class AuthRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AuthRoutes.main:
-        return FadePageRoute(
-          builder: (_) => AuthScreen(),
+        return SlideWithFadePageRoute(
+          builder: (context) => AuthScreen(),
         );
       case AuthRoutes.signIn:
-        return FadePageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => AuthBloc(),
+        return SlideWithFadePageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => AuthBloc(),
             child: SignInScreen(),
           ),
         );
       case AuthRoutes.signUp:
-        return FadePageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => AuthBloc(),
+        return SlideWithFadePageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => AuthBloc(),
             child: SignUpScreen(),
           ),
         );
       case AuthRoutes.forgotPassword:
-        return FadePageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => ForgotPasswordBloc(),
+        return SlideWithFadePageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => ForgotPasswordBloc(),
             child: ForgotPasswordScreen(),
           ),
         );
       default:
-        return FadePageRoute(
-          builder: (_) {
+        return SlideWithFadePageRoute(
+          builder: (context) {
             return Scaffold(
               body: Center(
                 child: Text(

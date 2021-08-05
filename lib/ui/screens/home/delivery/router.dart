@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/screens/home/delivery/time/time_screen.dart';
 import 'package:water/util/fade_page_route.dart';
+import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'delivery_screen.dart';
 
 abstract class DeliveryRoutes {
   static const String main = '/';
+  static const String time = 'time';
 }
 
 class DeliveryRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case DeliveryRoutes.main:
-        return FadePageRoute(
+        return SlideWithFadePageRoute(
           builder: (_) => DeliveryScreen(),
         );
+      case DeliveryRoutes.time:
+        return SlideWithFadePageRoute(
+          builder: (_) => TimeScreen(),
+        );
       default:
-        return FadePageRoute(
+        return SlideWithFadePageRoute(
           builder: (_) {
             return Scaffold(
               body: Center(

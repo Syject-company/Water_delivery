@@ -42,7 +42,7 @@ class EnterNewPasswordPage extends StatelessWidget {
 
   Widget _buildEnterNewPasswordLabel() {
     return WaterText(
-      'forgot_password.enter_new_password.title'.tr(),
+      'text.enter_new_password'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
@@ -71,14 +71,14 @@ class EnterNewPasswordPage extends StatelessWidget {
           WaterFormInput(
             key: _codeInputKey,
             validator: const FieldValidator(fieldName: 'Code').validator,
-            hintText: 'global.code'.tr(),
+            hintText: 'input.code'.tr(),
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
             key: _passwordInputKey,
             validator: const PasswordValidator().validator,
-            hintText: 'global.password'.tr(),
+            hintText: 'input.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
@@ -86,7 +86,7 @@ class EnterNewPasswordPage extends StatelessWidget {
             key: _confirmPasswordInputKey,
             validator:
                 const FieldValidator(fieldName: 'Confirm Password').validator,
-            hintText: 'global.confirm_password'.tr(),
+            hintText: 'input.confirm_password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
         ],
@@ -112,7 +112,7 @@ class EnterNewPasswordPage extends StatelessWidget {
           confirmPassword: confirmPassword,
         ));
       },
-      text: 'forgot_password.enter_new_password.login'.tr(),
+      text: 'button.login'.tr(),
     );
   }
 }

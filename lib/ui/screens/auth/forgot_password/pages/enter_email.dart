@@ -39,7 +39,7 @@ class EnterEmailPage extends StatelessWidget {
 
   Widget _buildForgotPasswordLabel() {
     return WaterText(
-      'forgot_password.enter_email.title'.tr(),
+      'text.forgot_password'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
@@ -52,7 +52,7 @@ class EnterEmailPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-            builder: (_, state) {
+            builder: (context, state) {
               return WaterText(
                 state is ForgotPasswordError ? state.message : '',
                 fontSize: 15.0,
@@ -66,7 +66,7 @@ class EnterEmailPage extends StatelessWidget {
           WaterFormInput(
             key: _emailInputKey,
             validator: const EmailValidator().validator,
-            hintText: 'global.email'.tr(),
+            hintText: 'input.email'.tr(),
             keyboardType: TextInputType.emailAddress,
           )
         ],
@@ -85,7 +85,7 @@ class EnterEmailPage extends StatelessWidget {
         final email = _emailInputKey.currentState!.value;
         context.forgotPassword.add(ResetPassword(email: email));
       },
-      text: 'forgot_password.enter_email.reset_password'.tr(),
+      text: 'button.reset_password'.tr(),
     );
   }
 }

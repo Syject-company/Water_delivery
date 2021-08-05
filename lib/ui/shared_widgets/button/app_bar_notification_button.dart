@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/notification/notification_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 const double _iconSize = 32.0;
 
 class AppBarNotificationButton extends StatelessWidget {
-  const AppBarNotificationButton({
-    Key? key,
-    this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback? onPressed;
+  const AppBarNotificationButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.navigation.add(
-          NavigateTo(screen: Screen.notifications),
-        );
-        onPressed?.call();
+        homeNavigator.currentState!.pushNamed(HomeRoutes.notifications);
       },
       child: Center(
         child: Stack(

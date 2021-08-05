@@ -90,7 +90,7 @@ class _ProductListItemState extends State<ProductListItem> {
     return Row(
       children: <Widget>[
         WaterText(
-          'AED ${discountPrice.toStringAsFixed(2)}',
+          'text.aed'.tr(args: [discountPrice.toStringAsFixed(2)]),
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,
@@ -105,7 +105,7 @@ class _ProductListItemState extends State<ProductListItem> {
                 const SizedBox(width: 6.0),
                 Flexible(
                   child: WaterText(
-                    'AED ${price.toStringAsFixed(2)}',
+                    'text.aed'.tr(args: [price.toStringAsFixed(2)]),
                     maxLines: 1,
                     fontSize: 15.0,
                     fontWeight: FontWeight.w500,
@@ -135,10 +135,9 @@ class _ProductListItemState extends State<ProductListItem> {
   Widget _buildVolumeText() {
     final String volume;
     if (_product.volume < 1.0) {
-      volume =
-          '${(_product.volume * 1000).toInt()}${'global.milliliter'.tr()}';
+      volume = '${(_product.volume * 1000).toInt()}${'text.milliliter'.tr()}';
     } else {
-      volume = '${_product.volume}${'global.liter'.tr()}';
+      volume = '${_product.volume}${'text.liter'.tr()}';
     }
 
     return WaterText(
@@ -160,7 +159,7 @@ class _ProductListItemState extends State<ProductListItem> {
           context.cart.add(
             AddToCart(product: _product, amount: 1),
           );
-          _showToast('Product has been added to the cart!');
+          _showToast('toast.product_added'.tr());
         },
         icon: AppIcons.plus,
         backgroundColor: AppColors.secondary,
@@ -179,7 +178,7 @@ class _ProductListItemState extends State<ProductListItem> {
           context.cart.add(
             RemoveFromCart(product: _product),
           );
-          _showToast('Product has been removed from the cart!');
+          _showToast('toast.product_removed'.tr());
         } else {
           context.cart.add(
             AddToCart(product: _product, amount: value),

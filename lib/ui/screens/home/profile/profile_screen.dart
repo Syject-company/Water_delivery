@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/domain/model/home/data/cities.dart';
 import 'package:water/domain/model/home/data/nationalities.dart';
@@ -10,6 +11,7 @@ import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/radio/radio_group.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 import 'package:water/util/localization.dart';
+import 'package:water/util/session.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -21,7 +23,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<WaterFormSelectState> _districtSelectKey = GlobalKey();
 
+  String? _selectedNationality;
   City? _selectedCity;
+  String? _selectedDistrict;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsetsDirectional.only(start: 24.0),
       child: WaterText(
-        'Language',
+        'text.language'.tr(),
         fontSize: 18.0,
       ),
     );
@@ -85,17 +89,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: <Widget>[
           WaterFormInput(
-            hintText: 'First Name',
+            hintText: 'input.first_name'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Last Name',
+            hintText: 'input.last_name'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Email',
+            hintText: 'input.email'.tr(),
             readOnly: true,
             initialValue: 'example@example.com',
           ),
@@ -110,11 +114,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 16.0),
           WaterFormDatePicker(
-            hintText: 'Birthday',
+            hintText: 'input.birthday'.tr(),
+            helpText: 'input.select_birthday_date'.tr(),
           ),
           const SizedBox(height: 16.0),
-          WaterFormSelect(
-            hintText: 'Nationality',
+          WaterFormSelect<String>(
+            initialValue: _selectedNationality,
+            hintText: 'input.nationality'.tr(),
+            helpText: 'input.select_nationality'.tr(),
+            onChanged: (nationality) {
+              setState(() => _selectedNationality = nationality);
+            },
             items: {
               for (final nationality in nationalities) nationality: nationality,
             },
@@ -128,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsetsDirectional.only(start: 24.0),
       child: WaterText(
-        'Delivery address',
+        'text.delivery_address'.tr(),
         fontSize: 18.0,
       ),
     );
@@ -139,19 +149,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: <Widget>[
           WaterFormSelect<City>(
-            hintText: 'Select Emirate',
-            items: {
-              for (final city in cities) city: city.name,
-            },
+            initialValue: cities.first,
+            hintText: 'input.select_emirate'.tr(),
+            helpText: 'input.select_emirate'.tr(),
             onChanged: (city) {
               setState(() => _selectedCity = city);
               _districtSelectKey.currentState!.reset();
             },
+            items: {
+              for (final city in cities) city: city.name,
+            },
+            enableSearch: false,
           ),
           const SizedBox(height: 16.0),
           WaterFormSelect<String>(
             key: _districtSelectKey,
-            hintText: 'Select District',
+            initialValue: _selectedDistrict,
+            hintText: 'input.select_district'.tr(),
+            helpText: 'input.select_district'.tr(),
+            onChanged: (district) {
+              setState(() => _selectedDistrict = district);
+            },
             items: {
               for (final district in _selectedCity?.districts ?? [])
                 district: district,
@@ -159,22 +177,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Street Name',
+            hintText: 'input.street'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Building Name',
+            hintText: 'input.building'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Floor',
+            hintText: 'input.floor'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            hintText: 'Apartment',
+            hintText: 'input.apartment'.tr(),
             keyboardType: TextInputType.text,
           ),
         ],
@@ -189,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: WaterText(
-            'Family Members',
+            'text.family_members'.tr(),
             fontSize: 18.0,
           ),
         ),
@@ -208,21 +226,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildSaveButton() {
     return WaterButton(
       onPressed: () {},
-      text: 'Save',
+      text: 'button.save'.tr(),
     );
   }
 
   Widget _buildChangePasswordButton() {
     return WaterButton(
       onPressed: () {},
-      text: 'Change Password',
+      text: 'button.change_password'.tr(),
     );
   }
 
   Widget _buildLogOutButton() {
     return WaterButton(
-      onPressed: () {},
-      text: 'Log Out',
+      onPressed: () => Session.invalidate(context),
+      text: 'button.logout'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,
     );

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'router.dart';
 
+final GlobalKey<NavigatorState> authNavigator = GlobalKey();
+
 class AuthNavigator extends StatelessWidget {
   AuthNavigator({Key? key}) : super(key: key);
-
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Navigator(
-        key: _navigatorKey,
+        key: authNavigator,
         initialRoute: AuthRoutes.main,
         onGenerateRoute: AuthRouter.generateRoute,
       ),
@@ -20,6 +20,6 @@ class AuthNavigator extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    return !await _navigatorKey.currentState!.maybePop();
+    return !await authNavigator.currentState!.maybePop();
   }
 }

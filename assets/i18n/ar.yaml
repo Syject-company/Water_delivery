@@ -1,48 +1,103 @@
-# GLOBAL
-global:
-  save: "حفظ"
+# SCREEN TITLE
+screen:
+  categories: "فئات"
+  products: "منتجات"
+  profile: "حساب تعريفي"
+  cart: "عربة التسوق"
+  wallet: "محفظة"
+  notifications: "إشعارات"
+  delivery: "توصيل"
+
+# TEXT
+text:
+  select_language: "اختار اللغة"
+  sign_in: "تسجيل الدخول"
+  create_account: "إنشاء حساب"
+  forgot_your_password: "نسيت كلمه السر؟"
+  new_in: "مستخدم جديد؟"
+  sign_up: " اشترك"
+  forgot_password: "هل نسيت كلمة السر"
+  enter_new_password: "أدخل كلمة سر جديدة"
+  sign_in_with: "تسجيل الدخول باستخدام"
+  sign_up_with: "اشترك مجانا باستخدام"
+  aed: "درهم {}"
+  liter: "لتر"
+  milliliter: "مل"
+  language: "لغة"
+  delivery_address: "عنوان التسليم"
+  family_members: "أفراد الأسرة"
+  empty_cart: "السلة فارغة"
+  fee: "مصاريف"
+  total: "مجموع"
+  wallet_balance: "رصيد المحفظة: درهم {}"
+
+# INPUT
+input:
+  first_name: "الاسم الاول"
+  last_name: "الكنية"
   code: "رمز"
   email: "بريد إلكتروني"
   password: "كلمه السر"
   confirm_password: "تأكيد كلمة السر"
-  sign_in_with: "تسجيل الدخول باستخدام"
-  sign_up_with: " اشترك مجانا باستخدام"
-  liter: "لتر"
-  milliliter: "مل"
+  birthday: "عيد ميلاد"
+  select_birthday_date: "حدد تاريخ الميلاد"
+  nationality: "جنسية"
+  select_nationality: "اختر الجنسية"
+  emirate: "الإمارة"
+  select_emirate: "اختر الإمارة"
+  district: "منطقة"
+  select_district: "حدد المنطقة"
+  address: "تبوك"
+  street: "اسم الشارع"
+  building: "اسم المبنى"
+  floor: "الأرض"
+  apartment: "شقة"
+  search: "بحث"
+  enter_amount: "أدخل المبلغ"
 
-# SELECT LANGUAGE SCREEN
-select_language:
-  title: "اختار اللغة"
-
-# AUTH SCREEN
-auth:
-  sign_in: "لدي حساب"
-  sign_up: "الاشتراك مجانا"
-
-# SIGN IN SCREEN
-sign_in:
-  title: "تسجيل الدخول"
-  forgot_password: "نسيت كلمه السر؟"
-  new_in: "مستخدم جديد؟"
-  sign_up: " اشترك"
+# BUTTON
+button:
+  have_account: "لدي حساب"
+  sign_up_free: "الاشتراك مجانا"
   login: "تسجيل الدخول"
-
-# SIGN UP SCREEN
-sign_up:
-  title: "إنشاء حساب"
   register: "يسجل"
+  reset_password: "إعادة تعيين كلمة السر"
+  change_password: "تغيير كلمة السر"
+  logout: "تسجيل خروج"
+  save: "حفظ"
+  subscription: "الاشتراك"
+  checkout: "الدفع"
+  add_to_cart: "أضف إلى السلة"
+  add_card: "إضافة بطاقة"
+  top_up: "فوق حتى"
+  next: "التالي"
+  ok: "حسنا"
+  cancel: "يلغي"
 
-# FORGOT PASSWORD SCREEN
-forgot_password:
-  enter_email:
-    title: "هل نسيت كلمة السر"
-    reset_password: "إعادة تعيين كلمة السر"
-  enter_new_password:
-    title: "أدخل كلمة سر جديدة"
-    login: "تسجيل الدخول"
+# SIDE MENU
+side_menu:
+  shop_now: "تسوق الآن"
+  wallet: "محفظة"
+  orders: "الطلبات"
+  subscriptions: "الاشتراكات"
+  refer_friend: "أوص أحد الأصدقاء"
+  profile: "حساب تعريفي"
+  support: "الدعم"
+  terms: "البنود و الظروف"
+  faq: "التعليمات"
+
+# TOAST
+toast:
+  product_added: "تمت إضافة المنتج إلى عربة التسوق!"
+  product_removed: "تمت إزالة المنتج من عربة التسوق!"
 
 # TODO test purposes only
 title:
+  bottles_1500: "زجاجات 1.5 لتر"
+  bottles_500: "زجاجات 500 مل"
+  bottles_330: "زجاجات 330 مل"
+  mini_cups: "أكواب مصغرة"
+
   bottle_1500_12_c: "العبوة الكرتونية المكونة من 12 زجاجة"
   bottle_1500_6_sp: "العبوة المجمعة من 6 زجاجات"
   bottle_500_24_c: "العبوة الكرتونية ذات الـ 24 زجاجة"

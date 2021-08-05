@@ -8,7 +8,7 @@ import 'package:water/ui/shared_widgets/toast.dart';
 
 import 'router.dart';
 
-final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> homeNavigator = GlobalKey();
 
 class HomeNavigator extends StatelessWidget {
   HomeNavigator({Key? key}) : super(key: key);
@@ -28,8 +28,8 @@ class HomeNavigator extends StatelessWidget {
             ),
           ],
           child: Navigator(
-            key: _navigatorKey,
-            initialRoute: HomeRoutes.delivery,
+            key: homeNavigator,
+            initialRoute: HomeRoutes.main,
             onGenerateRoute: HomeRouter.generateRoute,
             observers: [HeroController()],
           ),
@@ -39,6 +39,6 @@ class HomeNavigator extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    return !await _navigatorKey.currentState!.maybePop();
+    return !await homeNavigator.currentState!.maybePop();
   }
 }

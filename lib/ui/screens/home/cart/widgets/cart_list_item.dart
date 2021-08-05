@@ -7,19 +7,19 @@ import 'package:water/ui/shared_widgets/number_picker.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 class CartListItem extends StatefulWidget {
-  const CartListItem(
-    this.item, {
+  const CartListItem({
     Key? key,
+    required this.cartItem,
   }) : super(key: key);
 
-  final CartItem item;
+  final CartItem cartItem;
 
   @override
   _CartListItemState createState() => _CartListItemState();
 }
 
 class _CartListItemState extends State<CartListItem> {
-  CartItem get _item => widget.item;
+  CartItem get _item => widget.cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +98,9 @@ class _CartListItemState extends State<CartListItem> {
     final String volume;
     if (_item.product.volume < 1.0) {
       volume =
-          '${(_item.product.volume * 1000).toInt()}${'global.milliliter'.tr()}';
+          '${(_item.product.volume * 1000).toInt()}${'text.milliliter'.tr()}';
     } else {
-      volume = '${_item.product.volume}${'global.liter'.tr()}';
+      volume = '${_item.product.volume}${'text.liter'.tr()}';
     }
 
     return WaterText(
@@ -159,7 +159,7 @@ class _CartListItemState extends State<CartListItem> {
           Column(
             children: <Widget>[
               WaterText(
-                'AED ${totalPrice.toStringAsFixed(2)}',
+                'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
                 maxLines: 1,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -171,7 +171,7 @@ class _CartListItemState extends State<CartListItem> {
             ],
           ),
         WaterText(
-          'AED ${totalDiscountPrice.toStringAsFixed(2)}',
+          'text.aed'.tr(args: [totalDiscountPrice.toStringAsFixed(2)]),
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,

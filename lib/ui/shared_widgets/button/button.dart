@@ -5,7 +5,7 @@ import 'package:water/ui/shared_widgets/text/text.dart';
 const double _width = double.infinity;
 const double _height = 58.0;
 const double _borderRadius = 15.0;
-const double _textSize = 17.0;
+const double _fontSize = 17.0;
 const double _textLineHeight = 1.25;
 const Duration _animationDuration = Duration(milliseconds: 125);
 
@@ -16,12 +16,14 @@ class WaterButton extends StatelessWidget {
     this.onPressed,
     this.backgroundColor = AppColors.primary,
     this.foregroundColor = AppColors.white,
+    this.fontSize,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final String text;
   final Color backgroundColor;
   final Color foregroundColor;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class WaterButton extends StatelessWidget {
           child: WaterText(
             text,
             color: foregroundColor,
-            fontSize: _textSize,
+            fontSize: fontSize ?? _fontSize,
             lineHeight: _textLineHeight,
           ),
         ),

@@ -12,11 +12,13 @@ class WaterFormDatePicker extends StatefulWidget {
     this.validator,
     this.initialValue,
     this.hintText,
+    this.helpText,
   }) : super(key: key);
 
   final FormFieldValidator<String>? validator;
   final String? initialValue;
   final String? hintText;
+  final String? helpText;
 
   @override
   WaterFormDatePickerState createState() => WaterFormDatePickerState();
@@ -100,9 +102,9 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
       initialDate: initialDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      helpText: 'Select birthday date'.toUpperCase(),
-      cancelText: 'Cancel'.toUpperCase(),
-      confirmText: 'Ok'.toUpperCase(),
+      helpText: widget.helpText?.toUpperCase(),
+      cancelText: 'button.cancel'.tr().toUpperCase(),
+      confirmText: 'button.ok'.tr().toUpperCase(),
       builder: (context, child) {
         return Theme(
           data: ThemeData(

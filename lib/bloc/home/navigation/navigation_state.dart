@@ -18,25 +18,21 @@ class Shop extends NavigationState {
 }
 
 class ShopCategories extends Shop {
-  const ShopCategories() : super(title: 'Categories');
+  const ShopCategories() : super(title: 'screen.categories');
 }
 
 class ShopProducts extends Shop {
-  const ShopProducts() : super(title: 'Products');
+  const ShopProducts() : super(title: 'screen.products');
 }
 
 class Profile extends NavigationState {
-  const Profile() : super(title: 'Profile', index: 1);
+  const Profile() : super(title: 'screen.profile', index: 1);
 }
 
 class Cart extends NavigationState {
-  const Cart() : super(title: 'Cart', index: 2);
+  const Cart() : super(title: 'screen.cart', index: 2);
 }
 
 class Wallet extends NavigationState {
-  const Wallet() : super(title: 'Wallet', index: 3);
-}
-
-class Notifications extends NavigationState {
-  const Notifications() : super(title: 'Notifications', index: 4);
+  const Wallet() : super(title: 'screen.wallet', index: 3);
 }

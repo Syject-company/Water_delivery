@@ -52,16 +52,16 @@ class WaterFormInputState extends State<WaterFormInput> {
   }
 
   @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return widget.labelText != null
         ? _wrapWithLabel(_buildFormInput())
         : _buildFormInput();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   Widget _buildFormInput() {
@@ -142,7 +142,8 @@ class WaterFormInputState extends State<WaterFormInput> {
             widget.labelText!,
             maxLines: 1,
             lineHeight: 1.25,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.fade,
+            softWrap: false,
           ),
         ),
         child,

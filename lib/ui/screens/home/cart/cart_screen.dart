@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/button/button.dart';
 import 'package:water/ui/shared_widgets/text/animated_text.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
@@ -26,74 +28,62 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CartBloc, CartState>(
-      listener: (_, state) {
+      listener: (context, state) {
         final totalPrice = state.totalPrice;
         _totalPriceTextKey.currentState!.setNewValue(
-          'AED ${totalPrice.toStringAsFixed(2)}',
+          'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
           reverse: totalPrice < _lastTotalPrice,
         );
         _lastTotalPrice = totalPrice;
       },
-      builder: (_, state) {
-        return Column(
-          children: <Widget>[
-            state.items.isNotEmpty
-                ? _buildItems(state)
-                : _buildEmptyCartText(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: _buildBottomPanel(state),
-            )
-          ],
+      builder: (context, state) {
+        return Scaffold(
+          body: state.items.isNotEmpty
+              ? _buildCartItems(state)
+              : _buildEmptyCartText(),
+          bottomNavigationBar: _buildBottomPanel(state),
         );
       },
     );
   }
 
   Widget _buildEmptyCartText() {
-    return Expanded(
-      child: Center(
-        child: WaterText(
-          'Cart is Empty',
-          fontSize: 20.0,
-          color: AppColors.secondaryText,
-        ),
+    return Center(
+      child: WaterText(
+        'text.empty_cart'.tr(),
+        fontSize: 20.0,
+        color: AppColors.secondaryText,
       ),
     );
   }
 
-  Widget _buildItems(CartState state) {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: _separateItems(state.items),
-        ),
+  Widget _buildCartItems(CartState state) {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: _separateItems(state.items),
       ),
     );
   }
 
   List<Widget> _separateItems(List<CartItem> items) {
-    final separatedItems = <Widget>[];
+    final separatedItems = <Widget>[]..add(_buildDivider());
 
-    if (items.length > 0) {
-      separatedItems.add(_buildDivider());
-      items.forEach(
-        (item) => separatedItems.addAll([
-          CartListItem(item, key: ValueKey(item)),
-          _buildDivider(),
-        ]),
-      );
-    }
+    items.forEach(
+      (item) => separatedItems.addAll([
+        CartListItem(key: ValueKey(item), cartItem: item),
+        _buildDivider(),
+      ]),
+    );
 
     return separatedItems;
   }
 
   Widget _buildDivider() {
     return const Divider(
-      height: 1.0,
-      thickness: 1.0,
       color: AppColors.borderColor,
+      thickness: 1.0,
+      height: 1.0,
     );
   }
 
@@ -104,12 +94,13 @@ class _CartScreenState extends State<CartScreen> {
         border: Border(top: BorderSide(color: AppColors.borderColor)),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _buildDiscountPriceText(),
           const SizedBox(height: 8.0),
           _buildTotalPriceText(state),
           const SizedBox(height: 16.0),
-          _buildActionButtons(),
+          _buildActionButtons(state),
         ],
       ),
     );
@@ -122,7 +113,7 @@ class _CartScreenState extends State<CartScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           WaterText(
-            'Fee',
+            'text.fee'.tr(),
             fontSize: 18.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w500,
@@ -131,7 +122,7 @@ class _CartScreenState extends State<CartScreen> {
           const SizedBox(width: 16.0),
           Flexible(
             child: WaterText(
-              'AED 0.00',
+              'text.aed'.tr(args: ['0.00']),
               fontSize: 18.0,
               lineHeight: 1.5,
               fontWeight: FontWeight.w500,
@@ -145,20 +136,22 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildTotalPriceText(CartState state) {
+    final totalPrice = _lastTotalPrice = state.totalPrice;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           WaterText(
-            'Total',
+            'text.total'.tr(),
             fontSize: 23.0,
             lineHeight: 2.0,
           ),
           const SizedBox(width: 24.0),
           Flexible(
             child: AnimatedWaterText(
-              'AED ${(_lastTotalPrice = state.totalPrice).toStringAsFixed(2)}',
+              'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
               key: _totalPriceTextKey,
               fontSize: 23.0,
               lineHeight: 2.0,
@@ -172,22 +165,32 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(CartState state) {
+    final isCartEmpty = state.items.isEmpty;
+
     return Row(
       children: <Widget>[
         Expanded(
           child: WaterButton(
             onPressed: () {},
-            text: 'Subscription',
-            backgroundColor: AppColors.secondary,
-            foregroundColor: AppColors.primary,
+            text: 'button.subscription'.tr(),
+            backgroundColor:
+                isCartEmpty ? AppColors.disabled : AppColors.secondary,
+            foregroundColor: isCartEmpty ? AppColors.white : AppColors.primary,
           ),
         ),
         const SizedBox(width: 16.0),
         Expanded(
           child: WaterButton(
-            onPressed: () {},
-            text: 'Checkout',
+            onPressed: () {
+              if (!isCartEmpty) {
+                homeNavigator.currentState!.pushNamed(HomeRoutes.delivery);
+              }
+            },
+            text: 'button.checkout'.tr(),
+            backgroundColor:
+                isCartEmpty ? AppColors.disabled : AppColors.primary,
+            foregroundColor: isCartEmpty ? AppColors.white : AppColors.white,
           ),
         ),
       ],

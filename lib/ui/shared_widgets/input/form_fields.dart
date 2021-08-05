@@ -17,14 +17,14 @@ part 'form_select.dart';
 
 const int _errorMaxLines = 3;
 const double _fontSize = 15.0;
-const double _lineHeight = 1.5;
+const double _lineHeight = 1.75;
 const double _hintFontSize = 15.0;
 const double _errorFontSize = 14.0;
 const double _borderRadius = 19.0;
 const double _borderWidth = 1.0;
 const double _iconSize = 18.0;
 const EdgeInsetsGeometry _contentPadding =
-    EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0);
+    EdgeInsets.fromLTRB(24.0, 14.0, 24.0, 14.0);
 const OutlineInputBorder _defaultBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
   borderSide: BorderSide(

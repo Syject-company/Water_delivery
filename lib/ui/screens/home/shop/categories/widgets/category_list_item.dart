@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/domain/model/home/shop/category.dart';
@@ -45,7 +46,7 @@ class CategoryListItem extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               WaterText(
-                category.title,
+                category.title.tr(),
                 fontSize: 18.0,
               ),
             ],

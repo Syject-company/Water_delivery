@@ -37,7 +37,7 @@ class SelectLanguageScreen extends StatelessWidget {
 
   Widget _buildSelectLanguageLabel() {
     return WaterText(
-      'select_language.title'.tr(),
+      'text.select_language'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
@@ -66,7 +66,7 @@ class SelectLanguageScreen extends StatelessWidget {
 
         Navigator.of(context).pushReplacementNamed(AppRoutes.auth);
       },
-      text: 'global.save'.tr(),
+      text: 'button.save'.tr(),
     );
   }
 }

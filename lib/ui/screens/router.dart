@@ -4,7 +4,7 @@ import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/loader_overlay.dart';
-import 'package:water/util/fade_page_route.dart';
+import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'auth/auth_navigator.dart';
 import 'splash/splash_screen.dart';
@@ -19,26 +19,26 @@ class RootRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.splash:
-        return FadePageRoute(
+        return SlideWithFadePageRoute(
           builder: (_) => BlocProvider<SplashBloc>(
             create: (_) => SplashBloc()..add(Loading()),
             child: SplashScreen(),
           ),
         );
       case AppRoutes.auth:
-        return FadePageRoute(
+        return SlideWithFadePageRoute(
           builder: (_) => LoaderOverlay(
             child: AuthNavigator(),
           ),
         );
       case AppRoutes.home:
-        return FadePageRoute(
+        return SlideWithFadePageRoute(
           builder: (_) => LoaderOverlay(
             child: HomeNavigator(),
           ),
         );
       default:
-        return FadePageRoute(
+        return SlideWithFadePageRoute(
           builder: (_) => Scaffold(
             body: Center(
               child: Text(

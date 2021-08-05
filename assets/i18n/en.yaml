@@ -1,48 +1,103 @@
-# GLOBAL
-global:
-  save: "Save"
+# SCREEN TITLE
+screen:
+  categories: "Categories"
+  products: "Products"
+  profile: "Profile"
+  cart: "Cart"
+  wallet: "Wallet"
+  notifications: "Notifications"
+  delivery: "Delivery"
+
+# TEXT
+text:
+  select_language: "Select Language"
+  sign_in: "Sign In"
+  create_account: "Create account"
+  forgot_your_password: "Forgot your password?"
+  new_in: "New in?"
+  sign_up: " Sign up"
+  forgot_password: "Forgot password"
+  enter_new_password: "Enter New Password"
+  sign_in_with: "Sign in with"
+  sign_up_with: "Sign up with"
+  aed: "AED {}"
+  liter: "L"
+  milliliter: "ml"
+  language: "Language"
+  delivery_address: "Delivery address"
+  family_members: "Family Members"
+  empty_cart: "Cart is Empty"
+  fee: "Fee"
+  total: "Total"
+  wallet_balance: "Wallet balance: AED {}"
+
+# INPUT
+input:
+  first_name: "First Name"
+  last_name: "Last Name"
   code: "Code"
   email: "Email"
   password: "Password"
   confirm_password: "Confirm Password"
-  sign_in_with: "Sign in with"
-  sign_up_with: "Sign up with"
-  liter: "L"
-  milliliter: "ml"
+  birthday: "Birthday"
+  select_birthday_date: "Select Birthday Date"
+  nationality: "Nationality"
+  select_nationality: "Select Nationality"
+  emirate: "Emirate"
+  select_emirate: "Select Emirate"
+  district: "District"
+  select_district: "Select District"
+  address: "Address"
+  street: "Street Name"
+  building: "Building Name"
+  floor: "Floor"
+  apartment: "Apartment"
+  search: "Search"
+  enter_amount: "Enter the amount"
 
-# SELECT LANGUAGE SCREEN
-select_language:
-  title: "Select Language"
-
-# AUTH SCREEN
-auth:
-  sign_in: "I have an account"
-  sign_up: "Sign up free"
-
-# SIGN IN SCREEN
-sign_in:
-  title: "Sign In"
-  forgot_password: "Forgot your password?"
-  new_in: "New in?"
-  sign_up: " Sign up"
+# BUTTON
+button:
+  have_account: "I have an account"
+  sign_up_free: "Sign up free"
   login: "Log In"
-
-# SIGN UP SCREEN
-sign_up:
-  title: "Create account"
   register: "Register"
+  reset_password: "Reset Password"
+  change_password: "Change Password"
+  logout: "Log Out"
+  save: "Save"
+  subscription: "Subscription"
+  checkout: "Checkout"
+  add_to_cart: "Add To Cart"
+  add_card: "Add Card"
+  top_up: "Top Up"
+  next: "Next"
+  ok: "OK"
+  cancel: "Cancel"
 
-# FORGOT PASSWORD SCREEN
-forgot_password:
-  enter_email:
-    title: "Forgot password"
-    reset_password: "Reset Password"
-  enter_new_password:
-    title: "Enter New Password"
-    login: "Log In"
+# SIDE MENU
+side_menu:
+  shop_now: "Shop Now"
+  wallet: "Wallet"
+  orders: "Orders"
+  subscriptions: "Subscriptions"
+  refer_friend: "Refer A Friend"
+  profile: "Profile"
+  support: "Support"
+  terms: "Terms & Conditions"
+  faq: "F.A.Q"
+
+# TOAST
+toast:
+  product_added: "Product has been added to the cart!"
+  product_removed: "Product has been removed from the cart!"
 
 # TODO test purposes only
 title:
+  bottles_1500: "1.5 Liter Bottles"
+  bottles_500: "500ml Bottles"
+  bottles_330: "330ml Bottles"
+  mini_cups: "Miniature Cups"
+
   bottle_1500_12_c: "12 Bottles Carton"
   bottle_1500_6_sp: "6 Bottles Shrink Pack"
   bottle_500_24_c: "24 Bottles Carton"

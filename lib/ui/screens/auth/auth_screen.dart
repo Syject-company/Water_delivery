@@ -39,14 +39,14 @@ class AuthScreen extends StatelessWidget {
   Widget _buildSignInButton(BuildContext context) {
     return WaterButton(
       onPressed: () => Navigator.of(context).pushNamed(AuthRoutes.signIn),
-      text: 'auth.sign_in'.tr(),
+      text: 'button.have_account'.tr(),
     );
   }
 
   Widget _buildSignUpButton(BuildContext context) {
     return WaterButton(
       onPressed: () => Navigator.of(context).pushNamed(AuthRoutes.signUp),
-      text: 'auth.sign_up'.tr(),
+      text: 'button.sign_up_free'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,
     );

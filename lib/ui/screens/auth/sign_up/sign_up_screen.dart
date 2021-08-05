@@ -55,7 +55,7 @@ class SignUpScreen extends StatelessWidget {
               _buildCreateAccountLabel(),
               const SizedBox(height: 12.0),
               _buildInputForm(),
-              const SizedBox(height: 48.0),
+              const SizedBox(height: 40.0),
               _buildSignUpLabel(),
               const SizedBox(height: 24.0),
               _buildSignUpButtons(context),
@@ -81,7 +81,7 @@ class SignUpScreen extends StatelessWidget {
 
   Widget _buildCreateAccountLabel() {
     return WaterText(
-      'sign_up.title'.tr(),
+      'text.create_account'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
@@ -109,21 +109,21 @@ class SignUpScreen extends StatelessWidget {
           const SizedBox(height: 16.0),
           WaterFormInput(
             key: _emailInputKey,
-            hintText: 'global.email'.tr(),
+            hintText: 'input.email'.tr(),
             validator: const EmailValidator().validator,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
             key: _passwordInputKey,
-            hintText: 'global.password'.tr(),
+            hintText: 'input.password'.tr(),
             validator: const PasswordValidator().validator,
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
             key: _confirmPasswordInputKey,
-            hintText: 'global.confirm_password'.tr(),
+            hintText: 'input.confirm_password'.tr(),
             validator:
                 const FieldValidator(fieldName: 'Confirm Password').validator,
             keyboardType: TextInputType.visiblePassword,
@@ -135,7 +135,7 @@ class SignUpScreen extends StatelessWidget {
 
   Widget _buildSignUpLabel() {
     return WaterText(
-      'global.sign_up_with'.tr(),
+      'text.sign_up_with'.tr(),
       fontSize: 18.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
@@ -152,6 +152,7 @@ class SignUpScreen extends StatelessWidget {
             context.auth.add(FacebookLogin());
           },
           icon: AppIcons.facebook,
+          iconSize: 26.0,
         ),
         const SizedBox(width: 18.0),
         WaterCircleButton(
@@ -191,7 +192,7 @@ class SignUpScreen extends StatelessWidget {
           confirmPassword: confirmPassword,
         ));
       },
-      text: 'sign_up.register'.tr(),
+      text: 'button.register'.tr(),
     );
   }
 }

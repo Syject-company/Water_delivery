@@ -34,7 +34,7 @@ class AppBarBackButton extends StatelessWidget {
         Platform.isWindows) {
       return Icons.arrow_back;
     } else if (Platform.isIOS || Platform.isMacOS) {
-      return Icons.arrow_back_ios;
+      return Icons.arrow_back_ios_new;
     }
   }
 }

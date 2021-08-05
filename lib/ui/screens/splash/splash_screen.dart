@@ -6,7 +6,7 @@ import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
 import 'package:water/util/session.dart';
-import 'package:water/util/fade_page_route.dart';
+import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'select_language_screen.dart';
 
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(
-      listener: (_, state) async {
+      listener: (context, state) async {
         if (state is SplashLoading) {
           await _videoController.initialize();
           await _videoController.play();
@@ -56,7 +56,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
           if (state.firstLaunch) {
             Navigator.of(context).pushReplacement(
-              FadePageRoute(builder: (_) => SelectLanguageScreen()),
+              SlideWithFadePageRoute(
+                builder: (context) => SelectLanguageScreen(),
+              ),
             );
           } else {
             Navigator.of(context).pushReplacementNamed(
@@ -65,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
       },
-      builder: (_, state) {
+      builder: (context, state) {
         return Scaffold(
           body: AnimatedSwitcher(
             duration: _fadeDuration,

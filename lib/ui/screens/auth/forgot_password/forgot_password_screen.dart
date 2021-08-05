@@ -8,8 +8,6 @@ import 'package:water/ui/shared_widgets/loader_overlay.dart';
 import 'pages/enter_email.dart';
 import 'pages/enter_new_password.dart';
 
-const Duration _pageSwapDuration = Duration.zero;
-
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({Key? key}) : super(key: key);
 
@@ -18,7 +16,7 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
-      listener: (_, state) {
+      listener: (context, state) {
         state is ForgotPasswordLoading
             ? context.showLoader()
             : context.hideLoader();

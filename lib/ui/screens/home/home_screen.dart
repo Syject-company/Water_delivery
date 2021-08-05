@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           return WaterAppBar(
             title: WaterText(
-              state.title,
+              state.title.tr(),
               fontSize: 24.0,
               textAlign: TextAlign.center,
             ),

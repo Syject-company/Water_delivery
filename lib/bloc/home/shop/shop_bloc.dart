@@ -41,7 +41,7 @@ const List<Category> _categories = [
   Category(
     id: '1',
     imageUri: Paths.bottle_1500ml,
-    title: '1.5 Liter Bottles',
+    title: 'title.bottles_1500',
     products: <Product>[
       Product(
         id: '1',
@@ -49,12 +49,6 @@ const List<Category> _categories = [
         price: 15.0,
         volume: 1.5,
         categoryId: '',
-        sale: Sale(
-          id: '1',
-          title: 'Title',
-          percent: 0.35,
-          description: 'Description',
-        ),
         title: 'title.bottle_1500_12_c',
         description: 'description.bottle_1500_12_c',
       ),
@@ -78,7 +72,7 @@ const List<Category> _categories = [
   Category(
     id: '2',
     imageUri: Paths.bottle_500ml,
-    title: '500ml Bottles',
+    title: 'title.bottles_500',
     products: <Product>[
       Product(
         id: '3',
@@ -121,7 +115,7 @@ const List<Category> _categories = [
   Category(
     id: '3',
     imageUri: Paths.bottle_330ml,
-    title: '330ml Bottles',
+    title: 'title.bottles_330',
     products: <Product>[
       Product(
         id: '7',
@@ -156,6 +150,12 @@ const List<Category> _categories = [
         price: 15.0,
         volume: 0.33,
         categoryId: '',
+        sale: Sale(
+          id: '1',
+          title: 'Title',
+          percent: 0.25,
+          description: 'Description',
+        ),
         title: 'title.bottle_330_6_sp',
         description: 'description.bottle_330_6_sp',
       ),
@@ -164,7 +164,7 @@ const List<Category> _categories = [
   Category(
     id: '4',
     imageUri: Paths.mini_cup,
-    title: 'Miniature Cups',
+    title: 'title.mini_cups',
     products: <Product>[
       Product(
         id: '11',
@@ -172,6 +172,12 @@ const List<Category> _categories = [
         price: 15.0,
         volume: 0.2,
         categoryId: '',
+        sale: Sale(
+          id: '1',
+          title: 'Title',
+          percent: 0.5,
+          description: 'Description',
+        ),
         title: 'title.mini_cup_200_36_c',
         description: 'description.mini_cup_200_36_c',
       ),

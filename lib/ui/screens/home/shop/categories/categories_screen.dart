@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
@@ -21,8 +22,8 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildWalletBalanceText() {
-    return const WaterText(
-      'Wallet balance: AED 0.00',
+    return WaterText(
+      'text.wallet_balance'.tr(args: ['0.00']),
       fontSize: 18.0,
     );
   }
