@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/shared_widgets/number_picker.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 class CartListItem extends StatefulWidget {
   const CartListItem({

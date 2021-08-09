@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 
 part 'navigation_event.dart';
+
 part 'navigation_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -17,9 +18,6 @@ enum Screen {
   shop,
   profile,
   cart,
-  wallet,
-  orders,
-  subscriptions,
 }
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
@@ -63,8 +61,6 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       yield const Profile();
     } else if (event.screen == Screen.cart) {
       yield const Cart();
-    } else if (event.screen == Screen.wallet) {
-      yield const Wallet();
     }
   }
 

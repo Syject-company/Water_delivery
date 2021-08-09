@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
-import 'package:water/ui/shared_widgets/loader_overlay.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'auth/auth_navigator.dart';

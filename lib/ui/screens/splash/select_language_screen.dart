@@ -1,11 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/ui/screens/router.dart';
-import 'package:water/ui/shared_widgets/app_bar.dart';
-import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/logo/logo.dart';
-import 'package:water/ui/shared_widgets/radio/radio_group.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 
@@ -53,7 +49,7 @@ class SelectLanguageScreen extends StatelessWidget {
         const Locale('en'): 'English',
         const Locale('ar'): 'العربية',
       },
-      currentValue: Localization.currentLocale(context),
+      initialValue: Localization.currentLocale(context),
     );
   }
 

@@ -4,16 +4,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/domain/model/home/data/cities.dart';
 import 'package:water/domain/model/home/profile/city.dart';
+import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/delivery/router.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
-import 'package:water/ui/shared_widgets/app_bar.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_notification_button.dart';
-import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/input/form_fields.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 import 'delivery_navigator.dart';
 
@@ -35,12 +30,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+        padding: const EdgeInsets.all(24.0),
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 24.0),
             _buildDeliveryInputForm(),
           ],
         ),
@@ -57,7 +51,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         textAlign: TextAlign.center,
       ),
       leading: AppBarBackButton(
-        onPressed: () => homeNavigator.currentState!.pop(),
+        onPressed: () => homeNavigator.pop(),
       ),
       actions: <Widget>[
         AppBarIconButton(

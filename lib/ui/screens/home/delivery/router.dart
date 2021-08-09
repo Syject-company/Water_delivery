@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/screens/home/delivery/payment/payment_screen.dart';
 import 'package:water/ui/screens/home/delivery/time/time_screen.dart';
-import 'package:water/util/fade_page_route.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'delivery_screen.dart';
@@ -9,6 +9,7 @@ import 'delivery_screen.dart';
 abstract class DeliveryRoutes {
   static const String main = '/';
   static const String time = 'time';
+  static const String payment = 'payment';
 }
 
 class DeliveryRouter {
@@ -21,6 +22,10 @@ class DeliveryRouter {
       case DeliveryRoutes.time:
         return SlideWithFadePageRoute(
           builder: (_) => TimeScreen(),
+        );
+      case DeliveryRoutes.payment:
+        return SlideWithFadePageRoute(
+          builder: (_) => PaymentScreen(),
         );
       default:
         return SlideWithFadePageRoute(

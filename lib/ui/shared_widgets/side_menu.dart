@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:water/ui/constants/colors.dart';
 
 typedef DrawerCallback = void Function(bool);
@@ -152,7 +150,7 @@ class SideMenuState extends State<SideMenu>
                 : null,
             child: Container(
               color: ColorTween(
-                begin: Colors.transparent,
+                begin: AppColors.transparent,
                 end: AppColors.black.withOpacity(0.25),
               ).evaluate(_controller),
             ),

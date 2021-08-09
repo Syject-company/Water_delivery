@@ -4,7 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/screens/router.dart';
-import 'package:water/ui/shared_widgets/logo/animated_logo.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/session.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 

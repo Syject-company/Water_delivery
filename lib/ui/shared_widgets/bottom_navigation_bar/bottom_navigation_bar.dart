@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 
-part 'bottom_navigation_bar_button.dart';
 part 'bottom_navigation_bar_item.dart';
 
 typedef SelectCallback = void Function(int index);
+
+const double _iconSize = 26.0;
+const Color _selectedIconColor = AppColors.white;
+const Color _unselectedIconColor = AppColors.primaryText;
+const double _borderRadius = 15.0;
 
 const double bottomNavigationBarHeight = 80.0;
 const EdgeInsetsGeometry _contentPadding =
@@ -39,7 +43,8 @@ class WaterBottomNavigationBar extends StatelessWidget {
 
   List<Widget> _buildButtons() {
     return items
-        .asMap().map((index, item) {
+        .asMap()
+        .map((index, item) {
           return MapEntry(
             index,
             GestureDetector(
@@ -49,7 +54,7 @@ class WaterBottomNavigationBar extends StatelessWidget {
                 }
                 item.onPressed?.call();
               },
-              child: WaterBottomNavigationBarButton(
+              child: _WaterBottomNavigationBarButton(
                 key: ValueKey(item),
                 icon: item.icon,
                 selectedIcon: item.selectedIcon,
@@ -57,6 +62,48 @@ class WaterBottomNavigationBar extends StatelessWidget {
               ),
             ),
           );
-        }).values.toList();
+        })
+        .values
+        .toList();
+  }
+}
+
+class _WaterBottomNavigationBarButton extends StatefulWidget {
+  const _WaterBottomNavigationBarButton({
+    Key? key,
+    required this.icon,
+    required this.selectedIcon,
+    this.selected = false,
+  }) : super(key: key);
+
+  final Widget icon;
+  final Widget selectedIcon;
+  final bool selected;
+
+  @override
+  _WaterBottomNavigationBarButtonState createState() =>
+      _WaterBottomNavigationBarButtonState();
+}
+
+class _WaterBottomNavigationBarButtonState
+    extends State<_WaterBottomNavigationBarButton> {
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: widget.selected ? AppColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(_borderRadius),
+        ),
+        child: IconTheme(
+          data: IconThemeData(
+            size: _iconSize,
+            color: widget.selected ? _selectedIconColor : _unselectedIconColor,
+          ),
+          child: widget.selected ? widget.selectedIcon : widget.icon,
+        ),
+      ),
+    );
   }
 }

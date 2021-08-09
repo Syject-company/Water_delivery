@@ -6,13 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/app_bar.dart';
-import 'package:water/ui/shared_widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_notification_button.dart';
-import 'package:water/ui/shared_widgets/side_menu.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
 
 import 'cart/cart_screen.dart';

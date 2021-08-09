@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/ui/screens/home/shop/categories/categories_screen.dart';
 import 'package:water/ui/screens/home/shop/products/products_screen.dart';
-import 'package:water/ui/shared_widgets/carousel_slider/carousel_slider.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({Key? key}) : super(key: key);

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
-import 'package:water/ui/screens/home/delivery/delivery_screen.dart';
 import 'package:water/ui/screens/home/notifications/notifications_screen.dart';
+import 'package:water/ui/screens/home/wallet/wallet_screen.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'home_screen.dart';
 
 abstract class HomeRoutes {
   static const String main = '/';
+  static const String wallet = 'wallet';
   static const String notifications = 'notifications';
   static const String delivery = 'delivery';
 }
@@ -19,6 +20,10 @@ class HomeRouter {
       case HomeRoutes.main:
         return SlideWithFadePageRoute(
           builder: (context) => HomeScreen(),
+        );
+      case HomeRoutes.wallet:
+        return SlideWithFadePageRoute(
+          builder: (context) => WalletScreen(),
         );
       case HomeRoutes.notifications:
         return SlideWithFadePageRoute(

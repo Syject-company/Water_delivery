@@ -5,14 +5,10 @@ import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/app_bar.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_notification_button.dart';
-import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/number_picker.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 const double _checkOutPanelHeight = 80.0;
 const EdgeInsetsGeometry _checkoutPanelContentPadding =
@@ -93,7 +89,7 @@ class _ProductScreenState extends State<ProductScreen> {
   PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       leading: AppBarBackButton(
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => homeNavigator.pop(),
       ),
       actions: <Widget>[
         AppBarIconButton(
@@ -239,17 +235,14 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget _buildAddToCartButton() {
     return WaterButton(
-      onPressed: amount > 0
-          ? () {
-              context.cart.add(
-                AddToCart(product: _product, amount: amount),
-              );
-              setState(() {});
-            }
-          : null,
+      onPressed: () {
+        context.cart.add(
+          AddToCart(product: _product, amount: amount),
+        );
+        setState(() {});
+      },
       text: 'button.add_to_cart'.tr(),
-      backgroundColor: amount > 0 ? AppColors.primary : AppColors.disabled,
-      foregroundColor: amount > 0 ? AppColors.white : AppColors.white,
+      enabled: amount > 0,
     );
   }
 

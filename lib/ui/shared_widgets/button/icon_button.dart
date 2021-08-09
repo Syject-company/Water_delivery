@@ -5,7 +5,6 @@ const double _width = 45.0;
 const double _height = 45.0;
 const double _borderRadius = 10.0;
 const double _iconSize = 21.0;
-const Duration _animationDuration = Duration(milliseconds: 125);
 
 class WaterIconButton extends StatelessWidget {
   const WaterIconButton({
@@ -33,9 +32,7 @@ class WaterIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: AnimatedContainer(
-        duration: _animationDuration,
-        curve: Curves.fastOutSlowIn,
+      child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(
             borderRadius ?? _borderRadius,

@@ -108,15 +108,15 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
       builder: (context, child) {
         return Theme(
           data: ThemeData(
-            primaryIconTheme: IconThemeData(color: Colors.black),
-            backgroundColor: Colors.white,
-            dialogBackgroundColor: Colors.white,
+            primaryIconTheme: IconThemeData(color: AppColors.black),
+            backgroundColor: AppColors.white,
             dialogTheme: DialogTheme(
               elevation: 0.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(_borderRadius),
               ),
             ),
+            dialogBackgroundColor: AppColors.white,
             textTheme: TextTheme(
               // help style
               overline: _datePickerTextStyle.poppins,
@@ -152,8 +152,8 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                primary: AppColors.primary,
                 splashFactory: NoSplash.splashFactory,
+                primary: AppColors.primary,
               ),
             ),
             highlightColor: AppColors.transparent,

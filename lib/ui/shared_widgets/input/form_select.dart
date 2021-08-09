@@ -145,7 +145,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
     );
   }
 
-  Future<DateTime?> _showSelectDialog() async {
+  Future<void> _showSelectDialog() async {
     return showDialog(
       context: context,
       builder: (context) {
@@ -158,7 +158,6 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
             widget.onChanged?.call(entry.key);
             _textController.text = entry.value;
             _selectedValue = entry;
-            print(entry);
 
             Navigator.of(context).pop();
           },
@@ -199,12 +198,11 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
 
     return AlertDialog(
       elevation: 0.0,
-      titlePadding:
-          const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
+      titlePadding: const EdgeInsets.fromLTRB(24.0, 18.0, 24.0, 18.0),
       contentPadding: EdgeInsetsDirectional.fromSTEB(
           12.0, containsHelpText ? 0.0 : 24.0, 6.0, 24.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_borderRadius),
+        borderRadius: BorderRadius.circular(15.0),
       ),
       title: containsHelpText
           ? WaterText(
@@ -225,9 +223,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsetsDirectional.only(
-                      start: 12.0,
-                      end: 18.0,
-                    ),
+                        start: 12.0, end: 18.0),
                     child: WaterFormSearch(
                       hintText: 'input.search'.tr(),
                       onChanged: (value) {
@@ -250,7 +246,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
                 isAlwaysShown: true,
                 controller: scrollController,
                 thumbColor: AppColors.primary,
-                radius: Radius.circular(_borderRadius),
+                radius: Radius.circular(15.0),
                 thickness: 3.0,
                 child: ListView.builder(
                   padding:
@@ -281,8 +277,8 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: selected ? AppColors.secondary : AppColors.white,
+          borderRadius: BorderRadius.circular(15.0),
+          color: selected ? AppColors.primary : AppColors.white,
         ),
         height: _itemHeight,
         child: Align(
@@ -292,7 +288,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
             fontSize: _fontSize,
             lineHeight: 1.25,
             fontWeight: FontWeight.w500,
-            color: selected ? AppColors.primary : AppColors.primaryText,
+            color: selected ? AppColors.white : AppColors.primaryText,
           ),
         ),
       ),

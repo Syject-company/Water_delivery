@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'logo/animated_logo.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 const Color _backgroundColor = Color.fromRGBO(255, 255, 255, 0.75);
 const Duration _fadeDuration = Duration(milliseconds: 125);

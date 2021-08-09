@@ -1,13 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/button/circle_button.dart';
-import 'package:water/ui/shared_widgets/logo/logo.dart';
-import 'package:water/ui/shared_widgets/side_menu.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/router.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/session.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
@@ -61,7 +61,7 @@ class Menu extends StatelessWidget {
           label: 'side_menu.shop_now'.tr(),
         ),
         _buildActionButton(
-          onPressed: () => _navigateTo(context, Screen.wallet),
+          onPressed: () => homeNavigator.pushNamed(HomeRoutes.wallet),
           icon: AppIcons.wallet,
           label: 'side_menu.wallet'.tr(),
         ),

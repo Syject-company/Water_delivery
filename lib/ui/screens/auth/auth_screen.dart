@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/auth/router.dart';
-import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/logo/logo.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key}) : super(key: key);

@@ -4,7 +4,8 @@ import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/notification/notification_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
-import 'package:water/ui/shared_widgets/toast.dart';
+import 'package:water/ui/extensions/navigator.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 import 'router.dart';
 
@@ -39,6 +40,6 @@ class HomeNavigator extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    return !await homeNavigator.currentState!.maybePop();
+    return !await homeNavigator.maybePop();
   }
 }

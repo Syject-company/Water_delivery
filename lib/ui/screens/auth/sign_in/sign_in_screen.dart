@@ -8,13 +8,7 @@ import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/auth/router.dart';
 import 'package:water/ui/screens/router.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
-import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/button/circle_button.dart';
-import 'package:water/ui/shared_widgets/input/form_fields.dart';
-import 'package:water/ui/shared_widgets/loader_overlay.dart';
-import 'package:water/ui/shared_widgets/logo/logo.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
 

@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:water/bloc/home/notification/notification_bloc.dart';
-import 'package:water/ui/shared_widgets/app_bar.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/extensions/navigator.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 import 'widgets/notification_list_item.dart';
 
@@ -42,7 +41,7 @@ class NotificationsScreen extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       leading: AppBarBackButton(
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () => homeNavigator.pop(),
       ),
     );
   }

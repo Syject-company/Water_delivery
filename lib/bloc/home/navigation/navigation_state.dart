@@ -32,7 +32,3 @@ class Profile extends NavigationState {
 class Cart extends NavigationState {
   const Cart() : super(title: 'screen.cart', index: 2);
 }
-
-class Wallet extends NavigationState {
-  const Wallet() : super(title: 'screen.wallet', index: 3);
-}

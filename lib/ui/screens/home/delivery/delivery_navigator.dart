@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/delivery/delivery_bloc.dart';
+import 'package:water/ui/extensions/navigator.dart';
 
 import 'router.dart';
-
-extension DeliveryNavigatorHelper on GlobalKey {
-  void pop<T extends Object?>([T? result]) {
-    return deliveryNavigator.currentState!.pop<T>();
-  }
-
-  Future<T?> pushNamed<T extends Object?>(String routeName,
-      {Object? arguments}) {
-    return deliveryNavigator.currentState!
-        .pushNamed<T>(routeName, arguments: arguments);
-  }
-}
 
 final GlobalKey<NavigatorState> deliveryNavigator = GlobalKey();
 
@@ -23,15 +14,20 @@ class DeliveryNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onBackPressed,
-      child: Navigator(
-        key: deliveryNavigator,
-        initialRoute: DeliveryRoutes.main,
-        onGenerateRoute: DeliveryRouter.generateRoute,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => DeliveryBloc()),
+        ],
+        child: Navigator(
+          key: deliveryNavigator,
+          initialRoute: DeliveryRoutes.main,
+          onGenerateRoute: DeliveryRouter.generateRoute,
+        ),
       ),
     );
   }
 
   Future<bool> _onBackPressed() async {
-    return !await deliveryNavigator.currentState!.maybePop();
+    return !await deliveryNavigator.maybePop();
   }
 }

@@ -68,6 +68,7 @@ button:
   subscription: "Subscription"
   checkout: "Checkout"
   add_to_cart: "Add To Cart"
+  add_balance: "Add Balance"
   add_card: "Add Card"
   top_up: "Top Up"
   next: "Next"

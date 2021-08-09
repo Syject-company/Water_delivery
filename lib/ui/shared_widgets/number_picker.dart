@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/button/icon_button.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 const double _smallFontSize = 15.0;
 const double _smallIconSize = 16.0;

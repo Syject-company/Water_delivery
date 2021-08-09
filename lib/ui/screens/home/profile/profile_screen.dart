@@ -5,11 +5,7 @@ import 'package:water/domain/model/home/data/nationalities.dart';
 import 'package:water/domain/model/home/profile/city.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/shared_widgets/button/button.dart';
-import 'package:water/ui/shared_widgets/input/form_fields.dart';
-import 'package:water/ui/shared_widgets/number_picker.dart';
-import 'package:water/ui/shared_widgets/radio/radio_group.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
 
@@ -63,24 +59,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: WaterText(
         'text.language'.tr(),
         fontSize: 18.0,
+        lineHeight: 1.75,
       ),
     );
   }
 
   Widget _buildLanguagePicker(BuildContext context) {
-    return WaterRadioGroup<Locale>(
-      onChanged: (locale) {
-        Localization.changeLocale(context, locale);
-      },
-      values: {
-        const Locale('en'): 'English',
-        const Locale('ar'): 'العربية',
-      },
-      currentValue: Localization.currentLocale(context),
-      axis: Axis.horizontal,
-      spaceBetween: 24.0,
-      labelFontSize: 15.0,
-      labelLineHeight: 1.25,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: WaterRadioGroup<Locale>(
+        onChanged: (locale) {
+          Localization.changeLocale(context, locale);
+        },
+        initialValue: Localization.currentLocale(context),
+        values: {
+          const Locale('en'): 'English',
+          const Locale('ar'): 'العربية',
+        },
+        axis: Axis.horizontal,
+        spaceBetween: 0.0,
+        labelFontSize: 15.0,
+        labelLineHeight: 1.25,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
     );
   }
 
@@ -140,6 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: WaterText(
         'text.delivery_address'.tr(),
         fontSize: 18.0,
+        lineHeight: 1.75,
       ),
     );
   }
@@ -149,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         children: <Widget>[
           WaterFormSelect<City>(
-            initialValue: cities.first,
+            initialValue: _selectedCity,
             hintText: 'input.select_emirate'.tr(),
             helpText: 'input.select_emirate'.tr(),
             onChanged: (city) {
@@ -209,6 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: WaterText(
             'text.family_members'.tr(),
             fontSize: 18.0,
+            lineHeight: 1.75,
           ),
         ),
         Padding(

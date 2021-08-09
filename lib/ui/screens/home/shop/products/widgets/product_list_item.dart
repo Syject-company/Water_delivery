@@ -6,10 +6,7 @@ import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/shop/product/product_screen.dart';
-import 'package:water/ui/shared_widgets/button/icon_button.dart';
-import 'package:water/ui/shared_widgets/number_picker.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
-import 'package:water/ui/shared_widgets/toast.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/fade_page_route.dart';
 
 class ProductListItem extends StatefulWidget {

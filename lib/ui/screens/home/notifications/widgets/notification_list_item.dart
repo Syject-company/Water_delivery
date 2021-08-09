@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:water/domain/model/home/notification.dart' as water;
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/shared_widgets/text/text.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 class NotificationListItem extends StatelessWidget {
   const NotificationListItem({
