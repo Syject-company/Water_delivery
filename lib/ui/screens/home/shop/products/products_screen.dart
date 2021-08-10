@@ -22,8 +22,8 @@ class ProductsScreen extends StatelessWidget {
 
     return AnimationLimiter(
       child: GridView.builder(
-        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+        physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 12,

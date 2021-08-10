@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 import 'widgets/category_list_item.dart';
@@ -22,9 +24,15 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   Widget _buildWalletBalanceText() {
-    return WaterText(
-      'text.wallet_balance'.tr(args: ['0.00']),
-      fontSize: 18.0,
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        return WaterText(
+          'text.wallet_balance'.tr(args: [state.balance.toStringAsFixed(2)]),
+          fontSize: 18.0,
+          lineHeight: 1.5,
+          textAlign: TextAlign.center,
+        );
+      },
     );
   }
 
@@ -33,8 +41,8 @@ class CategoriesScreen extends StatelessWidget {
 
     return AnimationLimiter(
       child: GridView.builder(
-        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+        physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 12,

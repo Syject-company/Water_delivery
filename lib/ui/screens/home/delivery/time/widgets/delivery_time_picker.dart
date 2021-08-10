@@ -41,8 +41,14 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
 
   Widget _buildDeliveryTime(DeliveryTime time) {
     final date = DateFormat('yyyy-MM-dd').parse(time.date);
-    final formattedDayOfWeek =
-        date.isToday ? 'Today' : DateFormat('EEEE').format(date);
+    final formattedDayOfWeek;
+    if (date.isToday) {
+      formattedDayOfWeek = 'Today';
+    } else if (date.isTomorrow) {
+      formattedDayOfWeek = 'Tomorrow';
+    } else {
+      formattedDayOfWeek = DateFormat('EEEE').format(date);
+    }
     final formattedDayOfMonth = DateFormat('dd/MM').format(date);
 
     return Container(

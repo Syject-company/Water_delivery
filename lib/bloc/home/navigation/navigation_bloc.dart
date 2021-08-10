@@ -34,7 +34,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   final ShopBloc _shopBloc;
 
   @override
-  Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
+  Stream<NavigationState> mapEventToState(
+    NavigationEvent event,
+  ) async* {
     if (event is NavigateTo) {
       yield* _mapNavigateToToState(event);
     } else if (event is NavigateToChild) {

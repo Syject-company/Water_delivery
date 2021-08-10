@@ -6,12 +6,15 @@ class WaterFormInput extends StatefulWidget {
     this.controller,
     this.readOnly = false,
     this.keyboardType = TextInputType.text,
+    this.textAlign = TextAlign.start,
     this.validator,
+    this.formatters,
     this.initialValue,
     this.labelText,
     this.hintText,
     this.onTap,
     this.onEditingComplete,
+    this.onChanged,
     this.prefixIcon,
     this.maxLength,
   }) : super(key: key);
@@ -19,12 +22,15 @@ class WaterFormInput extends StatefulWidget {
   final TextEditingController? controller;
   final bool readOnly;
   final TextInputType keyboardType;
+  final TextAlign textAlign;
   final FormFieldValidator<String>? validator;
+  final List<TextInputFormatter>? formatters;
   final String? initialValue;
   final String? labelText;
   final String? hintText;
   final VoidCallback? onTap;
   final VoidCallback? onEditingComplete;
+  final void Function(String)? onChanged;
   final Widget? prefixIcon;
   final int? maxLength;
 
@@ -71,10 +77,12 @@ class WaterFormInputState extends State<WaterFormInput> {
       controller: widget.controller,
       readOnly: widget.readOnly,
       validator: widget.validator,
+      textAlign: widget.textAlign,
       initialValue: widget.initialValue,
       keyboardType: widget.keyboardType,
-      inputFormatters: [
+      inputFormatters: <TextInputFormatter>[
         LengthLimitingTextInputFormatter(widget.maxLength),
+        if (widget.formatters != null) ...widget.formatters!
       ],
       onTap: () {
         if (widget.readOnly) {
@@ -83,6 +91,7 @@ class WaterFormInputState extends State<WaterFormInput> {
         widget.onTap?.call();
       },
       onEditingComplete: widget.onEditingComplete,
+      onChanged: widget.onChanged,
       obscureText: _isPassword,
       enableSuggestions: !_isPassword,
       autocorrect: !_isPassword,
@@ -127,8 +136,8 @@ class WaterFormInputState extends State<WaterFormInput> {
         errorMaxLines: _errorMaxLines,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      textInputAction: TextInputAction.done,
       enableInteractiveSelection: !widget.readOnly,
+      textInputAction: TextInputAction.done,
     );
   }
 

@@ -9,6 +9,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/currency_input_formatter.dart';
 
 part 'form_date_picker.dart';
 part 'form_input.dart';

@@ -14,11 +14,12 @@ import 'package:water/ui/validators/password.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({Key? key}) : super(key: key) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) =>
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent));
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
   }
 
-  final GlobalKey<FormState> _signInFormKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
   final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
   final GlobalKey<WaterFormInputState> _passwordInputKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
@@ -87,7 +88,7 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildInputForm() {
     return Form(
-      key: _signInFormKey,
+      key: _formKey,
       child: Column(
         children: <Widget>[
           BlocBuilder<AuthBloc, AuthState>(
@@ -210,7 +211,7 @@ class SignInScreen extends StatelessWidget {
     return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
-        if (!_signInFormKey.currentState!.validate()) {
+        if (!_formKey.currentState!.validate()) {
           return;
         }
 

@@ -79,9 +79,9 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
         _showSelectDialog();
       },
       style: const TextStyle(
-        color: AppColors.primaryText,
         fontSize: _fontSize,
         fontWeight: FontWeight.w500,
+        color: AppColors.primaryText,
       ).poppins,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
@@ -96,7 +96,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
         errorBorder: _errorBorder,
         suffixIcon: _buildArrowIcon(),
         hintText: widget.hintText,
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           height: _lineHeight,
           fontSize: _hintFontSize,
           fontWeight: FontWeight.w400,
@@ -110,7 +110,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
         ).poppins,
         errorMaxLines: _errorMaxLines,
       ),
-      autovalidateMode: AutovalidateMode.disabled,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       enableInteractiveSelection: false,
     );
   }
@@ -139,7 +139,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
       padding: const EdgeInsetsDirectional.only(end: 12.0),
       child: Icon(
         AppIcons.arrow_down,
-        color: AppColors.secondaryText,
+        color: _items.isNotEmpty ? AppColors.secondaryText : AppColors.disabled,
         size: _iconSize,
       ),
     );
@@ -202,7 +202,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
       contentPadding: EdgeInsetsDirectional.fromSTEB(
           12.0, containsHelpText ? 0.0 : 24.0, 6.0, 24.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(_borderRadius),
       ),
       title: containsHelpText
           ? WaterText(

@@ -8,7 +8,7 @@ class MaskedInputController extends TextEditingController {
   })   : _mask = mask,
         _filter = filter,
         super(text: text) {
-    addListener(() => _formatText());
+    addListener(_formatText);
     _formatText();
   }
 
@@ -33,7 +33,7 @@ class MaskedInputController extends TextEditingController {
   }
 
   String _applyMask() {
-    final result = StringBuffer();
+    final buffer = StringBuffer();
 
     var maskCharIndex = 0;
     var valueCharIndex = 0;
@@ -51,7 +51,7 @@ class MaskedInputController extends TextEditingController {
       var valueChar = text[valueCharIndex];
 
       if (maskChar == valueChar) {
-        result.write(maskChar);
+        buffer.write(maskChar);
         valueCharIndex += 1;
         maskCharIndex += 1;
         continue;
@@ -59,7 +59,7 @@ class MaskedInputController extends TextEditingController {
 
       if (_filter.containsKey(maskChar)) {
         if (_filter[maskChar]!.hasMatch(valueChar)) {
-          result.write(valueChar);
+          buffer.write(valueChar);
           maskCharIndex += 1;
         }
 
@@ -67,11 +67,11 @@ class MaskedInputController extends TextEditingController {
         continue;
       }
 
-      result.write(maskChar);
+      buffer.write(maskChar);
       maskCharIndex += 1;
       continue;
     }
 
-    return result.toString();
+    return buffer.toString();
   }
 }

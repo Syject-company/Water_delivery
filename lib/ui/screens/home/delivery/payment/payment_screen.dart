@@ -3,12 +3,22 @@ import 'dart:ui';
 import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:water/bloc/home/cart/cart_bloc.dart';
+import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/masked_input_controller.dart';
+
+import 'widgets/credit_card_form.dart';
+import 'widgets/wallet_form.dart';
+
+enum PaymentType { creditCard, wallet }
 
 class PaymentScreen extends StatefulWidget {
   PaymentScreen({Key? key}) : super(key: key);
@@ -18,13 +28,12 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  int _paymentIndex = 0;
-  int _lastPaymentIndex = 0;
+  PaymentType _currentPaymentType = PaymentType.creditCard;
 
-  final List<Widget> _paymentForms = <Widget>[
-    _CardForm(),
-    _WalletForm(),
-  ];
+  final Map<PaymentType, Widget> _paymentForms = {
+    PaymentType.creditCard: CreditCardForm(),
+    PaymentType.wallet: WalletForm(),
+  };
 
   static Widget _defaultLayoutBuilder(List<Widget> entries) {
     return Stack(
@@ -48,7 +57,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             PageTransitionSwitcher(
               layoutBuilder: _defaultLayoutBuilder,
               duration: const Duration(milliseconds: 375),
-              reverse: _lastPaymentIndex > _paymentIndex,
+              reverse: _currentPaymentType == PaymentType.creditCard,
               transitionBuilder: (child, animation, secondaryAnimation) {
                 return SharedAxisTransition(
                   animation: animation,
@@ -58,7 +67,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   child: child,
                 );
               },
-              child: _paymentForms[_paymentIndex],
+              child: _paymentForms[_currentPaymentType],
             ),
           ],
         ),
@@ -90,15 +99,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget _buildPaymentPicker() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: WaterRadioGroup<int>(
-        onChanged: (index) {
-          _lastPaymentIndex = _paymentIndex;
-          setState(() => _paymentIndex = index);
+      child: WaterRadioGroup<PaymentType>(
+        onChanged: (type) {
+          setState(() => _currentPaymentType = type);
         },
-        initialValue: 0,
+        initialValue: _currentPaymentType,
         values: {
-          0: 'Credit Card',
-          1: 'Wallet',
+          PaymentType.creditCard: 'Credit Card',
+          PaymentType.wallet: 'Wallet',
         },
         axis: Axis.horizontal,
         spaceBetween: 0.0,
@@ -160,6 +168,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildTotalPriceText() {
+    final totalPrice = context.cart.state.totalPrice;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
@@ -173,7 +183,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           const SizedBox(width: 24.0),
           Flexible(
             child: WaterText(
-              'text.aed'.tr(args: [0.toStringAsFixed(2)]),
+              'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
               fontSize: 23.0,
               lineHeight: 2.0,
               textAlign: TextAlign.end,
@@ -185,71 +195,45 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildPayButton() {
+    final totalPrice = context.cart.state.totalPrice;
+    final balance = context.wallet.state.balance;
+
     return WaterButton(
-      onPressed: () {},
+      onPressed: () {
+        switch (_currentPaymentType) {
+          case PaymentType.creditCard:
+            break;
+          case PaymentType.wallet:
+            _showDialog(balance >= totalPrice
+                ? _SuccessfulPaymentDialog()
+                : _TopUpWalletDialog());
+            break;
+        }
+      },
       text: 'Pay',
     );
   }
-}
 
-class _CardForm extends StatelessWidget {
-  _CardForm({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _buildAddCardButton(context),
-      ],
-    );
-  }
-
-  Widget _buildAddCardButton(BuildContext context) {
-    return WaterButton(
-      onPressed: () {
-        _showSelectDialog(context);
-      },
-      text: 'button.add_card'.tr(),
-    );
-  }
-
-  Future<void> _showSelectDialog(BuildContext context) async {
+  Future<void> _showDialog(Widget dialog) async {
     return showDialog(
       context: context,
-      builder: (context) {
-        return _AddCardDialog();
-      },
+      builder: (context) => dialog,
+      barrierDismissible: false,
     );
   }
 }
 
-class _AddCardDialog extends StatefulWidget {
-  const _AddCardDialog({Key? key}) : super(key: key);
-
-  @override
-  _AddCardDialogState createState() => _AddCardDialogState();
-}
-
-class _AddCardDialogState extends State<_AddCardDialog> {
-  final MaskedInputController _cardNumberInputController =
-      MaskedInputController(
-    mask: '#### #### #### ####',
-    filter: {'#': RegExp('[0-9]')},
-  );
-
-  final MaskedInputController _expDateInputController = MaskedInputController(
-    mask: '##/##',
-    filter: {'#': RegExp('[0-9]')},
-  );
+class _SuccessfulPaymentDialog extends StatelessWidget {
+  const _SuccessfulPaymentDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       elevation: 0.0,
       titlePadding: const EdgeInsets.fromLTRB(24.0, 18.0, 24.0, 18.0),
-      contentPadding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 18.0),
+      contentPadding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(19.0),
       ),
       title: _buildTitle(),
       content: Container(
@@ -257,11 +241,9 @@ class _AddCardDialogState extends State<_AddCardDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            _buildAddCardForm(),
+            _buildMessageText(),
             const SizedBox(height: 32.0),
-            _buildAddButton(),
-            const SizedBox(height: 8.0),
-            _buildCancelButton(context),
+            _buildAddButton(context),
           ],
         ),
       ),
@@ -271,87 +253,112 @@ class _AddCardDialogState extends State<_AddCardDialog> {
   Widget _buildTitle() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: WaterText(
-        'Add New Card',
-        fontSize: 20.0,
-        lineHeight: 1.5,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget _buildAddCardForm() {
-    return Form(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          WaterFormInput(
-            controller: _cardNumberInputController,
-            hintText: 'Card Number',
-            keyboardType: TextInputType.number,
+          SvgPicture.asset(
+            Paths.logo_icon,
+            height: 110.0,
+            color: AppColors.secondary,
           ),
           const SizedBox(height: 16.0),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: WaterFormInput(
-                  controller: _expDateInputController,
-                  hintText: 'MM/YY',
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              Expanded(
-                child: WaterFormInput(
-                  maxLength: 3,
-                  hintText: 'CVV',
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-            ],
+          WaterText(
+            'Successful Payment!',
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildAddButton() {
-    return WaterButton(
-      onPressed: () {},
-      text: 'Add',
+  Widget _buildMessageText() {
+    return WaterText(
+      'Thanks a lot for your order. Wait for the delivery.',
+      fontSize: 16.0,
+      lineHeight: 1.25,
+      textAlign: TextAlign.center,
+      color: AppColors.secondaryText,
     );
   }
 
-  Widget _buildCancelButton(BuildContext context) {
+  Widget _buildAddButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
+        homeNavigator.pop();
         Navigator.of(context).pop();
       },
-      text: 'Cancel',
-      backgroundColor: AppColors.transparent,
-      foregroundColor: AppColors.secondaryText,
+      text: 'OK',
     );
   }
 }
 
-class _WalletForm extends StatelessWidget {
-  _WalletForm({Key? key}) : super(key: key);
+class _TopUpWalletDialog extends StatelessWidget {
+  const _TopUpWalletDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _buildBalanceText(),
-      ],
+    return AlertDialog(
+      elevation: 0.0,
+      titlePadding: const EdgeInsets.fromLTRB(24.0, 18.0, 24.0, 18.0),
+      contentPadding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(19.0),
+      ),
+      title: _buildTitle(),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _buildMessageText(),
+            const SizedBox(height: 32.0),
+            _buildAddButton(context),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildBalanceText() {
+  Widget _buildTitle() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        children: <Widget>[
+          SvgPicture.asset(
+            Paths.logo_icon,
+            height: 110.0,
+            color: AppColors.secondary,
+          ),
+          const SizedBox(height: 16.0),
+          WaterText(
+            'Top up your wallet!',
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMessageText() {
     return WaterText(
-      'text.wallet_balance'.tr(args: ['0.00']),
-      fontSize: 18.0,
-      lineHeight: 1.5,
+      'You don’t have enough funds',
+      fontSize: 16.0,
+      lineHeight: 1.25,
       textAlign: TextAlign.center,
+      color: AppColors.secondaryText,
+    );
+  }
+
+  Widget _buildAddButton(BuildContext context) {
+    return WaterButton(
+      onPressed: () {
+        homeNavigator.pushNamed(HomeRoutes.wallet);
+        Navigator.of(context).pop();
+      },
+      text: 'Top Up',
     );
   }
 }

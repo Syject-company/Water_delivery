@@ -4,6 +4,7 @@ import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/notification/notification_bloc.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
@@ -21,6 +22,7 @@ class HomeNavigator extends StatelessWidget {
       child: ToastBuilder(
         child: MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => WalletBloc()),
             BlocProvider(create: (context) => ShopBloc()),
             BlocProvider(create: (context) => CartBloc()),
             BlocProvider(create: (context) => NotificationsBloc()),

@@ -52,13 +52,13 @@ final List<DeliveryTime> _times = [
         id: '3',
         startTime: 8,
         endTime: 13,
-        available: true,
+        available: false,
       ),
       Period(
         id: '4',
         startTime: 13,
         endTime: 8,
-        available: false,
+        available: true,
       ),
     ],
   ),
@@ -70,7 +70,7 @@ final List<DeliveryTime> _times = [
         id: '5',
         startTime: 8,
         endTime: 13,
-        available: false,
+        available: true,
       ),
       Period(
         id: '6',
@@ -85,13 +85,13 @@ final List<DeliveryTime> _times = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 3))),
     periods: <Period>[
       Period(
-        id: '1',
+        id: '7',
         startTime: 8,
         endTime: 13,
-        available: true,
+        available: false,
       ),
       Period(
-        id: '2',
+        id: '8',
         startTime: 13,
         endTime: 8,
         available: true,
@@ -103,13 +103,13 @@ final List<DeliveryTime> _times = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 4))),
     periods: <Period>[
       Period(
-        id: '1',
+        id: '9',
         startTime: 8,
         endTime: 13,
-        available: false,
+        available: true,
       ),
       Period(
-        id: '2',
+        id: '10',
         startTime: 13,
         endTime: 8,
         available: true,
@@ -121,16 +121,16 @@ final List<DeliveryTime> _times = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 5))),
     periods: <Period>[
       Period(
-        id: '1',
+        id: '11',
         startTime: 8,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '2',
+        id: '12',
         startTime: 13,
         endTime: 8,
-        available: true,
+        available: false,
       ),
     ],
   ),
@@ -139,13 +139,13 @@ final List<DeliveryTime> _times = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 6))),
     periods: <Period>[
       Period(
-        id: '1',
+        id: '13',
         startTime: 8,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '2',
+        id: '14',
         startTime: 13,
         endTime: 8,
         available: true,
