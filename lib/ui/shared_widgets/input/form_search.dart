@@ -1,6 +1,6 @@
 part of form_fields;
 
-const double _searchIconSize = 24.0;
+const double _searchIconSize = 28.0;
 
 class WaterFormSearch extends StatefulWidget {
   const WaterFormSearch({
@@ -19,24 +19,12 @@ class WaterFormSearch extends StatefulWidget {
 class WaterFormSearchState<T> extends State<WaterFormSearch>
     with SingleTickerProviderStateMixin {
   final TextEditingController _textController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-
-  late Color _suffixIconColor = _getActiveColor();
 
   String get value => _textController.value.text;
 
   @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() => _suffixIconColor = _getActiveColor());
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      focusNode: _focusNode,
       controller: _textController,
       onChanged: widget.onChanged,
       style: const TextStyle(
@@ -67,12 +55,6 @@ class WaterFormSearchState<T> extends State<WaterFormSearch>
     );
   }
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
   void reset() {
     _textController.clear();
   }
@@ -81,17 +63,10 @@ class WaterFormSearchState<T> extends State<WaterFormSearch>
     return Padding(
       padding: const EdgeInsetsDirectional.only(end: 12.0),
       child: Icon(
-        Icons.search,
-        color: _suffixIconColor,
+        AppIcons.search,
+        color: AppColors.borderColor,
         size: _searchIconSize,
       ),
     );
-  }
-
-  Color _getActiveColor() {
-    if (_focusNode.hasFocus) {
-      return AppColors.primary;
-    }
-    return AppColors.secondaryText;
   }
 }

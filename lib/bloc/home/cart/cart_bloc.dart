@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/domain/model/home/shop/product.dart';
+import 'package:water/ui/extensions/product.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -34,6 +35,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       yield* _mapAddToCartToState(event);
     } else if (event is RemoveFromCart) {
       yield* _mapRemoveFromCartToState(event);
+    } else if (event is ClearCart) {
+      yield* _mapClearCartToState();
     }
   }
 
@@ -72,16 +75,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       totalPrice: _calculateTotalPrice(items),
     );
   }
+
+  Stream<CartState> _mapClearCartToState() async* {
+    yield state.copyWith(
+      items: [],
+      totalPrice: _calculateTotalPrice([]),
+    );
+  }
 }
 
 double _calculateTotalPrice(List<CartItem> items) {
   double totalPrice = 0.0;
 
   items.forEach((item) {
-    final sale = item.product.sale;
-    final discount = sale != null ? sale.percent : 0.0;
-    final price = item.product.price * item.amount;
-    totalPrice += price - (price * discount);
+    totalPrice += item.totalPrice * (1.0 - item.product.discount);
   });
 
   return totalPrice;

@@ -7,6 +7,8 @@ screen:
   wallet: "Wallet"
   notifications: "Notifications"
   delivery: "Delivery"
+  time: "Time"
+  payment: "Payment"
 
 # TEXT
 text:
@@ -30,6 +32,12 @@ text:
   fee: "Fee"
   total: "Total"
   wallet_balance: "Wallet balance: AED {}"
+  select_time: "Select a convenient delivery time for your district"
+  selected_time: "Selected time:"
+  top_up_wallet: "Top up your wallet!"
+  not_enough_money: "You don't have enough funds."
+  successful_payment: "Successful Payment!"
+  thanks_for_order: "Thanks a lot for your order. Wait for the delivery."
 
 # INPUT
 input:
@@ -69,11 +77,11 @@ button:
   checkout: "Checkout"
   add_to_cart: "Add To Cart"
   add_balance: "Add Balance"
-  add_card: "Add Card"
   top_up: "Top Up"
   next: "Next"
   ok: "OK"
   cancel: "Cancel"
+  pay: "Pay"
 
 # SIDE MENU
 side_menu:
@@ -102,11 +110,11 @@ title:
   bottle_1500_12_c: "12 Bottles Carton"
   bottle_1500_6_sp: "6 Bottles Shrink Pack"
   bottle_500_24_c: "24 Bottles Carton"
-  bottle_500_24_sp: "24 Bottles Shrink Pack "
+  bottle_500_24_sp: "24 Bottles Shrink Pack"
   bottle_500_12_sp: "12 Bottles Shrink Pack"
   bottle_500_6_sp: "6 Bottles Shrink Pack"
   bottle_330_24_c: "24 Bottles Carton"
-  bottle_330_24_sp: "24 Bottles Shrink Pack "
+  bottle_330_24_sp: "24 Bottles Shrink Pack"
   bottle_330_12_sp: "12 Bottles Shrink Pack"
   bottle_330_6_sp: "6 Bottles Shrink Pack"
   mini_cup_200_36_c: "200ml - 36 Cups Carton"

@@ -7,6 +7,8 @@ screen:
   wallet: "محفظة"
   notifications: "إشعارات"
   delivery: "توصيل"
+  time: "وقت"
+  payment: "قسط"
 
 # TEXT
 text:
@@ -30,6 +32,12 @@ text:
   fee: "مصاريف"
   total: "مجموع"
   wallet_balance: "رصيد المحفظة: درهم {}"
+  select_time: "حدد وقت التسليم المناسب لمنطقتك"
+  selected_time: "الوقت المحدد:"
+  top_up_wallet: "اشحن محفظتك!"
+  not_enough_money: "ليس لديك أموال كافية."
+  successful_payment: "دفع ناجح!"
+  thanks_for_order: "شكرا جزيلا لطلبك. انتظر التسليم."
 
 # INPUT
 input:
@@ -68,11 +76,12 @@ button:
   subscription: "الاشتراك"
   checkout: "الدفع"
   add_to_cart: "أضف إلى السلة"
-  add_card: "إضافة بطاقة"
+  add_balance: "إضافة رصيد"
   top_up: "فوق حتى"
   next: "التالي"
   ok: "حسنا"
   cancel: "يلغي"
+  pay: "دفع"
 
 # SIDE MENU
 side_menu:

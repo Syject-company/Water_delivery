@@ -6,6 +6,7 @@ import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
+import 'package:water/ui/extensions/product.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -110,15 +111,8 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget _buildVolumeText() {
-    final String volume;
-    if (_product.volume < 1.0) {
-      volume = '${(_product.volume * 1000).toInt()}${'text.milliliter'.tr()}';
-    } else {
-      volume = '${_product.volume}${'text.liter'.tr()}';
-    }
-
     return WaterText(
-      volume,
+      _product.formattedVolume,
       fontSize: 24.0,
       lineHeight: 2.0,
       color: AppColors.secondaryText,
@@ -126,10 +120,7 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget _buildPriceText() {
-    final sale = _product.sale;
-    final discount = sale != null ? sale.percent : 0.0;
-    final price = _product.price;
-    final discountPrice = price - (price * discount);
+    final discount = _product.discount;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +129,9 @@ class _ProductScreenState extends State<ProductScreen> {
           Column(
             children: <Widget>[
               WaterText(
-                'text.aed'.tr(args: [price.toStringAsFixed(2)]),
+                'text.aed'.tr(args: [
+                  _product.price.toStringAsFixed(2),
+                ]),
                 maxLines: 1,
                 fontSize: 18.0,
                 lineHeight: 1.5,
@@ -152,7 +145,9 @@ class _ProductScreenState extends State<ProductScreen> {
             ],
           ),
         WaterText(
-          'text.aed'.tr(args: [discountPrice.toStringAsFixed(2)]),
+          'text.aed'.tr(args: [
+            _product.discountPrice.toStringAsFixed(2),
+          ]),
           maxLines: 1,
           fontSize: 27.0,
           lineHeight: 2,
@@ -197,10 +192,8 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _buildCheckoutPanel() {
     final addedToCart = context.cart.contains(_product);
 
-    final sale = _product.sale;
-    final discount = sale != null ? sale.percent : 0.0;
     final totalPrice = _product.price * amount;
-    final totalDiscountPrice = totalPrice - (totalPrice * discount);
+    final totalDiscountPrice = totalPrice * (1.0 - _product.discount);
 
     return Container(
       padding: _checkoutPanelContentPadding,
@@ -215,7 +208,9 @@ class _ProductScreenState extends State<ProductScreen> {
         children: <Widget>[
           Flexible(
             child: WaterText(
-              'text.aed'.tr(args: [totalDiscountPrice.toStringAsFixed(2)]),
+              'text.aed'.tr(args: [
+                totalDiscountPrice.toStringAsFixed(2),
+              ]),
               maxLines: 1,
               fontSize: 27.0,
               fontWeight: FontWeight.w500,

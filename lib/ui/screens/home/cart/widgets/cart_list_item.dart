@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/product.dart';
+import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 class CartListItem extends StatefulWidget {
@@ -94,16 +96,8 @@ class _CartListItemState extends State<CartListItem> {
   }
 
   Widget _buildVolumeText() {
-    final String volume;
-    if (_item.product.volume < 1.0) {
-      volume =
-          '${(_item.product.volume * 1000).toInt()}${'text.milliliter'.tr()}';
-    } else {
-      volume = '${_item.product.volume}${'text.liter'.tr()}';
-    }
-
     return WaterText(
-      volume,
+      _item.product.formattedVolume,
       maxLines: 1,
       lineHeight: 1.5,
       fontWeight: FontWeight.w600,
@@ -120,7 +114,7 @@ class _CartListItemState extends State<CartListItem> {
         );
       },
       child: Icon(
-        Icons.close,
+        AppIcons.close,
         size: 30.0,
         color: AppColors.secondaryText,
       ),
@@ -145,10 +139,7 @@ class _CartListItemState extends State<CartListItem> {
   }
 
   Widget _buildPriceText() {
-    final sale = _item.product.sale;
-    final discount = sale != null ? sale.percent : 0.0;
-    final totalPrice = _item.product.price * _item.amount;
-    final totalDiscountPrice = totalPrice - (totalPrice * discount);
+    final discount = _item.product.discount;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +149,9 @@ class _CartListItemState extends State<CartListItem> {
           Column(
             children: <Widget>[
               WaterText(
-                'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
+                'text.aed'.tr(args: [
+                  _item.totalPrice.toStringAsFixed(2),
+                ]),
                 maxLines: 1,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -170,7 +163,9 @@ class _CartListItemState extends State<CartListItem> {
             ],
           ),
         WaterText(
-          'text.aed'.tr(args: [totalDiscountPrice.toStringAsFixed(2)]),
+          'text.aed'.tr(args: [
+            _item.totalDiscountPrice.toStringAsFixed(2),
+          ]),
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,

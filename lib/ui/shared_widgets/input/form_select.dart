@@ -140,7 +140,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
       child: Icon(
         AppIcons.arrow_down,
         color: _items.isNotEmpty ? AppColors.secondaryText : AppColors.disabled,
-        size: _iconSize,
+        size: 32.0,
       ),
     );
   }

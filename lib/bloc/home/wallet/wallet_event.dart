@@ -15,3 +15,12 @@ class AddBalance extends WalletEvent {
   @override
   List<Object> get props => [amount];
 }
+
+class RemoveBalance extends WalletEvent {
+  const RemoveBalance({required this.amount});
+
+  final double amount;
+
+  @override
+  List<Object> get props => [amount];
+}

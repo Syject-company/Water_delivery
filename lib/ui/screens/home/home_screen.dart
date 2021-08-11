@@ -10,10 +10,8 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
 
 import 'cart/cart_screen.dart';
-import 'notifications/notifications_screen.dart';
 import 'profile/profile_screen.dart';
 import 'shop/shop_screen.dart';
-import 'wallet/wallet_screen.dart';
 import 'widgets/menu.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
               KeepAliveChild(child: ShopScreen()),
               KeepAliveChild(child: ProfileScreen()),
               KeepAliveChild(child: CartScreen()),
-              WalletScreen(),
-              NotificationsScreen(),
             ],
           ),
           bottomNavigationBar: BlocConsumer<NavigationBloc, NavigationState>(
@@ -107,7 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Widget? leading;
           if (state is ShopProducts) {
             leading = AppBarBackButton(
-              onPressed: () => context.shop.add(LoadCategories()),
+              onPressed: () {
+                context.shop.add(LoadCategories());
+              },
             );
           }
 
@@ -132,6 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<bool> _onBackPressed(BuildContext context) async {
+    if (_sideMenuKey.currentState!.isOpened) {
+      _sideMenuKey.currentState!.close();
+      return false;
+    }
+
     if (context.navigation.state is! Shop) {
       context.navigation.add(NavigateTo(screen: Screen.shop));
       return false;

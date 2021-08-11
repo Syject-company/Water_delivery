@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/product.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/shop/product/product_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -79,15 +80,14 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildPriceText() {
-    final sale = _product.sale;
-    final discount = sale != null ? sale.percent : 0.0;
-    final price = _product.price;
-    final discountPrice = price - (price * discount);
+    final discount = _product.discount;
 
     return Row(
       children: <Widget>[
         WaterText(
-          'text.aed'.tr(args: [discountPrice.toStringAsFixed(2)]),
+          'text.aed'.tr(args: [
+            _product.discountPrice.toStringAsFixed(2),
+          ]),
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,
@@ -102,7 +102,9 @@ class _ProductListItemState extends State<ProductListItem> {
                 const SizedBox(width: 6.0),
                 Flexible(
                   child: WaterText(
-                    'text.aed'.tr(args: [price.toStringAsFixed(2)]),
+                    'text.aed'.tr(args: [
+                      _product.price.toStringAsFixed(2),
+                    ]),
                     maxLines: 1,
                     fontSize: 15.0,
                     fontWeight: FontWeight.w500,
@@ -130,15 +132,8 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildVolumeText() {
-    final String volume;
-    if (_product.volume < 1.0) {
-      volume = '${(_product.volume * 1000).toInt()}${'text.milliliter'.tr()}';
-    } else {
-      volume = '${_product.volume}${'text.liter'.tr()}';
-    }
-
     return WaterText(
-      volume,
+      _product.formattedVolume,
       maxLines: 1,
       fontSize: 15.0,
       lineHeight: 1.5,

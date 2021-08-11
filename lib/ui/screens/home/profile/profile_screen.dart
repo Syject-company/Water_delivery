@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildLanguagePicker(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 48.0),
       child: WaterRadioGroup<Locale>(
         onChanged: (locale) {
           Localization.changeLocale(context, locale);

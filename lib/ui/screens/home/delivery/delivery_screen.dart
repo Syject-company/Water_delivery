@@ -149,9 +149,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       padding: const EdgeInsets.all(24.0),
       child: WaterButton(
         onPressed: () {
-          // if (!_formKey.currentState!.validate()) {
-          //   return;
-          // }
+          if (!_formKey.currentState!.validate()) {
+            return;
+          }
 
           deliveryNavigator.pushNamed(DeliveryRoutes.time);
         },

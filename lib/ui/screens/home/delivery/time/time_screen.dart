@@ -34,7 +34,7 @@ class _TimeScreenState extends State<TimeScreen> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             WaterText(
-              'Select a convenient delivery time for your district',
+              'text.select_time'.tr(),
               lineHeight: 1.5,
               textAlign: TextAlign.center,
               fontWeight: FontWeight.w500,
@@ -66,7 +66,7 @@ class _TimeScreenState extends State<TimeScreen> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return WaterAppBar(
       title: WaterText(
-        'Time',
+        'screen.time'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
       ),
@@ -98,7 +98,7 @@ class _TimeScreenState extends State<TimeScreen> {
       children: <Widget>[
         const SizedBox(height: 40.0),
         WaterText(
-          'Selected time:',
+          'text.selected_time'.tr(),
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,

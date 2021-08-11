@@ -5,7 +5,7 @@ part 'bottom_navigation_bar_item.dart';
 
 typedef SelectCallback = void Function(int index);
 
-const double _iconSize = 26.0;
+const double _iconSize = 32.0;
 const Color _selectedIconColor = AppColors.white;
 const Color _unselectedIconColor = AppColors.primaryText;
 const double _borderRadius = 15.0;
