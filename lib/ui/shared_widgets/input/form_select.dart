@@ -38,6 +38,8 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
 
   Map<T, String> get _items => widget.items;
 
+  String get value => _selectedValue?.value ?? '';
+
   @override
   void initState() {
     super.initState();

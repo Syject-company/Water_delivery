@@ -1,10 +1,10 @@
 import 'period.dart';
 
 export 'period.dart';
-export 'selected_time.dart';
+export 'time.dart';
 
-class DeliveryTime {
-  const DeliveryTime({
+class DeliveryDate {
+  const DeliveryDate({
     required this.date,
     required this.periods,
   });

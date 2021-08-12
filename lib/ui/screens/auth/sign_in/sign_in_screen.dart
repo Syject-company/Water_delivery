@@ -185,7 +185,7 @@ class SignInScreen extends StatelessWidget {
             context.auth.add(FacebookLogin());
           },
           icon: AppIcons.facebook,
-          iconSize: 26.0,
+          iconSize: 32.0,
         ),
         const SizedBox(width: 18.0),
         WaterCircleButton(
@@ -194,6 +194,7 @@ class SignInScreen extends StatelessWidget {
             context.auth.add(GoogleLogin());
           },
           icon: AppIcons.google,
+          iconSize: 32.0,
         ),
         const SizedBox(width: 18.0),
         WaterCircleButton(
@@ -202,6 +203,7 @@ class SignInScreen extends StatelessWidget {
             context.auth.add(AppleLogin());
           },
           icon: AppIcons.apple,
+          iconSize: 32.0,
         ),
       ],
     );

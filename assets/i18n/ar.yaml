@@ -22,7 +22,7 @@ text:
   enter_new_password: "أدخل كلمة سر جديدة"
   sign_in_with: "تسجيل الدخول باستخدام"
   sign_up_with: "اشترك مجانا باستخدام"
-  aed: "درهم {}"
+  aed: "{} درهم"
   liter: "لتر"
   milliliter: "مل"
   language: "لغة"
@@ -31,13 +31,15 @@ text:
   empty_cart: "السلة فارغة"
   fee: "مصاريف"
   total: "مجموع"
-  wallet_balance: "رصيد المحفظة: درهم {}"
+  wallet_balance: "رصيد المحفظة: {} درهم"
   select_time: "حدد وقت التسليم المناسب لمنطقتك"
   selected_time: "الوقت المحدد:"
   top_up_wallet: "اشحن محفظتك!"
   not_enough_money: "ليس لديك أموال كافية."
   successful_payment: "دفع ناجح!"
   thanks_for_order: "شكرا جزيلا لطلبك. انتظر التسليم."
+  today: "اليوم"
+  tomorrow: "الغد"
 
 # INPUT
 input:

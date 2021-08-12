@@ -4,26 +4,29 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
+import 'package:water/bloc/home/delivery/delivery_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/product.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 
-class PaymentScreen extends StatefulWidget {
-  PaymentScreen({Key? key}) : super(key: key);
+import '../delivery_navigator.dart';
+
+class DeliveryPaymentScreen extends StatefulWidget {
+  DeliveryPaymentScreen({Key? key}) : super(key: key);
 
   @override
-  _PaymentScreenState createState() => _PaymentScreenState();
+  _DeliveryPaymentScreenState createState() => _DeliveryPaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +34,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
       body: Column(
         children: <Widget>[
           _buildBalanceText(),
-          _buildSummary(),
+          Divider(
+            height: 1.0,
+            thickness: 1.0,
+            color: AppColors.borderColor,
+          ),
+          Flexible(child: _buildSummary()),
         ],
       ),
       bottomNavigationBar: _buildBottomPanel(),
@@ -62,7 +70,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 12.0),
           child: WaterText(
             'text.wallet_balance'.tr(args: [state.balance.toStringAsFixed(2)]),
             fontSize: 18.0,
@@ -76,59 +84,79 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Widget _buildSummary() {
     return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
       physics: const BouncingScrollPhysics(),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(24.0, 18.0, 24.0, 18.0),
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(color: AppColors.borderColor),
-            bottom: BorderSide(color: AppColors.borderColor),
+      child: Column(
+        children: <Widget>[
+          _buildDeliveryAddress(),
+          const SizedBox(height: 6.0),
+          _buildDeliveryTime(),
+          const SizedBox(height: 6.0),
+          _buildCartItems(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDeliveryAddress() {
+    final deliveryAddress = context.delivery.state.address!;
+    final emirate = deliveryAddress.city;
+    final district = deliveryAddress.district;
+    final address = deliveryAddress.address;
+    final building = deliveryAddress.building;
+    final floor = deliveryAddress.floor;
+    final apartment = deliveryAddress.apartment;
+
+    return Row(
+      children: <Widget>[
+        Icon(
+          AppIcons.pin,
+          size: 32.0,
+          color: AppColors.secondaryText,
+        ),
+        const SizedBox(width: 12.0),
+        Expanded(
+          child: WaterText(
+            '$emirate, $district, $address, $building, $floor, $apartment',
+            fontSize: 12.0,
+            lineHeight: 1.25,
+            fontWeight: FontWeight.w400,
+            color: AppColors.secondaryText,
           ),
         ),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(
-                  AppIcons.pin,
-                  size: 32.0,
-                  color: AppColors.secondaryText,
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: WaterText(
-                    'Alqasim Alkhawarizmi St, Ar Rakah Ash Shamaliyah Dammam 34225, Saudi Arabia',
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.secondaryText,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6.0),
-            Row(
-              children: <Widget>[
-                Icon(
-                  AppIcons.time,
-                  size: 32.0,
-                  color: AppColors.secondaryText,
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: WaterText(
-                    'Tuesday  15:00 - 18:00',
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.secondaryText,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12.0),
-            _buildCartItems(),
-          ],
+      ],
+    );
+  }
+
+  Widget _buildDeliveryTime() {
+    final deliveryTime = context.delivery.state.time!;
+
+    final locale = Localization.currentLocale(context).languageCode;
+    final date = DateFormat('yyyy-MM-dd').parse(deliveryTime.date);
+    final formattedDayOfWeek = DateFormat('EEEE', locale).format(date);
+    final startTime = DateFormat('h').parse('${deliveryTime.period.startTime}');
+    final endTime = DateFormat('h').parse('${deliveryTime.period.endTime}');
+    final formattedStartTime = DateFormat('h a', locale).format(startTime);
+    final formattedEndTime = DateFormat('h a', locale).format(endTime);
+
+    return Row(
+      children: <Widget>[
+        Icon(
+          AppIcons.time,
+          size: 32.0,
+          color: AppColors.secondaryText,
         ),
-      ),
+        const SizedBox(width: 12.0),
+        Expanded(
+          child: WaterText(
+            '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
+            fontSize: 12.0,
+            lineHeight: 1.25,
+            fontWeight: FontWeight.w400,
+            color: AppColors.secondaryText,
+          ),
+        ),
+      ],
     );
   }
 
@@ -149,21 +177,36 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        WaterText(
-          '${index + 1}.',
-          fontSize: 15.0,
-          lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
-          color: AppColors.secondaryText,
+        SizedBox(
+          width: 18.0,
+          child: WaterText(
+            '${index + 1}.',
+            maxLines: 1,
+            fontSize: 13.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w500,
+            overflow: TextOverflow.visible,
+            color: AppColors.secondaryText,
+          ),
         ),
-        const SizedBox(width: 3.0),
-        Expanded(
-          flex: 4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+        Flexible(
+          flex: 7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Flexible(
+                child: WaterText(
+                  '$title',
+                  fontSize: 15.0,
+                  lineHeight: 1.5,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.secondaryText,
+                ),
+              ),
+              const SizedBox(width: 12.0),
               WaterText(
-                '$title',
+                'x${item.amount}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -173,16 +216,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
         const SizedBox(width: 12.0),
-        WaterText(
-          'x${item.amount}',
-          fontSize: 15.0,
-          lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
-          color: AppColors.secondaryText,
-        ),
-        const SizedBox(width: 12.0),
         Expanded(
-          flex: 2,
+          flex: 3,
           child: WaterText(
             'text.aed'.tr(args: [
               item.totalDiscountPrice.toStringAsFixed(2),
@@ -264,9 +299,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
           Flexible(
             child: WaterText(
               'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
+              maxLines: 1,
               fontSize: 23.0,
               lineHeight: 2.0,
               textAlign: TextAlign.end,
+              overflow: TextOverflow.fade,
+              softWrap: false,
             ),
           ),
         ],
@@ -353,6 +391,7 @@ class _SuccessfulPaymentDialog extends StatelessWidget {
       'text.thanks_for_order'.tr(),
       fontSize: 16.0,
       lineHeight: 1.25,
+      fontWeight: FontWeight.w500,
       textAlign: TextAlign.center,
       color: AppColors.secondaryText,
     );

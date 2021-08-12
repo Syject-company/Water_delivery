@@ -2,15 +2,22 @@ part of 'delivery_bloc.dart';
 
 abstract class DeliveryEvent extends Equatable {
   const DeliveryEvent();
+}
+
+class SubmitDeliveryAddress extends DeliveryEvent {
+  const SubmitDeliveryAddress({required this.address});
+
+  final DeliveryAddress address;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [address];
 }
 
-class LoadDeliveryTimes extends DeliveryEvent {
-  const LoadDeliveryTimes();
-}
+class SubmitDeliveryTime extends DeliveryEvent {
+  const SubmitDeliveryTime({required this.time});
 
-class SelectDeliveryTime extends DeliveryEvent {
-  const SelectDeliveryTime();
+  final DeliveryTime time;
+
+  @override
+  List<Object> get props => [time];
 }

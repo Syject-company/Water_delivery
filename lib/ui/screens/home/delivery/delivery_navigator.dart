@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/delivery/date/date_bloc.dart';
 import 'package:water/bloc/home/delivery/delivery_bloc.dart';
 import 'package:water/ui/extensions/navigator.dart';
 
@@ -17,10 +18,13 @@ class DeliveryNavigator extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => DeliveryBloc()),
+          BlocProvider(
+            create: (context) => DeliveryDateBloc()..add(LoadDeliveryDates()),
+          ),
         ],
         child: Navigator(
           key: deliveryNavigator,
-          initialRoute: DeliveryRoutes.main,
+          initialRoute: DeliveryRoutes.address,
           onGenerateRoute: DeliveryRouter.generateRoute,
         ),
       ),
@@ -28,6 +32,6 @@ class DeliveryNavigator extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    return !await deliveryNavigator.maybePop();
+    return !(await deliveryNavigator.maybePop());
   }
 }

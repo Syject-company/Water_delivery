@@ -56,17 +56,23 @@ class Menu extends StatelessWidget {
     return Column(
       children: <Widget>[
         _buildActionButton(
-          onPressed: () => _navigateTo(context, Screen.shop),
+          onPressed: () {
+            _navigateTo(context, Screen.shop);
+          },
           icon: AppIcons.drop,
           label: 'side_menu.shop_now'.tr(),
         ),
         _buildActionButton(
-          onPressed: () => homeNavigator.pushNamed(HomeRoutes.wallet),
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.wallet);
+          },
           icon: AppIcons.wallet,
           label: 'side_menu.wallet'.tr(),
         ),
         _buildActionButton(
-          onPressed: () {},
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.orders);
+          },
           icon: AppIcons.orders,
           label: 'side_menu.orders'.tr(),
         ),
@@ -81,7 +87,9 @@ class Menu extends StatelessWidget {
           label: 'side_menu.refer_friend'.tr(),
         ),
         _buildActionButton(
-          onPressed: () => _navigateTo(context, Screen.profile),
+          onPressed: () {
+            _navigateTo(context, Screen.profile);
+          },
           icon: AppIcons.profile,
           label: 'side_menu.profile'.tr(),
         ),
@@ -102,7 +110,9 @@ class Menu extends StatelessWidget {
         ),
         const SizedBox(height: 13.0),
         _buildActionButton(
-          onPressed: () => Session.invalidate(context),
+          onPressed: () {
+            Session.invalidate(context);
+          },
           icon: AppIcons.log_out,
           label: 'button.logout'.tr(),
           iconColor: AppColors.secondaryText,
@@ -157,7 +167,7 @@ class Menu extends StatelessWidget {
         WaterCircleButton(
           onPressed: () {},
           icon: AppIcons.facebook,
-          iconSize: 28.0,
+          iconSize: 32.0,
         ),
         const SizedBox(width: 18.0),
         WaterCircleButton(

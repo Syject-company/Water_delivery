@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:water/domain/model/home/delivery/delivery_time.dart';
+import 'package:water/domain/model/home/delivery/date.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/date_time.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 import 'package:water/util/separated_row.dart';
 
@@ -14,17 +15,17 @@ class DeliveryTimePicker extends StatefulWidget {
     this.onSelected,
   }) : super(key: key);
 
-  final List<DeliveryTime> times;
-  final void Function(SelectedTime)? onSelected;
+  final List<DeliveryDate> times;
+  final void Function(DeliveryTime)? onSelected;
 
   @override
   _DeliveryTimePickerState createState() => _DeliveryTimePickerState();
 }
 
 class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
-  SelectedTime? _selectedTime;
+  DeliveryTime? _selectedTime;
 
-  List<DeliveryTime> get _times => widget.times;
+  List<DeliveryDate> get _times => widget.times;
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +40,18 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
     );
   }
 
-  Widget _buildDeliveryTime(DeliveryTime time) {
+  Widget _buildDeliveryTime(DeliveryDate time) {
+    final locale = Localization.currentLocale(context).languageCode;
     final date = DateFormat('yyyy-MM-dd').parse(time.date);
     final formattedDayOfWeek;
     if (date.isToday) {
-      formattedDayOfWeek = 'Today';
+      formattedDayOfWeek = 'text.today'.tr();
     } else if (date.isTomorrow) {
-      formattedDayOfWeek = 'Tomorrow';
+      formattedDayOfWeek = 'text.tomorrow'.tr();
     } else {
-      formattedDayOfWeek = DateFormat('EEEE').format(date);
+      formattedDayOfWeek = DateFormat('EEEE', locale).format(date);
     }
-    final formattedDayOfMonth = DateFormat('dd/MM').format(date);
+    final formattedDayOfMonth = DateFormat('dd/MM', locale).format(date);
 
     return Container(
       padding: const EdgeInsets.all(12.0),
@@ -82,7 +84,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
     );
   }
 
-  Widget _buildPeriods(DeliveryTime time) {
+  Widget _buildPeriods(DeliveryDate time) {
     return SeparatedColumn(
       children: time.periods
           .map(
@@ -90,7 +92,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
               onPressed: () {
                 setState(() {
                   widget.onSelected?.call(
-                    _selectedTime = SelectedTime(
+                    _selectedTime = DeliveryTime(
                       date: time.date,
                       period: period,
                     ),
@@ -121,10 +123,11 @@ class _PeriodButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localization.currentLocale(context).languageCode;
     final startTime = DateFormat('h').parse('${period.startTime}');
     final endTime = DateFormat('h').parse('${period.endTime}');
-    final formattedStartDate = DateFormat('h a').format(startTime);
-    final formattedEndTime = DateFormat('h a').format(endTime);
+    final formattedStartDate = DateFormat('h a', locale).format(startTime);
+    final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
     return period.available
         ? _buildAvailableButton(formattedStartDate, formattedEndTime)

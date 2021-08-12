@@ -1,7 +1,7 @@
 import 'period.dart';
 
-class SelectedTime {
-  const SelectedTime({
+class DeliveryTime {
+  const DeliveryTime({
     required this.date,
     required this.period,
   });

@@ -40,7 +40,7 @@ class GulfaWaterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (_, child) {
+      builder: (context, child) {
         return ResponsiveWrapper.builder(
           child,
           minWidth: _iPhoneProMaxWidth,
@@ -52,9 +52,9 @@ class GulfaWaterApp extends StatelessWidget {
       // TODO: test only
       initialRoute: AppRoutes.splash,
       onGenerateRoute: RootRouter.generateRoute,
-      locale: context.locale,
-      supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
     );
   }

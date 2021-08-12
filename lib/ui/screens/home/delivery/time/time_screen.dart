@@ -3,25 +3,28 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/delivery/date/date_bloc.dart';
 import 'package:water/bloc/home/delivery/delivery_bloc.dart';
-import 'package:water/domain/model/home/delivery/delivery_time.dart';
+import 'package:water/domain/model/home/delivery/date.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
-import 'package:water/ui/screens/home/delivery/router.dart';
-import 'package:water/ui/screens/home/delivery/time/widgets/delivery_time_picker.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 
-class TimeScreen extends StatefulWidget {
-  TimeScreen({Key? key}) : super(key: key);
+import '../delivery_navigator.dart';
+import '../router.dart';
+import 'widgets/delivery_time_picker.dart';
+
+class DeliveryTimeScreen extends StatefulWidget {
+  DeliveryTimeScreen({Key? key}) : super(key: key);
 
   @override
-  _TimeScreenState createState() => _TimeScreenState();
+  _DeliveryTimeScreenState createState() => _DeliveryTimeScreenState();
 }
 
-class _TimeScreenState extends State<TimeScreen> {
-  SelectedTime? _selectedTime;
+class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
+  DeliveryTime? _selectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +44,18 @@ class _TimeScreenState extends State<TimeScreen> {
               color: AppColors.secondaryText,
             ),
             const SizedBox(height: 24.0),
-            BlocBuilder<DeliveryBloc, DeliveryState>(
+            BlocBuilder<DeliveryDateBloc, DeliveryDateState>(
               builder: (context, state) {
-                if (state is DeliveryTimesLoaded) {
-                  return DeliveryTimePicker(
-                    times: state.times,
-                    onSelected: (time) {
-                      setState(() => _selectedTime = time);
-                    },
+                if (state is DeliveryDatesLoaded) {
+                  return Column(
+                    children: <Widget>[
+                      DeliveryTimePicker(
+                        times: state.dates,
+                        onSelected: (time) {
+                          setState(() => _selectedTime = time);
+                        },
+                      ),
+                    ],
                   );
                 } else {
                   return const SizedBox.shrink();
@@ -86,13 +93,14 @@ class _TimeScreenState extends State<TimeScreen> {
   }
 
   Widget _buildSelectedTimeText() {
+    final locale = Localization.currentLocale(context).languageCode;
     final date = DateFormat('yyyy-MM-dd').parse(_selectedTime!.date);
-    final formattedDayOfMonth = DateFormat('MMMM d').format(date);
+    final formattedDayOfMonth = DateFormat('MMMM d', locale).format(date);
     final startTime =
         DateFormat('h').parse('${_selectedTime!.period.startTime}');
     final endTime = DateFormat('h').parse('${_selectedTime!.period.endTime}');
-    final formattedStartDate = DateFormat('h a').format(startTime);
-    final formattedEndTime = DateFormat('h a').format(endTime);
+    final formattedStartDate = DateFormat('h a', locale).format(startTime);
+    final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
     return Column(
       children: <Widget>[
@@ -129,6 +137,10 @@ class _TimeScreenState extends State<TimeScreen> {
       child: WaterButton(
         enabled: _selectedTime != null,
         onPressed: () {
+          context.delivery.add(
+            SubmitDeliveryTime(time: _selectedTime!),
+          );
+
           deliveryNavigator.pushNamed(DeliveryRoutes.payment);
         },
         text: 'button.next'.tr(),

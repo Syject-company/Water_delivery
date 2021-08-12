@@ -25,13 +25,10 @@ class _CartListItemState extends State<CartListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
       child: Row(
         children: <Widget>[
-          SizedBox(
-            height: 80.0,
-            child: _buildImage(),
-          ),
+          _buildImage(),
           const SizedBox(width: 24.0),
           Expanded(
             child: ConstrainedBox(
@@ -79,9 +76,12 @@ class _CartListItemState extends State<CartListItem> {
   }
 
   Widget _buildImage() {
-    return AspectRatio(
-      aspectRatio: 1.0,
-      child: Image.asset(_item.product.imageUri),
+    return SizedBox(
+      height: 80.0,
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: Image.asset(_item.product.imageUri),
+      ),
     );
   }
 

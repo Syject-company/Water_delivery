@@ -1,26 +1,23 @@
 part of 'delivery_bloc.dart';
 
-abstract class DeliveryState extends Equatable {
-  const DeliveryState();
+class DeliveryState extends Equatable {
+  const DeliveryState({
+    this.address,
+    this.time,
+  });
+
+  final DeliveryAddress? address;
+  final DeliveryTime? time;
+
+  DeliveryState copyWith({
+    DeliveryAddress? address,
+    DeliveryTime? time,
+  }) =>
+      DeliveryState(
+        address: address ?? this.address,
+        time: time ?? this.time,
+      );
 
   @override
-  List<Object> get props => [];
-}
-
-class DeliveryTimesLoaded extends DeliveryState {
-  const DeliveryTimesLoaded({required this.times});
-
-  final List<DeliveryTime> times;
-
-  @override
-  List<Object> get props => [times];
-}
-
-class DeliveryTimeSelected extends DeliveryState {
-  const DeliveryTimeSelected({required this.time});
-
-  final DeliveryTime time;
-
-  @override
-  List<Object> get props => [time];
+  List<Object?> get props => [address, time];
 }

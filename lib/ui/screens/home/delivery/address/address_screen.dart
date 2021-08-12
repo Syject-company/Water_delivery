@@ -2,32 +2,34 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:water/bloc/home/delivery/delivery_bloc.dart';
 import 'package:water/domain/model/home/data/cities.dart';
+import 'package:water/domain/model/home/delivery/address.dart';
 import 'package:water/domain/model/home/profile/city.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/screens/home/delivery/router.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
 
-import 'delivery_navigator.dart';
+import '../delivery_navigator.dart';
+import '../router.dart';
 
-class DeliveryScreen extends StatefulWidget {
-  DeliveryScreen({Key? key}) : super(key: key);
+class DeliveryAddressScreen extends StatefulWidget {
+  DeliveryAddressScreen({Key? key}) : super(key: key);
 
   @override
-  _DeliveryScreenState createState() => _DeliveryScreenState();
+  _DeliveryAddressScreenState createState() => _DeliveryAddressScreenState();
 }
 
-class _DeliveryScreenState extends State<DeliveryScreen> {
+class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final GlobalKey<WaterFormSelectState> _emirateSelectKey = GlobalKey();
   final GlobalKey<WaterFormSelectState> _districtSelectKey = GlobalKey();
-  final GlobalKey<WaterFormSelectState> _addressInputKey = GlobalKey();
-  final GlobalKey<WaterFormSelectState> _buildingInputKey = GlobalKey();
-  final GlobalKey<WaterFormSelectState> _floorInputKey = GlobalKey();
-  final GlobalKey<WaterFormSelectState> _apartmentInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _addressInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _buildingInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _floorInputKey = GlobalKey();
+  final GlobalKey<WaterFormInputState> _apartmentInputKey = GlobalKey();
 
   City? _selectedCity;
   String? _selectedDistrict;
@@ -39,12 +41,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildDeliveryInputForm(),
-          ],
-        ),
+        child: _buildDeliveryInputForm(),
       ),
       bottomNavigationBar: _buildNextButton(),
     );
@@ -152,6 +149,19 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           if (!_formKey.currentState!.validate()) {
             return;
           }
+
+          context.delivery.add(
+            SubmitDeliveryAddress(
+              address: DeliveryAddress(
+                city: _emirateSelectKey.currentState!.value,
+                district: _districtSelectKey.currentState!.value,
+                address: _addressInputKey.currentState!.value,
+                building: _buildingInputKey.currentState!.value,
+                floor: _floorInputKey.currentState!.value,
+                apartment: _apartmentInputKey.currentState!.value,
+              ),
+            ),
+          );
 
           deliveryNavigator.pushNamed(DeliveryRoutes.time);
         },

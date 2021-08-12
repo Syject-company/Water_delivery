@@ -38,6 +38,8 @@ text:
   not_enough_money: "You don't have enough funds."
   successful_payment: "Successful Payment!"
   thanks_for_order: "Thanks a lot for your order. Wait for the delivery."
+  today: "Today"
+  tomorrow: "Tomorrow"
 
 # INPUT
 input:
