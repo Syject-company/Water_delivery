@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           _buildLanguageText(),
           const SizedBox(height: 24.0),
           _buildLanguagePicker(context),
@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildUserInputForm(BuildContext context) {
     return Form(
       child: Column(
-        children: <Widget>[
+        children: [
           WaterFormInput(
             hintText: 'input.first_name'.tr(),
             keyboardType: TextInputType.text,
@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildDeliveryInputForm() {
     return Form(
       child: Column(
-        children: <Widget>[
+        children: [
           WaterFormSelect<City>(
             initialValue: _selectedCity,
             hintText: 'input.select_emirate'.tr(),
@@ -205,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildFamilyMembersPicker() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: WaterText(

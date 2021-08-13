@@ -144,7 +144,7 @@ class WaterFormInputState extends State<WaterFormInput> {
   Widget _wrapWithLabel(Widget child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 8.0),
           child: WaterText(

@@ -19,7 +19,7 @@ class AppBarNotificationButton extends StatelessWidget {
       },
       child: Center(
         child: Stack(
-          children: <Widget>[
+          children: [
             _buildIcon(),
             PositionedDirectional(
               end: 0.0,

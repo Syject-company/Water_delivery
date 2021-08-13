@@ -33,7 +33,9 @@ class _ProductListItemState extends State<ProductListItem> {
         onTap: () {
           Navigator.of(context).push(
             FadePageRoute(
-              builder: (_) => ProductScreen(product: _product),
+              builder: (context) {
+                return ProductScreen(product: _product);
+              },
             ),
           );
         },
@@ -44,7 +46,7 @@ class _ProductListItemState extends State<ProductListItem> {
             border: Border.all(color: AppColors.borderColor),
           ),
           child: Column(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: Hero(
                   tag: _product,
@@ -55,10 +57,10 @@ class _ProductListItemState extends State<ProductListItem> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     _buildPriceText(),
                     const SizedBox(height: 2.0),
-                    Flexible(child: _buildTitleText()),
+                    _buildTitleText(),
                     const SizedBox(height: 2.0),
                     _buildVolumeText(),
                   ],
@@ -83,7 +85,7 @@ class _ProductListItemState extends State<ProductListItem> {
     final discount = _product.discount;
 
     return Row(
-      children: <Widget>[
+      children: [
         WaterText(
           'text.aed'.tr(args: [
             _product.discountPrice.toStringAsFixed(2),
@@ -98,7 +100,7 @@ class _ProductListItemState extends State<ProductListItem> {
         if (discount > 0.0)
           Flexible(
             child: Row(
-              children: <Widget>[
+              children: [
                 const SizedBox(width: 6.0),
                 Flexible(
                   child: WaterText(
@@ -122,12 +124,14 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildTitleText() {
-    return WaterText(
-      _product.title.tr(),
-      maxLines: 2,
-      fontSize: 15.0,
-      lineHeight: 1.5,
-      overflow: TextOverflow.ellipsis,
+    return Flexible(
+      child: WaterText(
+        _product.title.tr(),
+        maxLines: 2,
+        fontSize: 15.0,
+        lineHeight: 1.5,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
@@ -201,7 +205,7 @@ class _ProductListItemState extends State<ProductListItem> {
         ),
         child: Row(
           textDirection: Directionality.of(context),
-          children: <Widget>[
+          children: [
             AspectRatio(
                 aspectRatio: 1.0, child: Image.asset(_product.imageUri)),
             const SizedBox(width: 24.0),

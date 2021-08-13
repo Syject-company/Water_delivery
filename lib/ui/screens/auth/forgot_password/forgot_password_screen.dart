@@ -33,7 +33,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           controller: _pageController,
           clipBehavior: Clip.none,
-          children: <Widget>[
+          children: [
             EnterEmailPage(),
             EnterNewPasswordPage(),
           ],

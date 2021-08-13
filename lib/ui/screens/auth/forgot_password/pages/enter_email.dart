@@ -20,7 +20,7 @@ class EnterEmailPage extends StatelessWidget {
       clipBehavior: Clip.none,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           const WaterLogo(),
           const SizedBox(height: 36.0),
           _buildForgotPasswordLabel(),
@@ -47,7 +47,7 @@ class EnterEmailPage extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Column(
-        children: <Widget>[
+        children: [
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
             builder: (context, state) {
               return WaterText(

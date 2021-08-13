@@ -88,17 +88,17 @@ class _CarouselSliderState extends State<CarouselSlider> {
           axisDirection: axisDirection,
           controller: _pageController,
           physics: physics,
-          viewportBuilder: (_, position) {
+          viewportBuilder: (context, position) {
             return Viewport(
               cacheExtent: widget.options.allowImplicitScrolling ? 1.0 : 0.0,
               cacheExtentStyle: CacheExtentStyle.viewport,
               axisDirection: axisDirection,
               offset: position,
-              slivers: <Widget>[
+              slivers: [
                 SliverFillViewport(
                   viewportFraction: _pageController.viewportFraction,
                   delegate: SliverChildBuilderDelegate(
-                    (_, index) => _wrapItem(
+                    (context, index) => _wrapItem(
                         widget.items.asMap()[index % widget.items.length]),
                     childCount: widget.options.infiniteScroll
                         ? _itemCount
@@ -172,13 +172,6 @@ class _CarouselSliderState extends State<CarouselSlider> {
           }
         },
       );
-    }
-  }
-
-  void _stopAutoPlayCarousel() {
-    if (_timer != null) {
-      _timer?.cancel();
-      _timer = null;
     }
   }
 }

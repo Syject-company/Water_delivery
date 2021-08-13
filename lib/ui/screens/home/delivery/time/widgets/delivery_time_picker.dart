@@ -62,7 +62,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           WaterText(
             formattedDayOfWeek,
             fontSize: 15.0,

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -54,8 +55,7 @@ class _CartScreenState extends State<CartScreen> {
                 key: ValueKey(item),
                 cartItem: item,
               ),
-            )
-            .toList(),
+            ).toList(),
         separator: const Divider(
           color: AppColors.borderColor,
           thickness: 1.0,
@@ -68,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget _buildBottomPanel(CartState state) {
     return Container(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: AppColors.borderColor),
@@ -76,7 +76,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           _buildDiscountPriceText(),
           const SizedBox(height: 4.0),
           _buildTotalPriceText(state),
@@ -88,66 +88,60 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildDiscountPriceText() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          WaterText(
-            'text.fee'.tr(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        WaterText(
+          'text.fee'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondaryText,
+        ),
+        const SizedBox(width: 16.0),
+        Flexible(
+          child: WaterText(
+            'text.aed'.tr(args: [0.toStringAsFixed(2)]),
             fontSize: 18.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w500,
+            textAlign: TextAlign.end,
             color: AppColors.secondaryText,
           ),
-          const SizedBox(width: 16.0),
-          Flexible(
-            child: WaterText(
-              'text.aed'.tr(args: [0.toStringAsFixed(2)]),
-              fontSize: 18.0,
-              lineHeight: 1.5,
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.end,
-              color: AppColors.secondaryText,
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
   Widget _buildTotalPriceText(CartState state) {
     final totalPrice = state.totalPrice;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          WaterText(
-            'text.total'.tr(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        WaterText(
+          'text.total'.tr(),
+          fontSize: 23.0,
+          lineHeight: 2.0,
+        ),
+        const SizedBox(width: 24.0),
+        Flexible(
+          child: WaterText(
+            'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
             fontSize: 23.0,
             lineHeight: 2.0,
+            textAlign: TextAlign.end,
           ),
-          const SizedBox(width: 24.0),
-          Flexible(
-            child: WaterText(
-              'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
-              fontSize: 23.0,
-              lineHeight: 2.0,
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
   Widget _buildActionButtons(CartState state) {
     final isCartEmpty = state.items.isEmpty;
 
     return Row(
-      children: <Widget>[
+      children: [
         Expanded(
           child: WaterButton(
             onPressed: () {},

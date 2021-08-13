@@ -23,7 +23,7 @@ class EnterNewPasswordPage extends StatelessWidget {
       clipBehavior: Clip.none,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           const WaterLogo(),
           const SizedBox(height: 36.0),
           _buildEnterNewPasswordLabel(),
@@ -50,11 +50,11 @@ class EnterNewPasswordPage extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Column(
-        children: <Widget>[
+        children: [
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-            buildWhen: (_, state) =>
+            buildWhen: (context, state) =>
                 state is ForgotPasswordLoading || state is ForgotPasswordError,
-            builder: (_, state) {
+            builder: (context, state) {
               return WaterText(
                 state is ForgotPasswordError ? state.message : '',
                 fontSize: 15.0,

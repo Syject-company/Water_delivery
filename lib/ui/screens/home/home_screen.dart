@@ -22,13 +22,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey();
   final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => _onBackPressed(context),
+      onWillPop: () {
+        return _onBackPressed(context);
+      },
       child: SideMenu(
         key: _sideMenuKey,
         menu: Menu(),
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           body: PageView(
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
-            children: <Widget>[
+            children: [
               KeepAliveChild(child: ShopScreen()),
               KeepAliveChild(child: ProfileScreen()),
               KeepAliveChild(child: CartScreen()),
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, state) {
               return WaterBottomNavigationBar(
                 selectedIndex: state.index,
-                items: <WaterBottomNavigationBarItem>[
+                items: [
                   WaterBottomNavigationBarItem(
                     icon: Icon(AppIcons.bar_shop),
                     selectedIcon: Icon(AppIcons.bar_shop_filled),
@@ -99,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: BlocBuilder<NavigationBloc, NavigationState>(
-        builder: (_, state) {
+        builder: (context, state) {
           Widget? leading;
           if (state is ShopProducts) {
             leading = AppBarBackButton(
@@ -116,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               textAlign: TextAlign.center,
             ),
             leading: leading,
-            actions: <Widget>[
+            actions: [
               AppBarIconButton(
                 onPressed: () {},
                 icon: AppIcons.whatsapp,

@@ -7,6 +7,7 @@ import 'package:water/domain/model/home/shop/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/product.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -41,9 +42,9 @@ class _ProductScreenState extends State<ProductScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             LayoutBuilder(
-              builder: (_, constraints) {
+              builder: (context, constraints) {
                 return Hero(
                   tag: _product,
                   child: Image.asset(
@@ -55,12 +56,12 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 const SizedBox(height: 24.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(child: _buildTitleText()),
+                  children: [
+                    _buildTitleText(),
                     const SizedBox(width: 16.0),
                     _buildVolumeText(),
                   ],
@@ -68,8 +69,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 const SizedBox(height: 24.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(flex: 2, child: _buildPriceText()),
+                  children: [
+                    _buildPriceText(),
                     const SizedBox(width: 16.0),
                     _buildAmountPicker(),
                   ],
@@ -82,7 +83,7 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       ),
       bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
-        builder: (_, state) => _buildCheckoutPanel(),
+        builder: (context, state) => _buildCheckoutPanel(),
       ),
     );
   }
@@ -92,7 +93,7 @@ class _ProductScreenState extends State<ProductScreen> {
       leading: AppBarBackButton(
         onPressed: () => homeNavigator.pop(),
       ),
-      actions: <Widget>[
+      actions: [
         AppBarIconButton(
           icon: AppIcons.whatsapp,
           onPressed: () {},
@@ -103,10 +104,12 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget _buildTitleText() {
-    return WaterText(
-      _product.title.tr(),
-      fontSize: 24.0,
-      lineHeight: 2.0,
+    return Flexible(
+      child: WaterText(
+        _product.title.tr(),
+        fontSize: 24.0,
+        lineHeight: 2.0,
+      ),
     );
   }
 
@@ -122,40 +125,38 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _buildPriceText() {
     final discount = _product.discount;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        if (discount > 0.0)
-          Column(
-            children: <Widget>[
-              WaterText(
-                'text.aed'.tr(args: [
-                  _product.price.toStringAsFixed(2),
-                ]),
-                maxLines: 1,
-                fontSize: 18.0,
-                lineHeight: 1.5,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.fade,
-                decoration: TextDecoration.lineThrough,
-                color: AppColors.secondaryText,
-                softWrap: false,
-              ),
-              const SizedBox(height: 6.0),
-            ],
+    return Flexible(
+      flex: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (discount > 0.0)
+            WaterText(
+              'text.aed'.tr(args: [
+                _product.price.toStringAsFixed(2),
+              ]),
+              maxLines: 1,
+              fontSize: 18.0,
+              lineHeight: 1.5,
+              fontWeight: FontWeight.w500,
+              overflow: TextOverflow.fade,
+              decoration: TextDecoration.lineThrough,
+              color: AppColors.secondaryText,
+              softWrap: false,
+            ).withPadding(0.0, 0.0, 0.0, 6.0),
+          WaterText(
+            'text.aed'.tr(args: [
+              _product.discountPrice.toStringAsFixed(2),
+            ]),
+            maxLines: 1,
+            fontSize: 27.0,
+            lineHeight: 2,
+            fontWeight: FontWeight.w500,
+            overflow: TextOverflow.fade,
+            softWrap: false,
           ),
-        WaterText(
-          'text.aed'.tr(args: [
-            _product.discountPrice.toStringAsFixed(2),
-          ]),
-          maxLines: 1,
-          fontSize: 27.0,
-          lineHeight: 2,
-          fontWeight: FontWeight.w500,
-          overflow: TextOverflow.fade,
-          softWrap: false,
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -205,7 +206,7 @@ class _ProductScreenState extends State<ProductScreen> {
       height: _checkOutPanelHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        children: [
           Flexible(
             child: WaterText(
               'text.aed'.tr(args: [

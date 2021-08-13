@@ -4,6 +4,7 @@ import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/product.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
@@ -24,55 +25,46 @@ class _CartListItemState extends State<CartListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
-      child: Row(
-        children: <Widget>[
-          _buildImage(),
-          const SizedBox(width: 24.0),
-          Expanded(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: 80.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(child: _buildTitleText()),
-                            const SizedBox(width: 12.0),
-                            _buildVolumeText(),
-                            const SizedBox(width: 12.0),
-                            _buildRemoveItemButton(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      _buildAmountPicker(),
-                      const SizedBox(width: 12.0),
-                      Flexible(child: _buildPriceText()),
-                    ],
-                  ),
-                ],
-              ),
+    return Row(
+      children: [
+        _buildImage(),
+        const SizedBox(width: 24.0),
+        Expanded(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: 80.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTitleText(),
+                    const SizedBox(width: 12.0),
+                    _buildVolumeText(),
+                    const SizedBox(width: 12.0),
+                    _buildRemoveItemButton(),
+                  ],
+                ).withPadding(0.0, 0.0, 18.0, 0.0),
+                const SizedBox(height: 12.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _buildAmountPicker(),
+                    const SizedBox(width: 12.0),
+                    _buildPriceText(),
+                  ],
+                ).withPadding(0.0, 0.0, 24.0, 0.0),
+              ],
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ).withPadding(24.0, 8.0, 0.0, 12.0);
   }
 
   Widget _buildImage() {
@@ -86,12 +78,14 @@ class _CartListItemState extends State<CartListItem> {
   }
 
   Widget _buildTitleText() {
-    return WaterText(
-      _item.product.title.tr(),
-      maxLines: 2,
-      lineHeight: 1.5,
-      fontWeight: FontWeight.w600,
-      overflow: TextOverflow.ellipsis,
+    return Expanded(
+      child: WaterText(
+        _item.product.title.tr(),
+        maxLines: 2,
+        lineHeight: 1.5,
+        fontWeight: FontWeight.w600,
+        overflow: TextOverflow.ellipsis,
+      ).withPadding(0.0, 2.0, 0.0, 0.0),
     );
   }
 
@@ -100,10 +94,10 @@ class _CartListItemState extends State<CartListItem> {
       _item.product.formattedVolume,
       maxLines: 1,
       lineHeight: 1.5,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: AppColors.secondaryText,
       overflow: TextOverflow.ellipsis,
-    );
+    ).withPadding(0.0, 2.0, 0.0, 0.0);
   }
 
   Widget _buildRemoveItemButton() {
@@ -141,38 +135,35 @@ class _CartListItemState extends State<CartListItem> {
   Widget _buildPriceText() {
     final discount = _item.product.discount;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        if (discount > 0.0)
-          Column(
-            children: <Widget>[
-              WaterText(
-                'text.aed'.tr(args: [
-                  _item.totalPrice.toStringAsFixed(2),
-                ]),
-                maxLines: 1,
-                lineHeight: 1.5,
-                fontWeight: FontWeight.w500,
-                color: AppColors.secondaryText,
-                overflow: TextOverflow.ellipsis,
-                decoration: TextDecoration.lineThrough,
-              ),
-              const SizedBox(height: 3.0),
-            ],
-          ),
-        WaterText(
-          'text.aed'.tr(args: [
-            _item.totalDiscountPrice.toStringAsFixed(2),
-          ]),
-          maxLines: 1,
-          fontSize: 19.0,
-          lineHeight: 1.5,
-          overflow: TextOverflow.ellipsis,
-          fontWeight: FontWeight.w500,
-        )
-      ],
+    return Flexible(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (discount > 0.0)
+            WaterText(
+              'text.aed'.tr(args: [
+                _item.totalPrice.toStringAsFixed(2),
+              ]),
+              maxLines: 1,
+              lineHeight: 1.5,
+              fontWeight: FontWeight.w500,
+              color: AppColors.secondaryText,
+              overflow: TextOverflow.ellipsis,
+              decoration: TextDecoration.lineThrough,
+            ).withPadding(0.0, 0.0, 0.0, 3.0),
+          WaterText(
+            'text.aed'.tr(args: [
+              _item.totalDiscountPrice.toStringAsFixed(2),
+            ]),
+            maxLines: 1,
+            fontSize: 19.0,
+            lineHeight: 1.5,
+            overflow: TextOverflow.ellipsis,
+            fontWeight: FontWeight.w500,
+          )
+        ],
+      ),
     );
   }
 }

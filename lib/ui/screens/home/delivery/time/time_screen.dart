@@ -35,7 +35,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             WaterText(
               'text.select_time'.tr(),
               lineHeight: 1.5,
@@ -48,7 +48,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
               builder: (context, state) {
                 if (state is DeliveryDatesLoaded) {
                   return Column(
-                    children: <Widget>[
+                    children: [
                       DeliveryTimePicker(
                         times: state.dates,
                         onSelected: (time) {
@@ -82,7 +82,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
           deliveryNavigator.pop();
         },
       ),
-      actions: <Widget>[
+      actions: [
         AppBarIconButton(
           onPressed: () {},
           icon: AppIcons.whatsapp,
@@ -103,7 +103,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
     final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
     return Column(
-      children: <Widget>[
+      children: [
         const SizedBox(height: 40.0),
         WaterText(
           'text.selected_time'.tr(),

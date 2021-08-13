@@ -88,11 +88,9 @@ class SideMenuState extends State<SideMenu>
 
   @override
   Widget build(BuildContext context) {
-    final widthFactor = 1.0 - (_controller.value * _offset);
-
     return Stack(
       alignment: _drawerInnerAlignment,
-      children: <Widget>[
+      children: [
         GestureDetector(
           onHorizontalDragDown:
               widget.enableOpenDragGesture ? _handleDragDown : null,
@@ -106,7 +104,6 @@ class SideMenuState extends State<SideMenu>
                   alignment: _drawerOuterAlignment,
                   child: Align(
                     alignment: _drawerInnerAlignment,
-                    widthFactor: widthFactor,
                     child: RepaintBoundary(
                       child: _buildChild(),
                     ),
@@ -135,7 +132,7 @@ class SideMenuState extends State<SideMenu>
 
   Widget _buildChild() {
     return Stack(
-      children: <Widget>[
+      children: [
         widget.child,
         _buildBackdrop(),
       ],

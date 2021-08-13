@@ -17,7 +17,7 @@ class SelectLanguageScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             const WaterLogo(),
             const SizedBox(height: 64.0),
             _buildSelectLanguageLabel(),

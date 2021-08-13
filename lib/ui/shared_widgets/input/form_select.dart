@@ -120,7 +120,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
   Widget _wrapWithLabel(Widget child) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 8.0),
           child: WaterText(
@@ -219,10 +219,10 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             if (widget.enableSearch)
               Column(
-                children: <Widget>[
+                children: [
                   Padding(
                     padding: const EdgeInsetsDirectional.only(
                         start: 12.0, end: 18.0),

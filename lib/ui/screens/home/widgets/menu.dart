@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
@@ -16,7 +17,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        children: <Widget>[
+        children: [
           _buildHeader(),
           Expanded(
             child: SingleChildScrollView(
@@ -54,7 +55,7 @@ class Menu extends StatelessWidget {
 
   Widget _buildActionButtons(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         _buildActionButton(
           onPressed: () {
             _navigateTo(context, Screen.shop);
@@ -77,7 +78,9 @@ class Menu extends StatelessWidget {
           label: 'side_menu.orders'.tr(),
         ),
         _buildActionButton(
-          onPressed: () {},
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.subscriptions);
+          },
           icon: AppIcons.subscription,
           label: 'side_menu.subscriptions'.tr(),
         ),
@@ -133,29 +136,26 @@ class Menu extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: onPressed,
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(56.0, 13.0, 24.0, 13.0),
-        child: Row(
-          children: <Widget>[
-            Icon(
-              icon,
-              size: 32.0,
-              color: iconColor,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 32.0,
+            color: iconColor,
+          ),
+          const SizedBox(width: 26.0),
+          Flexible(
+            child: WaterText(
+              label,
+              maxLines: 1,
+              fontSize: 18.0,
+              lineHeight: 1.75,
+              color: labelColor,
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(width: 28.0),
-            Flexible(
-              child: WaterText(
-                label,
-                maxLines: 1,
-                fontSize: 20.0,
-                lineHeight: 1.75,
-                color: labelColor,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        ],
+      ).withPadding(56.0, 13.0, 26.0, 13.0),
       behavior: HitTestBehavior.opaque,
     );
   }
@@ -163,7 +163,7 @@ class Menu extends StatelessWidget {
   Widget _buildSocialButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         WaterCircleButton(
           onPressed: () {},
           icon: AppIcons.facebook,

@@ -21,7 +21,7 @@ class WaterLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         if (showIcon) _buildIcon(context),
         if (showIcon && showLabel) const SizedBox(height: 24.0),
         if (showLabel) _buildLabel(context),

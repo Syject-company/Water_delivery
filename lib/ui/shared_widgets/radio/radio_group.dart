@@ -102,7 +102,7 @@ class _RadioButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: [
         Container(
           width: _circleWidth,
           height: _circleHeight,

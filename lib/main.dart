@@ -50,7 +50,7 @@ class GulfaWaterApp extends StatelessWidget {
       theme: theme,
       title: 'Gulfa Water',
       // TODO: test only
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.home,
       onGenerateRoute: RootRouter.generateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

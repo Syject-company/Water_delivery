@@ -10,6 +10,7 @@ abstract class AppColors {
   static const Color secondary = Color(0xFFD2F4FF);
   static const Color secondaryText = Color(0xFF92ABBA);
   static const Color errorText = Color(0xFFED1C24);
+  static const Color errorSecondary = Color(0xFFFCB6B8);
   static const Color disabled = Color(0xFFE5E5E5);
 
   static const Color inputDefaultBorder = Color(0xFFE5E5E5);

@@ -20,7 +20,7 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         _buildAmountInput(),
         const SizedBox(height: 32.0),
         _buildTopUpButton(),
@@ -31,7 +31,7 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   Widget _buildAmountInput() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         SizedBox(
           width: 196.0,
           child: WaterFormInput(

@@ -37,7 +37,7 @@ class CategoryListItem extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

@@ -17,19 +17,19 @@ class DeliveryRouter {
     switch (settings.name) {
       case DeliveryRoutes.address:
         return SlideWithFadePageRoute(
-          builder: (_) => DeliveryAddressScreen(),
+          builder: (context) => DeliveryAddressScreen(),
         );
       case DeliveryRoutes.time:
         return SlideWithFadePageRoute(
-          builder: (_) => DeliveryTimeScreen(),
+          builder: (context) => DeliveryTimeScreen(),
         );
       case DeliveryRoutes.payment:
         return SlideWithFadePageRoute(
-          builder: (_) => DeliveryPaymentScreen(),
+          builder: (context) => DeliveryPaymentScreen(),
         );
       default:
         return SlideWithFadePageRoute(
-          builder: (_) {
+          builder: (context) {
             return Scaffold(
               body: Center(
                 child: Text(

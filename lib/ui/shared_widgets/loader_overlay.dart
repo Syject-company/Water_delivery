@@ -32,7 +32,7 @@ class LoaderOverlayState extends State<LoaderOverlay> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[
+      children: [
         widget.child,
         AnimatedSwitcher(
           duration: _fadeDuration,

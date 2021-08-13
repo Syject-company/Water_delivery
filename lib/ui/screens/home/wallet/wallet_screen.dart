@@ -38,7 +38,7 @@ class _WalletScreenState extends State<WalletScreen> {
         padding: const EdgeInsets.all(24.0),
         physics: const BouncingScrollPhysics(),
         child: Column(
-          children: <Widget>[
+          children: [
             const SizedBox(height: 64.0),
             _buildBalanceText(),
             const SizedBox(height: 32.0),
@@ -81,7 +81,7 @@ class _WalletScreenState extends State<WalletScreen> {
           }
         },
       ),
-      actions: <Widget>[
+      actions: [
         AppBarIconButton(
           onPressed: () {},
           icon: AppIcons.whatsapp,

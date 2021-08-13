@@ -27,7 +27,7 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (_, state) {
+      listener: (context, state) {
         state is AuthLoading ? context.showLoader() : context.hideLoader();
 
         if (state is AuthSuccess) {
@@ -43,7 +43,7 @@ class SignInScreen extends StatelessWidget {
           controller: _scrollController,
           clipBehavior: Clip.none,
           child: Column(
-            children: <Widget>[
+            children: [
               const WaterLogo(),
               const SizedBox(height: 36.0),
               _buildSignInLabel(),
@@ -90,11 +90,11 @@ class SignInScreen extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Column(
-        children: <Widget>[
+        children: [
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (_, state) =>
+            buildWhen: (context, state) =>
                 (state is AuthLoading || state is AuthError),
-            builder: (_, state) {
+            builder: (context, state) {
               return WaterText(
                 state is AuthError ? state.message : '',
                 fontSize: 15.0,
@@ -178,7 +178,7 @@ class SignInScreen extends StatelessWidget {
   Widget _buildSignInButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         WaterCircleButton(
           onPressed: () {
             FocusScope.of(context).unfocus();

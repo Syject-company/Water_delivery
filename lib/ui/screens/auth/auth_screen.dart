@@ -16,7 +16,7 @@ class AuthScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         clipBehavior: Clip.none,
         child: Column(
-          children: <Widget>[
+          children: [
             const WaterLogo(labelWidthFactor: 2.25),
             const SizedBox(height: 128.0),
             _buildSignInButton(context),

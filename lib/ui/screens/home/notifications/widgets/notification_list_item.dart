@@ -28,7 +28,7 @@ class NotificationListItem extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               _buildPostedTime(),
               const SizedBox(height: 6.0),
               _buildBodyText(),

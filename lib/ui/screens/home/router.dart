@@ -3,6 +3,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
 import 'package:water/ui/screens/home/notifications/notifications_screen.dart';
 import 'package:water/ui/screens/home/orders/orders_screen.dart';
+import 'package:water/ui/screens/home/subscriptions/subscriptions_screen.dart';
 import 'package:water/ui/screens/home/wallet/wallet_screen.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
@@ -13,6 +14,7 @@ abstract class HomeRoutes {
   static const String wallet = 'wallet';
   static const String notifications = 'notifications';
   static const String orders = 'orders';
+  static const String subscriptions = 'subscriptions';
   static const String delivery = 'delivery';
 }
 
@@ -34,6 +36,10 @@ class HomeRouter {
       case HomeRoutes.orders:
         return SlideWithFadePageRoute(
           builder: (context) => OrdersScreen(),
+        );
+      case HomeRoutes.subscriptions:
+        return SlideWithFadePageRoute(
+          builder: (context) => SubscriptionsScreen(),
         );
       case HomeRoutes.delivery:
         return SlideWithFadePageRoute(

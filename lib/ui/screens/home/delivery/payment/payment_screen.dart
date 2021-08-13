@@ -10,6 +10,7 @@ import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/product.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
@@ -32,14 +33,14 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Column(
-        children: <Widget>[
+        children: [
           _buildBalanceText(),
           Divider(
             height: 1.0,
             thickness: 1.0,
             color: AppColors.borderColor,
           ),
-          Flexible(child: _buildSummary()),
+          _buildSummary(),
         ],
       ),
       bottomNavigationBar: _buildBottomPanel(),
@@ -56,7 +57,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
       leading: AppBarBackButton(
         onPressed: () => deliveryNavigator.pop(),
       ),
-      actions: <Widget>[
+      actions: [
         AppBarIconButton(
           onPressed: () {},
           icon: AppIcons.whatsapp,
@@ -69,31 +70,29 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
   Widget _buildBalanceText() {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 12.0),
-          child: WaterText(
-            'text.wallet_balance'.tr(args: [state.balance.toStringAsFixed(2)]),
-            fontSize: 18.0,
-            lineHeight: 1.5,
-            textAlign: TextAlign.center,
-          ),
+        return WaterText(
+          'text.wallet_balance'.tr(args: [state.balance.toStringAsFixed(2)]),
+          fontSize: 18.0,
+          lineHeight: 1.5,
+          textAlign: TextAlign.center,
         );
       },
-    );
+    ).withPadding(24.0, 24.0, 24.0, 12.0);
   }
 
   Widget _buildSummary() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: <Widget>[
-          _buildDeliveryAddress(),
-          const SizedBox(height: 6.0),
-          _buildDeliveryTime(),
-          const SizedBox(height: 6.0),
-          _buildCartItems(),
-        ],
+    return Flexible(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            _buildDeliveryAddress(),
+            const SizedBox(height: 3.0),
+            _buildDeliveryTime(),
+            const SizedBox(height: 6.0),
+            _buildCartItems(),
+          ],
+        ),
       ),
     );
   }
@@ -108,7 +107,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
     final apartment = deliveryAddress.apartment;
 
     return Row(
-      children: <Widget>[
+      children: [
         Icon(
           AppIcons.pin,
           size: 32.0,
@@ -125,7 +124,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
           ),
         ),
       ],
-    );
+    ).withPadding(16.0, 8.0, 24.0, 0.0);
   }
 
   Widget _buildDeliveryTime() {
@@ -140,7 +139,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
     final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
     return Row(
-      children: <Widget>[
+      children: [
         Icon(
           AppIcons.time,
           size: 32.0,
@@ -157,18 +156,18 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
           ),
         ),
       ],
-    );
+    ).withPadding(16.0, 0.0, 24.0, 0.0);
   }
 
   Widget _buildCartItems() {
     final items = context.cart.state.items;
 
     return SeparatedColumn(
-      children: <Widget>[
+      children: [
         for (int i = 0; i < items.length; i++) _buildCartItem(i, items[i]),
       ],
       separator: const SizedBox(height: 6.0),
-    );
+    ).withPadding(24.0, 0.0, 24.0, 16.0);
   }
 
   Widget _buildCartItem(int index, CartItem item) {
@@ -176,7 +175,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         SizedBox(
           width: 18.0,
           child: WaterText(
@@ -194,7 +193,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               Flexible(
                 child: WaterText(
                   '$title',
@@ -234,7 +233,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
 
   Widget _buildBottomPanel() {
     return Container(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: AppColors.borderColor),
@@ -242,7 +241,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           _buildDiscountPriceText(),
           const SizedBox(height: 4.0),
           _buildTotalPriceText(),
@@ -254,62 +253,56 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
   }
 
   Widget _buildDiscountPriceText() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          WaterText(
-            'text.fee'.tr(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        WaterText(
+          'text.fee'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondaryText,
+        ),
+        const SizedBox(width: 16.0),
+        Flexible(
+          child: WaterText(
+            'text.aed'.tr(args: [0.toStringAsFixed(2)]),
             fontSize: 18.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w500,
+            textAlign: TextAlign.end,
             color: AppColors.secondaryText,
           ),
-          const SizedBox(width: 16.0),
-          Flexible(
-            child: WaterText(
-              'text.aed'.tr(args: [0.toStringAsFixed(2)]),
-              fontSize: 18.0,
-              lineHeight: 1.5,
-              fontWeight: FontWeight.w500,
-              textAlign: TextAlign.end,
-              color: AppColors.secondaryText,
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
   Widget _buildTotalPriceText() {
     final totalPrice = context.cart.state.totalPrice;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          WaterText(
-            'text.total'.tr(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        WaterText(
+          'text.total'.tr(),
+          fontSize: 23.0,
+          lineHeight: 2.0,
+        ),
+        const SizedBox(width: 24.0),
+        Flexible(
+          child: WaterText(
+            'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
+            maxLines: 1,
             fontSize: 23.0,
             lineHeight: 2.0,
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.fade,
+            softWrap: false,
           ),
-          const SizedBox(width: 24.0),
-          Flexible(
-            child: WaterText(
-              'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
-              maxLines: 1,
-              fontSize: 23.0,
-              lineHeight: 2.0,
-              textAlign: TextAlign.end,
-              overflow: TextOverflow.fade,
-              softWrap: false,
-            ),
-          ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
   Widget _buildPayButton() {
@@ -357,7 +350,7 @@ class _SuccessfulPaymentDialog extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             _buildMessageText(),
             const SizedBox(height: 32.0),
             _buildAddButton(context),
@@ -369,7 +362,7 @@ class _SuccessfulPaymentDialog extends StatelessWidget {
 
   Widget _buildTitle() {
     return Column(
-      children: <Widget>[
+      children: [
         Icon(
           AppIcons.logo,
           size: 96.0,
@@ -424,7 +417,7 @@ class _TopUpWalletDialog extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             _buildMessageText(),
             const SizedBox(height: 32.0),
             _buildAddButton(context),
@@ -437,7 +430,7 @@ class _TopUpWalletDialog extends StatelessWidget {
   Widget _buildTitle(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
-      children: <Widget>[
+      children: [
         PositionedDirectional(
           top: 0.0,
           end: 0.0,
@@ -454,7 +447,7 @@ class _TopUpWalletDialog extends StatelessWidget {
           ),
         ),
         Column(
-          children: <Widget>[
+          children: [
             Icon(
               AppIcons.alert,
               size: 96.0,

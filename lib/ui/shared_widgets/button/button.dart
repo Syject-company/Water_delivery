@@ -6,7 +6,7 @@ const double _width = double.infinity;
 const double _height = 58.0;
 const double _borderRadius = 15.0;
 const double _fontSize = 17.0;
-const double _textLineHeight = 1.25;
+const double _textLineHeight = 1.35;
 
 class WaterButton extends StatelessWidget {
   const WaterButton({

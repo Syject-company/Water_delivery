@@ -8,12 +8,12 @@ import 'package:water/domain/model/home/delivery/address.dart';
 import 'package:water/domain/model/home/profile/city.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
+import 'package:water/ui/screens/home/delivery/router.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
-
-import '../delivery_navigator.dart';
-import '../router.dart';
+import 'package:water/ui/extensions/widget.dart';
 
 class DeliveryAddressScreen extends StatefulWidget {
   DeliveryAddressScreen({Key? key}) : super(key: key);
@@ -57,7 +57,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
       leading: AppBarBackButton(
         onPressed: () => homeNavigator.pop(),
       ),
-      actions: <Widget>[
+      actions: [
         AppBarIconButton(
           onPressed: () {},
           icon: AppIcons.whatsapp,
@@ -71,7 +71,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     return Form(
       key: _formKey,
       child: Column(
-        children: <Widget>[
+        children: [
           WaterFormSelect<City>(
             key: _emirateSelectKey,
             initialValue: _selectedCity,
@@ -142,31 +142,28 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   }
 
   Widget _buildNextButton() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: WaterButton(
-        onPressed: () {
-          if (!_formKey.currentState!.validate()) {
-            return;
-          }
+    return WaterButton(
+      onPressed: () {
+        if (!_formKey.currentState!.validate()) {
+          return;
+        }
 
-          context.delivery.add(
-            SubmitDeliveryAddress(
-              address: DeliveryAddress(
-                city: _emirateSelectKey.currentState!.value,
-                district: _districtSelectKey.currentState!.value,
-                address: _addressInputKey.currentState!.value,
-                building: _buildingInputKey.currentState!.value,
-                floor: _floorInputKey.currentState!.value,
-                apartment: _apartmentInputKey.currentState!.value,
-              ),
+        context.delivery.add(
+          SubmitDeliveryAddress(
+            address: DeliveryAddress(
+              city: _emirateSelectKey.currentState!.value,
+              district: _districtSelectKey.currentState!.value,
+              address: _addressInputKey.currentState!.value,
+              building: _buildingInputKey.currentState!.value,
+              floor: _floorInputKey.currentState!.value,
+              apartment: _apartmentInputKey.currentState!.value,
             ),
-          );
+          ),
+        );
 
-          deliveryNavigator.pushNamed(DeliveryRoutes.time);
-        },
-        text: 'button.next'.tr(),
-      ),
-    );
+        deliveryNavigator.pushNamed(DeliveryRoutes.time);
+      },
+      text: 'button.next'.tr(),
+    ).withPaddingAll(24.0);
   }
 }

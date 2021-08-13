@@ -68,7 +68,7 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
           maxWidth: widget.maxWidth ?? double.infinity,
         ),
         child: Stack(
-          children: <Widget>[
+          children: [
             if (widget.showBorder)
               Positioned.fill(
                 child: Container(
@@ -80,7 +80,7 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
               ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+              children: [
                 _buildDecrementButton(),
                 Flexible(child: _buildCounter()),
                 _buildIncrementButton(),
