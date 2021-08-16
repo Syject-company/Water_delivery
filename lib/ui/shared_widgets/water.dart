@@ -1,5 +1,8 @@
 library water;
 
+import 'package:flutter/material.dart';
+import 'package:water/ui/constants/colors.dart';
+
 export 'app_bar.dart';
 export 'bottom_navigation_bar/bottom_navigation_bar.dart';
 export 'button/app_bar_back_button.dart';
@@ -18,3 +21,14 @@ export 'radio/radio_group.dart';
 export 'side_menu.dart';
 export 'text/text.dart';
 export 'toast.dart';
+
+const Widget defaultDivider = Divider(
+  color: AppColors.borderColor,
+  thickness: 1.0,
+  height: 1.0,
+);
+
+const BorderSide defaultBorder = BorderSide(
+  color: AppColors.borderColor,
+  width: 1.0,
+);

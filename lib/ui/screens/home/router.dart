@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/orders/orders_bloc.dart';
+import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
 import 'package:water/ui/screens/home/notifications/notifications_screen.dart';
@@ -35,11 +38,17 @@ class HomeRouter {
         );
       case HomeRoutes.orders:
         return SlideWithFadePageRoute(
-          builder: (context) => OrdersScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => OrdersBloc()..add(LoadOrders()),
+            child: OrdersScreen(),
+          ),
         );
       case HomeRoutes.subscriptions:
         return SlideWithFadePageRoute(
-          builder: (context) => SubscriptionsScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => SubscriptionsBloc()..add(LoadSubscriptions()),
+            child: SubscriptionsScreen(),
+          ),
         );
       case HomeRoutes.delivery:
         return SlideWithFadePageRoute(

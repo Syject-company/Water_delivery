@@ -55,12 +55,8 @@ class _CartScreenState extends State<CartScreen> {
                 key: ValueKey(item),
                 cartItem: item,
               ),
-            ).toList(),
-        separator: const Divider(
-          color: AppColors.borderColor,
-          thickness: 1.0,
-          height: 1.0,
-        ),
+            )
+            .toList(),
         includeOuterSeparators: true,
       ),
     );
@@ -70,9 +66,7 @@ class _CartScreenState extends State<CartScreen> {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: AppColors.borderColor),
-        ),
+        border: Border(top: defaultBorder),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -101,7 +95,9 @@ class _CartScreenState extends State<CartScreen> {
         const SizedBox(width: 16.0),
         Flexible(
           child: WaterText(
-            'text.aed'.tr(args: [0.toStringAsFixed(2)]),
+            'text.aed'.tr(args: [
+              0.toStringAsFixed(2),
+            ]),
             fontSize: 18.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w500,
@@ -127,7 +123,9 @@ class _CartScreenState extends State<CartScreen> {
         const SizedBox(width: 24.0),
         Flexible(
           child: WaterText(
-            'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
+            'text.aed'.tr(args: [
+              totalPrice.toStringAsFixed(2),
+            ]),
             fontSize: 23.0,
             lineHeight: 2.0,
             textAlign: TextAlign.end,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/orders/orders_bloc.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
@@ -46,18 +47,24 @@ class OrdersScreen extends StatelessWidget {
   }
 
   Widget _buildOrderItems(BuildContext context) {
-    return SeparatedColumn(
-      children: [
-        OrderListItem(),
-        OrderListItem(),
-        OrderListItem(),
-      ],
-      separator: const Divider(
-        height: 1.0,
-        thickness: 1.0,
-        color: AppColors.borderColor,
-      ),
-      includeOuterSeparators: true,
+    return BlocBuilder<OrdersBloc, OrdersState>(
+      builder: (context, state) {
+        if (state is OrdersLoaded) {
+          return SeparatedColumn(
+            children: state.orders
+                .map(
+                  (order) => OrderListItem(
+                    key: ValueKey(order),
+                    order: order,
+                  ),
+                )
+                .toList(),
+            includeOuterSeparators: true,
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
     );
   }
 }

@@ -1,13 +1,21 @@
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:water/domain/model/home/order/order.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 
 class OrderListItem extends StatefulWidget {
-  const OrderListItem({Key? key}) : super(key: key);
+  const OrderListItem({
+    Key? key,
+    required this.order,
+  }) : super(key: key);
+
+  final Order order;
 
   @override
   _OrderListItemState createState() => _OrderListItemState();
@@ -18,6 +26,8 @@ class _OrderListItemState extends State<OrderListItem>
   late final AnimationController _animationController;
 
   bool _isExpanded = false;
+
+  Order get _order => widget.order;
 
   @override
   void initState() {
@@ -77,6 +87,10 @@ class _OrderListItemState extends State<OrderListItem>
   }
 
   Widget _buildTitle() {
+    final locale = Localization.currentLocale(context).languageCode;
+    final date = DateFormat('yyyy-MM-dd', locale).parse(_order.createdDate);
+    final formattedCreatedDate = DateFormat('dd/MM/yyyy', locale).format(date);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -85,13 +99,13 @@ class _OrderListItemState extends State<OrderListItem>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               WaterText(
-                'Order #12345',
+                'Order #${_order.id}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
               ),
               WaterText(
-                '20/05/2020',
+                formattedCreatedDate,
                 fontSize: 15.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -114,6 +128,13 @@ class _OrderListItemState extends State<OrderListItem>
   }
 
   Widget _buildContent() {
+    final city = _order.city;
+    final district = _order.district;
+    final street = _order.street;
+    final building = _order.building;
+    final floor = _order.floor;
+    final apartment = _order.apartment;
+
     return Column(
       children: [
         Row(
@@ -126,7 +147,7 @@ class _OrderListItemState extends State<OrderListItem>
             const SizedBox(width: 12.0),
             Expanded(
               child: WaterText(
-                'emirate, district, address, building, floor, apartment',
+                '$city, $district, $street, $building, $floor, $apartment',
                 fontSize: 12.0,
                 lineHeight: 1.25,
                 fontWeight: FontWeight.w400,
@@ -137,11 +158,7 @@ class _OrderListItemState extends State<OrderListItem>
         ).withPadding(16.0, 0.0, 24.0, 0.0),
         const SizedBox(height: 12.0),
         _buildOrderProducts(),
-        Divider(
-          height: 1.0,
-          thickness: 1.0,
-          color: AppColors.borderColor,
-        ).withPadding(24.0, 12.0, 24.0, 12.0),
+        defaultDivider.withPadding(24.0, 12.0, 24.0, 12.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -153,7 +170,7 @@ class _OrderListItemState extends State<OrderListItem>
               color: AppColors.secondaryText,
             ),
             WaterText(
-              'Paid',
+              '${_order.status}',
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w500,
@@ -166,14 +183,16 @@ class _OrderListItemState extends State<OrderListItem>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             WaterText(
-              'Fee',
+              'text.fee'.tr(),
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w600,
               color: AppColors.secondaryText,
             ),
             WaterText(
-              'AED 0.00',
+              'text.aed'.tr(args: [
+                0.toStringAsFixed(2),
+              ]),
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w500,
@@ -188,13 +207,14 @@ class _OrderListItemState extends State<OrderListItem>
   Widget _buildOrderProducts() {
     return SeparatedColumn(
       children: [
-        for (int i = 0; i < 3; i++) _buildOrderProduct(i),
+        for (int i = 0; i < _order.products.length; i++)
+          _buildOrderProduct(i, _order.products[i]),
       ],
       separator: const SizedBox(height: 6.0),
     ).withPadding(24.0, 0.0, 24.0, 0.0);
   }
 
-  Widget _buildOrderProduct(int index) {
+  Widget _buildOrderProduct(int index, OrderProduct product) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -218,7 +238,7 @@ class _OrderListItemState extends State<OrderListItem>
             children: [
               Flexible(
                 child: WaterText(
-                  'title',
+                  product.title,
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,
@@ -227,7 +247,7 @@ class _OrderListItemState extends State<OrderListItem>
               ),
               const SizedBox(width: 12.0),
               WaterText(
-                'x2',
+                'x${product.amount}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -241,7 +261,7 @@ class _OrderListItemState extends State<OrderListItem>
           flex: 3,
           child: WaterText(
             'text.aed'.tr(args: [
-              12.toStringAsFixed(2),
+              (product.price * product.amount).toStringAsFixed(2),
             ]),
             fontSize: 15.0,
             lineHeight: 1.5,
@@ -254,17 +274,22 @@ class _OrderListItemState extends State<OrderListItem>
   }
 
   Widget _buildFooter() {
+    final totalPrice =
+        _order.products.map((product) => product.price * product.amount).sum;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         WaterText(
-          'Total',
+          'text.total'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w600,
         ),
         WaterText(
-          'AED 25.00',
+          'text.aed'.tr(args: [
+            totalPrice.toStringAsFixed(2),
+          ]),
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,

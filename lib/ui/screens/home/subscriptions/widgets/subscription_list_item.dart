@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:water/domain/model/home/subscription/subscription.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
@@ -7,17 +9,29 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/separated_column.dart';
 
 class SubscriptionListItem extends StatefulWidget {
-  const SubscriptionListItem({Key? key}) : super(key: key);
+  const SubscriptionListItem({
+    Key? key,
+    required this.subscription,
+    this.onSelected,
+    this.onUnSelected,
+  }) : super(key: key);
+
+  final Subscription subscription;
+  final void Function(String)? onSelected;
+  final void Function()? onUnSelected;
 
   @override
-  _SubscriptionListItemState createState() => _SubscriptionListItemState();
+  SubscriptionListItemState createState() => SubscriptionListItemState();
 }
 
-class _SubscriptionListItemState extends State<SubscriptionListItem>
+class SubscriptionListItemState extends State<SubscriptionListItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
 
   bool _isExpanded = false;
+  bool _isSelected = false;
+
+  Subscription get _subscription => widget.subscription;
 
   @override
   void initState() {
@@ -36,24 +50,22 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
             ? _animationController.forward()
             : _animationController.reverse();
       },
-      child: Column(
-        children: [
-          _buildTitle(),
-          AnimatedBuilder(
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: Tween<double>(
-                  begin: 0.0,
-                  end: 1.0,
-                ).animate(
-                  CurvedAnimation(
-                    parent: _animationController,
-                    curve: Curves.easeInOutCubic,
-                  ),
-                ),
-                child: SizeTransition(
-                  axisAlignment: -1.0,
-                  sizeFactor: Tween<double>(
+      onLongPress: () {
+        setState(() {
+          (_isSelected = !_isSelected)
+              ? widget.onSelected?.call('')
+              : widget.onUnSelected?.call();
+        });
+      },
+      child: Container(
+        color: _isSelected ? AppColors.secondary : AppColors.white,
+        child: Column(
+          children: [
+            _buildTitle(),
+            AnimatedBuilder(
+              builder: (context, child) {
+                return FadeTransition(
+                  opacity: Tween<double>(
                     begin: 0.0,
                     end: 1.0,
                   ).animate(
@@ -62,18 +74,40 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
                       curve: Curves.easeInOutCubic,
                     ),
                   ),
-                  child: child!,
-                ),
-              );
-            },
-            animation: _animationController,
-            child: _buildContent(),
-          ),
-          _buildFooter(),
-        ],
+                  child: SizeTransition(
+                    axisAlignment: -1.0,
+                    sizeFactor: Tween<double>(
+                      begin: 0.0,
+                      end: 1.0,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: _animationController,
+                        curve: Curves.easeInOutCubic,
+                      ),
+                    ),
+                    child: child!,
+                  ),
+                );
+              },
+              animation: _animationController,
+              child: _buildContent(),
+            ),
+            _buildFooter(),
+          ],
+        ),
       ),
       behavior: HitTestBehavior.opaque,
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void unSelect() {
+    setState(() => _isSelected = false);
   }
 
   Widget _buildTitle() {
@@ -82,13 +116,13 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         WaterText(
-          'Order #12345',
+          'Order #${_subscription.id}',
           fontSize: 15.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
         ),
         WaterText(
-          'Status: Active',
+          'Status: ${_subscription.isActive ? 'Active' : 'Stopped'}',
           fontSize: 15.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
@@ -99,6 +133,13 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
   }
 
   Widget _buildContent() {
+    final city = _subscription.city;
+    final district = _subscription.district;
+    final street = _subscription.street;
+    final building = _subscription.building;
+    final floor = _subscription.floor;
+    final apartment = _subscription.apartment;
+
     return Column(
       children: [
         Row(
@@ -111,7 +152,7 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
             const SizedBox(width: 12.0),
             Expanded(
               child: WaterText(
-                'emirate, district, address, building, floor, apartment',
+                '$city, $district, $street, $building, $floor, $apartment',
                 fontSize: 12.0,
                 lineHeight: 1.25,
                 fontWeight: FontWeight.w400,
@@ -119,7 +160,7 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
               ),
             ),
           ],
-        ).withPadding(16.0, 0.0, 24.0, 0.0),
+        ).withPadding(18.0, 0.0, 24.0, 0.0),
         const SizedBox(height: 3.0),
         Row(
           children: [
@@ -139,26 +180,24 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
               ),
             ),
           ],
-        ).withPadding(16.0, 0.0, 24.0, 0.0),
+        ).withPadding(18.0, 0.0, 24.0, 0.0),
         const SizedBox(height: 12.0),
-        _buildOrderProducts(),
-        Divider(
-          height: 1.0,
-          thickness: 1.0,
-          color: AppColors.borderColor,
-        ).withPadding(24.0, 12.0, 24.0, 12.0),
+        _buildSubscriptionsProducts(),
+        defaultDivider.withPadding(24.0, 12.0, 24.0, 12.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             WaterText(
-              'Fee',
+              'text.fee'.tr(),
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w600,
               color: AppColors.secondaryText,
             ),
             WaterText(
-              'AED 0.00',
+              'text.aed'.tr(args: [
+                0.toStringAsFixed(2),
+              ]),
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w500,
@@ -170,16 +209,17 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
     );
   }
 
-  Widget _buildOrderProducts() {
+  Widget _buildSubscriptionsProducts() {
     return SeparatedColumn(
       children: [
-        for (int i = 0; i < 3; i++) _buildOrderProduct(i),
+        for (int i = 0; i < _subscription.products.length; i++)
+          _buildSubscriptionProduct(i, _subscription.products[i]),
       ],
       separator: const SizedBox(height: 6.0),
     ).withPadding(24.0, 0.0, 24.0, 0.0);
   }
 
-  Widget _buildOrderProduct(int index) {
+  Widget _buildSubscriptionProduct(int index, SubscriptionProduct product) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -203,7 +243,7 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
             children: [
               Flexible(
                 child: WaterText(
-                  'title',
+                  product.title,
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,
@@ -212,7 +252,7 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
               ),
               const SizedBox(width: 12.0),
               WaterText(
-                'x2',
+                'x${product.amount}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -226,7 +266,7 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
           flex: 3,
           child: WaterText(
             'text.aed'.tr(args: [
-              12.toStringAsFixed(2),
+              (product.price * product.amount).toStringAsFixed(2),
             ]),
             fontSize: 15.0,
             lineHeight: 1.5,
@@ -239,17 +279,23 @@ class _SubscriptionListItemState extends State<SubscriptionListItem>
   }
 
   Widget _buildFooter() {
+    final totalPrice = _subscription.products
+        .map((product) => product.price * product.amount)
+        .sum;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         WaterText(
-          'Total',
+          'text.total'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w600,
         ),
         WaterText(
-          'AED 25.00',
+          'text.aed'.tr(args: [
+            totalPrice.toStringAsFixed(2),
+          ]),
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,

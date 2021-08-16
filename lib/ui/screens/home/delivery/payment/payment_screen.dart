@@ -12,13 +12,12 @@ import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/product.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
-
-import '../delivery_navigator.dart';
 
 class DeliveryPaymentScreen extends StatefulWidget {
   DeliveryPaymentScreen({Key? key}) : super(key: key);
@@ -32,14 +31,9 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Column(
+      body: SeparatedColumn(
         children: [
           _buildBalanceText(),
-          Divider(
-            height: 1.0,
-            thickness: 1.0,
-            color: AppColors.borderColor,
-          ),
           _buildSummary(),
         ],
       ),
@@ -55,7 +49,9 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
         textAlign: TextAlign.center,
       ),
       leading: AppBarBackButton(
-        onPressed: () => deliveryNavigator.pop(),
+        onPressed: () {
+          deliveryNavigator.pop();
+        },
       ),
       actions: [
         AppBarIconButton(
@@ -81,14 +77,16 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
   }
 
   Widget _buildSummary() {
+    final details = context.delivery.state as DeliveryDetailsCollected;
+
     return Flexible(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            _buildDeliveryAddress(),
+            _buildDeliveryAddress(details),
             const SizedBox(height: 3.0),
-            _buildDeliveryTime(),
+            _buildDeliveryTime(details),
             const SizedBox(height: 6.0),
             _buildCartItems(),
           ],
@@ -97,11 +95,12 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
     );
   }
 
-  Widget _buildDeliveryAddress() {
-    final deliveryAddress = context.delivery.state.address!;
+  Widget _buildDeliveryAddress(DeliveryDetailsCollected details) {
+    final deliveryAddress = details.address;
+
     final emirate = deliveryAddress.city;
     final district = deliveryAddress.district;
-    final address = deliveryAddress.address;
+    final street = deliveryAddress.street;
     final building = deliveryAddress.building;
     final floor = deliveryAddress.floor;
     final apartment = deliveryAddress.apartment;
@@ -116,7 +115,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
-            '$emirate, $district, $address, $building, $floor, $apartment',
+            '$emirate, $district, $street, $building, $floor, $apartment',
             fontSize: 12.0,
             lineHeight: 1.25,
             fontWeight: FontWeight.w400,
@@ -127,8 +126,8 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
     ).withPadding(16.0, 8.0, 24.0, 0.0);
   }
 
-  Widget _buildDeliveryTime() {
-    final deliveryTime = context.delivery.state.time!;
+  Widget _buildDeliveryTime(DeliveryDetailsCollected details) {
+    final deliveryTime = details.time;
 
     final locale = Localization.currentLocale(context).languageCode;
     final date = DateFormat('yyyy-MM-dd').parse(deliveryTime.date);
@@ -171,8 +170,6 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
   }
 
   Widget _buildCartItem(int index, CartItem item) {
-    final title = item.product.title.tr();
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -196,7 +193,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
             children: [
               Flexible(
                 child: WaterText(
-                  '$title',
+                  item.product.title.tr(),
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,
@@ -235,9 +232,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: AppColors.borderColor),
-        ),
+        border: Border(top: defaultBorder),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -266,7 +261,9 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
         const SizedBox(width: 16.0),
         Flexible(
           child: WaterText(
-            'text.aed'.tr(args: [0.toStringAsFixed(2)]),
+            'text.aed'.tr(args: [
+              0.toStringAsFixed(2),
+            ]),
             fontSize: 18.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w500,
@@ -292,7 +289,9 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
         const SizedBox(width: 24.0),
         Flexible(
           child: WaterText(
-            'text.aed'.tr(args: [totalPrice.toStringAsFixed(2)]),
+            'text.aed'.tr(args: [
+              totalPrice.toStringAsFixed(2),
+            ]),
             maxLines: 1,
             fontSize: 23.0,
             lineHeight: 2.0,

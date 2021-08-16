@@ -8,6 +8,7 @@ import 'package:water/domain/model/home/delivery/address.dart';
 import 'package:water/domain/model/home/delivery/time.dart';
 
 part 'delivery_event.dart';
+
 part 'delivery_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -15,7 +16,9 @@ extension BlocGetter on BuildContext {
 }
 
 class DeliveryBloc extends Bloc<DeliveryEvent, DeliveryState> {
-  DeliveryBloc() : super(DeliveryState());
+  DeliveryBloc() : super(DeliveryInitial());
+
+  List<DeliveryState> history = [];
 
   @override
   Stream<DeliveryState> mapEventToState(
@@ -31,18 +34,17 @@ class DeliveryBloc extends Bloc<DeliveryEvent, DeliveryState> {
   Stream<DeliveryState> _mapSubmitDeliveryAddressToState(
     SubmitDeliveryAddress event,
   ) async* {
-    yield state.copyWith(
-      address: event.address,
-      time: null,
-    );
+    yield DeliveryTimeInput(address: event.address);
   }
 
   Stream<DeliveryState> _mapSubmitDeliveryTimeToState(
     SubmitDeliveryTime event,
   ) async* {
-    yield state.copyWith(
-      address: state.address,
-      time: event.time,
-    );
+    if (state is DeliveryTimeInput) {
+      yield DeliveryDetailsCollected(
+        address: (state as DeliveryTimeInput).address,
+        time: event.time,
+      );
+    }
   }
 }

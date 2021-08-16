@@ -8,12 +8,12 @@ import 'package:water/bloc/home/delivery/delivery_bloc.dart';
 import 'package:water/domain/model/home/delivery/date.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 
-import '../delivery_navigator.dart';
-import '../router.dart';
 import 'widgets/delivery_time_picker.dart';
 
 class DeliveryTimeScreen extends StatefulWidget {
@@ -132,19 +132,16 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
   }
 
   Widget _buildNextButton() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: WaterButton(
-        enabled: _selectedTime != null,
-        onPressed: () {
-          context.delivery.add(
-            SubmitDeliveryTime(time: _selectedTime!),
-          );
+    return WaterButton(
+      enabled: _selectedTime != null,
+      onPressed: () {
+        context.delivery.add(
+          SubmitDeliveryTime(time: _selectedTime!),
+        );
 
-          deliveryNavigator.pushNamed(DeliveryRoutes.payment);
-        },
-        text: 'button.next'.tr(),
-      ),
-    );
+        // deliveryNavigator.pushNamed(DeliveryRoutes.payment);
+      },
+      text: 'button.next'.tr(),
+    ).withPaddingAll(24.0);
   }
 }

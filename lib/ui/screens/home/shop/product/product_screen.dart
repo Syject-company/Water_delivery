@@ -199,9 +199,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return Container(
       padding: _checkoutPanelContentPadding,
       decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: AppColors.borderColor),
-        ),
+        border: Border(top: defaultBorder),
       ),
       height: _checkOutPanelHeight,
       child: Row(

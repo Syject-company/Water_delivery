@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 part 'bottom_navigation_bar_item.dart';
 
@@ -32,7 +33,7 @@ class WaterBottomNavigationBar extends StatelessWidget {
       padding: _contentPadding,
       height: bottomNavigationBarHeight,
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppColors.borderColor)),
+        border: Border(top: defaultBorder),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
