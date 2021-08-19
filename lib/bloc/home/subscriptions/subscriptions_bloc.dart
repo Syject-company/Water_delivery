@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/home/data/categories.dart';
 import 'package:water/domain/model/home/subscription/subscription.dart';
 
 part 'subscriptions_event.dart';
@@ -63,10 +62,10 @@ final List<Subscription> _subscriptions = [
     deliveryDate: '16-08-2021',
     products: [
       SubscriptionProduct(
-        title: categories[2].products[1].title,
-        volume: categories[2].products[1].volume,
+        title: 'categories[2].products[1].title',
+        volume: 0.33,
         amount: 1,
-        price: categories[2].products[1].price,
+        price: 1,
       ),
     ],
     city: 'City 1',
@@ -82,16 +81,16 @@ final List<Subscription> _subscriptions = [
     deliveryDate: '12-08-2021',
     products: [
       SubscriptionProduct(
-        title: categories[3].products[1].title,
-        volume: categories[3].products[1].volume,
+        title: 'categories[3].products[1].title',
+        volume: 1.5,
         amount: 3,
-        price: categories[3].products[1].price,
+        price: 2,
       ),
       SubscriptionProduct(
-        title: categories[1].products[0].title,
-        volume: categories[1].products[0].volume,
+        title: 'categories[1].products[0].title',
+        volume: 0.5,
         amount: 7,
-        price: categories[1].products[0].price,
+        price: 3,
       ),
     ],
     city: 'City 2',

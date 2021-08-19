@@ -70,10 +70,10 @@ class HomeRouter {
         return SlideWithFadePageRoute(
           builder: (context) => TermsScreen(),
         );
-      case HomeRoutes.referFriend:
-        return SlideWithFadePageRoute(
-          builder: (context) => ReferFriendScreen(),
-        );
+      // case HomeRoutes.referFriend:
+      //   return SlideWithFadePageRoute(
+      //     builder: (context) => ReferFriendScreen(),
+      //   );
       case HomeRoutes.support:
         return SlideWithFadePageRoute(
           builder: (context) => SupportScreen(),

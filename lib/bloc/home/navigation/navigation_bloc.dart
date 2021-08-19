@@ -16,6 +16,8 @@ extension BlocGetter on BuildContext {
 
 enum Screen {
   shop,
+  categories,
+  products,
   profile,
   cart,
 }
@@ -24,9 +26,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   NavigationBloc({required ShopBloc shopBloc})
       : _shopBloc = shopBloc,
         super(ShopCategories()) {
-    _shopStateSubscription = shopBloc.stream.listen((state) {
-      add(NavigateToChild(screen: Screen.shop, state: state));
-    });
+    // _shopStateSubscription = shopBloc.stream.listen((state) {
+    //   // add(NavigateToChild(screen: Screen.shop, state: state));
+    // });
   }
 
   late final StreamSubscription _shopStateSubscription;
@@ -69,12 +71,12 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   Stream<NavigationState> _mapNavigateToChildToState(
     NavigateToChild event,
   ) async* {
-    if (event.screen == Screen.shop) {
-      if (event.state is CategoriesLoaded) {
-        yield const ShopCategories();
-      } else if (event.state is ProductsLoaded) {
-        yield const ShopProducts();
-      }
-    }
+    // if (event.screen == Screen.shop) {
+    //   if (event.state is CategoriesLoaded) {
+    //     yield const ShopCategories();
+    //   } else if (event.state is ProductsLoaded) {
+    //     yield const ShopProducts();
+    //   }
+    // }
   }
 }

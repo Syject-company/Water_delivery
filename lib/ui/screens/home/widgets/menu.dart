@@ -21,11 +21,12 @@ class Menu extends StatelessWidget {
           _buildHeader(),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 26.0),
+              padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 0.0),
               physics: const BouncingScrollPhysics(),
               child: _buildActionButtons(context),
             ),
           ),
+          _buildSocialButtons(),
         ],
       ),
     );
@@ -84,20 +85,21 @@ class Menu extends StatelessWidget {
           icon: AppIcons.subscription,
           label: 'side_menu.subscriptions'.tr(),
         ),
-        _buildActionButton(
-          onPressed: () {
-            homeNavigator.pushNamed(HomeRoutes.referFriend);
-          },
-          icon: AppIcons.refer_friend,
-          label: 'side_menu.refer_friend'.tr(),
-        ),
-        _buildActionButton(
-          onPressed: () {
-            _navigateTo(context, Screen.profile);
-          },
-          icon: AppIcons.profile,
-          label: 'side_menu.profile'.tr(),
-        ),
+        // _buildActionButton(
+        //   onPressed: () {
+        //     homeNavigator.pushNamed(HomeRoutes.referFriend);
+        //   },
+        //   icon: AppIcons.refer_friend,
+        //   label: 'side_menu.refer_friend'.tr(),
+        // ),
+        if (Session.isActive)
+          _buildActionButton(
+            onPressed: () {
+              _navigateTo(context, Screen.profile);
+            },
+            icon: AppIcons.profile,
+            label: 'side_menu.profile'.tr(),
+          ),
         _buildActionButton(
           onPressed: () {
             homeNavigator.pushNamed(HomeRoutes.support);
@@ -119,8 +121,8 @@ class Menu extends StatelessWidget {
           icon: AppIcons.faq,
           label: 'side_menu.faq'.tr(),
         ),
-        const SizedBox(height: 13.0),
-        _buildActionButton(
+        if (Session.isActive)
+          _buildActionButton(
           onPressed: () {
             Session.invalidate(context);
           },
@@ -128,9 +130,7 @@ class Menu extends StatelessWidget {
           label: 'button.logout'.tr(),
           iconColor: AppColors.secondaryText,
           labelColor: AppColors.secondaryText,
-        ),
-        const SizedBox(height: 26.0),
-        _buildSocialButtons(),
+        ).withPadding(0.0, 13.0, 0.0, 0.0),
       ],
     );
   }
@@ -190,7 +190,7 @@ class Menu extends StatelessWidget {
           iconSize: 32.0,
         ),
       ],
-    );
+    ).withPaddingAll(26.0);
   }
 
   void _navigateTo(BuildContext context, Screen screen) {

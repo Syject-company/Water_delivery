@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,8 +44,8 @@ class _ProductScreenState extends State<ProductScreen> {
               builder: (context, constraints) {
                 return Hero(
                   tag: _product,
-                  child: Image.asset(
-                    _product.imageUri,
+                  child: CachedNetworkImage(
+                    imageUrl: _product.imageUri,
                     height: constraints.maxWidth,
                   ),
                 );
@@ -102,7 +103,7 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _buildTitleText() {
     return Flexible(
       child: WaterText(
-        _product.title.tr(),
+        _product.title,
         fontSize: 24.0,
         lineHeight: 2.0,
       ),
@@ -178,7 +179,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget _buildDescriptionText() {
     return WaterText(
-      _product.description.tr(),
+      _product.description,
       fontSize: 16.0,
       lineHeight: 2.0,
       fontWeight: FontWeight.w500,

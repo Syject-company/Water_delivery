@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/home/data/categories.dart';
 import 'package:water/domain/model/home/order/order.dart';
 
 part 'orders_event.dart';
@@ -41,18 +40,18 @@ final List<Order> _orders = [
     deliveryDate: '2021-08-16',
     createdDate: '2021-08-16',
     products: [
-      OrderProduct(
-        title: categories[0].products[0].title,
-        volume: categories[0].products[0].volume,
-        amount: 2,
-        price: categories[0].products[0].price,
-      ),
-      OrderProduct(
-        title: categories[0].products[1].title,
-        volume: categories[0].products[1].volume,
-        amount: 4,
-        price: categories[0].products[1].price,
-      ),
+      // OrderProduct(
+      //   title: categories[0].products[0].title,
+      //   volume: categories[0].products[0].volume,
+      //   amount: 2,
+      //   price: categories[0].products[0].price,
+      // ),
+      // OrderProduct(
+      //   title: categories[0].products[1].title,
+      //   volume: categories[0].products[1].volume,
+      //   amount: 4,
+      //   price: categories[0].products[1].price,
+      // ),
     ],
     customerName: 'Customer Name 1',
     isSubscribed: false,
@@ -69,12 +68,12 @@ final List<Order> _orders = [
     deliveryDate: '2021-08-14',
     createdDate: '2021-08-14',
     products: [
-      OrderProduct(
-        title: categories[1].products[0].title,
-        volume: categories[1].products[0].volume,
-        amount: 3,
-        price: categories[1].products[0].price,
-      ),
+      // OrderProduct(
+      //   title: categories[1].products[0].title,
+      //   volume: categories[1].products[0].volume,
+      //   amount: 3,
+      //   price: categories[1].products[0].price,
+      // ),
     ],
     customerName: 'Customer Name 2',
     isSubscribed: true,

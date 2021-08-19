@@ -1,8 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/domain/model/home/shop/category.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 
 class CategoryListItem extends StatelessWidget {
   const CategoryListItem({
@@ -17,7 +19,10 @@ class CategoryListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.shop.add(
-          LoadProducts(products: category.products),
+          LoadProducts(
+            categoryId: category.id,
+            language: Localization.currentLanguage(context),
+          ),
         );
       },
       child: ClipRRect(
@@ -39,15 +44,15 @@ class CategoryListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Image.asset(category.imageUri),
-                ),
+                child: CachedNetworkImage(
+                  imageUrl: category.imageUri,
+                ).withPaddingAll(12.0),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 24.0),
               WaterText(
-                category.title.tr(),
+                category.title,
                 fontSize: 18.0,
+                lineHeight: 1.5,
               ),
             ],
           ),

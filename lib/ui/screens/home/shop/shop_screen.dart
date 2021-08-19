@@ -6,6 +6,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/shop/categories/categories_screen.dart';
 import 'package:water/ui/screens/home/shop/products/products_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({Key? key}) : super(key: key);
@@ -21,6 +22,39 @@ class _ShopScreenState extends State<ShopScreen> {
   ];
 
   int _pageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.shop.add(
+        LoadCategories(
+          language: Localization.currentLanguage(context),
+        ),
+      );
+    });
+  }
+
+  @override
+  void didUpdateWidget(ShopScreen oldWidget) {
+    final state = context.shop.state;
+
+    if (state is CategoriesLoaded) {
+      context.shop.add(
+        LoadCategories(
+          language: Localization.currentLanguage(context),
+        ),
+      );
+    } else if (state is ProductsLoading) {
+      context.shop.add(
+        LoadProducts(
+          categoryId: (state as ProductsLoaded).categoryId,
+          language: Localization.currentLanguage(context),
+        ),
+      );
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +80,14 @@ class _ShopScreenState extends State<ShopScreen> {
           ],
         ),
         BlocBuilder<ShopBloc, ShopState>(
+          buildWhen: (previousState, state) {
+            return state is CategoriesLoading || state is ProductsLoading;
+          },
           builder: (context, state) {
             int index = 0;
-            if (state is CategoriesLoaded) {
+            if (state is CategoriesLoading) {
               index = 0;
-            } else if (state is ProductsLoaded) {
+            } else if (state is ProductsLoading) {
               index = 1;
             }
 

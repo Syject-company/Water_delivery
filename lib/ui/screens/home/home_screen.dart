@@ -8,6 +8,7 @@ import 'package:water/bloc/home/shop/shop_bloc.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
+import 'package:water/util/localization.dart';
 
 import 'cart/cart_screen.dart';
 import 'profile/profile_screen.dart';
@@ -40,9 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              ShopScreen(),
+              KeepAliveChild(child: ShopScreen()),
               KeepAliveChild(child: ProfileScreen()),
-              CartScreen(),
+              KeepAliveChild(child: CartScreen()),
             ],
           ),
           bottomNavigationBar: BlocConsumer<NavigationBloc, NavigationState>(
@@ -106,7 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state is ShopProducts) {
             leading = AppBarBackButton(
               onPressed: () {
-                context.shop.add(LoadCategories());
+                // context.shop.add(LoadCategories());
+                final language =
+                    Localization.currentLocale(context).languageCode;
+                context.shop.add(
+                  LoadCategories(language: language),
+                );
               },
             );
           }
@@ -138,12 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (context.navigation.state is! Shop) {
-      context.navigation.add(NavigateTo(screen: Screen.shop));
+      // context.navigation.add(NavigateTo(screen: Screen.shop));
       return false;
     }
 
     if (context.navigation.state is ShopProducts) {
-      context.shop.add(LoadCategories());
+      // context.shop.add(LoadCategories());
       return false;
     }
 

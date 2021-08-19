@@ -60,7 +60,7 @@ class SelectLanguageScreen extends StatelessWidget {
         await Localization.saveLocale(currentLocale);
         await LocalStorage.setFirstLaunch(false);
 
-        Navigator.of(context).pushReplacementNamed(AppRoutes.auth);
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
       },
       text: 'button.save'.tr(),
     );

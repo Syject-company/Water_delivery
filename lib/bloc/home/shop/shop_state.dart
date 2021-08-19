@@ -7,6 +7,14 @@ abstract class ShopState extends Equatable {
   List<Object> get props => [];
 }
 
+class ShopInitial extends ShopState {
+  const ShopInitial();
+}
+
+class CategoriesLoading extends ShopState {
+  const CategoriesLoading();
+}
+
 class CategoriesLoaded extends ShopState {
   const CategoriesLoaded({required this.categories});
 
@@ -16,11 +24,19 @@ class CategoriesLoaded extends ShopState {
   List<Object> get props => [categories];
 }
 
-class ProductsLoaded extends ShopState {
-  const ProductsLoaded({required this.products});
+class ProductsLoading extends ShopState {
+  const ProductsLoading();
+}
 
+class ProductsLoaded extends ShopState {
+  const ProductsLoaded({
+    required this.categoryId,
+    required this.products,
+  });
+
+  final String categoryId;
   final List<Product> products;
 
   @override
-  List<Object> get props => [products];
+  List<Object> get props => [categoryId, products];
 }

@@ -5,17 +5,23 @@ abstract class ShopEvent extends Equatable {
 }
 
 class LoadCategories extends ShopEvent {
-  const LoadCategories();
+  const LoadCategories({required this.language});
+
+  final String language;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [language];
 }
 
 class LoadProducts extends ShopEvent {
-  const LoadProducts({required this.products});
+  const LoadProducts({
+    required this.categoryId,
+    required this.language,
+  });
 
-  final List<Product> products;
+  final String categoryId;
+  final String language;
 
   @override
-  List<Object> get props => [products];
+  List<Object> get props => [categoryId, language];
 }

@@ -148,6 +148,7 @@ class _CartScreenState extends State<CartScreen> {
             text: 'button.subscription'.tr(),
             backgroundColor: AppColors.secondary,
             foregroundColor: AppColors.primary,
+            enabled: !isCartEmpty,
           ),
         ),
         const SizedBox(width: 16.0),

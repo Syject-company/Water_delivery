@@ -49,7 +49,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
                 lineHeight: 1.5,
                 textAlign: TextAlign.center,
                 fontWeight: FontWeight.w500,
-                color: AppColors.secondaryText,
+                color: AppColors.primaryText,
               ),
               const SizedBox(height: 24.0),
               BlocBuilder<DeliveryDateBloc, DeliveryDateState>(

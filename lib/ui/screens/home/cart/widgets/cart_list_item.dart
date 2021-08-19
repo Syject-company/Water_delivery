@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
@@ -72,7 +73,9 @@ class _CartListItemState extends State<CartListItem> {
       height: 80.0,
       child: AspectRatio(
         aspectRatio: 1.0,
-        child: Image.asset(_item.product.imageUri),
+        child: CachedNetworkImage(
+          imageUrl: _item.product.imageUri,
+        ),
       ),
     );
   }
@@ -80,7 +83,7 @@ class _CartListItemState extends State<CartListItem> {
   Widget _buildTitleText() {
     return Expanded(
       child: WaterText(
-        _item.product.title.tr(),
+        _item.product.title,
         maxLines: 2,
         lineHeight: 1.5,
         fontWeight: FontWeight.w600,

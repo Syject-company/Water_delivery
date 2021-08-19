@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,7 +51,9 @@ class _ProductListItemState extends State<ProductListItem> {
               Expanded(
                 child: Hero(
                   tag: _product,
-                  child: Image.asset(_product.imageUri),
+                  child: CachedNetworkImage(
+                    imageUrl: _product.imageUri,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -126,7 +129,7 @@ class _ProductListItemState extends State<ProductListItem> {
   Widget _buildTitleText() {
     return Flexible(
       child: WaterText(
-        _product.title.tr(),
+        _product.title,
         maxLines: 2,
         fontSize: 15.0,
         lineHeight: 1.5,
@@ -207,7 +210,9 @@ class _ProductListItemState extends State<ProductListItem> {
           textDirection: Directionality.of(context),
           children: [
             AspectRatio(
-                aspectRatio: 1.0, child: Image.asset(_product.imageUri)),
+              aspectRatio: 1.0,
+              child: CachedNetworkImage(imageUrl: _product.imageUri),
+            ),
             const SizedBox(width: 24.0),
             Expanded(
               child: WaterText(

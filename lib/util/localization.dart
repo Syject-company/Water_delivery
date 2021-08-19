@@ -17,6 +17,10 @@ class Localization {
     return context.locale;
   }
 
+  static String currentLanguage(BuildContext context) {
+    return context.locale.languageCode;
+  }
+
   static void changeLocale(BuildContext context, Locale locale) {
     context.setLocale(locale);
   }
