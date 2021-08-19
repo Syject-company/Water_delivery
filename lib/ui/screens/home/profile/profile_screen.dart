@@ -4,6 +4,7 @@ import 'package:water/domain/model/home/data/cities.dart';
 import 'package:water/domain/model/home/data/nationalities.dart';
 import 'package:water/domain/model/home/profile/city.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
@@ -26,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      padding: const EdgeInsets.all(24.0),
       physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,8 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _buildLanguagePicker(context),
           const SizedBox(height: 24.0),
           _buildUserInputForm(context),
-          const SizedBox(height: 24.0),
-          _buildDeliveryText(),
           const SizedBox(height: 24.0),
           _buildDeliveryInputForm(),
           const SizedBox(height: 24.0),
@@ -54,35 +53,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildLanguageText() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 24.0),
-      child: WaterText(
-        'text.language'.tr(),
-        fontSize: 18.0,
-        lineHeight: 1.75,
-      ),
-    );
+    return WaterText(
+      'text.language'.tr(),
+      fontSize: 18.0,
+      lineHeight: 1.75,
+    ).withPadding(24.0, 0.0, 0.0, 0.0);
   }
 
   Widget _buildLanguagePicker(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 48.0),
-      child: WaterRadioGroup<Locale>(
-        onChanged: (locale) {
-          Localization.changeLocale(context, locale);
-        },
-        initialValue: Localization.currentLocale(context),
-        values: {
-          const Locale('en'): 'English',
-          const Locale('ar'): 'العربية',
-        },
-        axis: Axis.horizontal,
-        spaceBetween: 0.0,
-        labelFontSize: 15.0,
-        labelLineHeight: 1.25,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      ),
-    );
+    return WaterRadioGroup<Locale>(
+      onChanged: (locale) {
+        Localization.changeLocale(context, locale);
+      },
+      initialValue: Localization.currentLocale(context),
+      values: {
+        const Locale('en'): 'English',
+        const Locale('ar'): 'العربية',
+      },
+      axis: Axis.horizontal,
+      spaceBetween: 0.0,
+      labelFontSize: 15.0,
+      labelLineHeight: 1.25,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    ).withPadding(48.0, 0.0, 48.0, 0.0);
   }
 
   Widget _buildUserInputForm(BuildContext context) {
@@ -135,21 +128,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildDeliveryText() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 24.0),
-      child: WaterText(
-        'text.delivery_address'.tr(),
-        fontSize: 18.0,
-        lineHeight: 1.75,
-      ),
-    );
-  }
-
   Widget _buildDeliveryInputForm() {
     return Form(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          WaterText(
+            'text.delivery_address'.tr(),
+            fontSize: 18.0,
+            lineHeight: 1.75,
+          ).withPadding(24.0, 0.0, 0.0, 0.0),
+          const SizedBox(height: 24.0),
           WaterFormSelect<City>(
             initialValue: _selectedCity,
             hintText: 'input.select_emirate'.tr(),
@@ -206,22 +195,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: WaterText(
-            'text.family_members'.tr(),
-            fontSize: 18.0,
-            lineHeight: 1.75,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsetsDirectional.only(end: 12.0),
-          child: WaterNumberPicker(
-            onChanged: (value) {},
-            maxWidth: 144.0,
-            minValue: 1,
-          ),
-        )
+        WaterText(
+          'text.family_members'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.75,
+        ).withPadding(24.0, 0.0, 24.0, 0.0),
+        WaterNumberPicker(
+          onChanged: (value) {},
+          maxWidth: 144.0,
+          minValue: 1,
+        ).withPadding(0.0, 0.0, 12.0, 0.0),
       ],
     );
   }

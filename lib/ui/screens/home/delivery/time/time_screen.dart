@@ -11,6 +11,7 @@ import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
+import 'package:water/ui/screens/home/delivery/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 
@@ -28,45 +29,53 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            WaterText(
-              'text.select_time'.tr(),
-              lineHeight: 1.5,
-              textAlign: TextAlign.center,
-              fontWeight: FontWeight.w500,
-              color: AppColors.secondaryText,
-            ),
-            const SizedBox(height: 24.0),
-            BlocBuilder<DeliveryDateBloc, DeliveryDateState>(
-              builder: (context, state) {
-                if (state is DeliveryDatesLoaded) {
-                  return Column(
-                    children: [
-                      DeliveryTimePicker(
-                        times: state.dates,
-                        onSelected: (time) {
-                          setState(() => _selectedTime = time);
-                        },
-                      ),
-                    ],
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              },
-            ),
-            if (_selectedTime != null) _buildSelectedTimeText(),
-          ],
+    return BlocListener<DeliveryBloc, DeliveryState>(
+      listener: (context, state) async {
+        if (state is DeliveryDetailsCollected && state.push) {
+          await deliveryNavigator.pushNamed(DeliveryRoutes.payment);
+          context.delivery.add(BackPressed());
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              WaterText(
+                'text.select_time'.tr(),
+                lineHeight: 1.5,
+                textAlign: TextAlign.center,
+                fontWeight: FontWeight.w500,
+                color: AppColors.secondaryText,
+              ),
+              const SizedBox(height: 24.0),
+              BlocBuilder<DeliveryDateBloc, DeliveryDateState>(
+                builder: (context, state) {
+                  if (state is DeliveryDatesLoaded) {
+                    return Column(
+                      children: [
+                        DeliveryTimePicker(
+                          times: state.dates,
+                          onSelected: (time) {
+                            setState(() => _selectedTime = time);
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+              if (_selectedTime != null) _buildSelectedTimeText(),
+            ],
+          ),
         ),
+        bottomNavigationBar: _buildNextButton(),
       ),
-      bottomNavigationBar: _buildNextButton(),
     );
   }
 
@@ -138,8 +147,6 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
         context.delivery.add(
           SubmitDeliveryTime(time: _selectedTime!),
         );
-
-        // deliveryNavigator.pushNamed(DeliveryRoutes.payment);
       },
       text: 'button.next'.tr(),
     ).withPaddingAll(24.0);

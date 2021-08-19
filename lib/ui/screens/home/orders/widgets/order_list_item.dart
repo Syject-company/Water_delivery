@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/domain/model/home/order/order.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/product.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -87,9 +88,8 @@ class _OrderListItemState extends State<OrderListItem>
   }
 
   Widget _buildTitle() {
-    final locale = Localization.currentLocale(context).languageCode;
-    final date = DateFormat('yyyy-MM-dd', locale).parse(_order.createdDate);
-    final formattedCreatedDate = DateFormat('dd/MM/yyyy', locale).format(date);
+    final date = DateFormat('yyyy-MM-dd').parse(_order.createdDate);
+    final formattedCreatedDate = DateFormat('dd/MM/yyyy').format(date);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,9 @@ class _OrderListItemState extends State<OrderListItem>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               WaterText(
-                'Order #${_order.id}',
+                'text.order_number'.tr(
+                  args: [_order.id],
+                ),
                 fontSize: 15.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w500,
@@ -135,6 +137,13 @@ class _OrderListItemState extends State<OrderListItem>
     final floor = _order.floor;
     final apartment = _order.apartment;
 
+    String status = 'N/A';
+    if (_order.status == 'Created') {
+      status = 'text.order_created'.tr();
+    } else if (_order.status == 'Paid') {
+      status = 'text.order_paid'.tr();
+    }
+
     return Column(
       children: [
         Row(
@@ -155,22 +164,21 @@ class _OrderListItemState extends State<OrderListItem>
               ),
             ),
           ],
-        ).withPadding(16.0, 0.0, 24.0, 0.0),
-        const SizedBox(height: 12.0),
+        ).withPadding(18.0, 6.0, 24.0, 12.0),
         _buildOrderProducts(),
         defaultDivider.withPadding(24.0, 12.0, 24.0, 12.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             WaterText(
-              'Status',
+              'text.status'.tr(),
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w600,
               color: AppColors.secondaryText,
             ),
             WaterText(
-              '${_order.status}',
+              status,
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w500,
@@ -238,7 +246,7 @@ class _OrderListItemState extends State<OrderListItem>
             children: [
               Flexible(
                 child: WaterText(
-                  product.title,
+                  '${product.title.tr()} ${product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,

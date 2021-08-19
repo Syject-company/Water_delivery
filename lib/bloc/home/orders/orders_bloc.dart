@@ -4,9 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/domain/model/home/data/categories.dart';
 import 'package:water/domain/model/home/order/order.dart';
 
 part 'orders_event.dart';
+
 part 'orders_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -32,7 +34,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   }
 }
 
-const List<Order> _orders = [
+final List<Order> _orders = [
   Order(
     id: '1',
     status: 'Created',
@@ -40,16 +42,16 @@ const List<Order> _orders = [
     createdDate: '2021-08-16',
     products: [
       OrderProduct(
-        title: 'Title 1',
-        volume: 1.5,
+        title: categories[0].products[0].title,
+        volume: categories[0].products[0].volume,
         amount: 2,
-        price: 15.0,
+        price: categories[0].products[0].price,
       ),
       OrderProduct(
-        title: 'Title 2',
-        volume: 0.5,
-        amount: 5,
-        price: 10.0,
+        title: categories[0].products[1].title,
+        volume: categories[0].products[1].volume,
+        amount: 4,
+        price: categories[0].products[1].price,
       ),
     ],
     customerName: 'Customer Name 1',
@@ -68,10 +70,10 @@ const List<Order> _orders = [
     createdDate: '2021-08-14',
     products: [
       OrderProduct(
-        title: 'Title 1',
-        volume: 330,
+        title: categories[1].products[0].title,
+        volume: categories[1].products[0].volume,
         amount: 3,
-        price: 24.0,
+        price: categories[1].products[0].price,
       ),
     ],
     customerName: 'Customer Name 2',

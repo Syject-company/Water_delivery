@@ -40,9 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              KeepAliveChild(child: ShopScreen()),
+              ShopScreen(),
               KeepAliveChild(child: ProfileScreen()),
-              KeepAliveChild(child: CartScreen()),
+              CartScreen(),
             ],
           ),
           bottomNavigationBar: BlocConsumer<NavigationBloc, NavigationState>(

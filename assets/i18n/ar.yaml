@@ -1,4 +1,3 @@
-# SCREEN TITLE
 screen:
   categories: "فئات"
   products: "منتجات"
@@ -9,8 +8,13 @@ screen:
   delivery: "توصيل"
   time: "وقت"
   payment: "قسط"
+  orders: "الطلبات"
+  subscriptions: "الاشتراكات"
+  refer_friend: "أوص أحد الأصدقاء"
+  support: "يدعم"
+  terms: "البنود و الظروف"
+  faq: "التعليمات"
 
-# TEXT
 text:
   select_language: "اختار اللغة"
   sign_in: "تسجيل الدخول"
@@ -40,8 +44,18 @@ text:
   thanks_for_order: "شكرا جزيلا لطلبك. انتظر التسليم."
   today: "اليوم"
   tomorrow: "الغد"
+  order_number: "طلب #{}"
+  status: "حالة"
+  order_created: "مخلوق"
+  order_paid: "دفع"
+  subscription_active: "نشيط"
+  subscription_stopped: "توقفت"
+  your_credentials: "أوراق اعتمادك"
+  type_your_message: "اكتب رسالتك"
+  share_referral_code: "شارك رمز الإحالة الفريد الخاص بك مع الأصدقاء"
+  first_register: "بمجرد تسجيلهم بنجاح كعميل جديد وإكمال أول تعبئة لمحفظة عبر الإنترنت"
+  wallet_bonus: "ستحصل على مكافأة قدرها 10 دراهم إماراتية في محفظتك مقابل كل إحالة ناجحة"
 
-# INPUT
 input:
   first_name: "الاسم الاول"
   last_name: "الكنية"
@@ -60,12 +74,15 @@ input:
   address: "تبوك"
   street: "اسم الشارع"
   building: "اسم المبنى"
-  floor: "الأرض"
+  floor: "طابق"
   apartment: "شقة"
   search: "بحث"
   enter_amount: "أدخل المبلغ"
+  your_name: "اسمك"
+  your_email: "بريدك الالكتروني"
+  your_phone: "هاتفك"
+  your_message: "أدخل رسالتك هنا..."
 
-# BUTTON
 button:
   have_account: "لدي حساب"
   sign_up_free: "الاشتراك مجانا"
@@ -79,13 +96,17 @@ button:
   checkout: "الدفع"
   add_to_cart: "أضف إلى السلة"
   add_balance: "إضافة رصيد"
-  top_up: "فوق حتى"
+  top_up: "زيادة الرصيد"
   next: "التالي"
   ok: "حسنا"
   cancel: "يلغي"
   pay: "دفع"
+  stop_subscription: "وقف الاشتراك"
+  delete_subscription: "حذف الاشتراك"
+  send: "يرسل"
+  click_to_call: "اضغط للاتصال"
+  share: "يشارك"
 
-# SIDE MENU
 side_menu:
   shop_now: "تسوق الآن"
   wallet: "محفظة"
@@ -97,7 +118,6 @@ side_menu:
   terms: "البنود و الظروف"
   faq: "التعليمات"
 
-# TOAST
 toast:
   product_added: "تمت إضافة المنتج إلى عربة التسوق!"
   product_removed: "تمت إزالة المنتج من عربة التسوق!"

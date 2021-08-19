@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/domain/model/home/data/categories.dart';
 import 'package:water/domain/model/home/subscription/subscription.dart';
 
 part 'subscriptions_event.dart';
@@ -22,6 +23,10 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
   ) async* {
     if (event is LoadSubscriptions) {
       yield* _mapLoadSubscriptionsToState(event);
+    } else if (event is SelectSubscription) {
+      yield* _mapSelectSubscriptionToState(event);
+    } else if (event is DeselectSubscription) {
+      yield* _mapDeselectSubscriptionToState();
     }
   }
 
@@ -30,25 +35,38 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
   ) async* {
     yield SubscriptionsLoaded(subscriptions: _subscriptions);
   }
+
+  Stream<SubscriptionsState> _mapSelectSubscriptionToState(
+    SelectSubscription event,
+  ) async* {
+    if (state is SubscriptionsLoaded) {
+      yield SubscriptionsLoaded(
+        subscriptions: _subscriptions,
+        selectedSubscription: event.subscription,
+      );
+    }
+  }
+
+  Stream<SubscriptionsState> _mapDeselectSubscriptionToState() async* {
+    if (state is SubscriptionsLoaded) {
+      yield SubscriptionsLoaded(
+        subscriptions: _subscriptions,
+      );
+    }
+  }
 }
 
-const List<Subscription> _subscriptions = [
+final List<Subscription> _subscriptions = [
   Subscription(
     id: '1',
     isActive: true,
     deliveryDate: '16-08-2021',
     products: [
       SubscriptionProduct(
-        title: 'Title 1',
-        volume: 1.5,
-        amount: 2,
-        price: 12.0,
-      ),
-      SubscriptionProduct(
-        title: 'Title 2',
-        volume: 0.5,
+        title: categories[2].products[1].title,
+        volume: categories[2].products[1].volume,
         amount: 1,
-        price: 24.0,
+        price: categories[2].products[1].price,
       ),
     ],
     city: 'City 1',
@@ -64,10 +82,16 @@ const List<Subscription> _subscriptions = [
     deliveryDate: '12-08-2021',
     products: [
       SubscriptionProduct(
-        title: 'Title 1',
-        volume: 200,
-        amount: 5,
-        price: 38.0,
+        title: categories[3].products[1].title,
+        volume: categories[3].products[1].volume,
+        amount: 3,
+        price: categories[3].products[1].price,
+      ),
+      SubscriptionProduct(
+        title: categories[1].products[0].title,
+        volume: categories[1].products[0].volume,
+        amount: 7,
+        price: categories[1].products[0].price,
       ),
     ],
     city: 'City 2',

@@ -26,7 +26,6 @@ dependencies:
   lottie: ^1.1.0
 
   # animations
-  flutter_staggered_animations: ^1.0.0
   animations: ^2.0.1
 
   # bloc

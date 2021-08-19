@@ -10,3 +10,16 @@ abstract class SubscriptionsEvent extends Equatable {
 class LoadSubscriptions extends SubscriptionsEvent {
   const LoadSubscriptions();
 }
+
+class SelectSubscription extends SubscriptionsEvent {
+  const SelectSubscription({required this.subscription});
+
+  final Subscription subscription;
+
+  @override
+  List<Object> get props => [subscription];
+}
+
+class DeselectSubscription extends SubscriptionsEvent {
+  const DeselectSubscription();
+}

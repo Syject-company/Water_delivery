@@ -142,11 +142,12 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         Expanded(
           child: WaterButton(
-            onPressed: () {},
+            onPressed: () {
+              homeNavigator.pushNamed(HomeRoutes.delivery);
+            },
             text: 'button.subscription'.tr(),
             backgroundColor: AppColors.secondary,
             foregroundColor: AppColors.primary,
-            enabled: false,
           ),
         ),
         const SizedBox(width: 16.0),

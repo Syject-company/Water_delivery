@@ -85,7 +85,9 @@ class Menu extends StatelessWidget {
           label: 'side_menu.subscriptions'.tr(),
         ),
         _buildActionButton(
-          onPressed: () {},
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.referFriend);
+          },
           icon: AppIcons.refer_friend,
           label: 'side_menu.refer_friend'.tr(),
         ),
@@ -97,17 +99,23 @@ class Menu extends StatelessWidget {
           label: 'side_menu.profile'.tr(),
         ),
         _buildActionButton(
-          onPressed: () {},
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.support);
+          },
           icon: AppIcons.support,
           label: 'side_menu.support'.tr(),
         ),
         _buildActionButton(
-          onPressed: () {},
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.terms);
+          },
           icon: AppIcons.terms,
           label: 'side_menu.terms'.tr(),
         ),
         _buildActionButton(
-          onPressed: () {},
+          onPressed: () {
+            homeNavigator.pushNamed(HomeRoutes.faq);
+          },
           icon: AppIcons.faq,
           label: 'side_menu.faq'.tr(),
         ),

@@ -17,6 +17,7 @@ class WaterFormInput extends StatefulWidget {
     this.onChanged,
     this.prefixIcon,
     this.maxLength,
+    this.maxLines = 1,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -33,6 +34,7 @@ class WaterFormInput extends StatefulWidget {
   final void Function(String)? onChanged;
   final Widget? prefixIcon;
   final int? maxLength;
+  final int? maxLines;
 
   @override
   WaterFormInputState createState() => WaterFormInputState();
@@ -76,6 +78,7 @@ class WaterFormInputState extends State<WaterFormInput> {
       focusNode: _focusNode,
       controller: widget.controller,
       readOnly: widget.readOnly,
+      maxLines: widget.maxLines,
       validator: widget.validator,
       textAlign: widget.textAlign,
       initialValue: widget.initialValue,
@@ -124,7 +127,7 @@ class WaterFormInputState extends State<WaterFormInput> {
         hintStyle: const TextStyle(
           height: _lineHeight,
           fontSize: _hintFontSize,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           color: AppColors.secondaryText,
         ).poppins,
         errorStyle: const TextStyle(

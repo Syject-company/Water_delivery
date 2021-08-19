@@ -1,4 +1,3 @@
-# SCREEN TITLE
 screen:
   categories: "Categories"
   products: "Products"
@@ -9,8 +8,13 @@ screen:
   delivery: "Delivery"
   time: "Time"
   payment: "Payment"
+  orders: "Orders"
+  subscriptions: "Subscriptions"
+  refer_friend: "Refer A Friend"
+  support: "Support"
+  terms: "Terms & Conditions"
+  faq: "F.A.Q"
 
-# TEXT
 text:
   select_language: "Select Language"
   sign_in: "Sign In"
@@ -40,8 +44,18 @@ text:
   thanks_for_order: "Thanks a lot for your order. Wait for the delivery."
   today: "Today"
   tomorrow: "Tomorrow"
+  order_number: "Order #{}"
+  status: "Status"
+  order_created: "Created"
+  order_paid: "Paid"
+  subscription_active: "Active"
+  subscription_stopped: "Stopped"
+  your_credentials: "Your credentials"
+  type_your_message: "Type your message"
+  share_referral_code: "Share your unique referral code with friends"
+  first_register: "Once they have successfully registered as a new customer and completed their first online wallet top up"
+  wallet_bonus: "You will receive a 10 AED bonus in your wallet for every successful referral"
 
-# INPUT
 input:
   first_name: "First Name"
   last_name: "Last Name"
@@ -64,8 +78,11 @@ input:
   apartment: "Apartment"
   search: "Search"
   enter_amount: "Enter the amount"
+  your_name: "Your name"
+  your_email: "Your email"
+  your_phone: "Your phone"
+  your_message: "Enter your message here..."
 
-# BUTTON
 button:
   have_account: "I have an account"
   sign_up_free: "Sign up free"
@@ -84,8 +101,12 @@ button:
   ok: "OK"
   cancel: "Cancel"
   pay: "Pay"
+  stop_subscription: "Stop Subscription"
+  delete_subscription: "Delete Subscription"
+  send: "Send"
+  click_to_call: "Click To Call"
+  share: "Share"
 
-# SIDE MENU
 side_menu:
   shop_now: "Shop Now"
   wallet: "Wallet"
@@ -97,7 +118,6 @@ side_menu:
   terms: "Terms & Conditions"
   faq: "F.A.Q"
 
-# TOAST
 toast:
   product_added: "Product has been added to the cart!"
   product_removed: "Product has been removed from the cart!"

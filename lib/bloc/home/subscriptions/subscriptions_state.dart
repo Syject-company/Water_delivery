@@ -4,7 +4,7 @@ abstract class SubscriptionsState extends Equatable {
   const SubscriptionsState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class SubscriptionsInitial extends SubscriptionsState {
@@ -12,10 +12,14 @@ class SubscriptionsInitial extends SubscriptionsState {
 }
 
 class SubscriptionsLoaded extends SubscriptionsState {
-  const SubscriptionsLoaded({required this.subscriptions});
+  const SubscriptionsLoaded({
+    required this.subscriptions,
+    this.selectedSubscription,
+  });
 
   final List<Subscription> subscriptions;
+  final Subscription? selectedSubscription;
 
   @override
-  List<Object> get props => [subscriptions];
+  List<Object?> get props => [subscriptions, selectedSubscription];
 }

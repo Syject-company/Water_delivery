@@ -12,10 +12,6 @@ import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
-const double _checkOutPanelHeight = 80.0;
-const EdgeInsetsGeometry _checkoutPanelContentPadding =
-    EdgeInsets.symmetric(vertical: 0.0, horizontal: 32.0);
-
 class ProductScreen extends StatefulWidget {
   const ProductScreen({
     Key? key,
@@ -38,7 +34,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(32.0, 0.0, 32.0, 32.0),
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,11 +193,10 @@ class _ProductScreenState extends State<ProductScreen> {
     final totalDiscountPrice = totalPrice * (1.0 - _product.discount);
 
     return Container(
-      padding: _checkoutPanelContentPadding,
+      padding: const EdgeInsets.all(24.0),
       decoration: const BoxDecoration(
         border: Border(top: defaultBorder),
       ),
-      height: _checkOutPanelHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -219,9 +214,9 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           const SizedBox(width: 16.0),
           Expanded(
-              child: addedToCart
-                  ? _buildCheckoutButton()
-                  : _buildAddToCartButton()),
+            child:
+                addedToCart ? _buildCheckoutButton() : _buildAddToCartButton(),
+          ),
         ],
       ),
     );

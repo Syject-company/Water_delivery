@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import 'product.dart';
 
+export 'product.dart';
+
 class CategoryFields {
   static const String id = 'id';
   static const String imageUri = 'imageUri';

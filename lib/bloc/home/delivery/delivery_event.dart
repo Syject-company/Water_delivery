@@ -7,6 +7,10 @@ abstract class DeliveryEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class BackPressed extends DeliveryEvent {
+  const BackPressed();
+}
+
 class SubmitDeliveryAddress extends DeliveryEvent {
   const SubmitDeliveryAddress({required this.address});
 

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
+import 'package:water/domain/model/home/subscription/subscription.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/widget.dart';
@@ -19,7 +21,7 @@ class SubscriptionsScreen extends StatefulWidget {
 }
 
 class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
-  String? _selectedSubscription;
+  // Subscription? _selectedSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
       appBar: _buildAppBar(context),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: _buildSubscriptionItems(context),
+        child: _buildSubscriptionItems(),
       ),
       bottomNavigationBar: _buildActionButtons(),
     );
@@ -36,7 +38,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return WaterAppBar(
       title: WaterText(
-        'Subscriptions',
+        'screen.subscriptions'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
       ),
@@ -55,19 +57,20 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     );
   }
 
-  Widget _buildSubscriptionItems(BuildContext context) {
+  Widget _buildSubscriptionItems() {
     return BlocBuilder<SubscriptionsBloc, SubscriptionsState>(
       builder: (context, state) {
         if (state is SubscriptionsLoaded) {
           return SeparatedColumn(
-            children: state.subscriptions
-                .map(
-                  (subscription) => SubscriptionListItem(
-                    key: ValueKey(subscription),
-                    subscription: subscription,
-                  ),
-                )
-                .toList(),
+            children: state.subscriptions.map(
+              (subscription) {
+                return SubscriptionListItem(
+                  key: ValueKey(subscription),
+                  subscription: subscription,
+                  selected: state.selectedSubscription == subscription,
+                );
+              },
+            ).toList(),
             includeOuterSeparators: true,
           );
         } else {
@@ -77,42 +80,41 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     );
   }
 
-  void onItemSelected(String s) {
-    setState(() => _selectedSubscription = s);
-  }
-
-  void onItemUnSelected() {
-    setState(() => _selectedSubscription = null);
-  }
-
   Widget _buildActionButtons() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildStopSubscriptionButton(),
-        const SizedBox(height: 16.0),
-        _buildDeleteSubscriptionButton(),
-      ],
+    return BlocBuilder<SubscriptionsBloc, SubscriptionsState>(
+      builder: (context, state) {
+        final enabled = (state is SubscriptionsLoaded &&
+            state.selectedSubscription != null);
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildStopSubscriptionButton(enabled),
+            const SizedBox(height: 16.0),
+            _buildDeleteSubscriptionButton(enabled),
+          ],
+        );
+      },
     ).withPaddingAll(24.0);
   }
 
-  Widget _buildStopSubscriptionButton() {
+  Widget _buildStopSubscriptionButton(bool enabled) {
     return WaterButton(
       onPressed: () {},
-      text: 'Stop Subscription',
+      text: 'button.stop_subscription'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,
-      enabled: _selectedSubscription != null,
+      enabled: enabled,
     );
   }
 
-  Widget _buildDeleteSubscriptionButton() {
+  Widget _buildDeleteSubscriptionButton(bool enabled) {
     return WaterButton(
       onPressed: () {},
-      text: 'Delete Subscription',
+      text: 'button.delete_subscription'.tr(),
       backgroundColor: AppColors.errorSecondary,
       foregroundColor: AppColors.white,
-      enabled: _selectedSubscription != null,
+      enabled: enabled,
     );
   }
 }

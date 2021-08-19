@@ -73,7 +73,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
           textAlign: TextAlign.center,
         );
       },
-    ).withPadding(24.0, 24.0, 24.0, 12.0);
+    ).withPaddingAll(24.0);
   }
 
   Widget _buildSummary() {
@@ -85,9 +85,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
         child: Column(
           children: [
             _buildDeliveryAddress(details),
-            const SizedBox(height: 3.0),
             _buildDeliveryTime(details),
-            const SizedBox(height: 6.0),
             _buildCartItems(),
           ],
         ),
@@ -123,7 +121,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
           ),
         ),
       ],
-    ).withPadding(16.0, 8.0, 24.0, 0.0);
+    ).withPadding(18.0, 18.0, 24.0, 0.0);
   }
 
   Widget _buildDeliveryTime(DeliveryDetailsCollected details) {
@@ -155,7 +153,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
           ),
         ),
       ],
-    ).withPadding(16.0, 0.0, 24.0, 0.0);
+    ).withPadding(18.0, 0.0, 24.0, 12.0);
   }
 
   Widget _buildCartItems() {
@@ -166,7 +164,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
         for (int i = 0; i < items.length; i++) _buildCartItem(i, items[i]),
       ],
       separator: const SizedBox(height: 6.0),
-    ).withPadding(24.0, 0.0, 24.0, 16.0);
+    ).withPadding(24.0, 0.0, 24.0, 24.0);
   }
 
   Widget _buildCartItem(int index, CartItem item) {
@@ -193,7 +191,7 @@ class _DeliveryPaymentScreenState extends State<DeliveryPaymentScreen> {
             children: [
               Flexible(
                 child: WaterText(
-                  item.product.title.tr(),
+                  '${item.product.title.tr()} ${item.product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,

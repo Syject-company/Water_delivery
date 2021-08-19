@@ -40,7 +40,7 @@ class _ProductListItemState extends State<ProductListItem> {
           );
         },
         child: Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19.0),
             border: Border.all(color: AppColors.borderColor),

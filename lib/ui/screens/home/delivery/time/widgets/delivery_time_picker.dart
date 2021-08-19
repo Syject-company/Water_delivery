@@ -152,7 +152,7 @@ class _PeriodButton extends StatelessWidget {
           maxLines: 1,
           lineHeight: 1.25,
           textAlign: TextAlign.center,
-          color: AppColors.disabled,
+          color: AppColors.secondaryText,
         ),
       ),
     );

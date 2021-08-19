@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/delivery/date/date_bloc.dart';
@@ -23,21 +22,10 @@ class DeliveryNavigator extends StatelessWidget {
             create: (context) => DeliveryDateBloc()..add(LoadDeliveryDates()),
           ),
         ],
-        child: BlocListener<DeliveryBloc, DeliveryState>(
-          listener: (context, state) async {
-            if (state is DeliveryTimeInput) {
-              await deliveryNavigator.pushNamed(DeliveryRoutes.time);
-              print('back from time');
-            } else if (state is DeliveryDetailsCollected) {
-              await deliveryNavigator.pushNamed(DeliveryRoutes.payment);
-              print('back from payment');
-            }
-          },
-          child: Navigator(
-            key: deliveryNavigator,
-            initialRoute: DeliveryRoutes.address,
-            onGenerateRoute: DeliveryRouter.generateRoute,
-          ),
+        child: Navigator(
+          key: deliveryNavigator,
+          initialRoute: DeliveryRoutes.address,
+          onGenerateRoute: DeliveryRouter.generateRoute,
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/orders/orders_bloc.dart';
@@ -27,7 +28,7 @@ class OrdersScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return WaterAppBar(
       title: WaterText(
-        'Orders',
+        'screen.orders'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
       ),

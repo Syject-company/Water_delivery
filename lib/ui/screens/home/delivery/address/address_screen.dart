@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/delivery/delivery_bloc.dart';
 import 'package:water/domain/model/home/data/cities.dart';
 import 'package:water/domain/model/home/delivery/address.dart';
@@ -9,6 +10,8 @@ import 'package:water/domain/model/home/profile/city.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
+import 'package:water/ui/screens/home/delivery/router.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
@@ -34,14 +37,22 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        physics: const BouncingScrollPhysics(),
-        child: _buildDeliveryInputForm(),
+    return BlocListener<DeliveryBloc, DeliveryState>(
+      listener: (context, state) async {
+        if (state is DeliveryTimeInput && state.push) {
+          await deliveryNavigator.pushNamed(DeliveryRoutes.time);
+          context.delivery.add(BackPressed());
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          physics: const BouncingScrollPhysics(),
+          child: _buildDeliveryInputForm(),
+        ),
+        bottomNavigationBar: _buildNextButton(),
       ),
-      bottomNavigationBar: _buildNextButton(),
     );
   }
 
@@ -144,9 +155,9 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   Widget _buildNextButton() {
     return WaterButton(
       onPressed: () {
-        // if (!_formKey.currentState!.validate()) {
-        //   return;
-        // }
+        if (!_formKey.currentState!.validate()) {
+          return;
+        }
 
         context.delivery.add(
           SubmitDeliveryAddress(

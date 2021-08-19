@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
 import 'package:water/domain/model/home/subscription/subscription.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/extensions/product.dart';
 import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -12,13 +14,11 @@ class SubscriptionListItem extends StatefulWidget {
   const SubscriptionListItem({
     Key? key,
     required this.subscription,
-    this.onSelected,
-    this.onUnSelected,
+    this.selected = false,
   }) : super(key: key);
 
   final Subscription subscription;
-  final void Function(String)? onSelected;
-  final void Function()? onUnSelected;
+  final bool selected;
 
   @override
   SubscriptionListItemState createState() => SubscriptionListItemState();
@@ -29,7 +29,6 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
   late final AnimationController _animationController;
 
   bool _isExpanded = false;
-  bool _isSelected = false;
 
   Subscription get _subscription => widget.subscription;
 
@@ -52,13 +51,19 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
       },
       onLongPress: () {
         setState(() {
-          (_isSelected = !_isSelected)
-              ? widget.onSelected?.call('')
-              : widget.onUnSelected?.call();
+          if (widget.selected) {
+            context.subscriptions.add(
+              DeselectSubscription(),
+            );
+          } else {
+            context.subscriptions.add(
+              SelectSubscription(subscription: _subscription),
+            );
+          }
         });
       },
       child: Container(
-        color: _isSelected ? AppColors.secondary : AppColors.white,
+        color: widget.selected ? AppColors.secondary : AppColors.white,
         child: Column(
           children: [
             _buildTitle(),
@@ -106,23 +111,22 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
     super.dispose();
   }
 
-  void unSelect() {
-    setState(() => _isSelected = false);
-  }
-
   Widget _buildTitle() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         WaterText(
-          'Order #${_subscription.id}',
+          'text.order_number'.tr(
+            args: [_subscription.id],
+          ),
           fontSize: 15.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
         ),
         WaterText(
-          'Status: ${_subscription.isActive ? 'Active' : 'Stopped'}',
+          '${'text.status'.tr()}: '
+          '${(_subscription.isActive ? 'text.subscription_active' : 'text.subscription_stopped').tr()}',
           fontSize: 15.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
@@ -160,8 +164,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
               ),
             ),
           ],
-        ).withPadding(18.0, 0.0, 24.0, 0.0),
-        const SizedBox(height: 3.0),
+        ).withPadding(18.0, 6.0, 24.0, 0.0),
         Row(
           children: [
             Icon(
@@ -180,8 +183,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
               ),
             ),
           ],
-        ).withPadding(18.0, 0.0, 24.0, 0.0),
-        const SizedBox(height: 12.0),
+        ).withPadding(18.0, 0.0, 24.0, 12.0),
         _buildSubscriptionsProducts(),
         defaultDivider.withPadding(24.0, 12.0, 24.0, 12.0),
         Row(
@@ -243,7 +245,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
             children: [
               Flexible(
                 child: WaterText(
-                  product.title,
+                  '${product.title.tr()} ${product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,
