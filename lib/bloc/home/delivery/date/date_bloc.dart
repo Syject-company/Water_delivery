@@ -49,7 +49,7 @@ final List<DeliveryDate> _dates = [
         id: '3',
         startTime: 8,
         endTime: 13,
-        available: false,
+        available: true,
       ),
       Period(
         id: '4',
@@ -85,7 +85,7 @@ final List<DeliveryDate> _dates = [
         id: '7',
         startTime: 8,
         endTime: 13,
-        available: false,
+        available: true,
       ),
       Period(
         id: '8',
@@ -127,7 +127,7 @@ final List<DeliveryDate> _dates = [
         id: '12',
         startTime: 13,
         endTime: 8,
-        available: false,
+        available: true,
       ),
     ],
   ),

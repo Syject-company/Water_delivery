@@ -4,10 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 
 part 'navigation_event.dart';
-
 part 'navigation_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -15,31 +14,31 @@ extension BlocGetter on BuildContext {
 }
 
 enum Screen {
-  shop,
-  categories,
-  products,
+  shopping,
   profile,
   cart,
 }
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  NavigationBloc({required ShopBloc shopBloc})
-      : _shopBloc = shopBloc,
-        super(ShopCategories()) {
-    // _shopStateSubscription = shopBloc.stream.listen((state) {
-    //   // add(NavigateToChild(screen: Screen.shop, state: state));
-    // });
+  NavigationBloc({required ShoppingBloc shoppingBloc})
+      : _shoppingBloc = shoppingBloc,
+        super(Categories()) {
+    _shoppingStateSubscription = shoppingBloc.stream.listen((state) {
+      add(NavigateToChild(screen: Screen.shopping, state: state));
+    });
   }
 
-  late final StreamSubscription _shopStateSubscription;
+  late final StreamSubscription _shoppingStateSubscription;
 
-  final ShopBloc _shopBloc;
+  final ShoppingBloc _shoppingBloc;
 
   @override
   Stream<NavigationState> mapEventToState(
     NavigationEvent event,
   ) async* {
-    if (event is NavigateTo) {
+    if (event is BackPressed) {
+      yield* _mapBackPressedToState();
+    } else if (event is NavigateTo) {
       yield* _mapNavigateToToState(event);
     } else if (event is NavigateToChild) {
       yield* _mapNavigateToChildToState(event);
@@ -48,35 +47,41 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
 
   @override
   Future<void> close() {
-    _shopStateSubscription.cancel();
+    _shoppingStateSubscription.cancel();
     return super.close();
+  }
+
+  Stream<NavigationState> _mapBackPressedToState() async* {
+    if (_shoppingBloc.state is ShoppingProducts) {
+      _shoppingBloc.add(OpenCategories());
+    }
   }
 
   Stream<NavigationState> _mapNavigateToToState(
     NavigateTo event,
   ) async* {
-    if (event.screen == Screen.shop) {
-      if (_shopBloc.state is CategoriesLoaded) {
-        yield const ShopCategories();
-      } else if (_shopBloc.state is ProductsLoaded) {
-        yield const ShopProducts();
+    if (event.screen == Screen.shopping) {
+      if (_shoppingBloc.state is ShoppingCategories) {
+        yield Categories();
+      } else if (_shoppingBloc.state is ShoppingProducts) {
+        yield Products();
       }
     } else if (event.screen == Screen.profile) {
-      yield const Profile();
+      yield Profile();
     } else if (event.screen == Screen.cart) {
-      yield const Cart();
+      yield Cart();
     }
   }
 
   Stream<NavigationState> _mapNavigateToChildToState(
     NavigateToChild event,
   ) async* {
-    // if (event.screen == Screen.shop) {
-    //   if (event.state is CategoriesLoaded) {
-    //     yield const ShopCategories();
-    //   } else if (event.state is ProductsLoaded) {
-    //     yield const ShopProducts();
-    //   }
-    // }
+    if (event.screen == Screen.shopping) {
+      if (event.state is ShoppingCategories) {
+        yield Categories();
+      } else if (event.state is ShoppingProducts) {
+        yield Products();
+      }
+    }
   }
 }

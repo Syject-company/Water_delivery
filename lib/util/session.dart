@@ -17,7 +17,7 @@ class Session {
 
   static String? get userId => _prefs.getString(_userIdKey);
 
-  static bool get isActive => token != null;
+  static bool get isAuthenticated => token != null;
 
   static Future<void> open({required AuthResponse auth}) async {
     await _prefs.setString(_tokenKey, auth.token);

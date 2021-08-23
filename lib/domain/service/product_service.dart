@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:water/domain/model/home/shop/product.dart';
+import 'package:water/domain/model/home/shopping/product.dart';
 import 'package:water/util/http.dart';
 
 class ProductService {
@@ -19,8 +19,6 @@ class ProductService {
     if (response.statusCode != HttpStatus.ok) {
       throw HttpException(response.body);
     }
-
-    // print(response.body.isNotEmpty ? jsonDecode(response.body) : {});
 
     if (response.body.isNotEmpty) {
       final Iterable products = jsonDecode(response.body);

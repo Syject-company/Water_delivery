@@ -58,9 +58,7 @@ class Menu extends StatelessWidget {
     return Column(
       children: [
         _buildActionButton(
-          onPressed: () {
-            _navigateTo(context, Screen.shop);
-          },
+          onPressed: () => _navigateTo(context, Screen.shopping),
           icon: AppIcons.drop,
           label: 'side_menu.shop_now'.tr(),
         ),
@@ -85,21 +83,13 @@ class Menu extends StatelessWidget {
           icon: AppIcons.subscription,
           label: 'side_menu.subscriptions'.tr(),
         ),
-        // _buildActionButton(
-        //   onPressed: () {
-        //     homeNavigator.pushNamed(HomeRoutes.referFriend);
-        //   },
-        //   icon: AppIcons.refer_friend,
-        //   label: 'side_menu.refer_friend'.tr(),
-        // ),
-        if (Session.isActive)
-          _buildActionButton(
-            onPressed: () {
-              _navigateTo(context, Screen.profile);
-            },
-            icon: AppIcons.profile,
-            label: 'side_menu.profile'.tr(),
-          ),
+        _buildActionButton(
+          onPressed: () {
+            _navigateTo(context, Screen.profile);
+          },
+          icon: AppIcons.profile,
+          label: 'side_menu.profile'.tr(),
+        ),
         _buildActionButton(
           onPressed: () {
             homeNavigator.pushNamed(HomeRoutes.support);
@@ -121,16 +111,16 @@ class Menu extends StatelessWidget {
           icon: AppIcons.faq,
           label: 'side_menu.faq'.tr(),
         ),
-        if (Session.isActive)
+        if (Session.isAuthenticated)
           _buildActionButton(
-          onPressed: () {
-            Session.invalidate(context);
-          },
-          icon: AppIcons.log_out,
-          label: 'button.logout'.tr(),
-          iconColor: AppColors.secondaryText,
-          labelColor: AppColors.secondaryText,
-        ).withPadding(0.0, 13.0, 0.0, 0.0),
+            onPressed: () {
+              Session.invalidate(context);
+            },
+            icon: AppIcons.log_out,
+            label: 'button.logout'.tr(),
+            iconColor: AppColors.secondaryText,
+            labelColor: AppColors.secondaryText,
+          ).withPadding(0.0, 13.0, 0.0, 0.0),
       ],
     );
   }

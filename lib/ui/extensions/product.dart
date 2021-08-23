@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:water/domain/model/home/cart_item.dart';
 import 'package:water/domain/model/home/order/order.dart';
-import 'package:water/domain/model/home/shop/product.dart';
+import 'package:water/domain/model/home/shopping/product.dart';
 import 'package:water/domain/model/home/subscription/subscription.dart';
 
 extension ProductHelper on Product {

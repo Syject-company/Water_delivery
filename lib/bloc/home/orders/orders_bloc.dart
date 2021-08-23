@@ -40,18 +40,18 @@ final List<Order> _orders = [
     deliveryDate: '2021-08-16',
     createdDate: '2021-08-16',
     products: [
-      // OrderProduct(
-      //   title: categories[0].products[0].title,
-      //   volume: categories[0].products[0].volume,
-      //   amount: 2,
-      //   price: categories[0].products[0].price,
-      // ),
-      // OrderProduct(
-      //   title: categories[0].products[1].title,
-      //   volume: categories[0].products[1].volume,
-      //   amount: 4,
-      //   price: categories[0].products[1].price,
-      // ),
+      OrderProduct(
+        title: 'Title 1',
+        volume: 0.33,
+        amount: 2,
+        price: 12.0,
+      ),
+      OrderProduct(
+        title: 'Title 2',
+        volume: 0.5,
+        amount: 4,
+        price: 24.0,
+      ),
     ],
     customerName: 'Customer Name 1',
     isSubscribed: false,
@@ -68,12 +68,12 @@ final List<Order> _orders = [
     deliveryDate: '2021-08-14',
     createdDate: '2021-08-14',
     products: [
-      // OrderProduct(
-      //   title: categories[1].products[0].title,
-      //   volume: categories[1].products[0].volume,
-      //   amount: 3,
-      //   price: categories[1].products[0].price,
-      // ),
+      OrderProduct(
+        title: 'Title 3',
+        volume: 1.5,
+        amount: 7,
+        price: 16.0,
+      ),
     ],
     customerName: 'Customer Name 2',
     isSubscribed: true,

@@ -108,6 +108,7 @@ button:
   share: "Share"
 
 side_menu:
+  login: "Log In"
   shop_now: "Shop Now"
   wallet: "Wallet"
   orders: "Orders"

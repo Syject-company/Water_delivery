@@ -5,6 +5,7 @@ import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/session.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'select_language_screen.dart';
@@ -60,7 +61,10 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             );
           } else {
-            Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+            Navigator.of(context).pushReplacementNamed(
+              Session.isAuthenticated ? AppRoutes.home : AppRoutes.auth,
+            );
+            // Navigator.of(context).pushReplacementNamed(AppRoutes.home);
           }
         }
       },

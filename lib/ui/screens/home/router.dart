@@ -7,7 +7,6 @@ import 'package:water/ui/screens/home/delivery/delivery_navigator.dart';
 import 'package:water/ui/screens/home/faq/faq_screen.dart';
 import 'package:water/ui/screens/home/notifications/notifications_screen.dart';
 import 'package:water/ui/screens/home/orders/orders_screen.dart';
-import 'package:water/ui/screens/home/refer_friend/refer_friend_screen.dart';
 import 'package:water/ui/screens/home/subscriptions/subscriptions_screen.dart';
 import 'package:water/ui/screens/home/support/support_screen.dart';
 import 'package:water/ui/screens/home/terms/terms_screen.dart';

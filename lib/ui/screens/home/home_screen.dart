@@ -4,15 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
-import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
-import 'package:water/util/localization.dart';
 
 import 'cart/cart_screen.dart';
 import 'profile/profile_screen.dart';
-import 'shop/shop_screen.dart';
+import 'shopping/shopping_screen.dart';
 import 'widgets/menu.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              KeepAliveChild(child: ShopScreen()),
+              KeepAliveChild(child: ShoppingScreen()),
               KeepAliveChild(child: ProfileScreen()),
               KeepAliveChild(child: CartScreen()),
             ],
@@ -55,11 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 selectedIndex: state.index,
                 items: [
                   WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_shop),
-                    selectedIcon: Icon(AppIcons.bar_shop_filled),
+                    icon: Icon(AppIcons.bar_shopping),
+                    selectedIcon: Icon(AppIcons.bar_shopping_filled),
                     onPressed: () {
                       context.navigation.add(
-                        NavigateTo(screen: Screen.shop),
+                        NavigateTo(screen: Screen.shopping),
                       );
                     },
                   ),
@@ -104,15 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
           Widget? leading;
-          if (state is ShopProducts) {
+          if (state is Products) {
             leading = AppBarBackButton(
               onPressed: () {
-                // context.shop.add(LoadCategories());
-                final language =
-                    Localization.currentLocale(context).languageCode;
-                context.shop.add(
-                  LoadCategories(language: language),
-                );
+                context.navigation.add(BackPressed());
               },
             );
           }
@@ -143,12 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return false;
     }
 
-    if (context.navigation.state is! Shop) {
+    if (context.navigation.state is! Shopping) {
       // context.navigation.add(NavigateTo(screen: Screen.shop));
       return false;
     }
 
-    if (context.navigation.state is ShopProducts) {
+    if (context.navigation.state is ShoppingProducts) {
       // context.shop.add(LoadCategories());
       return false;
     }

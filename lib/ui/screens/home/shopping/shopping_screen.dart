@@ -1,21 +1,23 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
+import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/home/shop/categories/categories_screen.dart';
-import 'package:water/ui/screens/home/shop/products/products_screen.dart';
+import 'package:water/ui/screens/home/shopping/categories/categories_screen.dart';
+import 'package:water/ui/screens/home/shopping/products/products_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 
-class ShopScreen extends StatefulWidget {
-  const ShopScreen({Key? key}) : super(key: key);
+class ShoppingScreen extends StatefulWidget {
+  const ShoppingScreen({Key? key}) : super(key: key);
 
   @override
-  _ShopScreenState createState() => _ShopScreenState();
+  _ShoppingScreenState createState() => _ShoppingScreenState();
 }
 
-class _ShopScreenState extends State<ShopScreen> {
+class _ShoppingScreenState extends State<ShoppingScreen> {
   final List<Widget> _pages = [
     CategoriesScreen(),
     ProductsScreen(),
@@ -27,7 +29,12 @@ class _ShopScreenState extends State<ShopScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.shop.add(
+      // context.shopping.add(
+      //   LoadProducts(
+      //     language: Localization.currentLanguage(context),
+      //   ),
+      // );
+      context.categories.add(
         LoadCategories(
           language: Localization.currentLanguage(context),
         ),
@@ -36,20 +43,24 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 
   @override
-  void didUpdateWidget(ShopScreen oldWidget) {
-    final state = context.shop.state;
+  void didUpdateWidget(ShoppingScreen oldWidget) {
+    final categoriesState = context.categories.state;
+    final productsState = context.products.state;
 
-    if (state is CategoriesLoaded) {
-      context.shop.add(
+    if (categoriesState is CategoriesLoaded) {
+      context.categories.add(
         LoadCategories(
           language: Localization.currentLanguage(context),
+          navigate: false,
         ),
       );
-    } else if (state is ProductsLoading) {
-      context.shop.add(
+    }
+    if (productsState is ProductsLoaded) {
+      context.products.add(
         LoadProducts(
-          categoryId: (state as ProductsLoaded).categoryId,
+          categoryId: productsState.categoryId,
           language: Localization.currentLanguage(context),
+          navigate: false,
         ),
       );
     }
@@ -79,15 +90,15 @@ class _ShopScreenState extends State<ShopScreen> {
             ),
           ],
         ),
-        BlocBuilder<ShopBloc, ShopState>(
+        BlocBuilder<NavigationBloc, NavigationState>(
           buildWhen: (previousState, state) {
-            return state is CategoriesLoading || state is ProductsLoading;
+            return state is Shopping;
           },
           builder: (context, state) {
             int index = 0;
-            if (state is CategoriesLoading) {
+            if (state is Categories) {
               index = 0;
-            } else if (state is ProductsLoading) {
+            } else if (state is Products) {
               index = 1;
             }
 

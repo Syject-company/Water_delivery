@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/shop/shop_bloc.dart';
+import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/widget.dart';
@@ -11,6 +11,26 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'widgets/category_list_item.dart';
 import 'widgets/category_loading_list_item.dart';
 import 'widgets/shimmer.dart';
+
+final _shimmerGradient = LinearGradient(
+  colors: [
+    AppColors.white.withOpacity(0.0),
+    AppColors.white.withOpacity(0.33),
+    AppColors.white.withOpacity(0.66),
+    AppColors.white.withOpacity(0.33),
+    AppColors.white.withOpacity(0.0),
+  ],
+  stops: [
+    0.375,
+    0.437,
+    0.500,
+    0.562,
+    0.625,
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  tileMode: TileMode.clamp,
+);
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -21,10 +41,7 @@ class CategoriesScreen extends StatelessWidget {
       children: [
         _buildWalletBalanceText(),
         Expanded(
-          child: BlocBuilder<ShopBloc, ShopState>(
-            buildWhen: (previousState, state) {
-              return state is CategoriesLoading || state is CategoriesLoaded;
-            },
+          child: BlocBuilder<CategoriesBloc, CategoriesState>(
             builder: (context, state) {
               Widget page = SizedBox.shrink();
               if (state is CategoriesLoading) {
@@ -33,14 +50,10 @@ class CategoriesScreen extends StatelessWidget {
                 page = _buildCategories(state);
               }
 
-              return PageTransitionSwitcher(
+              return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
-                transitionBuilder: (child, animation, secondaryAnimation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
+                switchInCurve: Curves.fastOutSlowIn,
+                switchOutCurve: Curves.fastOutSlowIn,
                 child: page,
               );
             },
@@ -108,23 +121,3 @@ class CategoriesScreen extends StatelessWidget {
     );
   }
 }
-
-final _shimmerGradient = LinearGradient(
-  colors: [
-    AppColors.white.withOpacity(0.0),
-    AppColors.white.withOpacity(0.33),
-    AppColors.white.withOpacity(0.66),
-    AppColors.white.withOpacity(0.33),
-    AppColors.white.withOpacity(0.0),
-  ],
-  stops: [
-    0.375,
-    0.437,
-    0.500,
-    0.562,
-    0.625,
-  ],
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-  tileMode: TileMode.clamp,
-);

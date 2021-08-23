@@ -8,7 +8,8 @@ typedef SelectCallback = void Function(int index);
 
 const double _iconSize = 32.0;
 const Color _selectedIconColor = AppColors.white;
-const Color _unselectedIconColor = AppColors.primaryText;
+const Color _deselectedIconColor = AppColors.primaryText;
+const Color _disabledIconColor = AppColors.disabled;
 const double _borderRadius = 15.0;
 
 const double bottomNavigationBarHeight = 80.0;
@@ -50,16 +51,19 @@ class WaterBottomNavigationBar extends StatelessWidget {
             index,
             GestureDetector(
               onTap: () {
-                if (item.selectable) {
-                  onSelected?.call(index);
+                if (item.enabled) {
+                  if (item.selectable) {
+                    onSelected?.call(index);
+                  }
+                  item.onPressed?.call();
                 }
-                item.onPressed?.call();
               },
               child: _WaterBottomNavigationBarButton(
                 key: ValueKey(item),
                 icon: item.icon,
                 selectedIcon: item.selectedIcon,
                 selected: item.selectable && index == selectedIndex,
+                enabled: item.enabled,
               ),
             ),
           );
@@ -74,12 +78,14 @@ class _WaterBottomNavigationBarButton extends StatefulWidget {
     Key? key,
     required this.icon,
     required this.selectedIcon,
-    this.selected = false,
+    required this.selected,
+    required this.enabled,
   }) : super(key: key);
 
   final Widget icon;
   final Widget selectedIcon;
   final bool selected;
+  final bool enabled;
 
   @override
   _WaterBottomNavigationBarButtonState createState() =>
@@ -100,11 +106,19 @@ class _WaterBottomNavigationBarButtonState
         child: IconTheme(
           data: IconThemeData(
             size: _iconSize,
-            color: widget.selected ? _selectedIconColor : _unselectedIconColor,
+            color: _getColor(),
           ),
           child: widget.selected ? widget.selectedIcon : widget.icon,
         ),
       ),
     );
+  }
+
+  Color _getColor() {
+    if (widget.enabled) {
+      return widget.selected ? _selectedIconColor : _deselectedIconColor;
+    } else {
+      return _disabledIconColor;
+    }
   }
 }

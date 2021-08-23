@@ -108,6 +108,7 @@ button:
   share: "يشارك"
 
 side_menu:
+  login: "تسجيل الدخول"
   shop_now: "تسوق الآن"
   wallet: "محفظة"
   orders: "الطلبات"

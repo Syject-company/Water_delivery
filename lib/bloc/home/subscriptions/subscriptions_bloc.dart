@@ -62,10 +62,10 @@ final List<Subscription> _subscriptions = [
     deliveryDate: '16-08-2021',
     products: [
       SubscriptionProduct(
-        title: 'categories[2].products[1].title',
+        title: 'Title 1',
         volume: 0.33,
         amount: 1,
-        price: 1,
+        price: 12.0,
       ),
     ],
     city: 'City 1',
@@ -81,16 +81,16 @@ final List<Subscription> _subscriptions = [
     deliveryDate: '12-08-2021',
     products: [
       SubscriptionProduct(
-        title: 'categories[3].products[1].title',
-        volume: 1.5,
-        amount: 3,
-        price: 2,
+        title: 'Title 1',
+        volume: 0.1,
+        amount: 10,
+        price: 17.0,
       ),
       SubscriptionProduct(
-        title: 'categories[1].products[0].title',
+        title: 'Title 1',
         volume: 0.5,
-        amount: 7,
-        price: 3,
+        amount: 3,
+        price: 10.0,
       ),
     ],
     city: 'City 2',

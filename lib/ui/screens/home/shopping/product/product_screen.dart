@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
-import 'package:water/domain/model/home/shop/product.dart';
+import 'package:water/domain/model/home/shopping/product.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/extensions/product.dart';

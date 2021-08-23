@@ -7,6 +7,10 @@ abstract class NavigationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class BackPressed extends NavigationEvent {
+  const BackPressed();
+}
+
 class NavigateTo extends NavigationEvent {
   const NavigateTo({required this.screen});
 

@@ -54,9 +54,9 @@ class AppIcons {
       IconData(0xe816, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData arrow_down =
       IconData(0xe817, fontFamily: _fontFamily, fontPackage: _fontPackage);
-  static const IconData bar_shop =
+  static const IconData bar_shopping =
       IconData(0xe818, fontFamily: _fontFamily, fontPackage: _fontPackage);
-  static const IconData bar_shop_filled =
+  static const IconData bar_shopping_filled =
       IconData(0xe819, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData bar_menu =
       IconData(0xe81a, fontFamily: _fontFamily, fontPackage: _fontPackage);
@@ -82,4 +82,8 @@ class AppIcons {
       IconData(0xe824, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData google =
       IconData(0xe825, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData placeholder =
+      IconData(0xe828, fontFamily: _fontFamily, fontPackage: _fontPackage);
+  static const IconData bottle =
+      IconData(0xe829, fontFamily: _fontFamily, fontPackage: _fontPackage);
 }
