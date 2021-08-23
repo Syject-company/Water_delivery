@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
-import 'package:water/domain/model/home/shopping/category.dart';
-import 'package:water/ui/extensions/widget.dart';
+import 'package:water/domain/model/shopping/category.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 

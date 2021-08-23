@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/home/notification.dart' as water;
+import 'package:water/domain/model/notification.dart' as water;
 
 part 'notification_event.dart';
 part 'notification_state.dart';

@@ -3,11 +3,8 @@ library form_fields;
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
-import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 part 'form_date_picker.dart';

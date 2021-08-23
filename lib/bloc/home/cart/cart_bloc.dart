@@ -5,9 +5,8 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/home/cart_item.dart';
-import 'package:water/domain/model/home/shopping/product.dart';
-import 'package:water/ui/extensions/product.dart';
+import 'package:water/domain/model/cart_item.dart';
+import 'package:water/domain/model/shopping/product.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:water/domain/model/home/shopping/category.dart';
+import 'package:water/domain/model/shopping/category.dart';
 import 'package:water/util/http.dart';
 
 class CategoryService {

@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/home/shopping/categories/categories_screen.dart';
-import 'package:water/ui/screens/home/shopping/products/products_screen.dart';
+import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
+
+import 'categories/categories_screen.dart';
+import 'products/products_screen.dart';
 
 class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({Key? key}) : super(key: key);
@@ -29,11 +30,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      // context.shopping.add(
-      //   LoadProducts(
-      //     language: Localization.currentLanguage(context),
-      //   ),
-      // );
       context.categories.add(
         LoadCategories(
           language: Localization.currentLanguage(context),
@@ -44,6 +40,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   @override
   void didUpdateWidget(ShoppingScreen oldWidget) {
+    final shoppingState = context.shopping.state;
     final categoriesState = context.categories.state;
     final productsState = context.products.state;
 
@@ -54,16 +51,18 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
           navigate: false,
         ),
       );
+      if (shoppingState is ShoppingProducts &&
+          productsState is ProductsLoaded) {
+        context.products.add(
+          LoadProducts(
+            categoryId: productsState.categoryId,
+            language: Localization.currentLanguage(context),
+            navigate: false,
+          ),
+        );
+      }
     }
-    if (productsState is ProductsLoaded) {
-      context.products.add(
-        LoadProducts(
-          categoryId: productsState.categoryId,
-          language: Localization.currentLanguage(context),
-          navigate: false,
-        ),
-      );
-    }
+
     super.didUpdateWidget(oldWidget);
   }
 

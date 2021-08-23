@@ -2,11 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
-import 'package:water/domain/model/home/subscription/subscription.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/product.dart';
-import 'package:water/ui/extensions/widget.dart';
-import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/domain/model/subscription/subscription.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/separated_column.dart';
 

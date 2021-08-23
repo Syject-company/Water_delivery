@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 class FAQListItem extends StatefulWidget {

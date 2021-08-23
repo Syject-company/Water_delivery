@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:water/domain/model/home/notification.dart' as water;
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/domain/model/notification.dart' as water;
 import 'package:water/ui/shared_widgets/water.dart';
 
 class NotificationListItem extends StatelessWidget {
@@ -51,6 +50,7 @@ class NotificationListItem extends StatelessWidget {
   Widget _buildBodyText() {
     return WaterText(
       notification.body,
+      fontSize: 15.0,
       fontWeight: FontWeight.w500,
     );
   }

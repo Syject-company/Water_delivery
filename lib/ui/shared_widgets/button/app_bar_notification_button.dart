@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/notification/notification_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
-import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 const double _iconSize = 32.0;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 part 'bottom_navigation_bar_item.dart';

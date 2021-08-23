@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/home/subscription/subscription.dart';
+import 'package:water/domain/model/subscription/subscription.dart';
 
 part 'subscriptions_event.dart';
 part 'subscriptions_state.dart';

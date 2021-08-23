@@ -1,11 +1,8 @@
-import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 import 'widgets/category_list_item.dart';

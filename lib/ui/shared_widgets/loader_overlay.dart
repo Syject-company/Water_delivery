@@ -5,9 +5,13 @@ const Color _backgroundColor = Color.fromRGBO(255, 255, 255, 0.75);
 const Duration _fadeDuration = Duration(milliseconds: 125);
 
 extension LoaderOverlayGetter on BuildContext {
-  void showLoader() => LoaderOverlay.of(this).showLoader();
-
-  void hideLoader() => LoaderOverlay.of(this).hideLoader();
+  void showLoader(bool show) {
+    if (show) {
+      LoaderOverlay.of(this).showLoader();
+    } else {
+      LoaderOverlay.of(this).hideLoader();
+    }
+  }
 }
 
 class LoaderOverlay extends StatefulWidget {
@@ -61,7 +65,7 @@ class LoaderOverlayState extends State<LoaderOverlay> {
   Widget _buildLogo() {
     return Container(
       color: _backgroundColor,
-      child: const Center(
+      child: Center(
         child: WaterAnimatedLogo(),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:water/ui/screens/router.dart';
+import 'package:water/main.dart';
+import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
@@ -11,7 +12,7 @@ class SelectLanguageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WaterAppBar(),
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
         physics: const BouncingScrollPhysics(),
@@ -28,6 +29,13 @@ class SelectLanguageScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(appBarHeight),
+      child: WaterAppBar(),
     );
   }
 
@@ -60,8 +68,7 @@ class SelectLanguageScreen extends StatelessWidget {
         await Localization.saveLocale(currentLocale);
         await LocalStorage.setFirstLaunch(false);
 
-        Navigator.of(context).pushReplacementNamed(AppRoutes.auth);
-        // Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+        appNavigator.pushReplacementNamed(AppRoutes.home);
       },
       text: 'button.save'.tr(),
     );

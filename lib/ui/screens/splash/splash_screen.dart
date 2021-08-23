@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
+import 'package:water/main.dart';
 import 'package:water/ui/constants/paths.dart';
-import 'package:water/ui/screens/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/session.dart';
-import 'package:water/util/slide_with_fade_page_route.dart';
-
-import 'select_language_screen.dart';
 
 const Duration _fadeDuration = Duration(milliseconds: 375);
 
@@ -24,12 +20,6 @@ class _SplashScreenState extends State<SplashScreen> {
       VideoPlayerController.asset(Paths.splash_video);
 
   @override
-  void initState() {
-    super.initState();
-    _videoController.addListener(() => setState(() {}));
-  }
-
-  @override
   void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
@@ -37,9 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  void dispose() {
-    _videoController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _videoController.addListener(() => setState(() {}));
   }
 
   @override
@@ -54,18 +44,9 @@ class _SplashScreenState extends State<SplashScreen> {
         } else if (state is SplashVideo) {
           await Future.delayed(_videoController.value.duration);
 
-          if (state.firstLaunch) {
-            Navigator.of(context).pushReplacement(
-              SlideWithFadePageRoute(
-                builder: (context) => SelectLanguageScreen(),
-              ),
-            );
-          } else {
-            Navigator.of(context).pushReplacementNamed(
-              Session.isAuthenticated ? AppRoutes.home : AppRoutes.auth,
-            );
-            // Navigator.of(context).pushReplacementNamed(AppRoutes.home);
-          }
+          appNavigator.pushReplacementNamed(
+            state.firstLaunch ? AppRoutes.selectLanguage : AppRoutes.home,
+          );
         }
       },
       builder: (context, state) {
@@ -82,13 +63,21 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    _videoController.dispose();
+    super.dispose();
+  }
+
   Widget _buildVideo() {
     return VideoPlayer(_videoController);
   }
 
   Widget _buildLogo() {
-    return const SafeArea(
-      child: Center(child: WaterAnimatedLogo()),
+    return SafeArea(
+      child: Center(
+        child: WaterAnimatedLogo(),
+      ),
     );
   }
 }

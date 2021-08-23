@@ -5,26 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
-import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
+import 'package:water/util/session.dart';
 
 import 'cart/cart_screen.dart';
 import 'profile/profile_screen.dart';
 import 'shopping/shopping_screen.dart';
 import 'widgets/menu.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey();
+final PageController _pageController = PageController();
 
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey();
-  final PageController _pageController = PageController();
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -36,62 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
         menu: Menu(),
         child: Scaffold(
           appBar: _buildAppBar(context),
-          body: PageView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            children: [
-              KeepAliveChild(child: ShoppingScreen()),
-              KeepAliveChild(child: ProfileScreen()),
-              KeepAliveChild(child: CartScreen()),
-            ],
-          ),
-          bottomNavigationBar: BlocConsumer<NavigationBloc, NavigationState>(
-            listener: (context, state) {
-              _pageController.jumpToPage(state.index);
-            },
-            builder: (context, state) {
-              return WaterBottomNavigationBar(
-                selectedIndex: state.index,
-                items: [
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_shopping),
-                    selectedIcon: Icon(AppIcons.bar_shopping_filled),
-                    onPressed: () {
-                      context.navigation.add(
-                        NavigateTo(screen: Screen.shopping),
-                      );
-                    },
-                  ),
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_profile),
-                    selectedIcon: Icon(AppIcons.bar_profile_filled),
-                    onPressed: () {
-                      context.navigation.add(
-                        NavigateTo(screen: Screen.profile),
-                      );
-                    },
-                  ),
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_shopping_cart),
-                    selectedIcon: Icon(AppIcons.bar_shopping_cart_filled),
-                    onPressed: () {
-                      context.navigation.add(
-                        NavigateTo(screen: Screen.cart),
-                      );
-                    },
-                  ),
-                  WaterBottomNavigationBarItem(
-                    icon: Icon(AppIcons.bar_menu),
-                    selectedIcon: Icon(AppIcons.bar_menu_filled),
-                    selectable: false,
-                    onPressed: () {
-                      _sideMenuKey.currentState!.open();
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
+          body: _buildBody(),
+          bottomNavigationBar: _buildBottomNavigationBar(),
         ),
       ),
     );
@@ -128,6 +67,69 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    return PageView(
+      physics: const NeverScrollableScrollPhysics(),
+      controller: _pageController,
+      children: [
+        KeepAliveChild(child: ShoppingScreen()),
+        KeepAliveChild(child: ProfileScreen()),
+        KeepAliveChild(child: CartScreen()),
+      ],
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return BlocConsumer<NavigationBloc, NavigationState>(
+      listener: (context, state) {
+        _pageController.jumpToPage(state.index);
+      },
+      builder: (context, state) {
+        return WaterBottomNavigationBar(
+          selectedIndex: state.index,
+          items: [
+            WaterBottomNavigationBarItem(
+              icon: Icon(AppIcons.bar_shopping),
+              selectedIcon: Icon(AppIcons.bar_shopping_filled),
+              onPressed: () {
+                context.navigation.add(
+                  NavigateTo(screen: Screen.shopping),
+                );
+              },
+            ),
+            WaterBottomNavigationBarItem(
+              icon: Icon(AppIcons.bar_profile),
+              selectedIcon: Icon(AppIcons.bar_profile_filled),
+              onPressed: () {
+                context.navigation.add(
+                  NavigateTo(screen: Screen.profile),
+                );
+              },
+              enabled: Session.isAuthenticated,
+            ),
+            WaterBottomNavigationBarItem(
+              icon: Icon(AppIcons.bar_shopping_cart),
+              selectedIcon: Icon(AppIcons.bar_shopping_cart_filled),
+              onPressed: () {
+                context.navigation.add(
+                  NavigateTo(screen: Screen.cart),
+                );
+              },
+            ),
+            WaterBottomNavigationBarItem(
+              icon: Icon(AppIcons.bar_menu),
+              selectedIcon: Icon(AppIcons.bar_menu_filled),
+              selectable: false,
+              onPressed: () {
+                _sideMenuKey.currentState!.open();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

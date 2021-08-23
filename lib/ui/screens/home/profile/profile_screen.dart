@@ -1,14 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:water/domain/model/home/data/cities.dart';
-import 'package:water/domain/model/home/data/nationalities.dart';
-import 'package:water/domain/model/home/profile/city.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/widget.dart';
-import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/bloc/home/auth/auth_bloc.dart';
+import 'package:water/domain/model/data/cities.dart';
+import 'package:water/domain/model/data/nationalities.dart';
+import 'package:water/domain/model/profile/city.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
-import 'package:water/util/session.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -225,7 +222,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildLogOutButton() {
     return WaterButton(
-      onPressed: () => Session.invalidate(context),
+      onPressed: () {
+        context.auth.add(Logout());
+      },
       text: 'button.logout'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,

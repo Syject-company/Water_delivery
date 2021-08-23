@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/notification/notification_bloc.dart';
@@ -12,10 +13,14 @@ import 'package:water/ui/shared_widgets/water.dart';
 
 import 'router.dart';
 
+export 'package:water/ui/extensions/navigator.dart';
+
+export 'router.dart';
+
 final GlobalKey<NavigatorState> homeNavigator = GlobalKey();
 
 class HomeNavigator extends StatelessWidget {
-  HomeNavigator({Key? key}) : super(key: key);
+  const HomeNavigator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +29,7 @@ class HomeNavigator extends StatelessWidget {
       child: ToastBuilder(
         child: MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => AuthBloc()),
             BlocProvider(create: (context) => WalletBloc()),
             BlocProvider(create: (context) => CategoriesBloc()),
             BlocProvider(create: (context) => ProductsBloc()),
@@ -41,11 +47,22 @@ class HomeNavigator extends StatelessWidget {
               ),
             ),
           ],
-          child: Navigator(
-            key: homeNavigator,
-            initialRoute: HomeRoutes.main,
-            onGenerateRoute: HomeRouter.generateRoute,
-            observers: [HeroController()],
+          child: BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (context.navigation.state is Profile) {
+                context.navigation.add(
+                  NavigateTo(screen: Screen.shopping),
+                );
+              }
+            },
+            builder: (context, state) {
+              return Navigator(
+                key: homeNavigator,
+                initialRoute: HomeRoutes.main,
+                onGenerateRoute: HomeRouter.generateRoute,
+                observers: [HeroController()],
+              );
+            },
           ),
         ),
       ),

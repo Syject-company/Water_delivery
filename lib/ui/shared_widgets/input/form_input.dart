@@ -153,6 +153,7 @@ class WaterFormInputState extends State<WaterFormInput> {
           child: WaterText(
             widget.labelText!,
             maxLines: 1,
+            fontSize: 15.0,
             lineHeight: 1.25,
             overflow: TextOverflow.fade,
             softWrap: false,

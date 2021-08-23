@@ -1,15 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/navigator.dart';
-import 'package:water/ui/extensions/widget.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
-import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/separated_column.dart';
+import 'package:water/util/session.dart';
 
 import 'widgets/cart_list_item.dart';
 
@@ -143,7 +139,11 @@ class _CartScreenState extends State<CartScreen> {
         Expanded(
           child: WaterButton(
             onPressed: () {
-              homeNavigator.pushNamed(HomeRoutes.delivery);
+              if (Session.isAuthenticated) {
+                homeNavigator.pushNamed(HomeRoutes.checkout);
+              } else {
+                homeNavigator.pushNamed(HomeRoutes.auth);
+              }
             },
             text: 'button.subscription'.tr(),
             backgroundColor: AppColors.secondary,
@@ -155,7 +155,11 @@ class _CartScreenState extends State<CartScreen> {
         Expanded(
           child: WaterButton(
             onPressed: () {
-              homeNavigator.pushNamed(HomeRoutes.delivery);
+              if (Session.isAuthenticated) {
+                homeNavigator.pushNamed(HomeRoutes.checkout);
+              } else {
+                homeNavigator.pushNamed(HomeRoutes.auth);
+              }
             },
             text: 'button.checkout'.tr(),
             enabled: !isCartEmpty,

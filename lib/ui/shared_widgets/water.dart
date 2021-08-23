@@ -3,6 +3,10 @@ library water;
 import 'package:flutter/material.dart';
 import 'package:water/ui/constants/colors.dart';
 
+export 'package:water/ui/constants/colors.dart';
+export 'package:water/ui/extensions/widget.dart';
+export 'package:water/ui/icons/app_icons.dart';
+
 export 'app_bar.dart';
 export 'bottom_navigation_bar/bottom_navigation_bar.dart';
 export 'button/app_bar_back_button.dart';

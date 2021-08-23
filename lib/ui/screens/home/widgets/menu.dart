@@ -1,10 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/navigator.dart';
-import 'package:water/ui/extensions/widget.dart';
-import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -57,39 +54,53 @@ class Menu extends StatelessWidget {
   Widget _buildActionButtons(BuildContext context) {
     return Column(
       children: [
+        if (!Session.isAuthenticated)
+          _buildActionButton(
+            onPressed: () {
+              homeNavigator.pushNamed(HomeRoutes.auth);
+            },
+            icon: AppIcons.profile,
+            label: 'side_menu.login'.tr(),
+          ),
         _buildActionButton(
-          onPressed: () => _navigateTo(context, Screen.shopping),
+          onPressed: () {
+            _navigateTo(context, Screen.shopping);
+          },
           icon: AppIcons.drop,
           label: 'side_menu.shop_now'.tr(),
         ),
-        _buildActionButton(
-          onPressed: () {
-            homeNavigator.pushNamed(HomeRoutes.wallet);
-          },
-          icon: AppIcons.wallet,
-          label: 'side_menu.wallet'.tr(),
-        ),
-        _buildActionButton(
-          onPressed: () {
-            homeNavigator.pushNamed(HomeRoutes.orders);
-          },
-          icon: AppIcons.orders,
-          label: 'side_menu.orders'.tr(),
-        ),
-        _buildActionButton(
-          onPressed: () {
-            homeNavigator.pushNamed(HomeRoutes.subscriptions);
-          },
-          icon: AppIcons.subscription,
-          label: 'side_menu.subscriptions'.tr(),
-        ),
-        _buildActionButton(
-          onPressed: () {
-            _navigateTo(context, Screen.profile);
-          },
-          icon: AppIcons.profile,
-          label: 'side_menu.profile'.tr(),
-        ),
+        if (Session.isAuthenticated)
+          _buildActionButton(
+            onPressed: () {
+              homeNavigator.pushNamed(HomeRoutes.wallet);
+            },
+            icon: AppIcons.wallet,
+            label: 'side_menu.wallet'.tr(),
+          ),
+        if (Session.isAuthenticated)
+          _buildActionButton(
+            onPressed: () {
+              homeNavigator.pushNamed(HomeRoutes.orders);
+            },
+            icon: AppIcons.orders,
+            label: 'side_menu.orders'.tr(),
+          ),
+        if (Session.isAuthenticated)
+          _buildActionButton(
+            onPressed: () {
+              homeNavigator.pushNamed(HomeRoutes.subscriptions);
+            },
+            icon: AppIcons.subscription,
+            label: 'side_menu.subscriptions'.tr(),
+          ),
+        if (Session.isAuthenticated)
+          _buildActionButton(
+            onPressed: () {
+              _navigateTo(context, Screen.profile);
+            },
+            icon: AppIcons.profile,
+            label: 'side_menu.profile'.tr(),
+          ),
         _buildActionButton(
           onPressed: () {
             homeNavigator.pushNamed(HomeRoutes.support);
@@ -114,7 +125,7 @@ class Menu extends StatelessWidget {
         if (Session.isAuthenticated)
           _buildActionButton(
             onPressed: () {
-              Session.invalidate(context);
+              context.auth.add(Logout());
             },
             icon: AppIcons.log_out,
             label: 'button.logout'.tr(),
@@ -162,22 +173,19 @@ class Menu extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        WaterCircleButton(
+        WaterSocialButton(
           onPressed: () {},
           icon: AppIcons.facebook,
-          iconSize: 32.0,
         ),
         const SizedBox(width: 18.0),
-        WaterCircleButton(
+        WaterSocialButton(
           onPressed: () {},
           icon: AppIcons.instagram,
-          iconSize: 32.0,
         ),
         const SizedBox(width: 18.0),
-        WaterCircleButton(
+        WaterSocialButton(
           onPressed: () {},
           icon: AppIcons.twitter,
-          iconSize: 32.0,
         ),
       ],
     ).withPaddingAll(26.0);

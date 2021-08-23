@@ -30,7 +30,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
   Stream<SplashState> _mapLoadingToState() async* {
     await Future.delayed(_loadingDuration);
-    yield const SplashLoading();
+    yield SplashLoading();
   }
 
   Stream<SplashState> _mapLoadVideoToState() async* {

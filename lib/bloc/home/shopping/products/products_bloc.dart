@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/home/shopping/product.dart';
+import 'package:water/domain/model/shopping/product.dart';
 import 'package:water/domain/service/product_service.dart';
 import 'package:water/locator.dart';
 
@@ -20,6 +20,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   final ProductService _productService = locator<ProductService>();
 
+  final Map<String, List<Product>> _cachedProducts = {};
+
   @override
   Stream<ProductsState> mapEventToState(
     ProductsEvent event,
@@ -34,7 +36,19 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async* {
     print('load products');
     yield ProductsLoading(navigate: event.navigate);
-    final products = await _productService.getAllByCategoryId(
+
+    if (_cachedProducts.keys.contains(event.categoryId)) {
+      final cachedProducts = _cachedProducts[event.categoryId];
+      if (cachedProducts != null) {
+        yield ProductsLoaded(
+          categoryId: event.categoryId,
+          products: cachedProducts,
+        );
+      }
+    }
+
+    final products = _cachedProducts[event.categoryId] =
+        await _productService.getAllByCategoryId(
       event.categoryId,
       event.language,
     );

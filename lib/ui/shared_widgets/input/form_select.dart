@@ -126,6 +126,7 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
           child: WaterText(
             widget.labelText!,
             maxLines: 1,
+            fontSize: 15.0,
             lineHeight: 1.25,
             overflow: TextOverflow.fade,
             softWrap: false,
@@ -209,6 +210,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
       title: containsHelpText
           ? WaterText(
               widget.helpText!.toUpperCase(),
+              fontSize: 15.0,
               lineHeight: 1.25,
             )
           : null,

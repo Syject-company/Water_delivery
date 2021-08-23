@@ -3,12 +3,16 @@ import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/screens/router.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
 
 import 'locator.dart';
+import 'ui/screens/router.dart';
+
+export 'package:water/ui/extensions/navigator.dart';
+
+export 'ui/screens/router.dart';
 
 const double _iPhoneProMaxWidth = 414;
 
@@ -29,10 +33,12 @@ void main() async {
       fallbackLocale: Localization.defaultLocale,
       useFallbackTranslations: true,
       assetLoader: YamlAssetLoader(),
-      child: const GulfaWaterApp(),
+      child: GulfaWaterApp(),
     ),
   );
 }
+
+final GlobalKey<NavigatorState> appNavigator = GlobalKey();
 
 class GulfaWaterApp extends StatelessWidget {
   const GulfaWaterApp({Key? key}) : super(key: key);
@@ -49,8 +55,8 @@ class GulfaWaterApp extends StatelessWidget {
       },
       theme: theme,
       title: 'Gulfa Water',
-      // TODO: test only
-      initialRoute: AppRoutes.splash,
+      // navigatorKey: appNavigator,
+      initialRoute: AppRoutes.home,
       onGenerateRoute: RootRouter.generateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

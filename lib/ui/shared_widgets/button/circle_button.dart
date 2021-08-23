@@ -3,36 +3,35 @@ import 'package:water/ui/constants/colors.dart';
 
 const double _width = 60.0;
 const double _height = 60.0;
-const double _elevation = 0.0;
+const double _iconSize = 32.0;
 
-class WaterCircleButton extends StatelessWidget {
-  const WaterCircleButton({
+class WaterSocialButton extends StatelessWidget {
+  const WaterSocialButton({
     Key? key,
     required this.onPressed,
     required this.icon,
-    this.iconSize,
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final IconData icon;
-  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        elevation: _elevation,
-        minimumSize: const Size(_width, _height),
-        padding: EdgeInsets.zero,
-        backgroundColor: AppColors.secondary,
-        shape: const CircleBorder(),
-      ),
-      child: Center(
-        child: Icon(
-          icon,
-          color: AppColors.primary,
-          size: iconSize,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.secondary,
+          shape: BoxShape.circle,
+        ),
+        width: _width,
+        height: _height,
+        child: Center(
+          child: Icon(
+            icon,
+            color: AppColors.primary,
+            size: _iconSize,
+          ),
         ),
       ),
     );

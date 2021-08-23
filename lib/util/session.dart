@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water/domain/model/auth/auth_response.dart';
-import 'package:water/ui/screens/router.dart';
 
 class Session {
   static const String _tokenKey = 'token';
@@ -24,10 +22,8 @@ class Session {
     await _prefs.setString(_userIdKey, auth.id);
   }
 
-  static void invalidate(BuildContext context) async {
-    Navigator.of(context, rootNavigator: true)
-        .pushReplacementNamed(AppRoutes.auth);
-    _prefs.remove(_tokenKey);
-    _prefs.remove(_userIdKey);
+  static Future<void> invalidate() async {
+    await _prefs.remove(_userIdKey);
+    await _prefs.remove(_tokenKey);
   }
 }
