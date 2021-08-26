@@ -59,7 +59,7 @@ class Menu extends StatelessWidget {
             onPressed: () {
               homeNavigator.pushNamed(HomeRoutes.auth);
             },
-            icon: AppIcons.profile,
+            icon: Icons.login,
             label: 'side_menu.login'.tr(),
           ),
         _buildActionButton(

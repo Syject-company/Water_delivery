@@ -6,6 +6,7 @@ screen:
   wallet: "Wallet"
   notifications: "Notifications"
   delivery: "Delivery"
+  duration: "Duration"
   time: "Time"
   payment: "Payment"
   orders: "Orders"
@@ -33,10 +34,13 @@ text:
   delivery_address: "Delivery address"
   family_members: "Family Members"
   empty_cart: "Cart is Empty"
-  fee: "Fee"
+  vat: "VAT 5%"
+  monthly: "Monthly"
   total: "Total"
   wallet_balance: "Wallet balance: AED {}"
+  select_duration: "Select a convenient subscription duration"
   select_time: "Select a convenient delivery time for your district"
+  selected_duration: "Selected duration:"
   selected_time: "Selected time:"
   top_up_wallet: "Top up your wallet!"
   not_enough_money: "You don't have enough funds."
@@ -55,6 +59,12 @@ text:
   share_referral_code: "Share your unique referral code with friends"
   first_register: "Once they have successfully registered as a new customer and completed their first online wallet top up"
   wallet_bonus: "You will receive a 10 AED bonus in your wallet for every successful referral"
+  months:
+    one: '{} Month'
+    two: '{} Months'
+    few: '{} Months'
+    many: '{} Months'
+    other: '{} Months'
 
 input:
   first_name: "First Name"

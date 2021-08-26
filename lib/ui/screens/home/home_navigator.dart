@@ -70,6 +70,6 @@ class HomeNavigator extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    return !await homeNavigator.maybePop();
+    return !(await homeNavigator.maybePop());
   }
 }

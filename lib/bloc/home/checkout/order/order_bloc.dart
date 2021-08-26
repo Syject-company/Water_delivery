@@ -7,24 +7,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/delivery/address.dart';
 import 'package:water/domain/model/delivery/time.dart';
 
-part 'checkout_event.dart';
-part 'checkout_state.dart';
+part 'order_event.dart';
+part 'order_state.dart';
 
 extension BlocGetter on BuildContext {
-  CheckoutBloc get checkout => this.read<CheckoutBloc>();
+  OrderBloc get order => this.read<OrderBloc>();
 }
 
-enum CheckoutType {
-  subscription,
-  order,
-}
-
-class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
-  CheckoutBloc() : super(DeliveryAddressInput());
+class OrderBloc extends Bloc<OrderEvent, OrderState> {
+  OrderBloc() : super(DeliveryAddressInput());
 
   @override
-  Stream<CheckoutState> mapEventToState(
-    CheckoutEvent event,
+  Stream<OrderState> mapEventToState(
+    OrderEvent event,
   ) async* {
     if (event is BackPressed) {
       yield* _mapBackPressedToState();
@@ -35,18 +30,18 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     }
   }
 
-  Stream<CheckoutState> _mapBackPressedToState() async* {
-    if (state is DeliveryTimeInput) {
-      yield DeliveryAddressInput();
-    } else if (state is DeliveryDetailsCollected) {
+  Stream<OrderState> _mapBackPressedToState() async* {
+    if (state is OrderDetailsCollected) {
       yield DeliveryTimeInput(
-        address: (state as DeliveryDetailsCollected).address,
+        address: (state as OrderDetailsCollected).address,
         push: false,
       );
+    } else if (state is DeliveryTimeInput) {
+      yield DeliveryAddressInput();
     }
   }
 
-  Stream<CheckoutState> _mapSubmitDeliveryAddressToState(
+  Stream<OrderState> _mapSubmitDeliveryAddressToState(
     SubmitDeliveryAddress event,
   ) async* {
     yield DeliveryTimeInput(
@@ -55,11 +50,11 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     );
   }
 
-  Stream<CheckoutState> _mapSubmitDeliveryTimeToState(
+  Stream<OrderState> _mapSubmitDeliveryTimeToState(
     SubmitDeliveryTime event,
   ) async* {
     if (state is DeliveryTimeInput) {
-      yield DeliveryDetailsCollected(
+      yield OrderDetailsCollected(
         address: (state as DeliveryTimeInput).address,
         time: event.time,
         push: true,

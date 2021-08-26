@@ -6,6 +6,7 @@ screen:
   wallet: "محفظة"
   notifications: "إشعارات"
   delivery: "توصيل"
+  duration: "مدة"
   time: "وقت"
   payment: "قسط"
   orders: "الطلبات"
@@ -33,10 +34,13 @@ text:
   delivery_address: "عنوان التسليم"
   family_members: "أفراد الأسرة"
   empty_cart: "السلة فارغة"
-  fee: "مصاريف"
+  vat: "ضريبة القيمة المضافة 5%"
+  monthly: "شهريا"
   total: "مجموع"
   wallet_balance: "رصيد المحفظة: {} درهم"
+  select_duration: "حدد مدة اشتراك مناسبة"
   select_time: "حدد وقت التسليم المناسب لمنطقتك"
+  selected_duration: "المدة المحددة:"
   selected_time: "الوقت المحدد:"
   top_up_wallet: "اشحن محفظتك!"
   not_enough_money: "ليس لديك أموال كافية."
@@ -55,6 +59,12 @@ text:
   share_referral_code: "شارك رمز الإحالة الفريد الخاص بك مع الأصدقاء"
   first_register: "بمجرد تسجيلهم بنجاح كعميل جديد وإكمال أول تعبئة لمحفظة عبر الإنترنت"
   wallet_bonus: "ستحصل على مكافأة قدرها 10 دراهم إماراتية في محفظتك مقابل كل إحالة ناجحة"
+  months:
+    one: '{} شهر'
+    two: '{} شهور'
+    few: '{} شهور'
+    many: '{} شهور'
+    other: '{} شهور'
 
 input:
   first_name: "الاسم الاول"

@@ -1,17 +1,17 @@
-part of 'checkout_bloc.dart';
+part of 'order_bloc.dart';
 
-abstract class CheckoutState extends Equatable {
-  const CheckoutState();
+abstract class OrderState extends Equatable {
+  const OrderState();
 
   @override
   List<Object> get props => [];
 }
 
-class DeliveryAddressInput extends CheckoutState {
+class DeliveryAddressInput extends OrderState {
   const DeliveryAddressInput();
 }
 
-class DeliveryTimeInput extends CheckoutState {
+class DeliveryTimeInput extends OrderState {
   const DeliveryTimeInput({
     required this.address,
     required this.push,
@@ -24,8 +24,8 @@ class DeliveryTimeInput extends CheckoutState {
   List<Object> get props => [address];
 }
 
-class DeliveryDetailsCollected extends CheckoutState {
-  const DeliveryDetailsCollected({
+class OrderDetailsCollected extends OrderState {
+  const OrderDetailsCollected({
     required this.address,
     required this.time,
     required this.push,

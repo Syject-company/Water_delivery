@@ -1,17 +1,17 @@
-part of 'checkout_bloc.dart';
+part of 'order_bloc.dart';
 
-abstract class CheckoutEvent extends Equatable {
-  const CheckoutEvent();
+abstract class OrderEvent extends Equatable {
+  const OrderEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class BackPressed extends CheckoutEvent {
+class BackPressed extends OrderEvent {
   const BackPressed();
 }
 
-class SubmitDeliveryAddress extends CheckoutEvent {
+class SubmitDeliveryAddress extends OrderEvent {
   const SubmitDeliveryAddress({required this.address});
 
   final DeliveryAddress address;
@@ -20,7 +20,7 @@ class SubmitDeliveryAddress extends CheckoutEvent {
   List<Object> get props => [address];
 }
 
-class SubmitDeliveryTime extends CheckoutEvent {
+class SubmitDeliveryTime extends OrderEvent {
   const SubmitDeliveryTime({required this.time});
 
   final DeliveryTime time;

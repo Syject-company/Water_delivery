@@ -4,38 +4,44 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
-import 'package:water/bloc/home/checkout/checkout_bloc.dart';
+import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
+import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/domain/model/cart_item.dart';
-import 'package:water/ui/screens/home/checkout/checkout_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 
-class PaymentScreen extends StatefulWidget {
-  PaymentScreen({Key? key}) : super(key: key);
+class SubscriptionPaymentScreen extends StatelessWidget {
+  SubscriptionPaymentScreen({Key? key}) : super(key: key);
 
-  @override
-  _PaymentScreenState createState() => _PaymentScreenState();
-}
-
-class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SeparatedColumn(
-        children: [
-          _buildBalanceText(),
-          _buildSummary(),
-        ],
+    return BlocListener<PaymentBloc, PaymentState>(
+      listener: (context, state) async {
+        if (state is TopUpWallet) {
+          await _showDialog(context, TopUpWalletDialog());
+        } else if (state is SuccessfulPayment) {
+          await _showDialog(context, SuccessfulPaymentDialog());
+          homeNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: SeparatedColumn(
+          children: [
+            _buildBalanceText(),
+            _buildSummary(context),
+          ],
+        ),
+        bottomNavigationBar: _buildBottomPanel(context),
       ),
-      bottomNavigationBar: _buildBottomPanel(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.payment'.tr(),
@@ -44,7 +50,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       leading: AppBarBackButton(
         onPressed: () {
-          checkoutNavigator.pop();
+          subscriptionNavigator.pop();
         },
       ),
       actions: [
@@ -61,7 +67,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         return WaterText(
-          'text.wallet_balance'.tr(args: [state.balance.toStringAsFixed(2)]),
+          'text.wallet_balance'.tr(args: [
+            state.balance.toStringAsFixed(2),
+          ]),
           fontSize: 18.0,
           lineHeight: 1.5,
           textAlign: TextAlign.center,
@@ -70,8 +78,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     ).withPaddingAll(24.0);
   }
 
-  Widget _buildSummary() {
-    final details = context.checkout.state as DeliveryDetailsCollected;
+  Widget _buildSummary(BuildContext context) {
+    final details = context.subscription.state as SubscriptionDetailsCollected;
 
     return Flexible(
       child: SingleChildScrollView(
@@ -79,17 +87,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
         child: Column(
           children: [
             _buildDeliveryAddress(details),
-            _buildDeliveryTime(details),
-            _buildCartItems(),
+            _buildDeliveryTime(context, details),
+            _buildSubscriptionDuration(context, details),
+            _buildCartItems(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDeliveryAddress(DeliveryDetailsCollected details) {
+  Widget _buildDeliveryAddress(SubscriptionDetailsCollected details) {
     final deliveryAddress = details.address;
-
     final emirate = deliveryAddress.city;
     final district = deliveryAddress.district;
     final street = deliveryAddress.street;
@@ -118,9 +126,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     ).withPadding(18.0, 18.0, 24.0, 0.0);
   }
 
-  Widget _buildDeliveryTime(DeliveryDetailsCollected details) {
+  Widget _buildDeliveryTime(
+    BuildContext context,
+    SubscriptionDetailsCollected details,
+  ) {
     final deliveryTime = details.time;
-
     final locale = Localization.currentLocale(context).languageCode;
     final date = DateFormat('yyyy-MM-dd').parse(deliveryTime.date);
     final formattedDayOfWeek = DateFormat('EEEE', locale).format(date);
@@ -147,10 +157,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
       ],
+    ).withPadding(18.0, 0.0, 24.0, 0.0);
+  }
+
+  Widget _buildSubscriptionDuration(
+    BuildContext context,
+    SubscriptionDetailsCollected details,
+  ) {
+    final months = details.months;
+
+    return Row(
+      children: [
+        Icon(
+          Icons.update,
+          size: 26.0,
+          color: AppColors.secondaryText,
+        ).withPaddingAll(3),
+        const SizedBox(width: 12.0),
+        Expanded(
+          child: WaterText(
+            'text.months'.plural(months),
+            fontSize: 12.0,
+            lineHeight: 1.25,
+            fontWeight: FontWeight.w400,
+            color: AppColors.secondaryText,
+          ),
+        ),
+      ],
     ).withPadding(18.0, 0.0, 24.0, 12.0);
   }
 
-  Widget _buildCartItems() {
+  Widget _buildCartItems(BuildContext context) {
     final items = context.cart.state.items;
 
     return SeparatedColumn(
@@ -185,7 +222,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             children: [
               Flexible(
                 child: WaterText(
-                  '${item.product.title.tr()} ${item.product.formattedVolume}',
+                  '${item.product.title} ${item.product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,
@@ -220,7 +257,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildBottomPanel() {
+  Widget _buildBottomPanel(BuildContext context) {
+    final details = context.subscription.state as SubscriptionDetailsCollected;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
       decoration: BoxDecoration(
@@ -229,22 +268,29 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildDiscountPriceText(),
+          _buildVATText(context, details),
           const SizedBox(height: 4.0),
-          _buildTotalPriceText(),
+          _buildMonthlyPaymentText(context, details),
+          const SizedBox(height: 4.0),
+          _buildTotalPriceText(context, details),
           const SizedBox(height: 20.0),
-          _buildPayButton(),
+          _buildPayButton(context, details),
         ],
       ),
     );
   }
 
-  Widget _buildDiscountPriceText() {
+  Widget _buildVATText(
+    BuildContext context,
+    SubscriptionDetailsCollected details,
+  ) {
+    final vat = context.cart.state.vat * (details.months * 4);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         WaterText(
-          'text.fee'.tr(),
+          'text.vat'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
@@ -254,7 +300,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         Flexible(
           child: WaterText(
             'text.aed'.tr(args: [
-              0.toStringAsFixed(2),
+              vat.toStringAsFixed(2),
             ]),
             fontSize: 18.0,
             lineHeight: 1.5,
@@ -267,8 +313,44 @@ class _PaymentScreenState extends State<PaymentScreen> {
     ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
-  Widget _buildTotalPriceText() {
-    final totalPrice = context.cart.state.totalPrice;
+  Widget _buildMonthlyPaymentText(
+    BuildContext context,
+    SubscriptionDetailsCollected details,
+  ) {
+    final monthlyPayment = context.cart.state.totalPrice * 4;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        WaterText(
+          'text.monthly'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondaryText,
+        ),
+        const SizedBox(width: 16.0),
+        Flexible(
+          child: WaterText(
+            'text.aed'.tr(args: [
+              monthlyPayment.toStringAsFixed(2),
+            ]),
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w500,
+            textAlign: TextAlign.end,
+            color: AppColors.secondaryText,
+          ),
+        ),
+      ],
+    ).withPadding(12.0, 0.0, 12.0, 0.0);
+  }
+
+  Widget _buildTotalPriceText(
+    BuildContext context,
+    SubscriptionDetailsCollected details,
+  ) {
+    final totalPrice = context.cart.state.totalPrice * (details.months * 4);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -296,185 +378,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
     ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
-  Widget _buildPayButton() {
-    final balance = context.wallet.state.balance;
-    final totalPrice = context.cart.state.totalPrice;
-
+  Widget _buildPayButton(
+    BuildContext context,
+    SubscriptionDetailsCollected details,
+  ) {
     return WaterButton(
       onPressed: () async {
-        if (balance < totalPrice) {
-          await _showDialog(_TopUpWalletDialog());
-        } else {
-          await _showDialog(_SuccessfulPaymentDialog());
-          context.wallet.add(RemoveBalance(amount: totalPrice));
-          context.cart.add(ClearCart());
-          homeNavigator.pop();
-        }
+        context.payment.add(
+          PayForSubscription(months: details.months),
+        );
       },
       text: 'button.pay'.tr(),
     );
   }
 
-  Future<void> _showDialog(Widget dialog) async {
+  Future<void> _showDialog(BuildContext context, Widget dialog) async {
     return showDialog(
       context: context,
       builder: (context) => dialog,
       barrierDismissible: false,
-    );
-  }
-}
-
-class _SuccessfulPaymentDialog extends StatelessWidget {
-  const _SuccessfulPaymentDialog({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      elevation: 0.0,
-      titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 32.0),
-      contentPadding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(19.0),
-      ),
-      title: _buildTitle(),
-      content: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildMessageText(),
-            const SizedBox(height: 32.0),
-            _buildAddButton(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Column(
-      children: [
-        Icon(
-          AppIcons.logo,
-          size: 96.0,
-          color: AppColors.secondary,
-        ),
-        const SizedBox(height: 16.0),
-        WaterText(
-          'text.successful_payment'.tr(),
-          fontSize: 18.0,
-          lineHeight: 1.5,
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMessageText() {
-    return WaterText(
-      'text.thanks_for_order'.tr(),
-      fontSize: 16.0,
-      lineHeight: 1.25,
-      fontWeight: FontWeight.w500,
-      textAlign: TextAlign.center,
-      color: AppColors.secondaryText,
-    );
-  }
-
-  Widget _buildAddButton(BuildContext context) {
-    return WaterButton(
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-      text: 'button.ok'.tr(),
-    );
-  }
-}
-
-class _TopUpWalletDialog extends StatelessWidget {
-  const _TopUpWalletDialog({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      elevation: 0.0,
-      titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 32.0),
-      contentPadding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(19.0),
-      ),
-      title: _buildTitle(context),
-      content: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildMessageText(),
-            const SizedBox(height: 32.0),
-            _buildAddButton(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        PositionedDirectional(
-          top: 0.0,
-          end: 0.0,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Icon(
-              AppIcons.close,
-              size: 32.0,
-              color: AppColors.secondaryText,
-            ),
-            behavior: HitTestBehavior.opaque,
-          ),
-        ),
-        Column(
-          children: [
-            Icon(
-              AppIcons.alert,
-              size: 96.0,
-              color: AppColors.secondary,
-            ),
-            const SizedBox(height: 16.0),
-            WaterText(
-              'text.top_up_wallet'.tr(),
-              fontSize: 18.0,
-              lineHeight: 1.5,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMessageText() {
-    return WaterText(
-      'text.not_enough_money'.tr(),
-      fontSize: 16.0,
-      lineHeight: 1.25,
-      fontWeight: FontWeight.w500,
-      textAlign: TextAlign.center,
-      color: AppColors.secondaryText,
-    );
-  }
-
-  Widget _buildAddButton(BuildContext context) {
-    return WaterButton(
-      onPressed: () {
-        homeNavigator.pushNamed(HomeRoutes.wallet);
-        Navigator.of(context).pop();
-      },
-      text: 'button.top_up'.tr(),
     );
   }
 }

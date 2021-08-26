@@ -29,14 +29,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '1',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '2',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],
@@ -47,14 +47,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '3',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '4',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],
@@ -65,14 +65,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '5',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '6',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],
@@ -83,14 +83,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '7',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '8',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],
@@ -101,14 +101,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '9',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '10',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],
@@ -119,14 +119,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '11',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '12',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],
@@ -137,14 +137,14 @@ final List<DeliveryDate> _dates = [
     periods: <Period>[
       Period(
         id: '13',
-        startTime: 8,
+        startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
         id: '14',
         startTime: 13,
-        endTime: 8,
+        endTime: 19,
         available: true,
       ),
     ],

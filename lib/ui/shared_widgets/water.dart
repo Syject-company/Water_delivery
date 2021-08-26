@@ -16,6 +16,8 @@ export 'button/button.dart';
 export 'button/circle_button.dart';
 export 'button/icon_button.dart';
 export 'carousel_slider/carousel_slider.dart';
+export 'dialog/successful_payment_dialog.dart';
+export 'dialog/top_up_wallet_dialog.dart';
 export 'input/form_fields.dart';
 export 'loader_overlay.dart';
 export 'logo/animated_logo.dart';

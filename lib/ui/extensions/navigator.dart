@@ -9,6 +9,10 @@ extension NavigatorHelper on GlobalKey<NavigatorState> {
     return this.currentState!.maybePop<T>(result);
   }
 
+  Future<T?> push<T extends Object?>(Route<T> route) {
+    return this.currentState!.push<T>(route);
+  }
+
   Future<T?> pushNamed<T extends Object?>(
     String routeName, {
     Object? arguments,

@@ -67,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildDiscountPriceText(),
+          _buildVATText(state),
           const SizedBox(height: 4.0),
           _buildTotalPriceText(state),
           const SizedBox(height: 20.0),
@@ -77,12 +77,14 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildDiscountPriceText() {
+  Widget _buildVATText(CartState state) {
+    final vat = state.vat;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         WaterText(
-          'text.fee'.tr(),
+          'text.vat'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w500,
@@ -92,7 +94,7 @@ class _CartScreenState extends State<CartScreen> {
         Flexible(
           child: WaterText(
             'text.aed'.tr(args: [
-              0.toStringAsFixed(2),
+              vat.toStringAsFixed(2),
             ]),
             fontSize: 18.0,
             lineHeight: 1.5,
@@ -140,7 +142,7 @@ class _CartScreenState extends State<CartScreen> {
           child: WaterButton(
             onPressed: () {
               if (Session.isAuthenticated) {
-                homeNavigator.pushNamed(HomeRoutes.checkout);
+                homeNavigator.pushNamed(HomeRoutes.subscription);
               } else {
                 homeNavigator.pushNamed(HomeRoutes.auth);
               }
@@ -156,7 +158,7 @@ class _CartScreenState extends State<CartScreen> {
           child: WaterButton(
             onPressed: () {
               if (Session.isAuthenticated) {
-                homeNavigator.pushNamed(HomeRoutes.checkout);
+                homeNavigator.pushNamed(HomeRoutes.order);
               } else {
                 homeNavigator.pushNamed(HomeRoutes.auth);
               }

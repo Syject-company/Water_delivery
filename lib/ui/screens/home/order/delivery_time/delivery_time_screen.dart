@@ -4,9 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/checkout/date/date_bloc.dart';
-import 'package:water/bloc/home/checkout/checkout_bloc.dart';
+import 'package:water/bloc/home/checkout/order/order_bloc.dart';
 import 'package:water/domain/model/delivery/date.dart';
-import 'package:water/ui/screens/home/checkout/checkout_navigator.dart';
+import 'package:water/ui/screens/home/order/order_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 
@@ -24,15 +24,15 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CheckoutBloc, CheckoutState>(
+    return BlocListener<OrderBloc, OrderState>(
       listener: (context, state) async {
-        if (state is DeliveryDetailsCollected && state.push) {
-          await checkoutNavigator.pushNamed(CheckoutRoutes.payment);
-          context.checkout.add(BackPressed());
+        if (state is OrderDetailsCollected && state.push) {
+          await orderNavigator.pushNamed(OrderRoutes.orderPayment);
+          context.order.add(BackPressed());
         }
       },
       child: Scaffold(
-        appBar: _buildAppBar(context),
+        appBar: _buildAppBar(),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           physics: const BouncingScrollPhysics(),
@@ -51,15 +51,11 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
               BlocBuilder<DeliveryDateBloc, DeliveryDateState>(
                 builder: (context, state) {
                   if (state is DeliveryDatesLoaded) {
-                    return Column(
-                      children: [
-                        DeliveryTimePicker(
-                          times: state.dates,
-                          onSelected: (time) {
-                            setState(() => _selectedTime = time);
-                          },
-                        ),
-                      ],
+                    return DeliveryTimePicker(
+                      times: state.dates,
+                      onSelected: (time) {
+                        setState(() => _selectedTime = time);
+                      },
                     );
                   } else {
                     return const SizedBox.shrink();
@@ -75,7 +71,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.time'.tr(),
@@ -84,7 +80,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
       ),
       leading: AppBarBackButton(
         onPressed: () {
-          checkoutNavigator.pop();
+          orderNavigator.pop();
         },
       ),
       actions: [
@@ -109,29 +105,26 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
 
     return Column(
       children: [
-        const SizedBox(height: 40.0),
         WaterText(
           'text.selected_time'.tr(),
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 32.0),
+        ).withPadding(0.0, 40.0, 0.0, 0.0),
         WaterText(
           formattedDayOfMonth,
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
           color: AppColors.secondaryText,
-        ),
-        const SizedBox(height: 4.0),
+        ).withPadding(0.0, 32.0, 0.0, 0.0),
         WaterText(
           '$formattedStartDate - $formattedEndTime',
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
           color: AppColors.secondaryText,
-        ),
+        ).withPadding(0.0, 4.0, 0.0, 0.0),
       ],
     );
   }
@@ -140,7 +133,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
     return WaterButton(
       enabled: _selectedTime != null,
       onPressed: () {
-        context.checkout.add(
+        context.order.add(
           SubmitDeliveryTime(time: _selectedTime!),
         );
       },

@@ -84,25 +84,27 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
   }
 
   Widget _buildPeriods(DeliveryDate time) {
+    final date = DateFormat('yyyy-MM-dd').parse(time.date);
+    final available = DateFormat('EEEE').format(date) != 'Friday';
+
     return SeparatedColumn(
-      children: time.periods
-          .map(
-            (period) => _PeriodButton(
-              onPressed: () {
-                setState(() {
-                  widget.onSelected?.call(
-                    _selectedTime = DeliveryTime(
-                      date: time.date,
-                      period: period,
-                    ),
-                  );
-                });
-              },
-              selected: _selectedTime?.period == period,
-              period: period,
-            ),
-          )
-          .toList(),
+      children: time.periods.map((period) {
+        return _PeriodButton(
+          onPressed: () {
+            setState(() {
+              widget.onSelected?.call(
+                _selectedTime = DeliveryTime(
+                  date: time.date,
+                  period: period,
+                ),
+              );
+            });
+          },
+          selected: _selectedTime?.period == period,
+          enabled: available,
+          period: period,
+        );
+      }).toList(),
       separator: const SizedBox(height: 12.0),
     );
   }
@@ -113,11 +115,13 @@ class _PeriodButton extends StatelessWidget {
     Key? key,
     required this.period,
     this.selected = false,
+    this.enabled = true,
     this.onPressed,
   }) : super(key: key);
 
   final Period period;
   final bool selected;
+  final bool enabled;
   final VoidCallback? onPressed;
 
   @override
@@ -128,7 +132,7 @@ class _PeriodButton extends StatelessWidget {
     final formattedStartDate = DateFormat('h a', locale).format(startTime);
     final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
-    return period.available
+    return (enabled && period.available)
         ? _buildAvailableButton(formattedStartDate, formattedEndTime)
         : _buildUnavailableButton(formattedStartDate, formattedEndTime);
   }
@@ -162,7 +166,9 @@ class _PeriodButton extends StatelessWidget {
     String formattedEndTime,
   ) {
     return GestureDetector(
-      onTap: () => onPressed?.call(),
+      onTap: () {
+        onPressed?.call();
+      },
       child: Container(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(

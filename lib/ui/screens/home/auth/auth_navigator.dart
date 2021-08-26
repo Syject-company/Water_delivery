@@ -25,6 +25,6 @@ class AuthNavigator extends StatelessWidget {
   }
 
   Future<bool> _onBackPressed() async {
-    return !await authNavigator.maybePop();
+    return !(await authNavigator.maybePop());
   }
 }

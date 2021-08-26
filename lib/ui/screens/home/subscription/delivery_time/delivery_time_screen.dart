@@ -1,0 +1,143 @@
+import 'dart:ui';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/checkout/date/date_bloc.dart';
+import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
+import 'package:water/domain/model/delivery/date.dart';
+import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
+import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
+
+import 'widgets/delivery_time_picker.dart';
+
+class DeliveryTimeScreen extends StatefulWidget {
+  DeliveryTimeScreen({Key? key}) : super(key: key);
+
+  @override
+  _DeliveryTimeScreenState createState() => _DeliveryTimeScreenState();
+}
+
+class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
+  DeliveryTime? _selectedTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<SubscriptionBloc, SubscriptionState>(
+      listener: (context, state) async {
+        if (state is SubscriptionDetailsCollected && state.push) {
+          await subscriptionNavigator.pushNamed(SubscriptionRoutes.payment);
+          context.subscription.add(BackPressed());
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              WaterText(
+                'text.select_time'.tr(),
+                fontSize: 15.0,
+                lineHeight: 1.5,
+                textAlign: TextAlign.center,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primaryText,
+              ),
+              const SizedBox(height: 24.0),
+              BlocBuilder<DeliveryDateBloc, DeliveryDateState>(
+                builder: (context, state) {
+                  if (state is DeliveryDatesLoaded) {
+                    return DeliveryTimePicker(
+                      times: state.dates,
+                      onSelected: (time) {
+                        setState(() => _selectedTime = time);
+                      },
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+              if (_selectedTime != null) _buildSelectedTimeText(),
+            ],
+          ),
+        ),
+        bottomNavigationBar: _buildNextButton(),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return WaterAppBar(
+      title: WaterText(
+        'screen.time'.tr(),
+        fontSize: 24.0,
+        textAlign: TextAlign.center,
+      ),
+      leading: AppBarBackButton(
+        onPressed: () {
+          subscriptionNavigator.pop();
+        },
+      ),
+      actions: [
+        AppBarIconButton(
+          onPressed: () {},
+          icon: AppIcons.whatsapp,
+        ),
+        AppBarNotificationButton(),
+      ],
+    );
+  }
+
+  Widget _buildSelectedTimeText() {
+    final locale = Localization.currentLocale(context).languageCode;
+    final date = DateFormat('yyyy-MM-dd').parse(_selectedTime!.date);
+    final formattedDayOfMonth = DateFormat('MMMM d', locale).format(date);
+    final startTime =
+        DateFormat('h').parse('${_selectedTime!.period.startTime}');
+    final endTime = DateFormat('h').parse('${_selectedTime!.period.endTime}');
+    final formattedStartDate = DateFormat('h a', locale).format(startTime);
+    final formattedEndTime = DateFormat('h a', locale).format(endTime);
+
+    return Column(
+      children: [
+        WaterText(
+          'text.selected_time'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.75,
+          textAlign: TextAlign.center,
+        ).withPadding(0.0, 40.0, 0.0, 0.0),
+        WaterText(
+          formattedDayOfMonth,
+          fontSize: 18.0,
+          lineHeight: 1.75,
+          textAlign: TextAlign.center,
+          color: AppColors.secondaryText,
+        ).withPadding(0.0, 32.0, 0.0, 0.0),
+        WaterText(
+          '$formattedStartDate - $formattedEndTime',
+          fontSize: 18.0,
+          lineHeight: 1.75,
+          textAlign: TextAlign.center,
+          color: AppColors.secondaryText,
+        ).withPadding(0.0, 4.0, 0.0, 0.0),
+      ],
+    );
+  }
+
+  Widget _buildNextButton() {
+    return WaterButton(
+      enabled: _selectedTime != null,
+      onPressed: () {
+        context.subscription.add(
+          SubmitDeliveryTime(time: _selectedTime!),
+        );
+      },
+      text: 'button.next'.tr(),
+    ).withPaddingAll(24.0);
+  }
+}

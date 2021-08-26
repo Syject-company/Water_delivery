@@ -16,7 +16,7 @@ extension BlocGetter on BuildContext {
 }
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartState(items: [], totalPrice: 0.0));
+  CartBloc() : super(CartState(items: [], totalPrice: 0.0, vat: 0.0));
 
   CartItem? findItem(String id) {
     return state.items.firstWhereOrNull((item) => item.product.id == id);
@@ -58,7 +58,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     yield state.copyWith(
       items: items,
-      totalPrice: _calculateTotalPrice(items),
+      totalPrice: _calculateTotalPrice(items) + _calculateVAT(items),
+      vat: _calculateVAT(items),
     );
   }
 
@@ -71,24 +72,36 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     yield state.copyWith(
       items: items,
-      totalPrice: _calculateTotalPrice(items),
+      totalPrice: _calculateTotalPrice(items) + _calculateVAT(items),
+      vat: _calculateVAT(items),
     );
   }
 
   Stream<CartState> _mapClearCartToState() async* {
     yield state.copyWith(
       items: [],
-      totalPrice: _calculateTotalPrice([]),
+      totalPrice: 0.0,
+      vat: 0.0,
     );
   }
-}
 
-double _calculateTotalPrice(List<CartItem> items) {
-  double totalPrice = 0.0;
+  double _calculateTotalPrice(List<CartItem> items) {
+    double totalPrice = 0.0;
 
-  items.forEach((item) {
-    totalPrice += item.totalPrice * (1.0 - item.product.discount);
-  });
+    items.forEach((item) {
+      totalPrice += item.totalPrice * (1.0 - item.product.discount);
+    });
 
-  return totalPrice;
+    return totalPrice;
+  }
+
+  double _calculateVAT(List<CartItem> items) {
+    double vat = 0.0;
+
+    items.forEach((item) {
+      vat += item.totalPrice * (1.0 - item.product.discount);
+    });
+
+    return vat * 0.05;
+  }
 }

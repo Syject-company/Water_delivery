@@ -237,7 +237,7 @@ class _ProductScreenState extends State<ProductScreen> {
         context.navigation.add(
           NavigateTo(screen: Screen.cart),
         );
-        Navigator.of(context).pop();
+        homeNavigator.pop();
       },
       text: 'button.checkout'.tr(),
     );

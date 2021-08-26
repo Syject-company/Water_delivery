@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/checkout/checkout_bloc.dart';
+import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/delivery/address.dart';
 import 'package:water/domain/model/profile/city.dart';
-import 'package:water/ui/screens/home/checkout/checkout_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
 
@@ -33,11 +33,11 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CheckoutBloc, CheckoutState>(
+    return BlocListener<SubscriptionBloc, SubscriptionState>(
       listener: (context, state) async {
-        if (state is DeliveryTimeInput && state.push) {
-          await checkoutNavigator.pushNamed(CheckoutRoutes.time);
-          context.checkout.add(BackPressed());
+        if (state is SubscriptionDurationInput && state.push) {
+          await subscriptionNavigator.pushNamed(SubscriptionRoutes.subscriptionDuration);
+          context.subscription.add(BackPressed());
         }
       },
       child: Scaffold(
@@ -155,7 +155,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           return;
         }
 
-        context.checkout.add(
+        context.subscription.add(
           SubmitDeliveryAddress(
             address: DeliveryAddress(
               city: _citySelectKey.currentState!.value,

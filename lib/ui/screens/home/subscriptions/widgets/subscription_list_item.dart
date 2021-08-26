@@ -186,7 +186,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             WaterText(
-              'text.fee'.tr(),
+              'text.vat'.tr(),
               fontSize: 15.0,
               lineHeight: 1.25,
               fontWeight: FontWeight.w600,
