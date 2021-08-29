@@ -13,15 +13,15 @@ abstract class NavigationState extends Equatable {
   List<Object> get props => [title, index];
 }
 
-class Shopping extends NavigationState {
-  const Shopping({required String title}) : super(title: title, index: 0);
+class Home extends NavigationState {
+  const Home({required String title}) : super(title: title, index: 0);
 }
 
-class Categories extends Shopping {
+class Categories extends Home {
   const Categories() : super(title: 'screen.categories');
 }
 
-class Products extends Shopping {
+class Products extends Home {
   const Products() : super(title: 'screen.products');
 }
 

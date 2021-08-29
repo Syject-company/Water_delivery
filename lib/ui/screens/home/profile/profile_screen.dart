@@ -1,6 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
+import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/data/nationalities.dart';
 import 'package:water/domain/model/profile/city.dart';
@@ -22,30 +25,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _selectedDistrict;
 
   @override
+  void didUpdateWidget(ProfileScreen oldWidget) {
+    context.profile.add(LoadProfile());
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24.0),
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildLanguageText(),
-          const SizedBox(height: 24.0),
-          _buildLanguagePicker(context),
-          const SizedBox(height: 24.0),
-          _buildUserInputForm(context),
-          const SizedBox(height: 24.0),
-          _buildDeliveryInputForm(),
-          const SizedBox(height: 24.0),
-          _buildFamilyMembersPicker(),
-          const SizedBox(height: 24.0),
-          _buildSaveButton(),
-          const SizedBox(height: 16.0),
-          _buildChangePasswordButton(),
-          const SizedBox(height: 16.0),
-          _buildLogOutButton(),
-        ],
-      ),
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (_, state) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildLanguageText(),
+              const SizedBox(height: 24.0),
+              _buildLanguagePicker(context),
+              const SizedBox(height: 24.0),
+              _buildUserInputForm(state, context),
+              const SizedBox(height: 24.0),
+              _buildDeliveryInputForm(state),
+              const SizedBox(height: 24.0),
+              _buildFamilyMembersPicker(state),
+              const SizedBox(height: 24.0),
+              _buildSaveButton(),
+              const SizedBox(height: 16.0),
+              _buildChangePasswordButton(),
+              const SizedBox(height: 16.0),
+              _buildLogOutButton(),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -75,27 +88,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ).withPadding(48.0, 0.0, 48.0, 0.0);
   }
 
-  Widget _buildUserInputForm(BuildContext context) {
+  Widget _buildUserInputForm(
+    ProfileState state,
+    BuildContext context,
+  ) {
+    final firstName = state.firstName;
+    final lastName = state.lastName;
+    final email = state.email;
+    final phoneNumber = state.phoneNumber;
+    final birthday = state.birthday;
+    _selectedNationality = state.nationality;
+
     return Form(
       child: Column(
         children: [
           WaterFormInput(
+            initialValue: firstName,
             hintText: 'input.first_name'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: lastName,
             hintText: 'input.last_name'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: email,
             hintText: 'input.email'.tr(),
             readOnly: true,
-            initialValue: 'example@example.com',
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: phoneNumber,
             hintText: '00971544400611',
             prefixIcon: Icon(
               AppIcons.phone,
@@ -125,7 +151,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildDeliveryInputForm() {
+  Widget _buildDeliveryInputForm(ProfileState state) {
+    _selectedCity = cities.firstWhereOrNull((city) {
+      return city.name == state.city;
+    });
+    _selectedDistrict = state.district;
+    final street = state.street;
+    final building = state.building;
+    final floor = state.floor;
+    final apartment = state.apartment;
+
     return Form(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,21 +200,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: street,
             hintText: 'input.street'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: building,
             hintText: 'input.building'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: floor,
             hintText: 'input.floor'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            initialValue: apartment,
             hintText: 'input.apartment'.tr(),
             keyboardType: TextInputType.text,
           ),
@@ -188,7 +227,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildFamilyMembersPicker() {
+  Widget _buildFamilyMembersPicker(ProfileState state) {
+    final familyMembersAmount = state.familyMembersCount;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -198,9 +239,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           lineHeight: 1.75,
         ).withPadding(24.0, 0.0, 24.0, 0.0),
         WaterNumberPicker(
+          value: familyMembersAmount,
           onChanged: (value) {},
           maxWidth: 144.0,
-          minValue: 1,
+          minValue: 0,
         ).withPadding(0.0, 0.0, 12.0, 0.0),
       ],
     );

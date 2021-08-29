@@ -14,40 +14,58 @@ class AuthService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Account';
 
   Future<AuthResponse> signInWithFacebook(Token token) async {
-    final response = await Http.post('$_endpoint/Login/Facebook', body: token);
+    final response = await Http.post(
+      '$_endpoint/Login/Facebook',
+      body: token,
+    );
     return AuthResponse.fromJson(_handleResponse(response));
   }
 
   Future<AuthResponse> signInWithGoogle(Token token) async {
-    final response = await Http.post('$_endpoint/Login/Google', body: token);
+    final response = await Http.post(
+      '$_endpoint/Login/Google',
+      body: token,
+    );
     return AuthResponse.fromJson(_handleResponse(response));
   }
 
   Future<AuthResponse> signInWithApple(Token token) async {
-    final response = await Http.post('$_endpoint/Login/Apple', body: token);
+    final response = await Http.post(
+      '$_endpoint/Login/Apple',
+      body: token,
+    );
     return AuthResponse.fromJson(_handleResponse(response));
   }
 
   Future<AuthResponse> signIn(SignInForm form) async {
-    final response = await Http.post('$_endpoint/login', body: form);
+    final response = await Http.post(
+      '$_endpoint/login',
+      body: form,
+    );
     return AuthResponse.fromJson(_handleResponse(response));
   }
 
   Future<AuthResponse> signUp(SignUpForm form) async {
-    final response = await Http.post('$_endpoint/registration', body: form);
+    final response = await Http.post(
+      '$_endpoint/registration',
+      body: form,
+    );
     return AuthResponse.fromJson(_handleResponse(response));
   }
 
   Future<void> resetPassword(ForgotPasswordForm form) async {
-    final response =
-        await Http.post('$_endpoint/ForgotPassword/Initial', body: form);
-    print(response.body);
+    final response = await Http.post(
+      '$_endpoint/ForgotPassword/Initial',
+      body: form,
+    );
     _handleResponse(response);
   }
 
   Future<AuthResponse> confirmNewPassword(NewPasswordForm form) async {
-    final response =
-        await Http.post('$_endpoint/ForgotPassword/Confirm', body: form);
+    final response = await Http.post(
+      '$_endpoint/ForgotPassword/Confirm',
+      body: form,
+    );
     return AuthResponse.fromJson(_handleResponse(response));
   }
 

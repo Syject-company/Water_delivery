@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:water/bloc/home/notification/notification_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
@@ -12,29 +13,13 @@ class AppBarNotificationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        homeNavigator.currentState!.pushNamed(HomeRoutes.notifications);
+        homeNavigator.pushNamed(HomeRoutes.notifications);
       },
       child: Center(
         child: Stack(
           children: [
             _buildIcon(),
-            PositionedDirectional(
-              end: 0.0,
-              bottom: 0.0,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 375),
-                reverseDuration: const Duration(milliseconds: 375),
-                switchInCurve: Curves.fastOutSlowIn,
-                switchOutCurve: Curves.fastOutSlowIn,
-                transitionBuilder: (child, animation) => ScaleTransition(
-                  scale: animation,
-                  child: child,
-                ),
-                child: context.notifications.state.items.isEmpty
-                    ? const SizedBox.shrink()
-                    : _buildBadge(context),
-              ),
-            ),
+            _buildBadge(),
           ],
         ),
       ),
@@ -49,7 +34,38 @@ class AppBarNotificationButton extends StatelessWidget {
     );
   }
 
-  Widget _buildBadge(BuildContext context) {
+  Widget _buildBadge() {
+    return BlocBuilder<NotificationsBloc, NotificationsState>(
+      builder: (context, state) {
+        Widget badge = const SizedBox.shrink();
+        if (state is NotificationsLoaded) {
+          badge = _buildNotificationsCounter(state);
+        }
+
+        return PositionedDirectional(
+          end: 0.0,
+          bottom: 0.0,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 375),
+            reverseDuration: const Duration(milliseconds: 375),
+            switchInCurve: Curves.fastOutSlowIn,
+            switchOutCurve: Curves.fastOutSlowIn,
+            transitionBuilder: (child, animation) {
+              return ScaleTransition(
+                scale: animation,
+                child: child,
+              );
+            },
+            child: badge,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNotificationsCounter(NotificationsLoaded state) {
+    final amount = state.notifications.length;
+
     return Container(
       width: 14.0,
       height: 14.0,
@@ -57,17 +73,14 @@ class AppBarNotificationButton extends StatelessWidget {
         color: AppColors.primary,
         shape: BoxShape.circle,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.0),
-        child: WaterText(
-          '${context.notifications.state.items.length}',
-          maxLines: 1,
-          fontSize: 9.0,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          color: AppColors.white,
-        ),
-      ),
+      child: WaterText(
+        '$amount',
+        maxLines: 1,
+        fontSize: 9.0,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        color: AppColors.white,
+      ).withPadding(1.0, 0.0, 1.0, 0.0),
     );
   }
 }

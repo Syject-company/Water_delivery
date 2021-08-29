@@ -6,6 +6,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
+import 'package:water/util/shopping_cart.dart';
 
 import 'locator.dart';
 import 'ui/screens/router.dart';
@@ -20,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await LocalStorage.ensureInitialized();
+  await ShoppingCart.ensureInitialized();
   await Session.ensureInitialized();
   setupLocator();
 
@@ -56,7 +58,7 @@ class GulfaWaterApp extends StatelessWidget {
       theme: theme,
       title: 'Gulfa Water',
       navigatorKey: appNavigator,
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.home,
       onGenerateRoute: RootRouter.generateRoute,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

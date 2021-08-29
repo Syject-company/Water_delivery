@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class NotificationFields {
   static const String id = 'id';
-  static const String postedTime = 'postedTime';
+  static const String postedDate = 'postedTime';
   static const String applicationUserId = 'applicationUserId';
   static const String cultureNameId = 'cultureNameId';
   static const String body = 'body';
@@ -11,14 +11,14 @@ class NotificationFields {
 class Notification extends Equatable {
   const Notification({
     required this.id,
-    required this.postedTime,
+    required this.postedDate,
     required this.applicationUserId,
     required this.cultureNameId,
     required this.body,
   });
 
   final String id;
-  final DateTime postedTime;
+  final String postedDate;
   final String applicationUserId;
   final String cultureNameId;
   final String body;
@@ -26,7 +26,7 @@ class Notification extends Equatable {
   Notification.fromJson(Map<String, dynamic> json)
       : this(
           id: json[NotificationFields.id] as String,
-          postedTime: json[NotificationFields.postedTime] as DateTime,
+          postedDate: json[NotificationFields.postedDate] as String,
           applicationUserId:
               json[NotificationFields.applicationUserId] as String,
           cultureNameId: json[NotificationFields.cultureNameId] as String,
@@ -35,7 +35,7 @@ class Notification extends Equatable {
 
   Map<String, dynamic> toJson() => {
         NotificationFields.id: id,
-        NotificationFields.postedTime: postedTime,
+        NotificationFields.postedDate: postedDate,
         NotificationFields.applicationUserId: applicationUserId,
         NotificationFields.cultureNameId: cultureNameId,
         NotificationFields.body: body,
@@ -44,7 +44,7 @@ class Notification extends Equatable {
   @override
   List<Object> get props => [
         id,
-        postedTime,
+        postedDate,
         applicationUserId,
         cultureNameId,
         body,

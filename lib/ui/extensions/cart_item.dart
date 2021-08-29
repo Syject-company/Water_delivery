@@ -1,4 +1,4 @@
-import 'package:water/domain/model/cart_item.dart';
+import 'package:water/domain/model/cart/cart_item.dart';
 
 extension CartItemUtil on CartItem {
   double get totalPrice {

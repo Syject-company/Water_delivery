@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
-import 'package:water/domain/model/cart_item.dart';
+import 'package:water/domain/model/cart/cart_item.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 class CartListItem extends StatefulWidget {

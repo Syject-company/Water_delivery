@@ -17,18 +17,15 @@ class NotificationListItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(19.0),
       child: GestureDetector(
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 16.0,
-          ),
+          padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19.0),
-            border: Border.all(color: AppColors.borderColor),
+            border: Border.fromBorderSide(defaultBorder),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPostedTime(),
+              _buildPostedDate(),
               const SizedBox(height: 6.0),
               _buildBodyText(),
             ],
@@ -38,9 +35,13 @@ class NotificationListItem extends StatelessWidget {
     );
   }
 
-  Widget _buildPostedTime() {
+  Widget _buildPostedDate() {
+    final date =
+        DateFormat('yyyy-MM-ddTHH:mm:ss').parse(notification.postedDate);
+    final formattedPostedDate = DateFormat('dd/MM/yyyy  hh:mm a').format(date);
+
     return WaterText(
-      DateFormat('dd/MM/yyyy  hh:mm a').format(notification.postedTime),
+      formattedPostedDate,
       fontSize: 13.0,
       fontWeight: FontWeight.w500,
       color: AppColors.secondaryText,
@@ -48,8 +49,10 @@ class NotificationListItem extends StatelessWidget {
   }
 
   Widget _buildBodyText() {
+    final body = notification.body;
+
     return WaterText(
-      notification.body,
+      body,
       fontSize: 15.0,
       fontWeight: FontWeight.w500,
     );

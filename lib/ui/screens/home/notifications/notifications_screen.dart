@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:water/bloc/home/notification/notification_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
@@ -11,28 +12,13 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifications = context.notifications.state.items;
-
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-        physics: const BouncingScrollPhysics(),
-        itemCount: notifications.length,
-        itemBuilder: (context, index) {
-          return NotificationListItem(
-            key: ValueKey(notifications[index]),
-            notification: notifications[index],
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 12.0);
-        },
-      ),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.notifications'.tr(),
@@ -40,8 +26,34 @@ class NotificationsScreen extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       leading: AppBarBackButton(
-        onPressed: () => homeNavigator.pop(),
+        onPressed: () {
+          homeNavigator.pop();
+        },
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<NotificationsBloc, NotificationsState>(
+      builder: (context, state) {
+        if (state is NotificationsLoaded) {
+          return ListView.separated(
+            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+            physics: const BouncingScrollPhysics(),
+            itemCount: state.notifications.length,
+            itemBuilder: (context, index) {
+              return NotificationListItem(
+                key: ValueKey(state.notifications[index]),
+                notification: state.notifications[index],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 12.0);
+            },
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }

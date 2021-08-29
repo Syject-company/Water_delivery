@@ -1,7 +1,9 @@
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
@@ -25,18 +27,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   ];
 
   int _pageIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.categories.add(
-        LoadCategories(
-          language: Localization.currentLanguage(context),
-        ),
-      );
-    });
-  }
 
   @override
   void didUpdateWidget(ShoppingScreen oldWidget) {
@@ -70,28 +60,29 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CarouselSlider(
-          options: CarouselOptions(
-            aspectRatio: 1.9,
-            viewportFraction: 0.75,
-            spaceBetween: 24.0,
-          ),
-          items: [
-            Image.asset(
-              'assets/images/banner_1.jpg',
-              fit: BoxFit.fill,
-              filterQuality: FilterQuality.high,
-            ),
-            Image.asset(
-              'assets/images/banner_2.jpg',
-              fit: BoxFit.fill,
-              filterQuality: FilterQuality.high,
-            ),
-          ],
+        BlocBuilder<BannersBloc, BannersState>(
+          builder: (_, state) {
+            if (state is BannersLoaded) {
+              return CarouselSlider(
+                options: CarouselOptions(
+                  aspectRatio: 1.9,
+                  viewportFraction: 0.75,
+                  spaceBetween: 24.0,
+                ),
+                items: state.banners.map((banner) {
+                  return CachedNetworkImage(
+                    imageUrl: banner.image,
+                    fit: BoxFit.fill,
+                  );
+                }).toList(),
+              );
+            }
+            return SizedBox.shrink();
+          },
         ),
         BlocBuilder<NavigationBloc, NavigationState>(
           buildWhen: (previousState, state) {
-            return state is Shopping;
+            return state is Home;
           },
           builder: (context, state) {
             int index = 0;

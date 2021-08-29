@@ -59,12 +59,12 @@ class Menu extends StatelessWidget {
             onPressed: () {
               homeNavigator.pushNamed(HomeRoutes.auth);
             },
-            icon: Icons.login,
+            icon: AppIcons.login,
             label: 'side_menu.login'.tr(),
           ),
         _buildActionButton(
           onPressed: () {
-            _navigateTo(context, Screen.shopping);
+            _navigateTo(context, Screen.home);
           },
           icon: AppIcons.drop,
           label: 'side_menu.shop_now'.tr(),
@@ -127,7 +127,7 @@ class Menu extends StatelessWidget {
             onPressed: () {
               context.auth.add(Logout());
             },
-            icon: AppIcons.log_out,
+            icon: AppIcons.logout,
             label: 'button.logout'.tr(),
             iconColor: AppColors.secondaryText,
             labelColor: AppColors.secondaryText,

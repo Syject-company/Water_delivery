@@ -7,6 +7,15 @@ abstract class CartEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadCart extends CartEvent {
+  const LoadCart({required this.language});
+
+  final String language;
+
+  @override
+  List<Object> get props => [language];
+}
+
 class AddToCart extends CartEvent {
   const AddToCart({
     required this.product,
@@ -17,7 +26,10 @@ class AddToCart extends CartEvent {
   final int amount;
 
   @override
-  List<Object> get props => [product, amount];
+  List<Object> get props => [
+        product,
+        amount,
+      ];
 }
 
 class RemoveFromCart extends CartEvent {

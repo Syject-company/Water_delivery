@@ -19,9 +19,9 @@ class CategoryService {
     if (response.body.isNotEmpty) {
       final Iterable categories = jsonDecode(response.body);
       return List<Category>.from(
-        categories.map(
-          (category) => Category.fromJson(category),
-        ),
+        categories.map((category) {
+          return Category.fromJson(category);
+        })
       );
     }
 

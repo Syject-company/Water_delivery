@@ -5,10 +5,14 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/cart_item.dart';
+import 'package:water/domain/model/cart/cart_item.dart';
 import 'package:water/domain/model/shopping/product.dart';
+import 'package:water/domain/service/product_service.dart';
+import 'package:water/locator.dart';
+import 'package:water/util/shopping_cart.dart';
 
 part 'cart_event.dart';
+
 part 'cart_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -17,6 +21,8 @@ extension BlocGetter on BuildContext {
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc() : super(CartState(items: [], totalPrice: 0.0, vat: 0.0));
+
+  final ProductService _productService = locator<ProductService>();
 
   CartItem? findItem(String id) {
     return state.items.firstWhereOrNull((item) => item.product.id == id);
@@ -30,12 +36,44 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Stream<CartState> mapEventToState(
     CartEvent event,
   ) async* {
-    if (event is AddToCart) {
+    if (event is LoadCart) {
+      yield* _mapLoadCartToState(event);
+    } else if (event is AddToCart) {
       yield* _mapAddToCartToState(event);
     } else if (event is RemoveFromCart) {
       yield* _mapRemoveFromCartToState(event);
     } else if (event is ClearCart) {
       yield* _mapClearCartToState();
+    }
+  }
+
+  Stream<CartState> _mapLoadCartToState(
+    LoadCart event,
+  ) async* {
+    print('load cart');
+
+    final savedItems = ShoppingCart.loadItems();
+
+    if (savedItems.isNotEmpty) {
+      final products = await _productService.getAll(event.language);
+      final items = products
+          .map((product) {
+            final savedItem = savedItems.firstWhereOrNull((savedItem) {
+              return savedItem.id == product.id;
+            });
+
+            if (savedItem != null) {
+              return CartItem(product: product, amount: savedItem.amount);
+            }
+          })
+          .whereNotNull()
+          .toList();
+
+      yield state.copyWith(
+        items: items,
+        totalPrice: _calculateTotalPrice(items) + _calculateVAT(items),
+        vat: _calculateVAT(items),
+      );
     }
   }
 
@@ -61,6 +99,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       totalPrice: _calculateTotalPrice(items) + _calculateVAT(items),
       vat: _calculateVAT(items),
     );
+
+    ShoppingCart.saveItems(items);
   }
 
   Stream<CartState> _mapRemoveFromCartToState(
@@ -75,14 +115,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       totalPrice: _calculateTotalPrice(items) + _calculateVAT(items),
       vat: _calculateVAT(items),
     );
+
+    ShoppingCart.saveItems(items);
   }
 
   Stream<CartState> _mapClearCartToState() async* {
+    final items = <CartItem>[];
+
     yield state.copyWith(
-      items: [],
+      items: items,
       totalPrice: 0.0,
       vat: 0.0,
     );
+
+    ShoppingCart.saveItems(items);
   }
 
   double _calculateTotalPrice(List<CartItem> items) {

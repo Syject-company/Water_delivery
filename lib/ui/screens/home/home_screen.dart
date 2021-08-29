@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
-import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
 import 'package:water/util/session.dart';
@@ -28,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         key: _sideMenuKey,
         menu: Menu(),
         child: Scaffold(
-          appBar: _buildAppBar(context),
+          appBar: _buildAppBar(),
           body: _buildBody(),
           bottomNavigationBar: _buildBottomNavigationBar(),
         ),
@@ -36,7 +35,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: BlocBuilder<NavigationBloc, NavigationState>(
@@ -84,7 +83,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildBottomNavigationBar() {
     return BlocConsumer<NavigationBloc, NavigationState>(
-      listener: (context, state) {
+      listener: (_, state) {
         _pageController.jumpToPage(state.index);
       },
       builder: (context, state) {
@@ -92,11 +91,11 @@ class HomeScreen extends StatelessWidget {
           selectedIndex: state.index,
           items: [
             WaterBottomNavigationBarItem(
-              icon: Icon(AppIcons.bar_shopping),
-              selectedIcon: Icon(AppIcons.bar_shopping_filled),
+              icon: Icon(AppIcons.bar_home),
+              selectedIcon: Icon(AppIcons.bar_home_filled),
               onPressed: () {
                 context.navigation.add(
-                  NavigateTo(screen: Screen.shopping),
+                  NavigateTo(screen: Screen.home),
                 );
               },
             ),
@@ -111,8 +110,8 @@ class HomeScreen extends StatelessWidget {
               enabled: Session.isAuthenticated,
             ),
             WaterBottomNavigationBarItem(
-              icon: Icon(AppIcons.bar_shopping_cart),
-              selectedIcon: Icon(AppIcons.bar_shopping_cart_filled),
+              icon: Icon(AppIcons.bar_cart),
+              selectedIcon: Icon(AppIcons.bar_cart_filled),
               onPressed: () {
                 context.navigation.add(
                   NavigateTo(screen: Screen.cart),
@@ -139,13 +138,13 @@ class HomeScreen extends StatelessWidget {
       return false;
     }
 
-    if (context.navigation.state is! Shopping) {
-      // context.navigation.add(NavigateTo(screen: Screen.shop));
+    if (context.navigation.state is! Home) {
+      context.navigation.add(NavigateTo(screen: Screen.home));
       return false;
     }
 
-    if (context.navigation.state is ShoppingProducts) {
-      // context.shop.add(LoadCategories());
+    if (context.navigation.state is Products) {
+      context.navigation.add(BackPressed());
       return false;
     }
 
