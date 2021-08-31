@@ -2,10 +2,11 @@ part of form_fields;
 
 const double _itemHeight = 48.0;
 
-class WaterFormSelect<T> extends StatefulWidget {
+class WaterFormSelect extends StatefulWidget {
   const WaterFormSelect({
     Key? key,
     required this.items,
+    this.controller,
     this.validator,
     this.initialValue,
     this.labelText,
@@ -15,41 +16,31 @@ class WaterFormSelect<T> extends StatefulWidget {
     this.enableSearch = true,
   }) : super(key: key);
 
-  final Map<T, String> items;
+  final List<String> items;
+  final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
-  final T? initialValue;
+  final String? initialValue;
   final String? labelText;
   final String? hintText;
   final String? helpText;
   final bool enableSearch;
-  final void Function(T)? onChanged;
+  final void Function(String)? onChanged;
 
   @override
-  WaterFormSelectState<T> createState() => WaterFormSelectState<T>();
+  WaterFormSelectState createState() => WaterFormSelectState();
 }
 
-class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
+class WaterFormSelectState extends State<WaterFormSelect>
     with SingleTickerProviderStateMixin {
   final FocusNode _focusNode = FocusNode();
 
-  late final TextEditingController _textController;
+  late final TextEditingController _textController =
+      widget.controller ?? TextEditingController(text: widget.initialValue);
 
-  late MapEntry<T, String>? _selectedValue;
+  String? get value =>
+      _textController.text.isNotEmpty ? _textController.text : null;
 
-  Map<T, String> get _items => widget.items;
-
-  String get value => _selectedValue?.value ?? '';
-
-  @override
-  void initState() {
-    super.initState();
-    _textController = TextEditingController(
-      text: _items[widget.initialValue],
-    );
-    _selectedValue = _items.entries.firstWhereOrNull(
-      (entry) => entry.key == widget.initialValue,
-    );
-  }
+  late List<String> _items = widget.items;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +55,11 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
     super.dispose();
   }
 
-  void reset() {
-    _textController.clear();
-    _selectedValue = null;
+  void setItems(List<String> items, {bool reset = true}) {
+    if (reset) {
+      _textController.clear();
+    }
+    setState(() => _items = items);
   }
 
   Widget _buildFormSelect() {
@@ -152,15 +145,14 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
     return showDialog(
       context: context,
       builder: (context) {
-        return _SelectDialog<T>(
+        return _SelectDialog(
           items: _items,
-          initialValue: _selectedValue,
           helpText: widget.helpText,
           enableSearch: widget.enableSearch,
-          onSelected: (entry) {
-            widget.onChanged?.call(entry.key);
-            _textController.text = entry.value;
-            _selectedValue = entry;
+          currentValue: _textController.text,
+          onSelected: (item) {
+            widget.onChanged?.call(item);
+            _textController.text = item;
 
             Navigator.of(context).pop();
           },
@@ -170,34 +162,33 @@ class WaterFormSelectState<T> extends State<WaterFormSelect<T>>
   }
 }
 
-class _SelectDialog<T> extends StatefulWidget {
+class _SelectDialog extends StatefulWidget {
   const _SelectDialog({
     Key? key,
     required this.items,
     this.enableSearch = true,
-    this.initialValue,
+    this.currentValue,
     this.helpText,
     this.onSelected,
   }) : super(key: key);
 
-  final Map<T, String> items;
+  final List<String> items;
   final bool enableSearch;
-  final MapEntry<T, String>? initialValue;
+  final String? currentValue;
   final String? helpText;
-  final void Function(MapEntry<T, String>)? onSelected;
+  final void Function(String)? onSelected;
 
   @override
-  _SelectDialogState<T> createState() => _SelectDialogState<T>();
+  _SelectDialogState createState() => _SelectDialogState();
 }
 
-class _SelectDialogState<T> extends State<_SelectDialog<T>> {
-  late Map<T, String> searchedItems = widget.items;
+class _SelectDialogState extends State<_SelectDialog> {
+  late List<String> searchedItems = widget.items;
 
   @override
   Widget build(BuildContext context) {
     final containsHelpText = widget.helpText != null;
     final scrollController = ScrollController();
-    final items = searchedItems.entries.toList();
 
     return AlertDialog(
       elevation: 0.0,
@@ -232,12 +223,9 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
                       hintText: 'input.search'.tr(),
                       onChanged: (value) {
                         setState(() {
-                          searchedItems = {
-                            for (final entry in widget.items.entries.where(
-                                (entry) =>
-                                    _containsIgnoreCase(entry.value, value)))
-                              entry.key: entry.value
-                          };
+                          searchedItems = widget.items.where((item) {
+                            return _containsIgnoreCase(item, value);
+                          }).toList();
                         });
                       },
                     ),
@@ -257,10 +245,10 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
                       const EdgeInsetsDirectional.only(start: 12.0, end: 18.0),
                   physics: const BouncingScrollPhysics(),
                   controller: scrollController,
-                  itemCount: items.length,
+                  itemCount: searchedItems.length,
                   shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return _buildItem(context, items[index]);
+                  itemBuilder: (_, index) {
+                    return _buildItem(searchedItems[index]);
                   },
                 ),
               ),
@@ -271,8 +259,8 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
     );
   }
 
-  Widget _buildItem(BuildContext context, MapEntry<T, String> item) {
-    final selected = item.key == widget.initialValue?.key;
+  Widget _buildItem(String item) {
+    final selected = item == widget.currentValue;
 
     return GestureDetector(
       onTap: () {
@@ -288,7 +276,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
         child: Align(
           alignment: AlignmentDirectional.centerStart,
           child: WaterText(
-            item.value,
+            item,
             fontSize: _fontSize,
             lineHeight: 1.25,
             fontWeight: FontWeight.w500,
@@ -300,6 +288,7 @@ class _SelectDialogState<T> extends State<_SelectDialog<T>> {
     );
   }
 
-  bool _containsIgnoreCase(String a, String b) =>
-      a.toLowerCase().contains(b.toLowerCase());
+  bool _containsIgnoreCase(String a, String b) {
+    return a.toLowerCase().contains(b.toLowerCase());
+  }
 }

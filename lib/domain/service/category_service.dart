@@ -9,20 +9,21 @@ class CategoryService {
       'https://gulfaweb.azurewebsites.net/Categories';
 
   Future<List<Category>> getAll(String locale) async {
-    final response = await Http.get('$_endpoint/', headers: {
-      HttpHeaders.acceptLanguageHeader: locale,
-    });
+    final response = await Http.get(
+      '$_endpoint/',
+      headers: {
+        HttpHeaders.acceptLanguageHeader: locale,
+      },
+    );
 
     if (response.statusCode != HttpStatus.ok)
       throw HttpException(response.body);
 
     if (response.body.isNotEmpty) {
       final Iterable categories = jsonDecode(response.body);
-      return List<Category>.from(
-        categories.map((category) {
-          return Category.fromJson(category);
-        })
-      );
+      return List<Category>.from(categories.map((category) {
+        return Category.fromJson(category);
+      }));
     }
 
     return [];

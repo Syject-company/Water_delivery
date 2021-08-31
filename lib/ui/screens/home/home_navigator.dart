@@ -36,7 +36,9 @@ class HomeNavigator extends StatelessWidget {
           providers: [
             BlocProvider(create: (_) => AuthBloc()),
             BlocProvider(
-              create: (_) => ProfileBloc()..add(LoadProfile()),
+              create: (context) => ProfileBloc(
+                auth: context.auth,
+              )..add(LoadProfile()),
               lazy: false,
             ),
             BlocProvider(create: (_) => WalletBloc()),

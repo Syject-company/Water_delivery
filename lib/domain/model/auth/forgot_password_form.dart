@@ -5,16 +5,9 @@ class ForgotPasswordFormFields {
 }
 
 class ForgotPasswordForm extends Equatable {
-  ForgotPasswordForm({
-    required this.email,
-  });
+  ForgotPasswordForm({this.email});
 
-  final String email;
-
-  ForgotPasswordForm.fromJson(Map<String, dynamic> json)
-      : this(
-          email: json[ForgotPasswordFormFields.email] as String,
-        );
+  final String? email;
 
   Map<String, dynamic> toJson() => {
         ForgotPasswordFormFields.email: email,

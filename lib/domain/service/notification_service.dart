@@ -9,9 +9,12 @@ class NotificationService {
       'https://gulfaweb.azurewebsites.net/Notifications';
 
   Future<List<water.Notification>> getAll(String token) async {
-    final response = await Http.get('$_endpoint/', headers: {
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-    });
+    final response = await Http.get(
+      '$_endpoint/',
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
 
     if (response.statusCode != HttpStatus.ok) {
       throw HttpException(response.body);
@@ -19,11 +22,9 @@ class NotificationService {
 
     if (response.body.isNotEmpty) {
       final Iterable notifications = jsonDecode(response.body);
-      return List<water.Notification>.from(
-        notifications.map((notification) {
-          return water.Notification.fromJson(notification);
-        }),
-      );
+      return List<water.Notification>.from(notifications.map((notification) {
+        return water.Notification.fromJson(notification);
+      }));
     }
 
     return [];

@@ -61,8 +61,11 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   Widget _buildTopUpButton() {
     return WaterButton(
       onPressed: () {
-        final amount = double.parse(_amountInputKey.currentState!.value);
-        context.wallet.add(AddBalance(amount: amount));
+        final amount = double.parse(_amountInputKey.currentState!.value ?? '0');
+
+        context.wallet.add(
+          AddBalance(amount: amount),
+        );
       },
       text: 'button.top_up'.tr(),
       enabled: _isValidForm,

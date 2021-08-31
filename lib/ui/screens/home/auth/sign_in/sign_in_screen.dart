@@ -222,7 +222,10 @@ class SignInScreen extends StatelessWidget {
         final password = _passwordInputKey.currentState!.value;
 
         context.auth.add(
-          Login(email: email, password: password),
+          Login(
+            email: email,
+            password: password,
+          ),
         );
       },
       text: 'button.login'.tr(),

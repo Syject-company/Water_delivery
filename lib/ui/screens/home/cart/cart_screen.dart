@@ -20,13 +20,12 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   void didUpdateWidget(CartScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
     context.cart.add(
       LoadCart(
         language: Localization.currentLanguage(context),
       ),
     );
-
-    super.didUpdateWidget(oldWidget);
   }
 
   @override

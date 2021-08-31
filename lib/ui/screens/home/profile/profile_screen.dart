@@ -6,7 +6,6 @@ import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/data/nationalities.dart';
-import 'package:water/domain/model/profile/city.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 
@@ -18,47 +17,72 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _birthdayController = TextEditingController();
+  final TextEditingController _nationalityController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _floorController = TextEditingController();
+  final TextEditingController _apartmentController = TextEditingController();
+  final GlobalKey<WaterFormDatePickerState> _birthdayDatePickerKey =
+      GlobalKey();
   final GlobalKey<WaterFormSelectState> _districtSelectKey = GlobalKey();
-
-  String? _selectedNationality;
-  City? _selectedCity;
-  String? _selectedDistrict;
-
-  @override
-  void didUpdateWidget(ProfileScreen oldWidget) {
-    context.profile.add(LoadProfile());
-    super.didUpdateWidget(oldWidget);
-  }
+  final GlobalKey<WaterNumberPickerState> _familyMembersPickerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (_, state) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildLanguageText(),
-              const SizedBox(height: 24.0),
-              _buildLanguagePicker(context),
-              const SizedBox(height: 24.0),
-              _buildUserInputForm(state, context),
-              const SizedBox(height: 24.0),
-              _buildDeliveryInputForm(state),
-              const SizedBox(height: 24.0),
-              _buildFamilyMembersPicker(state),
-              const SizedBox(height: 24.0),
-              _buildSaveButton(),
-              const SizedBox(height: 16.0),
-              _buildChangePasswordButton(),
-              const SizedBox(height: 16.0),
-              _buildLogOutButton(),
-            ],
-          ),
-        );
-      },
+    return LoaderOverlay(
+      child: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state.status == ProfileStatus.saving) {
+            context.showLoader(true);
+          } else if (state.status == ProfileStatus.saved) {
+            _showToast('Profile successfully saved');
+            context.showLoader(false);
+          }
+        },
+        buildWhen: (_, state) {
+          return state.status == ProfileStatus.loaded ||
+              state.status == ProfileStatus.saved;
+        },
+        builder: (context, state) {
+          if (state.status == ProfileStatus.loading) {
+            context.showLoader(true);
+          } else if (state.status == ProfileStatus.loaded) {
+            context.showLoader(false);
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildLanguageText(),
+                const SizedBox(height: 24.0),
+                _buildLanguagePicker(context),
+                const SizedBox(height: 24.0),
+                _buildUserInputForm(context, state),
+                const SizedBox(height: 24.0),
+                _buildDeliveryInputForm(state),
+                const SizedBox(height: 24.0),
+                _buildFamilyMembersPicker(state),
+                const SizedBox(height: 24.0),
+                _buildSaveButton(),
+                const SizedBox(height: 16.0),
+                _buildChangePasswordButton(),
+                const SizedBox(height: 16.0),
+                _buildLogOutButton(),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -89,39 +113,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildUserInputForm(
-    ProfileState state,
     BuildContext context,
+    ProfileState state,
   ) {
-    final firstName = state.firstName;
-    final lastName = state.lastName;
-    final email = state.email;
-    final phoneNumber = state.phoneNumber;
-    final birthday = state.birthday;
-    _selectedNationality = state.nationality;
+    _firstNameController.text = state.firstName ?? '';
+    _lastNameController.text = state.lastName ?? '';
+    _emailController.text = state.email ?? '';
+    _phoneNumberController.text = state.phoneNumber ?? '';
+    String? formattedBirthday;
+    if (state.birthday != null) {
+      formattedBirthday = DateFormat.yMMMMd().format(state.birthday!);
+    }
+    _birthdayController.text = formattedBirthday ?? '';
+    _nationalityController.text = state.nationality ?? '';
 
     return Form(
       child: Column(
         children: [
           WaterFormInput(
-            initialValue: firstName,
+            controller: _firstNameController,
             hintText: 'input.first_name'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: lastName,
+            controller: _lastNameController,
             hintText: 'input.last_name'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: email,
+            controller: _emailController,
             hintText: 'input.email'.tr(),
             readOnly: true,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: phoneNumber,
+            controller: _phoneNumberController,
             hintText: '00971544400611',
             prefixIcon: Icon(
               AppIcons.phone,
@@ -131,20 +159,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 16.0),
           WaterFormDatePicker(
+            key: _birthdayDatePickerKey,
+            controller: _birthdayController,
+            format: DateFormat.yMMMMd(),
             hintText: 'input.birthday'.tr(),
             helpText: 'input.select_birthday_date'.tr(),
           ),
           const SizedBox(height: 16.0),
-          WaterFormSelect<String>(
-            initialValue: _selectedNationality,
+          WaterFormSelect(
+            controller: _nationalityController,
             hintText: 'input.nationality'.tr(),
             helpText: 'input.select_nationality'.tr(),
-            onChanged: (nationality) {
-              setState(() => _selectedNationality = nationality);
-            },
-            items: {
-              for (final nationality in nationalities) nationality: nationality,
-            },
+            items: nationalities,
           ),
         ],
       ),
@@ -152,14 +178,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildDeliveryInputForm(ProfileState state) {
-    _selectedCity = cities.firstWhereOrNull((city) {
-      return city.name == state.city;
-    });
-    _selectedDistrict = state.district;
-    final street = state.street;
-    final building = state.building;
-    final floor = state.floor;
-    final apartment = state.apartment;
+    _cityController.text = state.city ?? '';
+    _districtController.text = state.district ?? '';
+    _districtSelectKey.currentState?.setItems(
+      cities.firstWhereOrNull((city) {
+            return city.name == state.city;
+          })?.districts ??
+          [],
+      reset: false,
+    );
+    _streetController.text = state.street ?? '';
+    _buildingController.text = state.building ?? '';
+    _floorController.text = state.floor ?? '';
+    _apartmentController.text = state.apartment ?? '';
 
     return Form(
       child: Column(
@@ -171,54 +202,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
             lineHeight: 1.75,
           ).withPadding(24.0, 0.0, 0.0, 0.0),
           const SizedBox(height: 24.0),
-          WaterFormSelect<City>(
-            initialValue: _selectedCity,
+          WaterFormSelect(
+            controller: _cityController,
             hintText: 'input.select_emirate'.tr(),
             helpText: 'input.select_emirate'.tr(),
-            onChanged: (city) {
-              setState(() => _selectedCity = city);
-              _districtSelectKey.currentState!.reset();
+            onChanged: (value) {
+              _districtSelectKey.currentState!.setItems(
+                cities.firstWhereOrNull((city) {
+                      return city.name == value;
+                    })?.districts ??
+                    [],
+              );
             },
-            items: {
-              for (final city in cities) city: city.name,
-            },
+            items: cities.map((city) => city.name).toList(),
             enableSearch: false,
           ),
           const SizedBox(height: 16.0),
-          WaterFormSelect<String>(
+          WaterFormSelect(
             key: _districtSelectKey,
-            initialValue: _selectedDistrict,
+            controller: _districtController,
             hintText: 'input.select_district'.tr(),
             helpText: 'input.select_district'.tr(),
-            onChanged: (district) {
-              setState(() => _selectedDistrict = district);
-            },
-            items: {
-              for (final district in _selectedCity?.districts ?? [])
-                district: district,
-            },
+            items: cities.firstWhereOrNull((city) {
+                  return city.name == _cityController.text;
+                })?.districts ??
+                [],
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: street,
+            controller: _streetController,
             hintText: 'input.street'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: building,
+            controller: _buildingController,
             hintText: 'input.building'.tr(),
             keyboardType: TextInputType.text,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: floor,
+            controller: _floorController,
             hintText: 'input.floor'.tr(),
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            initialValue: apartment,
+            controller: _apartmentController,
             hintText: 'input.apartment'.tr(),
             keyboardType: TextInputType.text,
           ),
@@ -228,19 +258,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildFamilyMembersPicker(ProfileState state) {
-    final familyMembersAmount = state.familyMembersCount;
+    int familyMembersAmount = state.familyMembersCount ?? 0;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        WaterText(
-          'text.family_members'.tr(),
-          fontSize: 18.0,
-          lineHeight: 1.75,
-        ).withPadding(24.0, 0.0, 24.0, 0.0),
+        Flexible(
+          child: WaterText(
+            'text.family_members'.tr(),
+            fontSize: 18.0,
+            lineHeight: 1.5,
+          ).withPadding(24.0, 0.0, 0.0, 0.0),
+        ),
         WaterNumberPicker(
+          key: _familyMembersPickerKey,
           value: familyMembersAmount,
-          onChanged: (value) {},
           maxWidth: 144.0,
           minValue: 0,
         ).withPadding(0.0, 0.0, 12.0, 0.0),
@@ -250,7 +282,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildSaveButton() {
     return WaterButton(
-      onPressed: () {},
+      onPressed: () {
+        final language = 'en';
+        final firstName = _firstNameController.text;
+        final lastName = _lastNameController.text;
+        final phoneNumber = _phoneNumberController.text;
+        final birthday = _birthdayDatePickerKey.currentState!.value;
+        final nationality = _nationalityController.text;
+        final city = _cityController.text;
+        final district = _districtController.text;
+        final street = _streetController.text;
+        final building = _buildingController.text;
+        final floor = _floorController.text;
+        final apartment = _apartmentController.text;
+        final familyMembersAmount = _familyMembersPickerKey.currentState!.value;
+
+        context.profile.add(
+          SaveProfile(
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            birthday: birthday,
+            nationality: nationality,
+            city: city,
+            district: district,
+            street: street,
+            building: building,
+            floor: floor,
+            apartment: apartment,
+            familyMembersAmount: familyMembersAmount,
+            language: language,
+          ),
+        );
+      },
       text: 'button.save'.tr(),
     );
   }
@@ -270,6 +334,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
       text: 'button.logout'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,
+    );
+  }
+
+  void _showToast(String message) {
+    return ToastBuilder.of(context).showToast(
+      child: Container(
+        height: 64.0,
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.borderColor),
+          borderRadius: BorderRadius.circular(19.0),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.25),
+              spreadRadius: 0.0,
+              blurRadius: 10.0,
+              offset: const Offset(0.0, 4.0), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(
+          textDirection: Directionality.of(context),
+          children: [
+            Expanded(
+              child: WaterText(
+                message,
+                fontSize: 16.0,
+                textAlign: TextAlign.center,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ],
+        ),
+      ),
+      duration: const Duration(seconds: 2),
     );
   }
 }

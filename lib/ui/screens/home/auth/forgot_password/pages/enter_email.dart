@@ -79,6 +79,7 @@ class EnterEmailPage extends StatelessWidget {
         }
 
         final email = _emailInputKey.currentState!.value;
+
         context.forgotPassword.add(
           ResetPassword(email: email),
         );

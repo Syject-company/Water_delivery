@@ -54,9 +54,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield Authenticating();
 
     try {
-      final auth = await _authService.signIn(
-        SignInForm(email: event.email, password: event.password),
+      final form = SignInForm(
+        email: event.email,
+        password: event.password,
       );
+      final auth = await _authService.signIn(form);
       await Session.open(auth: auth);
 
       yield Authenticated();
@@ -74,9 +76,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     try {
-      final auth = await _authService.signUp(
-        SignUpForm(email: event.email, password: event.password),
+      final form = SignUpForm(
+        email: event.email,
+        password: event.password,
       );
+      final auth = await _authService.signUp(form);
       await Session.open(auth: auth);
 
       yield Authenticated();

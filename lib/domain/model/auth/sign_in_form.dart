@@ -7,18 +7,12 @@ class SignInFormFields {
 
 class SignInForm extends Equatable {
   SignInForm({
-    required this.email,
-    required this.password,
+    this.email,
+    this.password,
   });
 
-  final String email;
-  final String password;
-
-  SignInForm.fromJson(Map<String, dynamic> json)
-      : this(
-          email: json[SignInFormFields.email] as String,
-          password: json[SignInFormFields.password] as String,
-        );
+  final String? email;
+  final String? password;
 
   Map<String, dynamic> toJson() => {
         SignInFormFields.email: email,
@@ -26,5 +20,8 @@ class SignInForm extends Equatable {
       };
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [
+        email,
+        password,
+      ];
 }

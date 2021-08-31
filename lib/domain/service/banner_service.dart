@@ -16,11 +16,9 @@ class BannerService {
 
     if (response.body.isNotEmpty) {
       final Iterable banners = jsonDecode(response.body);
-      return List<water.Banner>.from(
-        banners.map((banner) {
-          return water.Banner.fromJson(banner);
-        }),
-      );
+      return List<water.Banner>.from(banners.map((banner) {
+        return water.Banner.fromJson(banner);
+      }));
     }
 
     return [];

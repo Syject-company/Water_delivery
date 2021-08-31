@@ -21,7 +21,6 @@ enum PickerSize { small, medium, large }
 class WaterNumberPicker extends StatefulWidget {
   const WaterNumberPicker({
     Key? key,
-    required this.onChanged,
     this.alignment = Alignment.center,
     this.size = PickerSize.medium,
     this.minValue = 0,
@@ -31,9 +30,9 @@ class WaterNumberPicker extends StatefulWidget {
     this.dynamicColor = true,
     this.value,
     this.maxWidth,
+    this.onChanged,
   }) : super(key: key);
 
-  final ValueChanged<int> onChanged;
   final AlignmentGeometry alignment;
   final PickerSize size;
   final int minValue;
@@ -43,13 +42,16 @@ class WaterNumberPicker extends StatefulWidget {
   final bool dynamicColor;
   final int? value;
   final double? maxWidth;
+  final ValueChanged<int>? onChanged;
 
   @override
-  _WaterNumberPickerState createState() => _WaterNumberPickerState();
+  WaterNumberPickerState createState() => WaterNumberPickerState();
 }
 
-class _WaterNumberPickerState extends State<WaterNumberPicker> {
+class WaterNumberPickerState extends State<WaterNumberPicker> {
   late int _counter = widget.value ?? widget.minValue;
+
+  int get value => _counter;
 
   @override
   void didUpdateWidget(WaterNumberPicker oldWidget) {
@@ -67,24 +69,27 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
         ),
         child: Stack(
           children: [
-            if (widget.showBorder)
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.borderColor),
-                    borderRadius: BorderRadius.circular(_sizes.borderRadius),
-                  ),
-                ),
-              ),
+            if (widget.showBorder) _buildBorder(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildDecrementButton(),
-                Flexible(child: _buildCounter()),
+                _buildCounter(),
                 _buildIncrementButton(),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBorder() {
+    return Positioned.fill(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(_sizes.borderRadius),
+          border: Border.fromBorderSide(defaultBorder),
         ),
       ),
     );
@@ -98,19 +103,21 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
         } else {
           setState(() => _counter -= widget.step);
         }
-        widget.onChanged(_counter);
+        widget.onChanged?.call(_counter);
       },
       icon: AppIcons.minus,
     );
   }
 
   Widget _buildCounter() {
-    return WaterText(
-      '$_counter',
-      maxLines: 1,
-      fontSize: _sizes.fontSize,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
+    return Flexible(
+      child: WaterText(
+        '$_counter',
+        maxLines: 1,
+        fontSize: _sizes.fontSize,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
@@ -122,7 +129,7 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
         } else {
           setState(() => _counter += widget.step);
         }
-        widget.onChanged(_counter);
+        widget.onChanged?.call(_counter);
       },
       icon: AppIcons.plus,
     );
@@ -139,10 +146,10 @@ class _WaterNumberPickerState extends State<WaterNumberPicker> {
       height: _sizes.buttonSize,
       iconSize: _sizes.iconSize,
       borderRadius: _sizes.borderRadius,
-      backgroundColor: _counter > 0 && widget.dynamicColor
+      backgroundColor: (_counter > 0 && widget.dynamicColor)
           ? AppColors.primary
           : AppColors.secondary,
-      foregroundColor: _counter > 0 && widget.dynamicColor
+      foregroundColor: (_counter > 0 && widget.dynamicColor)
           ? AppColors.white
           : AppColors.primaryText,
     );

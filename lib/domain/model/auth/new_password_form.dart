@@ -8,21 +8,14 @@ class NewPasswordFormFields {
 
 class NewPasswordForm extends Equatable {
   NewPasswordForm({
-    required this.email,
-    required this.resetCode,
-    required this.newPassword,
+    this.email,
+    this.resetCode,
+    this.newPassword,
   });
 
-  final String email;
-  final String resetCode;
-  final String newPassword;
-
-  NewPasswordForm.fromJson(Map<String, dynamic> json)
-      : this(
-          email: json[NewPasswordFormFields.email] as String,
-          resetCode: json[NewPasswordFormFields.resetCode] as String,
-          newPassword: json[NewPasswordFormFields.newPassword] as String,
-        );
+  final String? email;
+  final String? resetCode;
+  final String? newPassword;
 
   Map<String, dynamic> toJson() => {
         NewPasswordFormFields.email: email,
@@ -31,5 +24,9 @@ class NewPasswordForm extends Equatable {
       };
 
   @override
-  List<Object?> get props => [email, resetCode, newPassword];
+  List<Object?> get props => [
+        email,
+        resetCode,
+        newPassword,
+      ];
 }

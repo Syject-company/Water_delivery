@@ -30,6 +30,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
 
   @override
   void didUpdateWidget(ShoppingScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
     final shoppingState = context.shopping.state;
     final categoriesState = context.categories.state;
     final productsState = context.products.state;
@@ -52,8 +53,6 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
         );
       }
     }
-
-    super.didUpdateWidget(oldWidget);
   }
 
   @override

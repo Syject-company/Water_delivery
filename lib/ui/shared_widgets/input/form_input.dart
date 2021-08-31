@@ -49,7 +49,7 @@ class WaterFormInputState extends State<WaterFormInput> {
 
   late Color _prefixIconColor = _getActiveColor();
 
-  String get value => _formInputKey.currentState!.value ?? '';
+  String? get value => _formInputKey.currentState!.value;
 
   @override
   void initState() {

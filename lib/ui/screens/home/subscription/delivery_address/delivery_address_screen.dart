@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
+import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/delivery/address.dart';
-import 'package:water/domain/model/profile/city.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -21,22 +22,21 @@ class DeliveryAddressScreen extends StatefulWidget {
 
 class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<WaterFormSelectState> _citySelectKey = GlobalKey();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _floorController = TextEditingController();
+  final TextEditingController _apartmentController = TextEditingController();
   final GlobalKey<WaterFormSelectState> _districtSelectKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _streetInputKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _buildingInputKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _floorInputKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _apartmentInputKey = GlobalKey();
-
-  City? _selectedCity;
-  String? _selectedDistrict;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<SubscriptionBloc, SubscriptionState>(
       listener: (context, state) async {
         if (state is SubscriptionDurationInput && state.push) {
-          await subscriptionNavigator.pushNamed(SubscriptionRoutes.subscriptionDuration);
+          await subscriptionNavigator
+              .pushNamed(SubscriptionRoutes.subscriptionDuration);
           context.subscription.add(BackPressed());
         }
       },
@@ -75,45 +75,57 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   }
 
   Widget _buildDeliveryInputForm() {
+    _cityController.text = context.profile.state.city ?? '';
+    _districtController.text = context.profile.state.district ?? '';
+    _districtSelectKey.currentState?.setItems(
+      cities.firstWhereOrNull((city) {
+            return city.name == context.profile.state.city;
+          })?.districts ??
+          [],
+      reset: false,
+    );
+    _streetController.text = context.profile.state.street ?? '';
+    _buildingController.text = context.profile.state.building ?? '';
+    _floorController.text = context.profile.state.floor ?? '';
+    _apartmentController.text = context.profile.state.apartment ?? '';
+
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          WaterFormSelect<City>(
-            key: _citySelectKey,
-            initialValue: _selectedCity,
+          WaterFormSelect(
+            controller: _cityController,
             labelText: 'input.select_emirate'.tr(),
             hintText: 'input.select_emirate'.tr(),
             helpText: 'input.select_emirate'.tr(),
-            onChanged: (city) {
-              setState(() => _selectedCity = city);
-              _districtSelectKey.currentState!.reset();
+            onChanged: (value) {
+              _districtSelectKey.currentState!.setItems(
+                cities.firstWhereOrNull((city) {
+                      return city.name == value;
+                    })?.districts ??
+                    [],
+              );
             },
-            items: {
-              for (final city in cities) city: city.name,
-            },
+            items: cities.map((city) => city.name).toList(),
             validator: FieldValidator(fieldName: 'Emirate').validator,
             enableSearch: false,
           ),
           const SizedBox(height: 16.0),
-          WaterFormSelect<String>(
+          WaterFormSelect(
             key: _districtSelectKey,
-            initialValue: _selectedDistrict,
+            controller: _districtController,
             labelText: 'input.select_district'.tr(),
             hintText: 'input.select_district'.tr(),
             helpText: 'input.select_district'.tr(),
-            onChanged: (district) {
-              setState(() => _selectedDistrict = district);
-            },
-            items: {
-              for (final district in _selectedCity?.districts ?? [])
-                district: district,
-            },
+            items: cities.firstWhereOrNull((city) {
+                  return city.name == _cityController.text;
+                })?.districts ??
+                [],
             validator: FieldValidator(fieldName: 'District').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _streetInputKey,
+            controller: _streetController,
             labelText: 'input.street'.tr(),
             hintText: 'input.street'.tr(),
             keyboardType: TextInputType.text,
@@ -121,7 +133,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _buildingInputKey,
+            controller: _buildingController,
             labelText: 'input.building'.tr(),
             hintText: 'input.building'.tr(),
             keyboardType: TextInputType.text,
@@ -129,15 +141,15 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _floorInputKey,
+            controller: _floorController,
             labelText: 'input.floor'.tr(),
             hintText: 'input.floor'.tr(),
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
             validator: FieldValidator(fieldName: 'Floor').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _apartmentInputKey,
+            controller: _apartmentController,
             labelText: 'input.apartment'.tr(),
             hintText: 'input.apartment'.tr(),
             keyboardType: TextInputType.text,
@@ -155,15 +167,22 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           return;
         }
 
+        final city = _cityController.text;
+        final district = _districtController.text;
+        final street = _streetController.text;
+        final building = _buildingController.text;
+        final floor = _floorController.text;
+        final apartment = _apartmentController.text;
+
         context.subscription.add(
           SubmitDeliveryAddress(
             address: DeliveryAddress(
-              city: _citySelectKey.currentState!.value,
-              district: _districtSelectKey.currentState!.value,
-              street: _streetInputKey.currentState!.value,
-              building: _buildingInputKey.currentState!.value,
-              floor: _floorInputKey.currentState!.value,
-              apartment: _apartmentInputKey.currentState!.value,
+              city: city,
+              district: district,
+              street: street,
+              building: building,
+              floor: floor,
+              apartment: apartment,
             ),
           ),
         );

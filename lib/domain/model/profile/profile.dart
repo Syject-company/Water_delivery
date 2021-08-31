@@ -45,7 +45,7 @@ class Profile extends Equatable {
   final String email;
   final String? phoneNumber;
   final String? birthday;
-  final int? familyMembersCount;
+  final int familyMembersCount;
   final String? nationality;
   final String? city;
   final String? district;
@@ -53,8 +53,8 @@ class Profile extends Equatable {
   final String? building;
   final String? apartment;
   final String? floor;
-  final int? referralCode;
-  final double? walletBalance;
+  final int referralCode;
+  final double walletBalance;
 
   Profile.fromJson(Map<String, dynamic> json)
       : this(
@@ -62,18 +62,18 @@ class Profile extends Equatable {
           firstName: json[ProfileFields.firstName] as String?,
           lastName: json[ProfileFields.lastName] as String?,
           email: json[ProfileFields.email] as String,
-          phoneNumber: json[ProfileFields.city] as String?,
-          birthday: json[ProfileFields.district] as String?,
-          familyMembersCount: json[ProfileFields.floor] as int?,
-          nationality: json[ProfileFields.street] as String?,
-          city: json[ProfileFields.building] as String?,
-          district: json[ProfileFields.apartment] as String?,
-          street: json[ProfileFields.floor] as String?,
-          building: json[ProfileFields.floor] as String?,
-          apartment: json[ProfileFields.floor] as String?,
+          phoneNumber: json[ProfileFields.phoneNumber] as String?,
+          birthday: json[ProfileFields.birthday] as String?,
+          familyMembersCount: json[ProfileFields.familyMembersCount] as int,
+          nationality: json[ProfileFields.nationality] as String?,
+          city: json[ProfileFields.city] as String?,
+          district: json[ProfileFields.district] as String?,
+          street: json[ProfileFields.street] as String?,
+          building: json[ProfileFields.building] as String?,
+          apartment: json[ProfileFields.apartment] as String?,
           floor: json[ProfileFields.floor] as String?,
-          referralCode: json[ProfileFields.floor] as int?,
-          walletBalance: json[ProfileFields.floor] as double?,
+          referralCode: json[ProfileFields.referralCode] as int,
+          walletBalance: json[ProfileFields.walletBalance] as double,
         );
 
   Map<String, dynamic> toJson() => {

@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {},
                 icon: AppIcons.whatsapp,
               ),
-              AppBarNotificationButton(),
+              if (Session.isAuthenticated) AppBarNotificationButton(),
             ],
           );
         },

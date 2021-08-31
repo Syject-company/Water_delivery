@@ -10,5 +10,8 @@ class City extends Equatable {
   final List<String> districts;
 
   @override
-  List<Object> get props => [name, districts];
+  List<Object> get props => [
+        name,
+        districts,
+      ];
 }

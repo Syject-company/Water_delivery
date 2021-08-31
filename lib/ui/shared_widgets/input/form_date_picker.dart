@@ -9,12 +9,16 @@ const TextStyle _datePickerTextStyle = TextStyle(
 class WaterFormDatePicker extends StatefulWidget {
   const WaterFormDatePicker({
     Key? key,
+    required this.format,
+    this.controller,
     this.validator,
     this.initialValue,
     this.hintText,
     this.helpText,
   }) : super(key: key);
 
+  final DateFormat format;
+  final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
   final String? initialValue;
   final String? hintText;
@@ -26,16 +30,16 @@ class WaterFormDatePicker extends StatefulWidget {
 
 class WaterFormDatePickerState extends State<WaterFormDatePicker>
     with SingleTickerProviderStateMixin {
-  final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  String get value => _textController.text;
+  late final TextEditingController _textController =
+      widget.controller ?? TextEditingController(text: widget.initialValue);
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+  DateTime? get value => _textController.text.isNotEmpty
+      ? _format.parse(_textController.text)
+      : null;
+
+  DateFormat get _format => widget.format;
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +52,11 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
       onTap: () async {
         _focusNode.unfocus();
 
-        final dateOfBirth = await _showDatePicker();
-        if (dateOfBirth == null) {
-          return;
-        }
+        final date = await _showDatePicker();
 
-        _textController.text = DateFormat.yMMMMd().format(dateOfBirth);
+        if (date != null) {
+          _textController.text = _format.format(date);
+        }
       },
       style: const TextStyle(
         color: AppColors.primaryText,
@@ -91,15 +94,19 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
     );
   }
 
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   Future<DateTime?> _showDatePicker() async {
-    final initialDate = widget.initialValue != null
-        ? DateTime.parse(widget.initialValue!)
-        : DateTime.now();
+    final initialDate = _format.parse(_textController.text);
 
     return showDatePicker(
       context: context,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      initialDate: initialDate,
+      initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       helpText: widget.helpText?.toUpperCase(),

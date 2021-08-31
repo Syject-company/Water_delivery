@@ -1,19 +1,53 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-const Map<String, String> _defaultHeaders = {
-  'Content-Type': 'application/json; charset=UTF-8',
-};
-
 class Http {
-  static Future<http.Response> get(String uri, {Map<String, String>? headers}) {
-    return http.get(Uri.parse(uri), headers: headers ?? _defaultHeaders);
+  static Future<http.Response> get(
+    String uri, {
+    Map<String, String>? headers,
+  }) {
+    return http.get(
+      Uri.parse(uri),
+      headers: _withContentType(headers),
+    );
   }
 
-  static Future<http.Response> post(String uri,
-      {Map<String, String>? headers, Object? body}) {
-    return http.post(Uri.parse(uri),
-        headers: headers ?? _defaultHeaders, body: jsonEncode(body));
+  static Future<http.Response> post(
+    String uri, {
+    Map<String, String>? headers,
+    Object? body,
+    Encoding? encoding,
+  }) {
+    return http.post(
+      Uri.parse(uri),
+      headers: _withContentType(headers),
+      body: jsonEncode(body),
+      encoding: encoding,
+    );
+  }
+
+  static Future<http.Response> put(
+    String uri, {
+    Map<String, String>? headers,
+    Object? body,
+    Encoding? encoding,
+  }) {
+    return http.put(
+      Uri.parse(uri),
+      headers: _withContentType(headers),
+      body: jsonEncode(body),
+      encoding: encoding,
+    );
+  }
+
+  static Map<String, String> _withContentType(Map<String, String>? headers) {
+    final modifiedHeaders = Map.of(headers ?? <String, String>{});
+    if (!modifiedHeaders.containsKey(HttpHeaders.contentTypeHeader)) {
+      modifiedHeaders[HttpHeaders.contentTypeHeader] =
+          'application/json; charset=UTF-8';
+    }
+    return modifiedHeaders;
   }
 }

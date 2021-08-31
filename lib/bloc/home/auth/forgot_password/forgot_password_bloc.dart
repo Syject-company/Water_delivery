@@ -38,9 +38,16 @@ class ForgotPasswordBloc
   Stream<ForgotPasswordState> _mapResetPasswordToState(
       ResetPassword event) async* {
     try {
-      yield ForgotPasswordLoading();
-      await _authService.resetPassword(ForgotPasswordForm(email: event.email));
-      yield ForgotPasswordNewPasswordInput(email: event.email);
+      final email = event.email;
+
+      if (email != null) {
+        yield ForgotPasswordLoading();
+
+        final form = ForgotPasswordForm(email: email);
+        await _authService.resetPassword(form);
+
+        yield ForgotPasswordNewPasswordInput(email: email);
+      }
     } on HttpException catch (e) {
       yield ForgotPasswordError(message: e.message.trim());
     }
@@ -59,11 +66,12 @@ class ForgotPasswordBloc
       try {
         yield ForgotPasswordLoading();
 
-        final auth = await _authService.confirmNewPassword(NewPasswordForm(
+        final form = NewPasswordForm(
           email: state.email,
           resetCode: event.code,
           newPassword: event.password,
-        ));
+        );
+        final auth = await _authService.confirmNewPassword(form);
         await Session.open(auth: auth);
 
         yield ForgotPasswordSuccess();

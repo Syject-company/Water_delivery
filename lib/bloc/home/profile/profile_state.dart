@@ -1,10 +1,12 @@
 part of 'profile_bloc.dart';
 
+enum ProfileStatus { none, loading, loaded, saving, saved }
+
 class ProfileState extends Equatable {
   const ProfileState({
     this.firstName,
     this.lastName,
-    required this.email,
+    this.email,
     this.phoneNumber,
     this.birthday,
     this.nationality,
@@ -14,16 +16,17 @@ class ProfileState extends Equatable {
     this.building,
     this.apartment,
     this.floor,
-    required this.familyMembersCount,
-    required this.referralCode,
-    required this.walletBalance,
+    this.familyMembersCount,
+    this.referralCode,
+    this.walletBalance,
+    this.status = ProfileStatus.none,
   });
 
   final String? firstName;
   final String? lastName;
-  final String email;
+  final String? email;
   final String? phoneNumber;
-  final String? birthday;
+  final DateTime? birthday;
   final String? nationality;
   final String? city;
   final String? district;
@@ -31,16 +34,17 @@ class ProfileState extends Equatable {
   final String? building;
   final String? apartment;
   final String? floor;
-  final int familyMembersCount;
-  final int referralCode;
-  final double walletBalance;
+  final int? familyMembersCount;
+  final int? referralCode;
+  final double? walletBalance;
+  final ProfileStatus status;
 
   ProfileState copyWith({
     String? firstName,
     String? lastName,
     String? email,
     String? phoneNumber,
-    String? birthday,
+    DateTime? birthday,
     String? nationality,
     String? city,
     String? district,
@@ -51,6 +55,7 @@ class ProfileState extends Equatable {
     int? familyMembersCount,
     int? referralCode,
     double? walletBalance,
+    ProfileStatus? status,
   }) =>
       ProfileState(
         firstName: firstName ?? this.firstName,
@@ -68,6 +73,7 @@ class ProfileState extends Equatable {
         familyMembersCount: familyMembersCount ?? this.familyMembersCount,
         referralCode: referralCode ?? this.referralCode,
         walletBalance: walletBalance ?? this.walletBalance,
+        status: status ?? this.status,
       );
 
   @override
@@ -87,5 +93,6 @@ class ProfileState extends Equatable {
         familyMembersCount,
         referralCode,
         walletBalance,
+        status,
       ];
 }
