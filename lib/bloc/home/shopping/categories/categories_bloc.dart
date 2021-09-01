@@ -21,7 +21,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   final CategoryService _categoryService = locator<CategoryService>();
 
-  final List<Category> _cachedCategories = [];
+  List<Category> _cachedCategories = [];
 
   @override
   Stream<CategoriesState> mapEventToState(
@@ -36,6 +36,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     LoadCategories event,
   ) async* {
     print('load categories');
+
     yield CategoriesLoading(navigate: event.navigate);
 
     if (_cachedCategories.isNotEmpty) {
@@ -44,6 +45,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
     final categories = await _categoryService.getAll(event.language);
     yield CategoriesLoaded(categories: categories);
-    _cachedCategories.addAll([...categories]);
+    _cachedCategories = categories;
   }
 }

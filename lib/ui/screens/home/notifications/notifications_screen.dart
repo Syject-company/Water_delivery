@@ -36,23 +36,20 @@ class NotificationsScreen extends StatelessWidget {
   Widget _buildBody() {
     return BlocBuilder<NotificationsBloc, NotificationsState>(
       builder: (context, state) {
-        if (state is NotificationsLoaded) {
-          return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-            physics: const BouncingScrollPhysics(),
-            itemCount: state.notifications.length,
-            itemBuilder: (context, index) {
-              return NotificationListItem(
-                key: ValueKey(state.notifications[index]),
-                notification: state.notifications[index],
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(height: 12.0);
-            },
-          );
-        }
-        return const SizedBox.shrink();
+        return ListView.separated(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
+          itemCount: state.notifications.length,
+          itemBuilder: (context, index) {
+            return NotificationListItem(
+              key: ValueKey(state.notifications[index]),
+              notification: state.notifications[index],
+            );
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(height: 12.0);
+          },
+        );
       },
     );
   }

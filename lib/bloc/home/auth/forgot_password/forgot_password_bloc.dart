@@ -31,12 +31,13 @@ class ForgotPasswordBloc
     if (event is ResetPassword) {
       yield* _mapResetPasswordToState(event);
     } else if (event is ConfirmNewPassword) {
-      yield* _mapConfirmNewPasswordToState(event);
+      yield* _mapConfirmNewPasswordToState(state, event);
     }
   }
 
   Stream<ForgotPasswordState> _mapResetPasswordToState(
-      ResetPassword event) async* {
+    ResetPassword event,
+  ) async* {
     try {
       final email = event.email;
 
@@ -54,15 +55,15 @@ class ForgotPasswordBloc
   }
 
   Stream<ForgotPasswordState> _mapConfirmNewPasswordToState(
-      ConfirmNewPassword event) async* {
+    ForgotPasswordState state,
+    ConfirmNewPassword event,
+  ) async* {
     if (event.password != event.confirmPassword) {
       yield ForgotPasswordError(message: 'Passwords do not equals');
       return;
     }
 
     if (state is ForgotPasswordNewPasswordInput) {
-      final state = this.state as ForgotPasswordNewPasswordInput;
-
       try {
         yield ForgotPasswordLoading();
 

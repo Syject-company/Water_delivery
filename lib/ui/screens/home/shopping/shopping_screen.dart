@@ -1,17 +1,33 @@
 import 'package:animations/animations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
-import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
-import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
-import 'package:water/bloc/home/shopping/products/products_bloc.dart';
-import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
 
 import 'categories/categories_screen.dart';
+import 'categories/widgets/shimmer.dart';
 import 'products/products_screen.dart';
+import 'widgets/banners.dart';
+
+final _shimmerGradient = LinearGradient(
+  colors: [
+    AppColors.white.withOpacity(0.0),
+    AppColors.white.withOpacity(0.33),
+    AppColors.white.withOpacity(0.66),
+    AppColors.white.withOpacity(0.33),
+    AppColors.white.withOpacity(0.0),
+  ],
+  stops: [
+    0.425,
+    0.462,
+    0.5,
+    0.538,
+    0.575,
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  tileMode: TileMode.clamp,
+);
 
 class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({Key? key}) : super(key: key);
@@ -29,86 +45,43 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
   int _pageIndex = 0;
 
   @override
-  void didUpdateWidget(ShoppingScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    final shoppingState = context.shopping.state;
-    final categoriesState = context.categories.state;
-    final productsState = context.products.state;
-
-    if (categoriesState is CategoriesLoaded) {
-      context.categories.add(
-        LoadCategories(
-          language: Localization.currentLanguage(context),
-          navigate: false,
-        ),
-      );
-      if (shoppingState is ShoppingProducts &&
-          productsState is ProductsLoaded) {
-        context.products.add(
-          LoadProducts(
-            categoryId: productsState.categoryId,
-            language: Localization.currentLanguage(context),
-            navigate: false,
-          ),
-        );
-      }
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocBuilder<BannersBloc, BannersState>(
-          builder: (_, state) {
-            if (state is BannersLoaded) {
-              return CarouselSlider(
-                options: CarouselOptions(
-                  aspectRatio: 1.9,
-                  viewportFraction: 0.75,
-                  spaceBetween: 24.0,
-                ),
-                items: state.banners.map((banner) {
-                  return CachedNetworkImage(
-                    imageUrl: banner.image,
-                    fit: BoxFit.fill,
-                  );
-                }).toList(),
-              );
-            }
-            return SizedBox.shrink();
-          },
-        ),
-        BlocBuilder<NavigationBloc, NavigationState>(
-          buildWhen: (previousState, state) {
-            return state is Home;
-          },
-          builder: (context, state) {
-            int index = 0;
-            if (state is Categories) {
-              index = 0;
-            } else if (state is Products) {
-              index = 1;
-            }
+    return Shimmer(
+      linearGradient: _shimmerGradient,
+      child: Column(
+        children: [
+          Banners(),
+          BlocBuilder<NavigationBloc, NavigationState>(
+            buildWhen: (_, state) {
+              return state is Home;
+            },
+            builder: (_, state) {
+              int index = 0;
+              if (state is Categories) {
+                index = 0;
+              } else if (state is Products) {
+                index = 1;
+              }
 
-            return Expanded(
-              child: PageTransitionSwitcher(
-                reverse: _pageIndex > index,
-                transitionBuilder: (child, animation, secondaryAnimation) {
-                  return SharedAxisTransition(
-                    animation: animation,
-                    secondaryAnimation: secondaryAnimation,
-                    transitionType: SharedAxisTransitionType.horizontal,
-                    fillColor: AppColors.white,
-                    child: child,
-                  );
-                },
-                child: _pages[(_pageIndex = index)],
-              ),
-            );
-          },
-        ),
-      ],
+              return Expanded(
+                child: PageTransitionSwitcher(
+                  reverse: _pageIndex > index,
+                  transitionBuilder: (child, animation, secondaryAnimation) {
+                    return SharedAxisTransition(
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                      fillColor: AppColors.white,
+                      child: child,
+                    );
+                  },
+                  child: _pages[(_pageIndex = index)],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

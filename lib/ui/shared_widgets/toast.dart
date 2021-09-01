@@ -47,7 +47,10 @@ class _ToastBuilderState extends State<ToastBuilder> {
         );
       },
     );
-    _toastQueue.add(_ToastEntry(entry: entry, duration: duration));
+    _toastQueue.add(_ToastEntry(
+      duration: duration,
+      entry: entry,
+    ));
 
     _showToastFromQueue();
   }
@@ -71,12 +74,12 @@ class _ToastBuilderState extends State<ToastBuilder> {
 
 class _ToastEntry {
   const _ToastEntry({
-    required this.entry,
     required this.duration,
+    required this.entry,
   });
 
-  final OverlayEntry entry;
   final Duration duration;
+  final OverlayEntry entry;
 }
 
 class _ToastWidget extends StatefulWidget {

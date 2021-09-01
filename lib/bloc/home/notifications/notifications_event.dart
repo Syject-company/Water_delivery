@@ -10,3 +10,7 @@ abstract class NotificationsEvent extends Equatable {
 class LoadNotifications extends NotificationsEvent {
   const LoadNotifications();
 }
+
+class ClearNotifications extends NotificationsEvent {
+  const ClearNotifications();
+}

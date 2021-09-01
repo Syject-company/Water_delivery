@@ -42,12 +42,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state.status == ProfileStatus.saving) {
             context.showLoader(true);
           } else if (state.status == ProfileStatus.saved) {
-            _showToast('Profile successfully saved');
             context.showLoader(false);
           }
         },
         buildWhen: (_, state) {
-          return state.status == ProfileStatus.loaded ||
+          return state.status == ProfileStatus.none ||
+              state.status == ProfileStatus.loaded ||
               state.status == ProfileStatus.saved;
         },
         builder: (context, state) {
@@ -258,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildFamilyMembersPicker(ProfileState state) {
-    int familyMembersAmount = state.familyMembersCount ?? 0;
+    int familyMembersAmount = state.familyMembersCount;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -299,17 +299,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         context.profile.add(
           SaveProfile(
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
+            firstName: firstName.isEmpty ? firstName : null,
+            lastName: lastName.isEmpty ? lastName : null,
+            phoneNumber: phoneNumber.isEmpty ? phoneNumber : null,
             birthday: birthday,
-            nationality: nationality,
-            city: city,
-            district: district,
-            street: street,
-            building: building,
-            floor: floor,
-            apartment: apartment,
+            nationality: nationality.isEmpty ? nationality : null,
+            city: city.isEmpty ? city : null,
+            district: district.isEmpty ? district : null,
+            street: street.isEmpty ? street : null,
+            building: building.isEmpty ? building : null,
+            floor: floor.isEmpty ? floor : null,
+            apartment: apartment.isEmpty ? apartment : null,
             familyMembersAmount: familyMembersAmount,
             language: language,
           ),
@@ -334,42 +334,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       text: 'button.logout'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,
-    );
-  }
-
-  void _showToast(String message) {
-    return ToastBuilder.of(context).showToast(
-      child: Container(
-        height: 64.0,
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          border: Border.all(color: AppColors.borderColor),
-          borderRadius: BorderRadius.circular(19.0),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withOpacity(0.25),
-              spreadRadius: 0.0,
-              blurRadius: 10.0,
-              offset: const Offset(0.0, 4.0), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Row(
-          textDirection: Directionality.of(context),
-          children: [
-            Expanded(
-              child: WaterText(
-                message,
-                fontSize: 16.0,
-                textAlign: TextAlign.center,
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ],
-        ),
-      ),
-      duration: const Duration(seconds: 2),
     );
   }
 }

@@ -38,7 +38,7 @@ class AppBarNotificationButton extends StatelessWidget {
     return BlocBuilder<NotificationsBloc, NotificationsState>(
       builder: (context, state) {
         Widget badge = const SizedBox.shrink();
-        if (state is NotificationsLoaded) {
+        if (state.status == NotificationsStatus.loaded) {
           badge = _buildNotificationsCounter(state);
         }
 
@@ -63,7 +63,7 @@ class AppBarNotificationButton extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationsCounter(NotificationsLoaded state) {
+  Widget _buildNotificationsCounter(NotificationsState state) {
     final amount = state.notifications.length;
 
     return Container(

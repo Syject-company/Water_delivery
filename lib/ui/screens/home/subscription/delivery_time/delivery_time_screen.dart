@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/checkout/date/date_bloc.dart';
+import 'package:water/bloc/home/checkout/dates/dates_bloc.dart';
 import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
 import 'package:water/domain/model/delivery/date.dart';
 import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
@@ -48,18 +48,14 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
                 color: AppColors.primaryText,
               ),
               const SizedBox(height: 24.0),
-              BlocBuilder<DeliveryDateBloc, DeliveryDateState>(
+              BlocBuilder<DeliveryDatesBloc, DeliveryDatesState>(
                 builder: (context, state) {
-                  if (state is DeliveryDatesLoaded) {
-                    return DeliveryTimePicker(
-                      times: state.dates,
-                      onSelected: (time) {
-                        setState(() => _selectedTime = time);
-                      },
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
+                  return DeliveryTimePicker(
+                    times: state.dates,
+                    onSelected: (time) {
+                      setState(() => _selectedTime = time);
+                    },
+                  );
                 },
               ),
               if (_selectedTime != null) _buildSelectedTimeText(),

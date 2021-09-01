@@ -99,8 +99,8 @@ class _WaterBottomNavigationBarButtonState
       aspectRatio: 1.0,
       child: Container(
         decoration: BoxDecoration(
-          color: widget.selected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(_borderRadius),
+          color: widget.selected ? AppColors.primary : Colors.transparent,
         ),
         child: IconTheme(
           data: IconThemeData(

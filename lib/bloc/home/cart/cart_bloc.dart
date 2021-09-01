@@ -12,7 +12,6 @@ import 'package:water/locator.dart';
 import 'package:water/util/shopping_cart.dart';
 
 part 'cart_event.dart';
-
 part 'cart_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -20,7 +19,14 @@ extension BlocGetter on BuildContext {
 }
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartState(items: [], totalPrice: 0.0, vat: 0.0));
+  CartBloc()
+      : super(
+          CartState(
+            items: const [],
+            totalPrice: 0.0,
+            vat: 0.0,
+          ),
+        );
 
   final ProductService _productService = locator<ProductService>();
 
@@ -120,7 +126,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Stream<CartState> _mapClearCartToState() async* {
-    final items = <CartItem>[];
+    final items = const <CartItem>[];
 
     yield state.copyWith(
       items: items,

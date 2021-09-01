@@ -10,6 +10,7 @@ import 'package:water/domain/model/profile/address_translation_form.dart';
 import 'package:water/domain/model/profile/profile_form.dart';
 import 'package:water/domain/service/profile_service.dart';
 import 'package:water/locator.dart';
+import 'package:water/util/nullable.dart';
 import 'package:water/util/session.dart';
 
 part 'profile_event.dart';
@@ -21,7 +22,13 @@ extension BlocGetter on BuildContext {
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({required AuthBloc auth})
-      : super(ProfileState(status: ProfileStatus.loading)) {
+      : super(
+          ProfileState(
+            familyMembersCount: 0,
+            referralCode: 0,
+            walletBalance: 0.0,
+          ),
+        ) {
     _authStateSubscription = auth.stream.listen((state) {
       if (state is Authenticated) {
         add(LoadProfile());
@@ -58,6 +65,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (Session.isAuthenticated) {
       print('load profile');
 
+      yield state.copyWith(status: ProfileStatus.loading);
+
       final profile = await _profileService.getByToken(Session.token!);
 
       DateTime? birthday;
@@ -66,18 +75,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
 
       yield state.copyWith(
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        email: profile.email,
-        phoneNumber: profile.phoneNumber,
-        birthday: birthday,
-        nationality: profile.nationality,
-        city: profile.city,
-        district: profile.district,
-        street: profile.street,
-        building: profile.building,
-        apartment: profile.apartment,
-        floor: profile.floor,
+        firstName: Nullable(profile.firstName),
+        lastName: Nullable(profile.lastName),
+        email: Nullable(profile.email),
+        phoneNumber: Nullable(profile.phoneNumber),
+        birthday: Nullable(birthday),
+        nationality: Nullable(profile.nationality),
+        city: Nullable(profile.city),
+        district: Nullable(profile.district),
+        street: Nullable(profile.street),
+        building: Nullable(profile.building),
+        apartment: Nullable(profile.apartment),
+        floor: Nullable(profile.floor),
         familyMembersCount: profile.familyMembersCount,
         referralCode: profile.referralCode,
         walletBalance: profile.walletBalance,
@@ -121,17 +130,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await _profileService.save(Session.token!, form);
 
       yield state.copyWith(
-        firstName: event.firstName,
-        lastName: event.lastName,
-        phoneNumber: event.phoneNumber,
-        birthday: event.birthday,
-        nationality: event.nationality,
-        city: event.city,
-        district: event.district,
-        street: event.street,
-        building: event.building,
-        apartment: event.apartment,
-        floor: event.floor,
+        firstName: Nullable(event.firstName),
+        lastName: Nullable(event.lastName),
+        phoneNumber: Nullable(event.phoneNumber),
+        birthday: Nullable(event.birthday),
+        nationality: Nullable(event.nationality),
+        city: Nullable(event.city),
+        district: Nullable(event.district),
+        street: Nullable(event.street),
+        building: Nullable(event.building),
+        apartment: Nullable(event.apartment),
+        floor: Nullable(event.floor),
         familyMembersCount: event.familyMembersAmount,
         status: ProfileStatus.saved,
       );
@@ -142,22 +151,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     print('clear profile');
 
     yield state.copyWith(
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      birthday: DateTime.now(),
-      nationality: '',
-      city: '',
-      district: '',
-      street: '',
-      building: '',
-      apartment: '',
-      floor: '',
+      firstName: Nullable(null),
+      lastName: Nullable(null),
+      email: Nullable(null),
+      phoneNumber: Nullable(null),
+      birthday: Nullable(null),
+      nationality: Nullable(null),
+      city: Nullable(null),
+      district: Nullable(null),
+      street: Nullable(null),
+      building: Nullable(null),
+      apartment: Nullable(null),
+      floor: Nullable(null),
       familyMembersCount: 0,
       referralCode: 0,
       walletBalance: 0.0,
-      status: ProfileStatus.loading,
+      status: ProfileStatus.none,
     );
   }
 }

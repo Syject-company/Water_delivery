@@ -1,25 +1,28 @@
 part of 'notifications_bloc.dart';
 
-abstract class NotificationsState extends Equatable {
-  const NotificationsState();
+enum NotificationsStatus { empty, loading, loaded }
 
-  @override
-  List<Object> get props => [];
-}
-
-class NotificationsInitial extends NotificationsState {
-  const NotificationsInitial();
-}
-
-class NotificationsLoading extends NotificationsState {
-  const NotificationsLoading();
-}
-
-class NotificationsLoaded extends NotificationsState {
-  const NotificationsLoaded({required this.notifications});
+class NotificationsState extends Equatable {
+  const NotificationsState({
+    required this.notifications,
+    this.status = NotificationsStatus.empty,
+  });
 
   final List<water.Notification> notifications;
+  final NotificationsStatus status;
+
+  NotificationsState copyWith({
+    List<water.Notification>? notifications,
+    NotificationsStatus? status,
+  }) =>
+      NotificationsState(
+        notifications: notifications ?? this.notifications,
+        status: status ?? this.status,
+      );
 
   @override
-  List<Object> get props => [notifications];
+  List<Object?> get props => [
+        notifications,
+        status,
+      ];
 }

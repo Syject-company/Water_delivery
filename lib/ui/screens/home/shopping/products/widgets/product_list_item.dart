@@ -51,6 +51,10 @@ class _ProductListItemState extends State<ProductListItem> {
                   tag: _product,
                   child: CachedNetworkImage(
                     imageUrl: _product.imageUri,
+                    fadeInDuration: const Duration(milliseconds: 250),
+                    fadeOutDuration: const Duration(milliseconds: 250),
+                    fadeInCurve: Curves.fastOutSlowIn,
+                    fadeOutCurve: Curves.fastOutSlowIn,
                   ),
                 ).withPadding(4.0, 4.0, 4.0, 0.0),
               ),
@@ -197,10 +201,10 @@ class _ProductListItemState extends State<ProductListItem> {
           borderRadius: BorderRadius.circular(19.0),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withOpacity(0.25),
+              color: AppColors.black.withOpacity(0.15),
               spreadRadius: 0.0,
-              blurRadius: 10.0,
-              offset: const Offset(0.0, 4.0), // changes position of shadow
+              blurRadius: 6.0,
+              offset: const Offset(0.0, 3.0),
             ),
           ],
         ),
@@ -209,7 +213,13 @@ class _ProductListItemState extends State<ProductListItem> {
           children: [
             AspectRatio(
               aspectRatio: 1.0,
-              child: CachedNetworkImage(imageUrl: _product.imageUri),
+              child: CachedNetworkImage(
+                imageUrl: _product.imageUri,
+                fadeInDuration: const Duration(milliseconds: 250),
+                fadeOutDuration: const Duration(milliseconds: 250),
+                fadeInCurve: Curves.fastOutSlowIn,
+                fadeOutCurve: Curves.fastOutSlowIn,
+              ),
             ),
             const SizedBox(width: 24.0),
             Expanded(

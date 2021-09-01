@@ -16,9 +16,9 @@ class ProfileState extends Equatable {
     this.building,
     this.apartment,
     this.floor,
-    this.familyMembersCount,
-    this.referralCode,
-    this.walletBalance,
+    required this.familyMembersCount,
+    required this.referralCode,
+    required this.walletBalance,
     this.status = ProfileStatus.none,
   });
 
@@ -34,42 +34,42 @@ class ProfileState extends Equatable {
   final String? building;
   final String? apartment;
   final String? floor;
-  final int? familyMembersCount;
-  final int? referralCode;
-  final double? walletBalance;
+  final int familyMembersCount;
+  final int referralCode;
+  final double walletBalance;
   final ProfileStatus status;
 
   ProfileState copyWith({
-    String? firstName,
-    String? lastName,
-    String? email,
-    String? phoneNumber,
-    DateTime? birthday,
-    String? nationality,
-    String? city,
-    String? district,
-    String? street,
-    String? building,
-    String? apartment,
-    String? floor,
+    Nullable<String>? firstName,
+    Nullable<String>? lastName,
+    Nullable<String>? email,
+    Nullable<String>? phoneNumber,
+    Nullable<DateTime>? birthday,
+    Nullable<String>? nationality,
+    Nullable<String>? city,
+    Nullable<String>? district,
+    Nullable<String>? street,
+    Nullable<String>? building,
+    Nullable<String>? apartment,
+    Nullable<String>? floor,
     int? familyMembersCount,
     int? referralCode,
     double? walletBalance,
     ProfileStatus? status,
   }) =>
       ProfileState(
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-        email: email ?? this.email,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        birthday: birthday ?? this.birthday,
-        nationality: nationality ?? this.nationality,
-        city: city ?? this.city,
-        district: district ?? this.district,
-        street: street ?? this.street,
-        building: building ?? this.building,
-        apartment: apartment ?? this.apartment,
-        floor: floor ?? this.floor,
+        firstName: firstName != null ? firstName.value : this.firstName,
+        lastName: lastName != null ? lastName.value : this.lastName,
+        email: email != null ? email.value : this.email,
+        phoneNumber: phoneNumber != null ? phoneNumber.value : this.phoneNumber,
+        birthday: birthday != null ? birthday.value : this.birthday,
+        nationality: nationality != null ? nationality.value : this.nationality,
+        city: city != null ? city.value : this.city,
+        district: district != null ? district.value : this.district,
+        street: street != null ? street.value : this.street,
+        building: building != null ? building.value : this.building,
+        apartment: apartment != null ? apartment.value : this.apartment,
+        floor: floor != null ? floor.value : this.floor,
         familyMembersCount: familyMembersCount ?? this.familyMembersCount,
         referralCode: referralCode ?? this.referralCode,
         walletBalance: walletBalance ?? this.walletBalance,

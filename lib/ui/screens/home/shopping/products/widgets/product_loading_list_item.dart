@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/icons/app_icons.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 class ProductLoadingListItem extends StatelessWidget {
   const ProductLoadingListItem({Key? key}) : super(key: key);
@@ -20,11 +19,11 @@ class ProductLoadingListItem extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Icon(
-                  AppIcons.placeholder,
+                  AppIcons.bottle,
                   color: AppColors.disabled,
-                  size: 56.0,
+                  size: 80.0,
                 ),
-              ),
+              ).withPadding(4.0, 4.0, 4.0, 0.0),
             ),
             const SizedBox(height: 16.0),
             Expanded(

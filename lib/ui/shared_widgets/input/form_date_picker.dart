@@ -101,18 +101,22 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
   }
 
   Future<DateTime?> _showDatePicker() async {
-    final initialDate = _format.parse(_textController.text);
+    DateTime initialDate = DateTime.now();
+
+    if (_textController.text.isNotEmpty) {
+      initialDate = _format.parse(_textController.text);
+    }
 
     return showDatePicker(
       context: context,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      initialDate: DateTime.now(),
+      initialDate: initialDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
       helpText: widget.helpText?.toUpperCase(),
       cancelText: 'button.cancel'.tr().toUpperCase(),
       confirmText: 'button.ok'.tr().toUpperCase(),
-      builder: (context, child) {
+      builder: (_, child) {
         return Theme(
           data: ThemeData(
             primaryIconTheme: IconThemeData(color: AppColors.black),

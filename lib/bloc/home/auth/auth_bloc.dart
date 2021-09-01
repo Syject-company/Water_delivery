@@ -51,9 +51,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _mapLoginToState(Login event) async* {
-    yield Authenticating();
-
     try {
+      yield Authenticating();
+
       final form = SignInForm(
         email: event.email,
         password: event.password,
@@ -68,14 +68,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _mapRegisterToState(Register event) async* {
-    yield Authenticating();
-
-    if (event.password != event.confirmPassword) {
-      yield* _handleAuthError(message: 'Passwords do not equals');
-      return;
-    }
-
     try {
+      yield Authenticating();
+
+      if (event.password != event.confirmPassword) {
+        yield* _handleAuthError(message: 'Passwords do not equals');
+        return;
+      }
+
       final form = SignUpForm(
         email: event.email,
         password: event.password,
@@ -172,7 +172,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _handleAuthError({required String message}) async* {
     yield AuthenticationFailed(message: message.trim());
-    yield Unauthenticated();
   }
 
   Stream<AuthState> _mapLogoutToState() async* {

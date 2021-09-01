@@ -34,20 +34,29 @@ class HomeNavigator extends StatelessWidget {
       child: ToastBuilder(
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => AuthBloc()),
             BlocProvider(
-              create: (context) => ProfileBloc(
-                auth: context.auth,
-              )..add(LoadProfile()),
+              create: (_) => AuthBloc(),
               lazy: false,
             ),
-            BlocProvider(create: (_) => WalletBloc()),
+            BlocProvider(
+              create: (context) => NotificationsBloc(
+                auth: context.auth,
+              )..add(LoadNotifications()),
+              lazy: false,
+            ),
+            BlocProvider(
+              create: (_) => BannersBloc()..add(LoadBanners()),
+              lazy: false,
+            ),
             BlocProvider(
               create: (_) =>
                   CategoriesBloc()..add(LoadCategories(language: language)),
               lazy: false,
             ),
-            BlocProvider(create: (_) => ProductsBloc()),
+            BlocProvider(
+              create: (_) => ProductsBloc(),
+              lazy: false,
+            ),
             BlocProvider(
               create: (context) => ShoppingBloc(
                 categoriesBloc: context.categories,
@@ -60,17 +69,22 @@ class HomeNavigator extends StatelessWidget {
               lazy: false,
             ),
             BlocProvider(
-              create: (_) => BannersBloc()..add(LoadBanners()),
+              create: (context) => ProfileBloc(
+                auth: context.auth,
+              )..add(LoadProfile()),
               lazy: false,
             ),
             BlocProvider(
-              create: (_) => NotificationsBloc()..add(LoadNotifications()),
+              create: (context) => WalletBloc(
+                profile: context.profile,
+              ),
               lazy: false,
             ),
             BlocProvider(
               create: (context) => NavigationBloc(
                 shoppingBloc: context.shopping,
               ),
+              lazy: false,
             ),
           ],
           child: BlocConsumer<AuthBloc, AuthState>(
@@ -80,6 +94,9 @@ class HomeNavigator extends StatelessWidget {
                   NavigateTo(screen: Screen.home),
                 );
               }
+            },
+            buildWhen: (_, state) {
+              return state is Unauthenticated || state is Authenticated;
             },
             builder: (_, __) {
               return Navigator(

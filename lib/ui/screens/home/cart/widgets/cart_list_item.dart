@@ -71,6 +71,10 @@ class _CartListItemState extends State<CartListItem> {
         aspectRatio: 1.0,
         child: CachedNetworkImage(
           imageUrl: _item.product.imageUri,
+          fadeInDuration: const Duration(milliseconds: 250),
+          fadeOutDuration: const Duration(milliseconds: 250),
+          fadeInCurve: Curves.fastOutSlowIn,
+          fadeOutCurve: Curves.fastOutSlowIn,
         ),
       ),
     );

@@ -20,7 +20,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   final ProductService _productService = locator<ProductService>();
 
-  final Map<String, List<Product>> _cachedProducts = {};
+  Map<String, List<Product>> _cachedProducts = {};
 
   @override
   Stream<ProductsState> mapEventToState(
@@ -35,6 +35,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     LoadProducts event,
   ) async* {
     print('load products');
+
     yield ProductsLoading(navigate: event.navigate);
 
     if (_cachedProducts.keys.contains(event.categoryId)) {

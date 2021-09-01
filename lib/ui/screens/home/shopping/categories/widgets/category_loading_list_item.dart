@@ -28,9 +28,9 @@ class CategoryLoadingListItem extends StatelessWidget {
             Flexible(
               child: Center(
                 child: Icon(
-                  AppIcons.placeholder,
+                  AppIcons.bottle,
                   color: AppColors.white,
-                  size: 80.0,
+                  size: 128.0,
                 ),
               ),
             ),

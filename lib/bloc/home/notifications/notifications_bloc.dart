@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/domain/model/notification.dart' as water;
 import 'package:water/domain/service/notification_service.dart';
 import 'package:water/locator.dart';
@@ -17,10 +18,25 @@ extension BlocGetter on BuildContext {
 }
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
-  NotificationsBloc() : super(NotificationsInitial());
+  NotificationsBloc({required AuthBloc auth})
+      : super(
+          NotificationsState(
+            notifications: const [],
+          ),
+        ) {
+    _authStateSubscription = auth.stream.listen((state) {
+      if (state is Authenticated) {
+        add(LoadNotifications());
+      } else if (state is Unauthenticated) {
+        add(ClearNotifications());
+      }
+    });
+  }
 
   final NotificationService _notificationService =
       locator<NotificationService>();
+
+  late final StreamSubscription _authStateSubscription;
 
   @override
   Stream<NotificationsState> mapEventToState(
@@ -29,13 +45,38 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     if (event is LoadNotifications) {
       yield* _mapLoadNotificationsToState();
     }
+    if (event is ClearNotifications) {
+      yield* _mapClearNotificationsToState();
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _authStateSubscription.cancel();
+    return super.close();
   }
 
   Stream<NotificationsState> _mapLoadNotificationsToState() async* {
     if (Session.isAuthenticated) {
-      yield NotificationsLoading();
+      print('load notifications');
+
+      yield state.copyWith(status: NotificationsStatus.loading);
+
       final notifications = await _notificationService.getAll(Session.token!);
-      yield NotificationsLoaded(notifications: notifications);
+
+      yield state.copyWith(
+        notifications: notifications,
+        status: NotificationsStatus.loaded,
+      );
     }
+  }
+
+  Stream<NotificationsState> _mapClearNotificationsToState() async* {
+    print('clear notifications');
+
+    yield state.copyWith(
+      notifications: [],
+      status: NotificationsStatus.empty,
+    );
   }
 }

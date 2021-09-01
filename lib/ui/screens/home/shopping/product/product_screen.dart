@@ -42,6 +42,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: CachedNetworkImage(
                     imageUrl: _product.imageUri,
                     height: constraints.maxWidth,
+                    fadeInDuration: const Duration(milliseconds: 250),
+                    fadeOutDuration: const Duration(milliseconds: 250),
+                    fadeInCurve: Curves.fastOutSlowIn,
+                    fadeOutCurve: Curves.fastOutSlowIn,
                   ),
                 );
               },

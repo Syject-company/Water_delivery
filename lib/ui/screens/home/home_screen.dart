@@ -3,9 +3,14 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
+import 'package:water/bloc/home/shopping/products/products_bloc.dart';
+import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
 
 import 'cart/cart_screen.dart';
@@ -13,10 +18,48 @@ import 'profile/profile_screen.dart';
 import 'shopping/shopping_screen.dart';
 import 'widgets/menu.dart';
 
-final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey();
-final PageController _pageController = PageController();
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-class HomeScreen extends StatelessWidget {
+class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey();
+  final PageController _pageController = PageController();
+
+  @override
+  void didUpdateWidget(HomeScreen oldWidget) {
+    final language = Localization.currentLanguage(context);
+    final shoppingState = context.shopping.state;
+    final categoriesState = context.categories.state;
+    final productsState = context.products.state;
+
+    if (categoriesState is CategoriesLoaded) {
+      context.categories.add(
+        LoadCategories(
+          language: language,
+          navigate: false,
+        ),
+      );
+      if (shoppingState is ShoppingProducts &&
+          productsState is ProductsLoaded) {
+        context.products.add(
+          LoadProducts(
+            categoryId: productsState.categoryId,
+            language: language,
+            navigate: false,
+          ),
+        );
+      }
+    }
+
+    context.cart.add(
+      LoadCart(language: language),
+    );
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

@@ -45,6 +45,10 @@ class CategoryListItem extends StatelessWidget {
               Expanded(
                 child: CachedNetworkImage(
                   imageUrl: category.imageUri,
+                  fadeInDuration: const Duration(milliseconds: 250),
+                  fadeOutDuration: const Duration(milliseconds: 250),
+                  fadeInCurve: Curves.fastOutSlowIn,
+                  fadeOutCurve: Curves.fastOutSlowIn,
                 ).withPaddingAll(12.0),
               ),
               const SizedBox(height: 24.0),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/checkout/date/date_bloc.dart';
+import 'package:water/bloc/home/checkout/dates/dates_bloc.dart';
 import 'package:water/bloc/home/checkout/order/order_bloc.dart';
 import 'package:water/ui/extensions/navigator.dart';
 
@@ -22,9 +22,7 @@ class OrderNavigator extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => OrderBloc()),
-          BlocProvider(
-            create: (context) => DeliveryDateBloc()..add(LoadDeliveryDates()),
-          ),
+          BlocProvider(create: (context) => DeliveryDatesBloc()),
         ],
         child: Navigator(
           key: orderNavigator,

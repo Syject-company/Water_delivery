@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 import 'package:water/util/session.dart';
 
@@ -18,16 +17,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  @override
-  void didUpdateWidget(CartScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    context.cart.add(
-      LoadCart(
-        language: Localization.currentLanguage(context),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(

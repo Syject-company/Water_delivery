@@ -7,19 +7,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/delivery/date.dart';
 
-part 'date_event.dart';
-part 'date_state.dart';
+part 'dates_event.dart';
+part 'dates_state.dart';
 
 extension BlocGetter on BuildContext {
-  DeliveryDateBloc get deliveryDate => this.read<DeliveryDateBloc>();
+  DeliveryDatesBloc get deliveryDates => this.read<DeliveryDatesBloc>();
 }
 
-class DeliveryDateBloc extends Bloc<DeliveryDateEvent, DeliveryDateState> {
-  DeliveryDateBloc() : super(DeliveryDatesLoaded(dates: _dates));
+class DeliveryDatesBloc extends Bloc<DeliveryDatesEvent, DeliveryDatesState> {
+  DeliveryDatesBloc()
+      : super(
+          DeliveryDatesState(
+            dates: _dates,
+          ),
+        );
 
   @override
-  Stream<DeliveryDateState> mapEventToState(
-    DeliveryDateEvent event,
+  Stream<DeliveryDatesState> mapEventToState(
+    DeliveryDatesEvent event,
   ) async* {}
 }
 
@@ -46,13 +51,13 @@ final List<DeliveryDate> _dates = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 1))),
     periods: <Period>[
       Period(
-        id: '3',
+        id: '1',
         startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '4',
+        id: '2',
         startTime: 13,
         endTime: 19,
         available: true,
@@ -64,13 +69,13 @@ final List<DeliveryDate> _dates = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 2))),
     periods: <Period>[
       Period(
-        id: '5',
+        id: '1',
         startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '6',
+        id: '2',
         startTime: 13,
         endTime: 19,
         available: true,
@@ -82,13 +87,13 @@ final List<DeliveryDate> _dates = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 3))),
     periods: <Period>[
       Period(
-        id: '7',
+        id: '1',
         startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '8',
+        id: '2',
         startTime: 13,
         endTime: 19,
         available: true,
@@ -100,13 +105,13 @@ final List<DeliveryDate> _dates = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 4))),
     periods: <Period>[
       Period(
-        id: '9',
+        id: '1',
         startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '10',
+        id: '2',
         startTime: 13,
         endTime: 19,
         available: true,
@@ -118,13 +123,13 @@ final List<DeliveryDate> _dates = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 5))),
     periods: <Period>[
       Period(
-        id: '11',
+        id: '1',
         startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '12',
+        id: '2',
         startTime: 13,
         endTime: 19,
         available: true,
@@ -136,13 +141,13 @@ final List<DeliveryDate> _dates = [
         DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 6))),
     periods: <Period>[
       Period(
-        id: '13',
+        id: '1',
         startTime: 7,
         endTime: 13,
         available: true,
       ),
       Period(
-        id: '14',
+        id: '2',
         startTime: 13,
         endTime: 19,
         available: true,

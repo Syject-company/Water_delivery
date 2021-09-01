@@ -84,9 +84,6 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
   }
 
   Widget _buildPeriods(DeliveryDate time) {
-    final date = DateFormat('yyyy-MM-dd').parse(time.date);
-    final available = DateFormat('EEEE').format(date) != 'Friday';
-
     return SeparatedColumn(
       children: time.periods.map((period) {
         return _PeriodButton(
@@ -101,7 +98,6 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
             });
           },
           selected: _selectedTime?.period == period,
-          enabled: available,
           period: period,
         );
       }).toList(),
@@ -115,13 +111,11 @@ class _PeriodButton extends StatelessWidget {
     Key? key,
     required this.period,
     this.selected = false,
-    this.enabled = true,
     this.onPressed,
   }) : super(key: key);
 
   final Period period;
   final bool selected;
-  final bool enabled;
   final VoidCallback? onPressed;
 
   @override
@@ -132,7 +126,7 @@ class _PeriodButton extends StatelessWidget {
     final formattedStartDate = DateFormat('h a', locale).format(startTime);
     final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
-    return (enabled && period.available)
+    return (period.available)
         ? _buildAvailableButton(formattedStartDate, formattedEndTime)
         : _buildUnavailableButton(formattedStartDate, formattedEndTime);
   }

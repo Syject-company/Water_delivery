@@ -7,6 +7,15 @@ abstract class WalletEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadBalance extends WalletEvent {
+  const LoadBalance({required this.amount});
+
+  final double amount;
+
+  @override
+  List<Object> get props => [amount];
+}
+
 class AddBalance extends WalletEvent {
   const AddBalance({required this.amount});
 
