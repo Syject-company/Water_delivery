@@ -6,12 +6,12 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'auth/auth_navigator.dart';
+import 'checkout/order/order_navigator.dart';
+import 'checkout/subscription/subscription_navigator.dart';
 import 'faq/faq_screen.dart';
 import 'home_screen.dart';
 import 'notifications/notifications_screen.dart';
-import 'order/order_navigator.dart';
 import 'orders/orders_screen.dart';
-import 'subscription/subscription_navigator.dart';
 import 'subscriptions/subscriptions_screen.dart';
 import 'support/support_screen.dart';
 import 'terms/terms_screen.dart';

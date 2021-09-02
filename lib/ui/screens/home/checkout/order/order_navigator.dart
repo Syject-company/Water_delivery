@@ -22,7 +22,10 @@ class OrderNavigator extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => OrderBloc()),
-          BlocProvider(create: (context) => DeliveryDatesBloc()),
+          BlocProvider(
+            create: (context) => DeliveryDatesBloc()..add(LoadDeliveryDates()),
+            lazy: false,
+          ),
         ],
         child: Navigator(
           key: orderNavigator,

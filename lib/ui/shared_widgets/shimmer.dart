@@ -30,18 +30,6 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
   }
 
   @override
-  void dispose() {
-    _shimmerChanges?.removeListener(_onShimmerChange);
-    super.dispose();
-  }
-
-  void _onShimmerChange() {
-    if (widget.isLoading) {
-      setState(() {});
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (!widget.isLoading) {
       return widget.child;
@@ -71,6 +59,18 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
       },
       child: widget.child,
     );
+  }
+
+  @override
+  void dispose() {
+    _shimmerChanges?.removeListener(_onShimmerChange);
+    super.dispose();
+  }
+
+  void _onShimmerChange() {
+    if (widget.isLoading) {
+      setState(() {});
+    }
   }
 }
 
@@ -153,13 +153,13 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   }
 
   @override
-  void dispose() {
-    _shimmerController.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return widget.child ?? const SizedBox();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return widget.child ?? const SizedBox();
+  void dispose() {
+    _shimmerController.dispose();
+    super.dispose();
   }
 }

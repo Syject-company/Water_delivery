@@ -1,10 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/profile/profile_bloc.dart';
+import 'package:water/bloc/home/support/support_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/ui/validators/email.dart';
+import 'package:water/ui/validators/field.dart';
 
 class SupportScreen extends StatelessWidget {
-  const SupportScreen({Key? key}) : super(key: key);
+  SupportScreen({Key? key}) : super(key: key);
+
+  final GlobalKey<FormState> _credentialsFormKey = GlobalKey();
+  final GlobalKey<FormState> _messageFormKey = GlobalKey();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +25,7 @@ class SupportScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         physics: const BouncingScrollPhysics(),
-        child: _buildBody(),
+        child: _buildBody(context),
       ),
     );
   }
@@ -42,23 +54,36 @@ class SupportScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildCredentialsForm(),
-        const SizedBox(height: 24.0),
-        _buildMessageForm(),
-        const SizedBox(height: 24.0),
-        _buildSendButton(),
-        const SizedBox(height: 16.0),
-        _buildCallButton()
-      ],
+  Widget _buildBody(BuildContext context) {
+    return BlocListener<SupportBloc, SupportState>(
+      listener: (context, state) {
+        context.showLoader(state.status == MessageStatus.sending);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCredentialsForm(context),
+          const SizedBox(height: 24.0),
+          _buildMessageForm(),
+          const SizedBox(height: 24.0),
+          _buildSendButton(context),
+          const SizedBox(height: 16.0),
+          _buildCallButton()
+        ],
+      ),
     );
   }
 
-  Widget _buildCredentialsForm() {
+  Widget _buildCredentialsForm(BuildContext context) {
+    final profile = context.profile.state;
+    final firstName = profile.firstName ?? '';
+    final lastName = profile.lastName ?? '';
+    _nameController.text = '$firstName $lastName'.trim();
+    _emailController.text = profile.email ?? '';
+    _phoneController.text = profile.phoneNumber ?? '';
+
     return Form(
+      key: _credentialsFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,18 +94,24 @@ class SupportScreen extends StatelessWidget {
           ).withPadding(24.0, 0.0, 0.0, 0.0),
           const SizedBox(height: 24.0),
           WaterFormInput(
+            controller: _nameController,
             hintText: 'input.your_name'.tr(),
             keyboardType: TextInputType.text,
+            validator: const FieldValidator(fieldName: 'Name').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            controller: _emailController,
             hintText: 'input.your_email'.tr(),
             keyboardType: TextInputType.text,
+            validator: const EmailValidator().validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
+            controller: _phoneController,
             hintText: 'input.your_phone'.tr(),
             keyboardType: TextInputType.text,
+            validator: const FieldValidator(fieldName: 'Phone').validator,
           ),
         ],
       ),
@@ -89,6 +120,7 @@ class SupportScreen extends StatelessWidget {
 
   Widget _buildMessageForm() {
     return Form(
+      key: _messageFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,8 +131,10 @@ class SupportScreen extends StatelessWidget {
           ).withPadding(24.0, 0.0, 0.0, 0.0),
           const SizedBox(height: 24.0),
           WaterFormInput(
+            controller: _messageController,
             hintText: 'input.your_message'.tr(),
             keyboardType: TextInputType.multiline,
+            validator: const FieldValidator(fieldName: 'Message').validator,
             maxLines: 5,
           ),
         ],
@@ -108,9 +142,31 @@ class SupportScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSendButton() {
+  Widget _buildSendButton(BuildContext context) {
     return WaterButton(
-      onPressed: () {},
+      onPressed: () {
+        if (!_credentialsFormKey.currentState!.validate()) {
+          return;
+        }
+
+        if (!_messageFormKey.currentState!.validate()) {
+          return;
+        }
+
+        final name = _nameController.text;
+        final email = _emailController.text;
+        final phone = _phoneController.text;
+        final message = _messageController.text;
+
+        context.support.add(
+          SendMessage(
+            name: name,
+            email: email,
+            phone: phone,
+            message: message,
+          ),
+        );
+      },
       text: 'button.send'.tr(),
     );
   }

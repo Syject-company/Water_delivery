@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/widget.dart';
-import 'package:water/ui/screens/home/shopping/categories/widgets/shimmer.dart';
+import 'package:water/ui/shared_widgets/shimmer.dart';
 
 import 'widgets/product_list_item.dart';
 import 'widgets/product_loading_list_item.dart';
@@ -34,7 +34,7 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsBloc, ProductsState>(
-      builder: (context, state) {
+      builder: (_, state) {
         Widget page = SizedBox.shrink();
         if (state is ProductsLoading) {
           page = _buildProductsLoader();
@@ -63,7 +63,7 @@ class ProductsScreen extends StatelessWidget {
         childAspectRatio: 0.67,
       ),
       itemCount: state.products.length,
-      itemBuilder: (context, index) {
+      itemBuilder: (_, index) {
         return ProductListItem(
           key: ValueKey(state.products[index]),
           product: state.products[index],
@@ -87,7 +87,7 @@ class ProductsScreen extends StatelessWidget {
             childAspectRatio: 0.67,
           ),
           itemCount: 10,
-          itemBuilder: (context, index) {
+          itemBuilder: (_, __) {
             return ProductLoadingListItem();
           },
         ),

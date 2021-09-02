@@ -7,9 +7,12 @@ class Http {
   static Future<http.Response> get(
     String uri, {
     Map<String, String>? headers,
+    Map<String, String>? queryParameters,
   }) {
+    String queryString = Uri(queryParameters: queryParameters).query;
+
     return http.get(
-      Uri.parse(uri),
+      Uri.parse('$uri?$queryString'),
       headers: _withContentType(headers),
     );
   }

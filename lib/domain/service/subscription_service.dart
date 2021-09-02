@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:water/domain/model/notification.dart' as water;
+import 'package:water/domain/model/subscription/subscription.dart';
 import 'package:water/util/http.dart';
 
-class NotificationService {
+class SubscriptionService {
   static const String _endpoint =
-      'https://gulfaweb.azurewebsites.net/Notifications';
+      'https://gulfaweb.azurewebsites.net/Subscriptions';
 
-  Future<List<water.Notification>> getAll(String token) async {
+  Future<List<Subscription>> getAll(String token) async {
     final response = await Http.get(
       _endpoint,
       headers: {
@@ -22,8 +22,8 @@ class NotificationService {
 
     if (response.body.isNotEmpty) {
       final Iterable iterable = jsonDecode(response.body);
-      return List<water.Notification>.from(iterable.map((json) {
-        return water.Notification.fromJson(json);
+      return List<Subscription>.from(iterable.map((json) {
+        return Subscription.fromJson(json);
       }));
     }
 

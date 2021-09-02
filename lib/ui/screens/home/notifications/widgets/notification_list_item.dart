@@ -26,7 +26,6 @@ class NotificationListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildPostedDate(),
-              const SizedBox(height: 6.0),
               _buildBodyText(),
             ],
           ),
@@ -51,10 +50,15 @@ class NotificationListItem extends StatelessWidget {
   Widget _buildBodyText() {
     final body = notification.body;
 
-    return WaterText(
-      body,
-      fontSize: 15.0,
-      fontWeight: FontWeight.w500,
-    );
+    if (body != null && body.isNotEmpty) {
+      return WaterText(
+        body,
+        fontSize: 15.0,
+        lineHeight: 1.5,
+        fontWeight: FontWeight.w500,
+      ).withPadding(0.0, 6.0, 0.0, 0.0);
+    }
+
+    return const SizedBox.shrink();
   }
 }

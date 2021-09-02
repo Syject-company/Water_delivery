@@ -115,13 +115,6 @@ class Menu extends StatelessWidget {
           icon: AppIcons.terms,
           label: 'side_menu.terms'.tr(),
         ),
-        _buildActionButton(
-          onPressed: () {
-            homeNavigator.pushNamed(HomeRoutes.faq);
-          },
-          icon: AppIcons.faq,
-          label: 'side_menu.faq'.tr(),
-        ),
         if (Session.isAuthenticated)
           _buildActionButton(
             onPressed: () {

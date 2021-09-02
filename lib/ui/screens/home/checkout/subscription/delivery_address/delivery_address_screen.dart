@@ -8,8 +8,8 @@ import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/delivery/address.dart';
+import 'package:water/ui/screens/home/checkout/subscription/subscription_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
-import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
 
@@ -75,19 +75,20 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   }
 
   Widget _buildDeliveryInputForm() {
-    _cityController.text = context.profile.state.city ?? '';
-    _districtController.text = context.profile.state.district ?? '';
+    final profile = context.profile.state;
+    _cityController.text = profile.city ?? '';
+    _districtController.text = profile.district ?? '';
     _districtSelectKey.currentState?.setItems(
       cities.firstWhereOrNull((city) {
-            return city.name == context.profile.state.city;
+            return city.name == profile.city;
           })?.districts ??
           [],
       reset: false,
     );
-    _streetController.text = context.profile.state.street ?? '';
-    _buildingController.text = context.profile.state.building ?? '';
-    _floorController.text = context.profile.state.floor ?? '';
-    _apartmentController.text = context.profile.state.apartment ?? '';
+    _streetController.text = profile.street ?? '';
+    _buildingController.text = profile.building ?? '';
+    _floorController.text = profile.floor ?? '';
+    _apartmentController.text = profile.apartment ?? '';
 
     return Form(
       key: _formKey,

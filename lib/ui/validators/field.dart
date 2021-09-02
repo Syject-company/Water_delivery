@@ -16,7 +16,7 @@ class FieldValidator extends Validator {
 
   String? _validator(String? text) {
     if (text != null) {
-      if (required && text.isEmpty) {
+      if (required && text.trim().isEmpty) {
         return 'The ${fieldName != null ? '$fieldName field' : 'Field'} is required';
       } else if (minLength != null && text.length < minLength!) {
         return '${fieldName ?? 'Field'} must have at least $minLength characters';

@@ -22,18 +22,20 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     OrderEvent event,
   ) async* {
     if (event is BackPressed) {
-      yield* _mapBackPressedToState();
+      yield* _mapBackPressedToState(state);
     } else if (event is SubmitDeliveryAddress) {
       yield* _mapSubmitDeliveryAddressToState(event);
     } else if (event is SubmitDeliveryTime) {
-      yield* _mapSubmitDeliveryTimeToState(event);
+      yield* _mapSubmitDeliveryTimeToState(event, state);
     }
   }
 
-  Stream<OrderState> _mapBackPressedToState() async* {
+  Stream<OrderState> _mapBackPressedToState(
+    OrderState state,
+  ) async* {
     if (state is OrderDetailsCollected) {
       yield DeliveryTimeInput(
-        address: (state as OrderDetailsCollected).address,
+        address: state.address,
         push: false,
       );
     } else if (state is DeliveryTimeInput) {
@@ -52,10 +54,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   Stream<OrderState> _mapSubmitDeliveryTimeToState(
     SubmitDeliveryTime event,
+    OrderState state,
   ) async* {
     if (state is DeliveryTimeInput) {
       yield OrderDetailsCollected(
-        address: (state as DeliveryTimeInput).address,
+        address: state.address,
         time: event.time,
         push: true,
       );

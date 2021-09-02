@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
-import 'package:water/ui/screens/home/shopping/categories/widgets/shimmer.dart';
+import 'package:water/ui/shared_widgets/shimmer.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/separated_row.dart';
 

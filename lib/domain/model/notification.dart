@@ -21,7 +21,7 @@ class Notification extends Equatable {
   final String postedDate;
   final String applicationUserId;
   final String cultureNameId;
-  final String body;
+  final String? body;
 
   Notification.fromJson(Map<String, dynamic> json)
       : this(
@@ -30,7 +30,7 @@ class Notification extends Equatable {
           applicationUserId:
               json[NotificationFields.applicationUserId] as String,
           cultureNameId: json[NotificationFields.cultureNameId] as String,
-          body: json[NotificationFields.body] as String,
+          body: json[NotificationFields.body] as String?,
         );
 
   Map<String, dynamic> toJson() => {
@@ -42,7 +42,7 @@ class Notification extends Equatable {
       };
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         postedDate,
         applicationUserId,

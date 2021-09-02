@@ -10,7 +10,7 @@ class ProfileService {
 
   Future<Profile> getByToken(String token) async {
     final response = await Http.get(
-      '$_endpoint',
+      _endpoint,
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
@@ -25,7 +25,7 @@ class ProfileService {
 
   Future<void> save(String token, ProfileForm form) async {
     final response = await Http.put(
-      '$_endpoint',
+      _endpoint,
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },

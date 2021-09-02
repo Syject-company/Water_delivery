@@ -9,6 +9,7 @@ import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
+import 'package:water/bloc/home/support/support_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -78,6 +79,10 @@ class HomeNavigator extends StatelessWidget {
               create: (context) => WalletBloc(
                 profile: context.profile,
               ),
+              lazy: false,
+            ),
+            BlocProvider(
+              create: (context) => SupportBloc(),
               lazy: false,
             ),
             BlocProvider(

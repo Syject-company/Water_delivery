@@ -12,13 +12,13 @@ class AddressTranslationFormFields {
 
 class AddressTranslationForm extends Equatable {
   const AddressTranslationForm({
-    required this.language,
-    required this.city,
-    required this.district,
-    required this.street,
-    required this.building,
-    required this.apartment,
-    required this.floor,
+    this.language,
+    this.city,
+    this.district,
+    this.street,
+    this.building,
+    this.apartment,
+    this.floor,
   });
 
   final String? language;

@@ -22,19 +22,19 @@ class ProfileFields {
 class Profile extends Equatable {
   const Profile({
     required this.id,
-    required this.firstName,
-    required this.lastName,
+    this.firstName,
+    this.lastName,
     required this.email,
-    required this.phoneNumber,
-    required this.birthday,
+    this.phoneNumber,
+    this.birthday,
     required this.familyMembersCount,
-    required this.nationality,
-    required this.city,
-    required this.district,
-    required this.street,
-    required this.building,
-    required this.apartment,
-    required this.floor,
+    this.nationality,
+    this.city,
+    this.district,
+    this.street,
+    this.building,
+    this.apartment,
+    this.floor,
     required this.referralCode,
     required this.walletBalance,
   });
@@ -75,25 +75,6 @@ class Profile extends Equatable {
           referralCode: json[ProfileFields.referralCode] as int,
           walletBalance: json[ProfileFields.walletBalance] as double,
         );
-
-  Map<String, dynamic> toJson() => {
-        ProfileFields.id: id,
-        ProfileFields.firstName: firstName,
-        ProfileFields.lastName: lastName,
-        ProfileFields.email: email,
-        ProfileFields.phoneNumber: phoneNumber,
-        ProfileFields.birthday: birthday,
-        ProfileFields.familyMembersCount: familyMembersCount,
-        ProfileFields.nationality: nationality,
-        ProfileFields.city: city,
-        ProfileFields.district: district,
-        ProfileFields.street: street,
-        ProfileFields.building: building,
-        ProfileFields.apartment: apartment,
-        ProfileFields.floor: floor,
-        ProfileFields.referralCode: referralCode,
-        ProfileFields.walletBalance: walletBalance,
-      };
 
   @override
   List<Object?> get props => [

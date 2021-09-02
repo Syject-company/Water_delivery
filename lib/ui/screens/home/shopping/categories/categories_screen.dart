@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
+import 'package:water/ui/shared_widgets/shimmer.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 import 'widgets/category_list_item.dart';
 import 'widgets/category_loading_list_item.dart';
-import 'widgets/shimmer.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -98,7 +98,7 @@ class CategoriesScreen extends StatelessWidget {
           childAspectRatio: 0.75,
         ),
         itemCount: 10,
-        itemBuilder: (_, index) {
+        itemBuilder: (_, __) {
           return CategoryLoadingListItem();
         },
       ),

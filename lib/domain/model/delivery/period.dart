@@ -1,13 +1,33 @@
-class Period {
+import 'package:equatable/equatable.dart';
+
+class PeriodFields {
+  static const String id = 'id';
+  static const String startTime = 'startTime';
+  static const String endTime = 'endTime';
+}
+
+class Period extends Equatable {
   const Period({
     required this.id,
     required this.startTime,
     required this.endTime,
-    required this.available,
   });
 
   final String id;
   final int startTime;
   final int endTime;
-  final bool available;
+
+  Period.fromJson(Map<String, dynamic> json)
+      : this(
+          id: json[PeriodFields.id] as String,
+          startTime: json[PeriodFields.startTime] as int,
+          endTime: json[PeriodFields.endTime] as int,
+        );
+
+  @override
+  List<Object> get props => [
+        id,
+        startTime,
+        endTime,
+      ];
 }

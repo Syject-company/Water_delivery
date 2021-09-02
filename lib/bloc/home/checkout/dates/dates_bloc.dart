@@ -6,6 +6,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/delivery/date.dart';
+import 'package:water/domain/service/period_service.dart';
+import 'package:water/locator.dart';
 
 part 'dates_event.dart';
 part 'dates_state.dart';
@@ -14,144 +16,47 @@ extension BlocGetter on BuildContext {
   DeliveryDatesBloc get deliveryDates => this.read<DeliveryDatesBloc>();
 }
 
+const int days = 7;
+
 class DeliveryDatesBloc extends Bloc<DeliveryDatesEvent, DeliveryDatesState> {
   DeliveryDatesBloc()
       : super(
           DeliveryDatesState(
-            dates: _dates,
+            dates: const [],
           ),
         );
+
+  final PeriodService _periodService = locator<PeriodService>();
 
   @override
   Stream<DeliveryDatesState> mapEventToState(
     DeliveryDatesEvent event,
-  ) async* {}
-}
+  ) async* {
+    if (event is LoadDeliveryDates) {
+      yield* _mapLoadDeliveryDatesToState();
+    }
+  }
 
-final List<DeliveryDate> _dates = [
-  DeliveryDate(
-    date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-  DeliveryDate(
-    date:
-        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 1))),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-  DeliveryDate(
-    date:
-        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 2))),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-  DeliveryDate(
-    date:
-        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 3))),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-  DeliveryDate(
-    date:
-        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 4))),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-  DeliveryDate(
-    date:
-        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 5))),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-  DeliveryDate(
-    date:
-        DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 6))),
-    periods: <Period>[
-      Period(
-        id: '1',
-        startTime: 7,
-        endTime: 13,
-        available: true,
-      ),
-      Period(
-        id: '2',
-        startTime: 13,
-        endTime: 19,
-        available: true,
-      ),
-    ],
-  ),
-];
+  Stream<DeliveryDatesState> _mapLoadDeliveryDatesToState() async* {
+    final dates = await _periodService.getAll('Al Ain');
+
+    // for (int i = 0; i < days; i++) {
+    //   final date = DateTime.now().add(Duration(days: i));
+    //   dates.add(
+    //     DeliveryDate(
+    //       date: DateFormat('yyyy-MM-dd').format(date),
+    //       periods: periods.map((period) {
+    //         return Period(
+    //           id: period.id,
+    //           startTime: period.startTime,
+    //           endTime: period.endTime,
+    //           available: date.weekday != DateTime.friday,
+    //         );
+    //       }).toList(),
+    //     ),
+    //   );
+    // }
+
+    yield state.copyWith(dates: dates);
+  }
+}

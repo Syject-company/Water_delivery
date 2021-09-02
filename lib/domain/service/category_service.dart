@@ -10,7 +10,7 @@ class CategoryService {
 
   Future<List<Category>> getAll(String locale) async {
     final response = await Http.get(
-      '$_endpoint/',
+      _endpoint,
       headers: {
         HttpHeaders.acceptLanguageHeader: locale,
       },
@@ -20,9 +20,9 @@ class CategoryService {
       throw HttpException(response.body);
 
     if (response.body.isNotEmpty) {
-      final Iterable categories = jsonDecode(response.body);
-      return List<Category>.from(categories.map((category) {
-        return Category.fromJson(category);
+      final Iterable iterable = jsonDecode(response.body);
+      return List<Category>.from(iterable.map((json) {
+        return Category.fromJson(json);
       }));
     }
 

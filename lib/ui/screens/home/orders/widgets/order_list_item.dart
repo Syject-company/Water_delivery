@@ -241,7 +241,7 @@ class _OrderListItemState extends State<OrderListItem>
             children: [
               Flexible(
                 child: WaterText(
-                  '${product.title.tr()} ${product.formattedVolume}',
+                  '${product.title} ${product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w500,

@@ -68,22 +68,6 @@ class Order extends Equatable {
           floor: json[OrderFields.floor] as String,
         );
 
-  Map<String, dynamic> toJson() => {
-        OrderFields.id: id,
-        OrderFields.status: status,
-        OrderFields.deliveryDate: deliveryDate,
-        OrderFields.createdDate: createdDate,
-        OrderFields.products: products,
-        OrderFields.customerName: customerName,
-        OrderFields.isSubscribed: isSubscribed,
-        OrderFields.city: city,
-        OrderFields.district: district,
-        OrderFields.street: street,
-        OrderFields.building: building,
-        OrderFields.apartment: apartment,
-        OrderFields.floor: floor,
-      };
-
   @override
   List<Object> get props => [
         id,

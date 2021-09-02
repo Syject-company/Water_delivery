@@ -10,7 +10,7 @@ class ProductService {
 
   Future<List<Product>> getAll(String language) async {
     final response = await Http.get(
-      '$_endpoint/',
+      _endpoint,
       headers: {
         HttpHeaders.acceptLanguageHeader: language,
       },
@@ -21,12 +21,10 @@ class ProductService {
     }
 
     if (response.body.isNotEmpty) {
-      final Iterable products = jsonDecode(response.body);
-      return List<Product>.from(
-        products.map((product) {
-          return Product.fromJson(product);
-        }),
-      );
+      final Iterable iterable = jsonDecode(response.body);
+      return List<Product>.from(iterable.map((json) {
+        return Product.fromJson(json);
+      }));
     }
 
     return [];
@@ -37,7 +35,7 @@ class ProductService {
     String language,
   ) async {
     final response = await Http.get(
-      '$_endpoint/',
+      _endpoint,
       headers: {
         HttpHeaders.acceptLanguageHeader: language,
       },
@@ -48,9 +46,9 @@ class ProductService {
     }
 
     if (response.body.isNotEmpty) {
-      final Iterable products = jsonDecode(response.body);
-      return List<Product>.from(products.map((product) {
-        return Product.fromJson(product);
+      final Iterable iterable = jsonDecode(response.body);
+      return List<Product>.from(iterable.map((json) {
+        return Product.fromJson(json);
       })).where((product) {
         return product.categoryId == categoryId;
       }).toList();

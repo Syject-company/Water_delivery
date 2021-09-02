@@ -5,7 +5,7 @@ import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 import 'categories/categories_screen.dart';
-import 'categories/widgets/shimmer.dart';
+import '../../../shared_widgets/shimmer.dart';
 import 'products/products_screen.dart';
 import 'widgets/banners.dart';
 
@@ -37,15 +37,15 @@ class ShoppingScreen extends StatefulWidget {
 }
 
 class _ShoppingScreenState extends State<ShoppingScreen> {
-  final List<Widget> _pages = [
-    CategoriesScreen(),
-    ProductsScreen(),
-  ];
-
   int _pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final pages = <Widget>[
+      CategoriesScreen(),
+      ProductsScreen(),
+    ];
+
     return Shimmer(
       linearGradient: _shimmerGradient,
       child: Column(
@@ -75,7 +75,7 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                       child: child,
                     );
                   },
-                  child: _pages[(_pageIndex = index)],
+                  child: pages[(_pageIndex = index)],
                 ),
               );
             },

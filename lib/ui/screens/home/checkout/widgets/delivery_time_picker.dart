@@ -10,11 +10,11 @@ import 'package:water/util/separated_row.dart';
 class DeliveryTimePicker extends StatefulWidget {
   const DeliveryTimePicker({
     Key? key,
-    required this.times,
+    required this.dates,
     this.onSelected,
   }) : super(key: key);
 
-  final List<DeliveryDate> times;
+  final List<DeliveryDate> dates;
   final void Function(DeliveryTime)? onSelected;
 
   @override
@@ -22,9 +22,9 @@ class DeliveryTimePicker extends StatefulWidget {
 }
 
 class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
-  DeliveryTime? _selectedTime;
+  DeliveryTime? _selectedDate;
 
-  List<DeliveryDate> get _times => widget.times;
+  List<DeliveryDate> get _dates => widget.dates;
 
   @override
   Widget build(BuildContext context) {
@@ -33,26 +33,29 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: SeparatedRow(
-        children: _times.map((time) => _buildDeliveryTime(time)).toList(),
+        children: _dates.map((date) {
+          return _buildDeliveryDate(date);
+        }).toList(),
         separator: const SizedBox(width: 12.0),
       ),
     );
   }
 
-  Widget _buildDeliveryTime(DeliveryDate time) {
+  Widget _buildDeliveryDate(DeliveryDate date) {
     final locale = Localization.currentLocale(context).languageCode;
-    final date = DateFormat('yyyy-MM-dd').parse(time.date);
+    final parsedDate = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(date.date);
     final formattedDayOfWeek;
-    if (date.isToday) {
+    if (parsedDate.isToday) {
       formattedDayOfWeek = 'text.today'.tr();
-    } else if (date.isTomorrow) {
+    } else if (parsedDate.isTomorrow) {
       formattedDayOfWeek = 'text.tomorrow'.tr();
     } else {
-      formattedDayOfWeek = DateFormat('EEEE', locale).format(date);
+      formattedDayOfWeek = DateFormat('EEEE', locale).format(parsedDate);
     }
-    final formattedDayOfMonth = DateFormat('dd/MM', locale).format(date);
+    final formattedDayOfMonth = DateFormat('dd/MM', locale).format(parsedDate);
 
     return Container(
+      width: 144.0,
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
@@ -76,33 +79,33 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
             lineHeight: 2.0,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16.0),
-          _buildPeriods(time),
+          if (date.periods.isNotEmpty) _buildPeriods(date),
         ],
       ),
     );
   }
 
-  Widget _buildPeriods(DeliveryDate time) {
+  Widget _buildPeriods(DeliveryDate date) {
     return SeparatedColumn(
-      children: time.periods.map((period) {
+      children: date.periods.map((period) {
         return _PeriodButton(
           onPressed: () {
             setState(() {
               widget.onSelected?.call(
-                _selectedTime = DeliveryTime(
-                  date: time.date,
+                _selectedDate = DeliveryTime(
+                  date: date.date,
                   period: period,
                 ),
               );
             });
           },
-          selected: _selectedTime?.period == period,
+          selected: _selectedDate?.period == period,
+          available: date.available,
           period: period,
         );
       }).toList(),
       separator: const SizedBox(height: 12.0),
-    );
+    ).withPadding(0.0, 16.0, 0.0, 0.0);
   }
 }
 
@@ -110,11 +113,13 @@ class _PeriodButton extends StatelessWidget {
   const _PeriodButton({
     Key? key,
     required this.period,
+    required this.available,
     this.selected = false,
     this.onPressed,
   }) : super(key: key);
 
   final Period period;
+  final bool available;
   final bool selected;
   final VoidCallback? onPressed;
 
@@ -126,7 +131,7 @@ class _PeriodButton extends StatelessWidget {
     final formattedStartDate = DateFormat('h a', locale).format(startTime);
     final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
-    return (period.available)
+    return (available)
         ? _buildAvailableButton(formattedStartDate, formattedEndTime)
         : _buildUnavailableButton(formattedStartDate, formattedEndTime);
   }

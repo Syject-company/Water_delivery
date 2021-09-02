@@ -5,9 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/order/order.dart';
+import 'package:water/domain/service/order_service.dart';
+import 'package:water/locator.dart';
+import 'package:water/util/session.dart';
 
 part 'orders_event.dart';
-
 part 'orders_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -16,6 +18,8 @@ extension BlocGetter on BuildContext {
 
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   OrdersBloc() : super(OrdersInitial());
+
+  final OrderService _orderService = locator<OrderService>();
 
   @override
   Stream<OrdersState> mapEventToState(
@@ -29,6 +33,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   Stream<OrdersState> _mapLoadSubscriptionsToState(
     LoadOrders event,
   ) async* {
+    if (Session.isAuthenticated) {
+      final orders = await _orderService.getAll(Session.token!);
+    }
+
     yield OrdersLoaded(orders: _orders);
   }
 }

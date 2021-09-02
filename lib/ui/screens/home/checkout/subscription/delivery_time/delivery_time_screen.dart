@@ -6,11 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/checkout/dates/dates_bloc.dart';
 import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
 import 'package:water/domain/model/delivery/date.dart';
-import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
+import 'package:water/ui/screens/home/checkout/subscription/subscription_navigator.dart';
+import 'package:water/ui/screens/home/checkout/widgets/delivery_time_picker.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
-
-import 'widgets/delivery_time_picker.dart';
 
 class DeliveryTimeScreen extends StatefulWidget {
   DeliveryTimeScreen({Key? key}) : super(key: key);
@@ -51,7 +50,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
               BlocBuilder<DeliveryDatesBloc, DeliveryDatesState>(
                 builder: (context, state) {
                   return DeliveryTimePicker(
-                    times: state.dates,
+                    dates: state.dates,
                     onSelected: (time) {
                       setState(() => _selectedTime = time);
                     },

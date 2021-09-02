@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
-import 'package:water/ui/screens/home/subscription/subscription_navigator.dart';
+import 'package:water/ui/screens/home/checkout/subscription/subscription_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 import 'widgets/subscription_duration_picker.dart';
