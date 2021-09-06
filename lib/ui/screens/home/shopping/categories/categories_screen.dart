@@ -28,15 +28,21 @@ class CategoriesScreen extends StatelessWidget {
       builder: (_, state) {
         if (state is Authenticated) {
           return BlocBuilder<WalletBloc, WalletState>(
+            buildWhen: (_, state) {
+              return state is WalletLoaded;
+            },
             builder: (_, state) {
-              return WaterText(
-                'text.wallet_balance'.tr(args: [
-                  state.balance.toStringAsFixed(2),
-                ]),
-                fontSize: 18.0,
-                lineHeight: 1.5,
-                textAlign: TextAlign.center,
-              ).withPaddingAll(24.0);
+              if (state is WalletLoaded) {
+                return WaterText(
+                  'text.wallet_balance'.tr(args: [
+                    state.balance.toStringAsFixed(2),
+                  ]),
+                  fontSize: 18.0,
+                  lineHeight: 1.5,
+                  textAlign: TextAlign.center,
+                ).withPaddingAll(24.0);
+              }
+              return const SizedBox.shrink();
             },
           );
         }

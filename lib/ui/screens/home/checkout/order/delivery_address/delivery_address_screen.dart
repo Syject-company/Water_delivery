@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/checkout/dates/dates_bloc.dart';
 import 'package:water/bloc/home/checkout/order/order_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
@@ -13,14 +14,9 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
 
-class DeliveryAddressScreen extends StatefulWidget {
+class DeliveryAddressScreen extends StatelessWidget {
   DeliveryAddressScreen({Key? key}) : super(key: key);
 
-  @override
-  _DeliveryAddressScreenState createState() => _DeliveryAddressScreenState();
-}
-
-class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _districtController = TextEditingController();
@@ -35,6 +31,9 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     return BlocListener<OrderBloc, OrderState>(
       listener: (context, state) async {
         if (state is DeliveryTimeInput && state.push) {
+          context.deliveryDates.add(
+            LoadDeliveryDates(city: state.address.city),
+          );
           await orderNavigator.pushNamed(OrderRoutes.deliveryTime);
           context.order.add(BackPressed());
         }
@@ -44,9 +43,9 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           physics: const BouncingScrollPhysics(),
-          child: _buildDeliveryInputForm(),
+          child: _buildDeliveryInputForm(context),
         ),
-        bottomNavigationBar: _buildNextButton(),
+        bottomNavigationBar: _buildNextButton(context),
       ),
     );
   }
@@ -73,7 +72,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     );
   }
 
-  Widget _buildDeliveryInputForm() {
+  Widget _buildDeliveryInputForm(BuildContext context) {
     final profile = context.profile.state;
     _cityController.text = profile.city ?? '';
     _districtController.text = profile.district ?? '';
@@ -160,7 +159,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     );
   }
 
-  Widget _buildNextButton() {
+  Widget _buildNextButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
         if (!_formKey.currentState!.validate()) {

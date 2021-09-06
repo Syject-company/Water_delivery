@@ -20,23 +20,30 @@ class SavedCartItem extends Equatable {
   SavedCartItem copyWith({
     String? id,
     int? amount,
-  }) =>
-      SavedCartItem(
-        id: id ?? this.id,
-        amount: amount ?? this.amount,
-      );
+  }) {
+    return SavedCartItem(
+      id: id ?? this.id,
+      amount: amount ?? this.amount,
+    );
+  }
 
-  SavedCartItem.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[SavedCartItemFields.id] as String,
-          amount: json[SavedCartItemFields.amount] as int,
-        );
+  factory SavedCartItem.fromJson(Map<String, dynamic> json) {
+    return SavedCartItem(
+      id: json[SavedCartItemFields.id],
+      amount: json[SavedCartItemFields.amount],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        SavedCartItemFields.id: id,
-        SavedCartItemFields.amount: amount,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      SavedCartItemFields.id: id,
+      SavedCartItemFields.amount: amount,
+    };
+  }
 
   @override
-  List<Object> get props => [id, amount];
+  List<Object> get props => [
+        id,
+        amount,
+      ];
 }

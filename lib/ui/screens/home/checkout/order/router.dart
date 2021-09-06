@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
+import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
@@ -21,16 +22,17 @@ class CheckoutRouter {
     switch (settings.name) {
       case OrderRoutes.deliveryAddress:
         return SlideWithFadePageRoute(
-          builder: (context) => DeliveryAddressScreen(),
+          builder: (_) => DeliveryAddressScreen(),
         );
       case OrderRoutes.deliveryTime:
         return SlideWithFadePageRoute(
-          builder: (context) => DeliveryTimeScreen(),
+          builder: (_) => DeliveryTimeScreen(),
         );
       case OrderRoutes.orderPayment:
         return SlideWithFadePageRoute(
-          builder: (context) => BlocProvider(
+          builder: (_) => BlocProvider(
             create: (context) => PaymentBloc(
+              profile: context.profile,
               wallet: context.wallet,
               cart: context.cart,
             ),
@@ -39,7 +41,7 @@ class CheckoutRouter {
         );
       default:
         return SlideWithFadePageRoute(
-          builder: (context) {
+          builder: (_) {
             return Scaffold(
               body: Center(
                 child: Text(

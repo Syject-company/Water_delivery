@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
 class NotificationFields {
@@ -18,28 +19,23 @@ class Notification extends Equatable {
   });
 
   final String id;
-  final String postedDate;
+  final DateTime postedDate;
   final String applicationUserId;
   final String cultureNameId;
   final String? body;
 
-  Notification.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[NotificationFields.id] as String,
-          postedDate: json[NotificationFields.postedDate] as String,
-          applicationUserId:
-              json[NotificationFields.applicationUserId] as String,
-          cultureNameId: json[NotificationFields.cultureNameId] as String,
-          body: json[NotificationFields.body] as String?,
-        );
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    final postedDate = DateFormat('yyyy-MM-ddTHH:mm:ss')
+        .parse(json[NotificationFields.postedDate]);
 
-  Map<String, dynamic> toJson() => {
-        NotificationFields.id: id,
-        NotificationFields.postedDate: postedDate,
-        NotificationFields.applicationUserId: applicationUserId,
-        NotificationFields.cultureNameId: cultureNameId,
-        NotificationFields.body: body,
-      };
+    return Notification(
+      id: json[NotificationFields.id],
+      postedDate: postedDate,
+      applicationUserId: json[NotificationFields.applicationUserId],
+      cultureNameId: json[NotificationFields.cultureNameId],
+      body: json[NotificationFields.body],
+    );
+  }
 
   @override
   List<Object?> get props => [

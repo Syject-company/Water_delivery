@@ -1,8 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
+import 'package:water/ui/screens/home/wallet/top_up/wallet_top_up_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/currency_input_formatter.dart';
+import 'package:water/util/slide_with_fade_page_route.dart';
 
 class AddBalanceForm extends StatefulWidget {
   AddBalanceForm({Key? key}) : super(key: key);
@@ -12,19 +17,37 @@ class AddBalanceForm extends StatefulWidget {
 }
 
 class _AddBalanceFormState extends State<AddBalanceForm> {
-  final GlobalKey<WaterFormInputState> _amountInputKey = GlobalKey();
-  final TextEditingController _amountInputController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   bool _isValidForm = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildAmountInput(),
-        const SizedBox(height: 32.0),
-        _buildTopUpButton(),
-      ],
+    return BlocListener<WalletBloc, WalletState>(
+      listener: (_, state) async {
+        if (state is WalletTopUp) {
+          FocusScope.of(context).unfocus();
+
+          await homeNavigator.push<bool>(
+            SlideWithFadePageRoute(
+              builder: (_) => WalletTopUpScreen(url: state.url),
+            ),
+          );
+
+          setState(() => _isValidForm = false);
+          _amountController.clear();
+          context.profile.add(
+            LoadProfile(),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          _buildAmountInput(),
+          const SizedBox(height: 32.0),
+          _buildTopUpButton(),
+        ],
+      ),
     );
   }
 
@@ -33,10 +56,9 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: 196.0,
+          width: 180.0,
           child: WaterFormInput(
-            key: _amountInputKey,
-            controller: _amountInputController,
+            controller: _amountController,
             hintText: 'input.enter_amount'.tr(),
             onChanged: (amount) {
               if (amount.isNotEmpty) {
@@ -47,6 +69,7 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
             },
             formatters: [CurrencyInputFormatter()],
             keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
           ),
         ),
         const SizedBox(width: 12.0),
@@ -61,7 +84,7 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   Widget _buildTopUpButton() {
     return WaterButton(
       onPressed: () {
-        final amount = double.parse(_amountInputKey.currentState!.value ?? '0');
+        final amount = double.parse(_amountController.text);
 
         context.wallet.add(
           AddBalance(amount: amount),

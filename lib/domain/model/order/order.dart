@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
 import 'order_product.dart';
@@ -7,7 +8,7 @@ export 'order_product.dart';
 class OrderFields {
   static const String id = 'id';
   static const String status = 'status';
-  static const String deliveryDate = 'deliveryDay';
+  static const String deliveryDate = 'deliveryDate';
   static const String createdDate = 'createDate';
   static const String products = 'ordersShopItems';
   static const String customerName = 'customerName';
@@ -39,8 +40,8 @@ class Order extends Equatable {
 
   final String id;
   final String status;
-  final String deliveryDate;
-  final String createdDate;
+  final DateTime deliveryDate;
+  final DateTime createdDate;
   final List<OrderProduct> products;
   final String customerName;
   final bool isSubscribed;
@@ -51,22 +52,32 @@ class Order extends Equatable {
   final String apartment;
   final String floor;
 
-  Order.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[OrderFields.id] as String,
-          status: json[OrderFields.status] as String,
-          deliveryDate: json[OrderFields.deliveryDate] as String,
-          createdDate: json[OrderFields.createdDate] as String,
-          products: json[OrderFields.products] as List<OrderProduct>,
-          customerName: json[OrderFields.customerName] as String,
-          isSubscribed: json[OrderFields.isSubscribed] as bool,
-          city: json[OrderFields.city] as String,
-          district: json[OrderFields.district] as String,
-          street: json[OrderFields.street] as String,
-          building: json[OrderFields.building] as String,
-          apartment: json[OrderFields.apartment] as String,
-          floor: json[OrderFields.floor] as String,
-        );
+  factory Order.fromJson(Map<String, dynamic> json) {
+    final deliveryDate =
+        DateFormat('yyyy-MM-dd').parse(json[OrderFields.deliveryDate]);
+    final createdDate =
+        DateFormat('yyyy-MM-dd').parse(json[OrderFields.createdDate]);
+    final Iterable iterable = json[OrderFields.products];
+    final products = List<OrderProduct>.from(iterable.map((json) {
+      return OrderProduct.fromJson(json);
+    }));
+
+    return Order(
+      id: json[OrderFields.id],
+      status: json[OrderFields.status],
+      deliveryDate: deliveryDate,
+      createdDate: createdDate,
+      products: products,
+      customerName: json[OrderFields.customerName],
+      isSubscribed: json[OrderFields.isSubscribed],
+      city: json[OrderFields.city],
+      district: json[OrderFields.district],
+      street: json[OrderFields.street],
+      building: json[OrderFields.building],
+      apartment: json[OrderFields.apartment],
+      floor: json[OrderFields.floor],
+    );
+  }
 
   @override
   List<Object> get props => [

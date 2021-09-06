@@ -41,18 +41,18 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
     );
   }
 
-  Widget _buildDeliveryDate(DeliveryDate date) {
+  Widget _buildDeliveryDate(DeliveryDate deliveryDate) {
     final locale = Localization.currentLocale(context).languageCode;
-    final parsedDate = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(date.date);
     final formattedDayOfWeek;
-    if (parsedDate.isToday) {
+    if (deliveryDate.date.isToday) {
       formattedDayOfWeek = 'text.today'.tr();
-    } else if (parsedDate.isTomorrow) {
+    } else if (deliveryDate.date.isTomorrow) {
       formattedDayOfWeek = 'text.tomorrow'.tr();
     } else {
-      formattedDayOfWeek = DateFormat('EEEE', locale).format(parsedDate);
+      formattedDayOfWeek = DateFormat('EEEE', locale).format(deliveryDate.date);
     }
-    final formattedDayOfMonth = DateFormat('dd/MM', locale).format(parsedDate);
+    final formattedDayOfMonth =
+        DateFormat('dd/MM', locale).format(deliveryDate.date);
 
     return Container(
       width: 144.0,
@@ -79,28 +79,28 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
             lineHeight: 2.0,
             textAlign: TextAlign.center,
           ),
-          if (date.periods.isNotEmpty) _buildPeriods(date),
+          if (deliveryDate.periods.isNotEmpty) _buildPeriods(deliveryDate),
         ],
       ),
     );
   }
 
-  Widget _buildPeriods(DeliveryDate date) {
+  Widget _buildPeriods(DeliveryDate deliveryDate) {
     return SeparatedColumn(
-      children: date.periods.map((period) {
+      children: deliveryDate.periods.map((period) {
         return _PeriodButton(
           onPressed: () {
             setState(() {
               widget.onSelected?.call(
                 _selectedDate = DeliveryTime(
-                  date: date.date,
+                  date: deliveryDate.date,
                   period: period,
                 ),
               );
             });
           },
           selected: _selectedDate?.period == period,
-          available: date.available,
+          available: deliveryDate.available,
           period: period,
         );
       }).toList(),

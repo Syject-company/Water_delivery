@@ -69,17 +69,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       final profile = await _profileService.getByToken(Session.token!);
 
-      DateTime? birthday;
-      if (profile.birthday != null) {
-        birthday = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(profile.birthday!);
-      }
-
       yield state.copyWith(
         firstName: Nullable(profile.firstName),
         lastName: Nullable(profile.lastName),
         email: Nullable(profile.email),
         phoneNumber: Nullable(profile.phoneNumber),
-        birthday: Nullable(birthday),
+        birthday: Nullable(profile.birthday),
         nationality: Nullable(profile.nationality),
         city: Nullable(profile.city),
         district: Nullable(profile.district),

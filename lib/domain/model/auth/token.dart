@@ -11,14 +11,17 @@ class Token extends Equatable {
 
   final String token;
 
-  Token.fromJson(Map<String, dynamic> json)
-      : this(
-          token: json[TokenFields.token] as String,
-        );
+  factory Token.fromJson(Map<String, dynamic> json) {
+    return Token(
+      token: json[TokenFields.token],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        TokenFields.token: token,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      TokenFields.token: token,
+    };
+  }
 
   @override
   List<Object?> get props => [token];

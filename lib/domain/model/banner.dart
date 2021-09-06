@@ -17,18 +17,13 @@ class Banner extends Equatable {
   final String image;
   final String url;
 
-  Banner.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[BannerFields.id] as String,
-          image: json[BannerFields.image] as String,
-          url: json[BannerFields.url] as String,
-        );
-
-  Map<String, dynamic> toJson() => {
-        BannerFields.id: id,
-        BannerFields.image: image,
-        BannerFields.url: url,
-      };
+  factory Banner.fromJson(Map<String, dynamic> json) {
+    return Banner(
+      id: json[BannerFields.id],
+      image: json[BannerFields.image],
+      url: json[BannerFields.url],
+    );
+  }
 
   @override
   List<Object> get props => [

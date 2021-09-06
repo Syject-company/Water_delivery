@@ -8,7 +8,7 @@ class OrderFormFields {
   static const String products = 'shopItems';
   static const String city = 'cityName';
   static const String district = 'districtName';
-  static const String address = 'street';
+  static const String street = 'street';
   static const String building = 'building';
   static const String floor = 'floor';
   static const String apartment = 'apartment';
@@ -21,7 +21,7 @@ class OrderForm extends Equatable {
     required this.products,
     required this.city,
     required this.district,
-    required this.address,
+    required this.street,
     required this.building,
     required this.floor,
     required this.apartment,
@@ -32,22 +32,24 @@ class OrderForm extends Equatable {
   final List<OrderProductForm> products;
   final String city;
   final String district;
-  final String address;
+  final String street;
   final String building;
   final String floor;
   final String apartment;
 
-  Map<String, dynamic> toJson() => {
-        OrderFormFields.deliveryDate: deliveryDate,
-        OrderFormFields.periodId: periodId,
-        OrderFormFields.products: products,
-        OrderFormFields.city: city,
-        OrderFormFields.district: district,
-        OrderFormFields.address: address,
-        OrderFormFields.building: building,
-        OrderFormFields.floor: floor,
-        OrderFormFields.apartment: apartment,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      OrderFormFields.deliveryDate: deliveryDate,
+      OrderFormFields.periodId: periodId,
+      OrderFormFields.products: products,
+      OrderFormFields.city: city,
+      OrderFormFields.district: district,
+      OrderFormFields.street: street,
+      OrderFormFields.building: building,
+      OrderFormFields.floor: floor,
+      OrderFormFields.apartment: apartment,
+    };
+  }
 
   @override
   List<Object> get props => [
@@ -56,7 +58,7 @@ class OrderForm extends Equatable {
         products,
         city,
         district,
-        address,
+        street,
         building,
         floor,
         apartment,

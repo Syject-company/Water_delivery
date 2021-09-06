@@ -90,8 +90,8 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
 
   Widget _buildSelectedTimeText() {
     final locale = Localization.currentLocale(context).languageCode;
-    final date = DateFormat('yyyy-MM-dd').parse(_selectedTime!.date);
-    final formattedDayOfMonth = DateFormat('MMMM d', locale).format(date);
+    final formattedDayOfMonth =
+        DateFormat('MMMM d', locale).format(_selectedTime!.date);
     final startTime =
         DateFormat('h').parse('${_selectedTime!.period.startTime}');
     final endTime = DateFormat('h').parse('${_selectedTime!.period.endTime}');

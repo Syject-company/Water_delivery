@@ -15,9 +15,7 @@ class OrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 24.0),
-        physics: const BouncingScrollPhysics(),
+      body: LoaderOverlay(
         child: _buildOrderItems(context),
       ),
     );
@@ -46,24 +44,42 @@ class OrdersScreen extends StatelessWidget {
   }
 
   Widget _buildOrderItems(BuildContext context) {
-    return BlocBuilder<OrdersBloc, OrdersState>(
-      builder: (context, state) {
-        if (state is OrdersLoaded) {
-          return SeparatedColumn(
-            children: state.orders
-                .map(
-                  (order) => OrderListItem(
-                    key: ValueKey(order),
-                    order: order,
-                  ),
-                )
-                .toList(),
-            includeOuterSeparators: true,
-          );
-        } else {
-          return const SizedBox.shrink();
-        }
+    return BlocConsumer<OrdersBloc, OrdersState>(
+      listener: (context, state) {
+        context.showLoader(state is OrdersLoading);
       },
+      builder: (_, state) {
+        if (state is OrdersLoaded) {
+          if (state.orders.isEmpty) {
+            return _buildNoOrdersText();
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 24.0),
+            physics: const BouncingScrollPhysics(),
+            child: SeparatedColumn(
+              children: state.orders.map((order) {
+                return OrderListItem(
+                  key: ValueKey(order),
+                  order: order,
+                );
+              }).toList(),
+              includeOuterSeparators: true,
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildNoOrdersText() {
+    return Center(
+      child: WaterText(
+        'There are not orders yet',
+        fontSize: 20.0,
+        color: AppColors.secondaryText,
+      ),
     );
   }
 }

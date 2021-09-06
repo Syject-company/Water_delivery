@@ -22,12 +22,14 @@ class SubscriptionProduct extends Equatable {
   final int amount;
   final double price;
 
-  Map<String, dynamic> toJson() => {
-        SubscriptionProductFields.title: title,
-        SubscriptionProductFields.volume: volume,
-        SubscriptionProductFields.amount: amount,
-        SubscriptionProductFields.price: price,
-      };
+  factory SubscriptionProduct.fromJson(Map<String, dynamic> json) {
+    return SubscriptionProduct(
+      title: json[SubscriptionProductFields.title],
+      volume: json[SubscriptionProductFields.volume],
+      amount: json[SubscriptionProductFields.amount],
+      price: json[SubscriptionProductFields.price],
+    );
+  }
 
   @override
   List<Object> get props => [

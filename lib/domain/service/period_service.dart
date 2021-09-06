@@ -8,11 +8,11 @@ import 'package:water/util/http.dart';
 class PeriodService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Periods';
 
-  Future<List<DeliveryDate>> getAll(String district) async {
+  Future<List<DeliveryDate>> getAll(String city) async {
     final response = await Http.get(
       _endpoint,
       queryParameters: {
-        'districtName': district,
+        'cityName': city,
       },
     );
 

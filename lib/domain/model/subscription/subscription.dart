@@ -42,33 +42,25 @@ class Subscription extends Equatable {
   final String apartment;
   final String floor;
 
-  Subscription.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[SubscriptionFields.id] as String,
-          isActive: json[SubscriptionFields.isActive] as bool,
-          deliveryDate: json[SubscriptionFields.deliveryDate] as String,
-          products:
-              json[SubscriptionFields.products] as List<SubscriptionProduct>,
-          city: json[SubscriptionFields.city] as String,
-          district: json[SubscriptionFields.district] as String,
-          street: json[SubscriptionFields.street] as String,
-          building: json[SubscriptionFields.building] as String,
-          apartment: json[SubscriptionFields.apartment] as String,
-          floor: json[SubscriptionFields.floor] as String,
-        );
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    final Iterable iterable = json[SubscriptionFields.products];
+    final products = List<SubscriptionProduct>.from(iterable.map((json) {
+      return SubscriptionProduct.fromJson(json);
+    }));
 
-  Map<String, dynamic> toJson() => {
-        SubscriptionFields.id: id,
-        SubscriptionFields.isActive: isActive,
-        SubscriptionFields.deliveryDate: deliveryDate,
-        SubscriptionFields.products: products,
-        SubscriptionFields.city: city,
-        SubscriptionFields.district: district,
-        SubscriptionFields.street: street,
-        SubscriptionFields.building: building,
-        SubscriptionFields.apartment: apartment,
-        SubscriptionFields.floor: floor,
-      };
+    return Subscription(
+      id: json[SubscriptionFields.id],
+      isActive: json[SubscriptionFields.isActive],
+      deliveryDate: json[SubscriptionFields.deliveryDate],
+      products: products,
+      city: json[SubscriptionFields.city],
+      district: json[SubscriptionFields.district],
+      street: json[SubscriptionFields.street],
+      building: json[SubscriptionFields.building],
+      apartment: json[SubscriptionFields.apartment],
+      floor: json[SubscriptionFields.floor],
+    );
+  }
 
   @override
   List<Object> get props => [

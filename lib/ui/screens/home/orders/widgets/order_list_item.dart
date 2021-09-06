@@ -83,8 +83,8 @@ class _OrderListItemState extends State<OrderListItem>
   }
 
   Widget _buildTitle() {
-    final date = DateFormat('yyyy-MM-dd').parse(_order.createdDate);
-    final formattedCreatedDate = DateFormat('dd/MM/yyyy').format(date);
+    final formattedCreatedDate =
+        DateFormat('dd/MM/yyyy').format(_order.createdDate);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,9 +159,12 @@ class _OrderListItemState extends State<OrderListItem>
               ),
             ),
           ],
-        ).withPadding(18.0, 6.0, 24.0, 12.0),
+        ).withPadding(18.0, 6.0, 24.0, 0.0),
+        const SizedBox(height: 12.0),
         _buildOrderProducts(),
-        defaultDivider.withPadding(24.0, 12.0, 24.0, 12.0),
+        const SizedBox(height: 12.0),
+        defaultDivider,
+        const SizedBox(height: 12.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -182,27 +185,7 @@ class _OrderListItemState extends State<OrderListItem>
           ],
         ).withPadding(24.0, 0.0, 24.0, 0.0),
         const SizedBox(height: 6.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            WaterText(
-              'text.vat'.tr(),
-              fontSize: 15.0,
-              lineHeight: 1.25,
-              fontWeight: FontWeight.w600,
-              color: AppColors.secondaryText,
-            ),
-            WaterText(
-              'text.aed'.tr(args: [
-                0.toStringAsFixed(2),
-              ]),
-              fontSize: 15.0,
-              lineHeight: 1.25,
-              fontWeight: FontWeight.w500,
-              color: AppColors.secondaryText,
-            ),
-          ],
-        ).withPadding(24.0, 0.0, 24.0, 0.0),
+        _buildVATText(_order.products),
       ],
     );
   }
@@ -276,9 +259,40 @@ class _OrderListItemState extends State<OrderListItem>
     );
   }
 
+  Widget _buildVATText(List<OrderProduct> products) {
+    final totalPrice = products.map((product) {
+      return product.price * product.amount;
+    }).sum;
+    final vat = totalPrice * 0.05;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        WaterText(
+          'text.vat'.tr(),
+          fontSize: 15.0,
+          lineHeight: 1.25,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondaryText,
+        ),
+        WaterText(
+          'text.aed'.tr(args: [
+            vat.toStringAsFixed(2),
+          ]),
+          fontSize: 15.0,
+          lineHeight: 1.25,
+          fontWeight: FontWeight.w500,
+          color: AppColors.secondaryText,
+        ),
+      ],
+    ).withPadding(24.0, 0.0, 24.0, 0.0);
+  }
+
   Widget _buildFooter() {
-    final totalPrice =
-        _order.products.map((product) => product.price * product.amount).sum;
+    double totalPrice = _order.products.map((product) {
+      return product.price * product.amount;
+    }).sum;
+    totalPrice += totalPrice * 0.05;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

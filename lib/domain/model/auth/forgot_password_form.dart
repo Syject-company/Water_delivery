@@ -9,9 +9,11 @@ class ForgotPasswordForm extends Equatable {
 
   final String? email;
 
-  Map<String, dynamic> toJson() => {
-        ForgotPasswordFormFields.email: email,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      ForgotPasswordFormFields.email: email,
+    };
+  }
 
   @override
   List<Object?> get props => [email];

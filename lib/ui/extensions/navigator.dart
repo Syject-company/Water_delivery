@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 extension NavigatorHelper on GlobalKey<NavigatorState> {
   void pop<T extends Object?>([T? result]) {
-    return this.currentState!.pop<T>();
+    return this.currentState!.pop<T>(result);
   }
 
   Future<bool> maybePop<T extends Object?>([T? result]) {

@@ -11,6 +11,10 @@ class OrdersInitial extends OrdersState {
   const OrdersInitial();
 }
 
+class OrdersLoading extends OrdersState {
+  const OrdersLoading();
+}
+
 class OrdersLoaded extends OrdersState {
   const OrdersLoaded({required this.orders});
 

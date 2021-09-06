@@ -22,13 +22,14 @@ class OrderProduct extends Equatable {
   final int amount;
   final double price;
 
-  OrderProduct.fromJson(Map<String, dynamic> json)
-      : this(
-          title: json[OrderProductFields.title] as String,
-          volume: json[OrderProductFields.volume] as double,
-          amount: json[OrderProductFields.amount] as int,
-          price: json[OrderProductFields.price] as double,
-        );
+  factory OrderProduct.fromJson(Map<String, dynamic> json) {
+    return OrderProduct(
+      title: json[OrderProductFields.title],
+      volume: json[OrderProductFields.volume],
+      amount: json[OrderProductFields.amount],
+      price: json[OrderProductFields.price],
+    );
+  }
 
   @override
   List<Object> get props => [

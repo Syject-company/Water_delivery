@@ -20,12 +20,14 @@ class MessageForm extends Equatable {
   final String phone;
   final String message;
 
-  Map<String, dynamic> toJson() => {
-        MessageFormFields.name: name,
-        MessageFormFields.email: email,
-        MessageFormFields.phone: phone,
-        MessageFormFields.message: message,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      MessageFormFields.name: name,
+      MessageFormFields.email: email,
+      MessageFormFields.phone: phone,
+      MessageFormFields.message: message,
+    };
+  }
 
   @override
   List<Object> get props => [

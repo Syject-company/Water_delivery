@@ -36,7 +36,6 @@ class _WalletScreenState extends State<WalletScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            const SizedBox(height: 64.0),
             _buildBalanceText(),
             const SizedBox(height: 32.0),
             PageTransitionSwitcher(
@@ -90,13 +89,21 @@ class _WalletScreenState extends State<WalletScreen> {
 
   Widget _buildBalanceText() {
     return BlocBuilder<WalletBloc, WalletState>(
-      builder: (context, state) {
-        return WaterText(
-          'text.wallet_balance'.tr(args: [state.balance.toStringAsFixed(2)]),
-          fontSize: 18.0,
-          lineHeight: 1.5,
-          textAlign: TextAlign.center,
-        );
+      buildWhen: (_, state) {
+        return state is WalletLoaded;
+      },
+      builder: (_, state) {
+        if (state is WalletLoaded) {
+          return WaterText(
+            'text.wallet_balance'.tr(args: [
+              state.balance.toStringAsFixed(2),
+            ]),
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            textAlign: TextAlign.center,
+          );
+        }
+        return const SizedBox.shrink();
       },
     );
   }

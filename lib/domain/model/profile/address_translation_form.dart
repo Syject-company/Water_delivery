@@ -29,15 +29,17 @@ class AddressTranslationForm extends Equatable {
   final String? apartment;
   final String? floor;
 
-  Map<String, dynamic> toJson() => {
-        AddressTranslationFormFields.language: language,
-        AddressTranslationFormFields.city: city,
-        AddressTranslationFormFields.district: district,
-        AddressTranslationFormFields.street: street,
-        AddressTranslationFormFields.building: building,
-        AddressTranslationFormFields.apartment: apartment,
-        AddressTranslationFormFields.floor: floor,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      AddressTranslationFormFields.language: language,
+      AddressTranslationFormFields.city: city,
+      AddressTranslationFormFields.district: district,
+      AddressTranslationFormFields.street: street,
+      AddressTranslationFormFields.building: building,
+      AddressTranslationFormFields.apartment: apartment,
+      AddressTranslationFormFields.floor: floor,
+    };
+  }
 
   @override
   List<Object?> get props => [

@@ -17,12 +17,13 @@ class Period extends Equatable {
   final int startTime;
   final int endTime;
 
-  Period.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[PeriodFields.id] as String,
-          startTime: json[PeriodFields.startTime] as int,
-          endTime: json[PeriodFields.endTime] as int,
-        );
+  factory Period.fromJson(Map<String, dynamic> json) {
+    return Period(
+      id: json[PeriodFields.id],
+      startTime: json[PeriodFields.startTime],
+      endTime: json[PeriodFields.endTime],
+    );
+  }
 
   @override
   List<Object> get props => [

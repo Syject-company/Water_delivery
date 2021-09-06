@@ -65,15 +65,21 @@ class SubscriptionPaymentScreen extends StatelessWidget {
 
   Widget _buildBalanceText() {
     return BlocBuilder<WalletBloc, WalletState>(
-      builder: (context, state) {
-        return WaterText(
-          'text.wallet_balance'.tr(args: [
-            state.balance.toStringAsFixed(2),
-          ]),
-          fontSize: 18.0,
-          lineHeight: 1.5,
-          textAlign: TextAlign.center,
-        );
+      buildWhen: (_, state) {
+        return state is WalletLoaded;
+      },
+      builder: (_, state) {
+        if (state is WalletLoaded) {
+          return WaterText(
+            'text.wallet_balance'.tr(args: [
+              state.balance.toStringAsFixed(2),
+            ]),
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            textAlign: TextAlign.center,
+          );
+        }
+        return const SizedBox.shrink();
       },
     ).withPaddingAll(24.0);
   }
@@ -132,8 +138,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   ) {
     final deliveryTime = details.time;
     final locale = Localization.currentLocale(context).languageCode;
-    final date = DateFormat('yyyy-MM-dd').parse(deliveryTime.date);
-    final formattedDayOfWeek = DateFormat('EEEE', locale).format(date);
+    final formattedDayOfWeek =
+        DateFormat('EEEE', locale).format(deliveryTime.date);
     final startTime = DateFormat('h').parse('${deliveryTime.period.startTime}');
     final endTime = DateFormat('h').parse('${deliveryTime.period.endTime}');
     final formattedStartTime = DateFormat('h a', locale).format(startTime);
@@ -198,7 +204,10 @@ class SubscriptionPaymentScreen extends StatelessWidget {
     ).withPadding(24.0, 0.0, 24.0, 24.0);
   }
 
-  Widget _buildCartItem(int index, CartItem item) {
+  Widget _buildCartItem(
+    int index,
+    CartItem item,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -384,18 +393,34 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   ) {
     return WaterButton(
       onPressed: () async {
-        context.payment.add(
-          PayForSubscription(months: details.months),
-        );
+        final subscription = context.subscription.state;
+
+        if (subscription is SubscriptionDetailsCollected) {
+          final time = subscription.time;
+          final items = context.cart.state.items;
+          final address = subscription.address;
+
+          context.payment.add(
+            PayForSubscription(
+              time: time,
+              items: items,
+              address: address,
+              months: details.months,
+            ),
+          );
+        }
       },
       text: 'button.pay'.tr(),
     );
   }
 
-  Future<void> _showDialog(BuildContext context, Widget dialog) async {
+  Future<void> _showDialog(
+    BuildContext context,
+    Widget dialog,
+  ) async {
     return showDialog(
       context: context,
-      builder: (context) => dialog,
+      builder: (_) => dialog,
       barrierDismissible: false,
     );
   }

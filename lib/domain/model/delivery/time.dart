@@ -6,6 +6,6 @@ class DeliveryTime {
     required this.period,
   });
 
-  final String date;
+  final DateTime date;
   final Period period;
 }

@@ -30,15 +30,17 @@ class ProfileForm extends Equatable {
   final String? nationality;
   final List<AddressTranslationForm>? addressTranslations;
 
-  Map<String, dynamic> toJson() => {
-        ProfileFormFields.firstName: firstName,
-        ProfileFormFields.lastName: lastName,
-        ProfileFormFields.phoneNumber: phoneNumber,
-        ProfileFormFields.birthday: birthday,
-        ProfileFormFields.familyMembersCount: familyMembersCount,
-        ProfileFormFields.nationality: nationality,
-        ProfileFormFields.addressTranslations: addressTranslations,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      ProfileFormFields.firstName: firstName,
+      ProfileFormFields.lastName: lastName,
+      ProfileFormFields.phoneNumber: phoneNumber,
+      ProfileFormFields.birthday: birthday,
+      ProfileFormFields.familyMembersCount: familyMembersCount,
+      ProfileFormFields.nationality: nationality,
+      ProfileFormFields.addressTranslations: addressTranslations,
+    };
+  }
 
   @override
   List<Object?> get props => [

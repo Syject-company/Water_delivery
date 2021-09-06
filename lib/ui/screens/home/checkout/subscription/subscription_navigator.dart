@@ -22,10 +22,7 @@ class SubscriptionNavigator extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SubscriptionBloc()),
-          BlocProvider(
-            create: (context) => DeliveryDatesBloc()..add(LoadDeliveryDates()),
-            lazy: false,
-          ),
+          BlocProvider(create: (context) => DeliveryDatesBloc()),
         ],
         child: Navigator(
           key: subscriptionNavigator,

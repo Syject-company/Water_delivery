@@ -14,11 +14,16 @@ class OrderProductForm extends Equatable {
   final String id;
   final int amount;
 
-  Map<String, dynamic> toJson() => {
-        OrderProductFields.id: id,
-        OrderProductFields.amount: amount,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      OrderProductFields.id: id,
+      OrderProductFields.amount: amount,
+    };
+  }
 
   @override
-  List<Object?> get props => [id, amount];
+  List<Object> get props => [
+        id,
+        amount,
+      ];
 }

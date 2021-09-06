@@ -38,28 +38,23 @@ class Product extends Equatable {
   final String title;
   final String description;
 
-  Product.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[ProductFields.id] as String,
-          imageUri: json[ProductFields.imageUri] as String,
-          price: json[ProductFields.price] as double,
-          volume: json[ProductFields.volume] as double,
-          categoryId: json[ProductFields.categoryId] as String,
-          sale: json[ProductFields.sale] as Sale?,
-          title: json[ProductFields.title] as String,
-          description: json[ProductFields.description] as String,
-        );
+  factory Product.fromJson(Map<String, dynamic> json) {
+    Sale? sale;
+    if (json[ProductFields.sale] != null) {
+      sale = Sale.fromJson(json[ProductFields.sale]);
+    }
 
-  Map<String, dynamic> toJson() => {
-        ProductFields.id: id,
-        ProductFields.imageUri: imageUri,
-        ProductFields.price: price,
-        ProductFields.volume: volume,
-        ProductFields.categoryId: categoryId,
-        ProductFields.sale: sale,
-        ProductFields.title: title,
-        ProductFields.description: description,
-      };
+    return Product(
+      id: json[ProductFields.id],
+      imageUri: json[ProductFields.imageUri],
+      price: json[ProductFields.price],
+      volume: json[ProductFields.volume],
+      categoryId: json[ProductFields.categoryId],
+      sale: sale,
+      title: json[ProductFields.title],
+      description: json[ProductFields.description],
+    );
+  }
 
   @override
   List<Object?> get props => [

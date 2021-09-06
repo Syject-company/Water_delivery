@@ -14,10 +14,12 @@ class SignInForm extends Equatable {
   final String? email;
   final String? password;
 
-  Map<String, dynamic> toJson() => {
-        SignInFormFields.email: email,
-        SignInFormFields.password: password,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      SignInFormFields.email: email,
+      SignInFormFields.password: password,
+    };
+  }
 
   @override
   List<Object?> get props => [

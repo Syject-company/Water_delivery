@@ -65,15 +65,21 @@ class OrderPaymentScreen extends StatelessWidget {
 
   Widget _buildBalanceText() {
     return BlocBuilder<WalletBloc, WalletState>(
-      builder: (context, state) {
-        return WaterText(
-          'text.wallet_balance'.tr(args: [
-            state.balance.toStringAsFixed(2),
-          ]),
-          fontSize: 18.0,
-          lineHeight: 1.5,
-          textAlign: TextAlign.center,
-        );
+      buildWhen: (_, state) {
+        return state is WalletLoaded;
+      },
+      builder: (_, state) {
+        if (state is WalletLoaded) {
+          return WaterText(
+            'text.wallet_balance'.tr(args: [
+              state.balance.toStringAsFixed(2),
+            ]),
+            fontSize: 18.0,
+            lineHeight: 1.5,
+            textAlign: TextAlign.center,
+          );
+        }
+        return const SizedBox.shrink();
       },
     ).withPaddingAll(24.0);
   }
@@ -131,8 +137,8 @@ class OrderPaymentScreen extends StatelessWidget {
   ) {
     final deliveryTime = details.time;
     final locale = Localization.currentLocale(context).languageCode;
-    final date = DateFormat('yyyy-MM-dd').parse(deliveryTime.date);
-    final formattedDayOfWeek = DateFormat('EEEE', locale).format(date);
+    final formattedDayOfWeek =
+        DateFormat('EEEE', locale).format(deliveryTime.date);
     final startTime = DateFormat('h').parse('${deliveryTime.period.startTime}');
     final endTime = DateFormat('h').parse('${deliveryTime.period.endTime}');
     final formattedStartTime = DateFormat('h a', locale).format(startTime);
@@ -310,16 +316,33 @@ class OrderPaymentScreen extends StatelessWidget {
   Widget _buildPayButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
-        context.payment.add(PayForOrder());
+        final order = context.order.state;
+
+        if (order is OrderDetailsCollected) {
+          final time = order.time;
+          final items = context.cart.state.items;
+          final address = order.address;
+
+          context.payment.add(
+            PayForOrder(
+              time: time,
+              items: items,
+              address: address,
+            ),
+          );
+        }
       },
       text: 'button.pay'.tr(),
     );
   }
 
-  Future<void> _showDialog(BuildContext context, Widget dialog) async {
+  Future<void> _showDialog(
+    BuildContext context,
+    Widget dialog,
+  ) async {
     return showDialog(
       context: context,
-      builder: (context) => dialog,
+      builder: (_) => dialog,
       barrierDismissible: false,
     );
   }

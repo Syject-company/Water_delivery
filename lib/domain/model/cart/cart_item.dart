@@ -16,12 +16,16 @@ class CartItem extends Equatable {
   CartItem copyWith({
     Product? product,
     int? amount,
-  }) =>
-      CartItem(
-        product: product ?? this.product,
-        amount: amount ?? this.amount,
-      );
+  }) {
+    return CartItem(
+      product: product ?? this.product,
+      amount: amount ?? this.amount,
+    );
+  }
 
   @override
-  List<Object> get props => [product, amount];
+  List<Object> get props => [
+        product,
+        amount,
+      ];
 }

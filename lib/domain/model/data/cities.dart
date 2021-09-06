@@ -1,4 +1,4 @@
-import 'package:water/domain/model/city.dart';
+import 'package:water/domain/model/delivery/city.dart';
 
 const List<City> cities = [
   City(

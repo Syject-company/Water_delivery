@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
 class ProfileFields {
@@ -44,7 +45,7 @@ class Profile extends Equatable {
   final String? lastName;
   final String email;
   final String? phoneNumber;
-  final String? birthday;
+  final DateTime? birthday;
   final int familyMembersCount;
   final String? nationality;
   final String? city;
@@ -56,25 +57,32 @@ class Profile extends Equatable {
   final int referralCode;
   final double walletBalance;
 
-  Profile.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[ProfileFields.id] as String,
-          firstName: json[ProfileFields.firstName] as String?,
-          lastName: json[ProfileFields.lastName] as String?,
-          email: json[ProfileFields.email] as String,
-          phoneNumber: json[ProfileFields.phoneNumber] as String?,
-          birthday: json[ProfileFields.birthday] as String?,
-          familyMembersCount: json[ProfileFields.familyMembersCount] as int,
-          nationality: json[ProfileFields.nationality] as String?,
-          city: json[ProfileFields.city] as String?,
-          district: json[ProfileFields.district] as String?,
-          street: json[ProfileFields.street] as String?,
-          building: json[ProfileFields.building] as String?,
-          apartment: json[ProfileFields.apartment] as String?,
-          floor: json[ProfileFields.floor] as String?,
-          referralCode: json[ProfileFields.referralCode] as int,
-          walletBalance: json[ProfileFields.walletBalance] as double,
-        );
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    DateTime? birthday;
+    if (json[ProfileFields.birthday] != null) {
+      birthday =
+          DateFormat('yyyy-MM-ddTHH:mm:ss').parse(json[ProfileFields.birthday]);
+    }
+
+    return Profile(
+      id: json[ProfileFields.id],
+      firstName: json[ProfileFields.firstName],
+      lastName: json[ProfileFields.lastName],
+      email: json[ProfileFields.email],
+      phoneNumber: json[ProfileFields.phoneNumber],
+      birthday: birthday,
+      familyMembersCount: json[ProfileFields.familyMembersCount],
+      nationality: json[ProfileFields.nationality],
+      city: json[ProfileFields.city],
+      district: json[ProfileFields.district],
+      street: json[ProfileFields.street],
+      building: json[ProfileFields.building],
+      apartment: json[ProfileFields.apartment],
+      floor: json[ProfileFields.floor],
+      referralCode: json[ProfileFields.referralCode],
+      walletBalance: json[ProfileFields.walletBalance],
+    );
+  }
 
   @override
   List<Object?> get props => [

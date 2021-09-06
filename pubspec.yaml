@@ -20,6 +20,7 @@ dependencies:
   http: ^0.13.3
   responsive_framework: ^0.1.4
   cached_network_image: ^3.1.0
+  flutter_inappwebview: ^5.3.2
 
   # graphics
   flutter_svg: ^0.22.0
@@ -50,7 +51,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.9.1
 
 flutter_icons:
-  image_path: "assets/images/icon.png"
+  image_path: assets/images/icon.png
   remove_alpha_ios: true
   android: true
   ios: true
@@ -61,8 +62,6 @@ flutter:
   assets:
     - assets/i18n/
     - assets/images/
-    - assets/images/categories/
-    - assets/images/products/
     - assets/lottie/
     - assets/svg/
     - assets/video/

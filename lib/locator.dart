@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import 'domain/service/account_service.dart';
 import 'domain/service/auth_service.dart';
 import 'domain/service/banner_service.dart';
 import 'domain/service/category_service.dart';
@@ -22,4 +23,5 @@ void setupLocator() {
   locator.registerSingleton<PeriodService>(PeriodService());
   locator.registerSingleton<OrderService>(OrderService());
   locator.registerSingleton<SupportService>(SupportService());
+  locator.registerSingleton<AccountService>(AccountService());
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,30 +32,15 @@ class DeliveryDatesBloc extends Bloc<DeliveryDatesEvent, DeliveryDatesState> {
     DeliveryDatesEvent event,
   ) async* {
     if (event is LoadDeliveryDates) {
-      yield* _mapLoadDeliveryDatesToState();
+      yield* _mapLoadDeliveryDatesToState(event);
     }
   }
 
-  Stream<DeliveryDatesState> _mapLoadDeliveryDatesToState() async* {
-    final dates = await _periodService.getAll('Al Ain');
-
-    // for (int i = 0; i < days; i++) {
-    //   final date = DateTime.now().add(Duration(days: i));
-    //   dates.add(
-    //     DeliveryDate(
-    //       date: DateFormat('yyyy-MM-dd').format(date),
-    //       periods: periods.map((period) {
-    //         return Period(
-    //           id: period.id,
-    //           startTime: period.startTime,
-    //           endTime: period.endTime,
-    //           available: date.weekday != DateTime.friday,
-    //         );
-    //       }).toList(),
-    //     ),
-    //   );
-    // }
-
+  Stream<DeliveryDatesState> _mapLoadDeliveryDatesToState(
+    LoadDeliveryDates event,
+  ) async* {
+    yield state.copyWith(dates: const []);
+    final dates = await _periodService.getAll(event.city);
     yield state.copyWith(dates: dates);
   }
 }

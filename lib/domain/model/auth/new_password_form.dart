@@ -17,11 +17,13 @@ class NewPasswordForm extends Equatable {
   final String? resetCode;
   final String? newPassword;
 
-  Map<String, dynamic> toJson() => {
-        NewPasswordFormFields.email: email,
-        NewPasswordFormFields.resetCode: resetCode,
-        NewPasswordFormFields.newPassword: newPassword,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      NewPasswordFormFields.email: email,
+      NewPasswordFormFields.resetCode: resetCode,
+      NewPasswordFormFields.newPassword: newPassword,
+    };
+  }
 
   @override
   List<Object?> get props => [

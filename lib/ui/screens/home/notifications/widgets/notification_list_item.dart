@@ -35,9 +35,8 @@ class NotificationListItem extends StatelessWidget {
   }
 
   Widget _buildPostedDate() {
-    final date =
-        DateFormat('yyyy-MM-ddTHH:mm:ss').parse(notification.postedDate);
-    final formattedPostedDate = DateFormat('dd/MM/yyyy  hh:mm a').format(date);
+    final formattedPostedDate =
+        DateFormat('dd/MM/yyyy  hh:mm a').format(notification.postedDate);
 
     return WaterText(
       formattedPostedDate,

@@ -45,14 +45,12 @@ class _CartScreenState extends State<CartScreen> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: SeparatedColumn(
-        children: state.items
-            .map(
-              (item) => CartListItem(
-                key: ValueKey(item),
-                cartItem: item,
-              ),
-            )
-            .toList(),
+        children: state.items.map((item) {
+          return CartListItem(
+            key: ValueKey(item),
+            cartItem: item,
+          );
+        }).toList(),
         includeOuterSeparators: true,
       ),
     );

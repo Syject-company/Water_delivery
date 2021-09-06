@@ -8,5 +8,10 @@ abstract class DeliveryDatesEvent extends Equatable {
 }
 
 class LoadDeliveryDates extends DeliveryDatesEvent {
-  const LoadDeliveryDates();
+  const LoadDeliveryDates({required this.city});
+
+  final String city;
+
+  @override
+  List<Object> get props => [city];
 }

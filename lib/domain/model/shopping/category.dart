@@ -17,18 +17,13 @@ class Category extends Equatable {
   final String imageUri;
   final String title;
 
-  Category.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[CategoryFields.id] as String,
-          imageUri: json[CategoryFields.imageUri] as String,
-          title: json[CategoryFields.title] as String,
-        );
-
-  Map<String, dynamic> toJson() => {
-        CategoryFields.id: id,
-        CategoryFields.imageUri: imageUri,
-        CategoryFields.title: title,
-      };
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      id: json[CategoryFields.id],
+      imageUri: json[CategoryFields.imageUri],
+      title: json[CategoryFields.title],
+    );
+  }
 
   @override
   List<Object> get props => [

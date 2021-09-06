@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
 class SaleFields {
@@ -15,38 +16,36 @@ class Sale extends Equatable {
     required this.title,
     required this.percent,
     required this.description,
-    this.startDate,
-    this.endDate,
+    required this.startDate,
+    required this.endDate,
   });
 
   final String id;
   final String title;
   final double percent;
   final String description;
-  final DateTime? startDate;
-  final DateTime? endDate;
+  final DateTime startDate;
+  final DateTime endDate;
 
-  Sale.fromJson(Map<String, dynamic> json)
-      : this(
-          id: json[SaleFields.id] as String,
-          title: json[SaleFields.title] as String,
-          percent: json[SaleFields.percent] as double,
-          description: json[SaleFields.description] as String,
-          startDate: json[SaleFields.startDate] as DateTime,
-          endDate: json[SaleFields.endDate] as DateTime,
-        );
+  factory Sale.fromJson(Map<String, dynamic> json) {
+    final percent = json[SaleFields.percent] / 100;
+    final startDate =
+        DateFormat('yyyy-MM-ddTHH:mm:ss').parse(json[SaleFields.startDate]);
+    final endDate =
+        DateFormat('yyyy-MM-ddTHH:mm:ss').parse(json[SaleFields.endDate]);
 
-  Map<String, dynamic> toJson() => {
-        SaleFields.id: id,
-        SaleFields.title: title,
-        SaleFields.percent: percent,
-        SaleFields.description: description,
-        SaleFields.startDate: startDate,
-        SaleFields.endDate: endDate,
-      };
+    return Sale(
+      id: json[SaleFields.id],
+      title: json[SaleFields.title],
+      percent: percent,
+      description: json[SaleFields.description],
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
 
   @override
-  List<Object?> get props => [
+  List<Object> get props => [
         id,
         title,
         percent,
