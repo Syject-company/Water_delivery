@@ -6,7 +6,6 @@ import 'package:water/ui/screens/home/auth/auth_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
-import 'package:water/ui/validators/field.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -17,10 +16,10 @@ class SignUpScreen extends StatelessWidget {
   }
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _passwordInputKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _confirmPasswordInputKey =
-      GlobalKey<WaterFormInputState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -35,43 +34,44 @@ class SignUpScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-          physics: const BouncingScrollPhysics(),
-          controller: _scrollController,
-          clipBehavior: Clip.none,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const WaterLogo(),
-              const SizedBox(height: 36.0),
-              _buildCreateAccountLabel(),
-              const SizedBox(height: 12.0),
-              _buildInputForm(),
-              const SizedBox(height: 40.0),
-              _buildSignUpLabel(),
-              const SizedBox(height: 24.0),
-              _buildSignUpButtons(context),
-              const SizedBox(height: 24.0),
-              _buildRegisterButton(context),
-            ],
-          ),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        ),
+        body: _buildBody(context),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: WaterAppBar(
-        leading: AppBarBackButton(
-          onPressed: () {
-            authNavigator.pop();
-          },
-        ),
+    return WaterAppBar(
+      leading: AppBarBackButton(
+        onPressed: () {
+          authNavigator.pop();
+        },
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      physics: const BouncingScrollPhysics(),
+      controller: _scrollController,
+      clipBehavior: Clip.none,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const WaterLogo(),
+          const SizedBox(height: 36.0),
+          _buildCreateAccountLabel(),
+          const SizedBox(height: 12.0),
+          _buildInputForm(),
+          const SizedBox(height: 40.0),
+          _buildSignUpLabel(),
+          const SizedBox(height: 24.0),
+          _buildSignUpButtons(context),
+          const SizedBox(height: 24.0),
+          _buildRegisterButton(context),
+        ],
+      ),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }
 
@@ -90,10 +90,10 @@ class SignUpScreen extends StatelessWidget {
       child: Column(
         children: [
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (context, state) {
+            buildWhen: (_, state) {
               return state is Authenticating || state is AuthenticationFailed;
             },
-            builder: (context, state) {
+            builder: (_, state) {
               return WaterText(
                 state is AuthenticationFailed ? state.message : '',
                 fontSize: 15.0,
@@ -105,24 +105,24 @@ class SignUpScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _emailInputKey,
+            controller: _emailController,
             hintText: 'input.email'.tr(),
             validator: const EmailValidator().validator,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _passwordInputKey,
+            controller: _passwordController,
             hintText: 'input.password'.tr(),
-            validator: const PasswordValidator().validator,
+            validator: const PasswordValidator(fieldName: 'Password').validator,
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _confirmPasswordInputKey,
+            controller: _confirmPasswordController,
             hintText: 'input.confirm_password'.tr(),
-            validator:
-                const FieldValidator(fieldName: 'Confirm Password').validator,
+            validator: const PasswordValidator(fieldName: 'Confirm Password')
+                .validator,
             keyboardType: TextInputType.visiblePassword,
           ),
         ],
@@ -178,9 +178,9 @@ class SignUpScreen extends StatelessWidget {
           return;
         }
 
-        final email = _emailInputKey.currentState!.value;
-        final password = _passwordInputKey.currentState!.value;
-        final confirmPassword = _confirmPasswordInputKey.currentState!.value;
+        final email = _emailController.text;
+        final password = _passwordController.text;
+        final confirmPassword = _confirmPasswordController.text;
 
         context.auth.add(
           Register(

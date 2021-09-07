@@ -16,10 +16,10 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
-      listener: (context, state) {
+      listener: (_, state) {
         context.showLoader(state is ForgotPasswordLoading);
 
-        if (state is ForgotPasswordNewPasswordInput) {
+        if (state is NewPasswordInput) {
           _pageController.jumpToPage(1);
         } else if (state is ForgotPasswordSuccess) {
           homeNavigator.pop();
@@ -27,29 +27,30 @@ class ForgotPasswordScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          clipBehavior: Clip.none,
-          children: [
-            EnterEmailPage(),
-            EnterNewPasswordPage(),
-          ],
-        ),
+        body: _buildBody(),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: WaterAppBar(
-        leading: AppBarBackButton(
-          onPressed: () {
-            authNavigator.pop();
-          },
-        ),
+    return WaterAppBar(
+      leading: AppBarBackButton(
+        onPressed: () {
+          authNavigator.pop();
+        },
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    return PageView(
+      physics: const NeverScrollableScrollPhysics(),
+      controller: _pageController,
+      clipBehavior: Clip.none,
+      children: [
+        EnterEmailPage(),
+        EnterNewPasswordPage(),
+      ],
     );
   }
 }

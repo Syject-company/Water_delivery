@@ -13,29 +13,30 @@ class SelectLanguageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const WaterLogo(),
-            const SizedBox(height: 64.0),
-            _buildSelectLanguageLabel(),
-            const SizedBox(height: 32.0),
-            _buildLanguagePicker(context),
-            const SizedBox(height: 40.0),
-            _buildSaveButton(context),
-          ],
-        ),
-      ),
+      body: _buildBody(context),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: WaterAppBar(),
+    return WaterAppBar();
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const WaterLogo(),
+          const SizedBox(height: 64.0),
+          _buildSelectLanguageLabel(),
+          const SizedBox(height: 32.0),
+          _buildLanguagePicker(context),
+          const SizedBox(height: 40.0),
+          _buildSaveButton(context),
+        ],
+      ),
     );
   }
 

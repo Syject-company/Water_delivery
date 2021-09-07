@@ -11,37 +11,38 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-        physics: const BouncingScrollPhysics(),
-        clipBehavior: Clip.none,
-        child: Column(
-          children: [
-            const WaterLogo(labelWidthFactor: 2.25),
-            const SizedBox(height: 128.0),
-            _buildSignInButton(context),
-            const SizedBox(height: 12.0),
-            _buildSignUpButton(context),
-          ],
-        ),
-      ),
+      body: _buildBody(),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: WaterAppBar(
-        leading: AppBarBackButton(
-          onPressed: () {
-            homeNavigator.pop();
-          },
-        ),
+    return WaterAppBar(
+      leading: AppBarBackButton(
+        onPressed: () {
+          homeNavigator.pop();
+        },
       ),
     );
   }
 
-  Widget _buildSignInButton(BuildContext context) {
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
+      child: Column(
+        children: [
+          const WaterLogo(labelWidthFactor: 2.25),
+          const SizedBox(height: 128.0),
+          _buildSignInButton(),
+          const SizedBox(height: 12.0),
+          _buildSignUpButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSignInButton() {
     return WaterButton(
       onPressed: () {
         authNavigator.pushNamed(AuthRoutes.signIn);
@@ -50,7 +51,7 @@ class AuthScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSignUpButton(BuildContext context) {
+  Widget _buildSignUpButton() {
     return WaterButton(
       onPressed: () {
         authNavigator.pushNamed(AuthRoutes.signUp);

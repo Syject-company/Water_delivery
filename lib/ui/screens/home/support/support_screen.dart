@@ -7,6 +7,7 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/field.dart';
+import 'package:water/util/session.dart';
 
 class SupportScreen extends StatelessWidget {
   SupportScreen({Key? key}) : super(key: key);
@@ -21,16 +22,17 @@ class SupportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        physics: const BouncingScrollPhysics(),
+      appBar: _buildAppBar(),
+      body: BlocListener<SupportBloc, SupportState>(
+        listener: (_, state) {
+          context.showLoader(state.status == MessageStatus.sending);
+        },
         child: _buildBody(context),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.support'.tr(),
@@ -49,16 +51,15 @@ class SupportScreen extends StatelessWidget {
           onPressed: () {},
           icon: AppIcons.whatsapp,
         ),
-        AppBarNotificationButton(),
+        if (Session.isAuthenticated) AppBarNotificationButton(),
       ],
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    return BlocListener<SupportBloc, SupportState>(
-      listener: (context, state) {
-        context.showLoader(state.status == MessageStatus.sending);
-      },
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

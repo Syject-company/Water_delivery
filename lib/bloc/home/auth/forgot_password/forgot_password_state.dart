@@ -4,7 +4,7 @@ abstract class ForgotPasswordState extends Equatable {
   const ForgotPasswordState();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class ForgotPasswordLoading extends ForgotPasswordState {
@@ -24,15 +24,15 @@ class ForgotPasswordError extends ForgotPasswordState {
   List<Object> get props => [message];
 }
 
-class ForgotPasswordEmailInput extends ForgotPasswordState {
-  const ForgotPasswordEmailInput();
+class EmailInput extends ForgotPasswordState {
+  const EmailInput();
 }
 
-class ForgotPasswordNewPasswordInput extends ForgotPasswordState {
-  const ForgotPasswordNewPasswordInput({this.email});
+class NewPasswordInput extends ForgotPasswordState {
+  const NewPasswordInput({required this.email});
 
-  final String? email;
+  final String email;
 
   @override
-  List<Object?> get props => [email];
+  List<Object> get props => [email];
 }

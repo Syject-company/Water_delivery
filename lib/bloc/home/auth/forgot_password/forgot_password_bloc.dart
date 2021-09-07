@@ -5,8 +5,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/model/auth/forgot_password_form.dart';
-import 'package:water/domain/model/auth/new_password_form.dart';
+import 'package:water/domain/model/auth/forgot_password_confirm_form.dart';
+import 'package:water/domain/model/auth/forgot_password_initial_form.dart';
 import 'package:water/domain/service/auth_service.dart';
 import 'package:water/locator.dart';
 import 'package:water/util/session.dart';
@@ -20,7 +20,7 @@ extension BlocGetter on BuildContext {
 
 class ForgotPasswordBloc
     extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
-  ForgotPasswordBloc() : super(ForgotPasswordEmailInput());
+  ForgotPasswordBloc() : super(EmailInput());
 
   final AuthService _authService = locator<AuthService>();
 
@@ -39,16 +39,14 @@ class ForgotPasswordBloc
     ResetPassword event,
   ) async* {
     try {
-      final email = event.email;
+      yield ForgotPasswordLoading();
 
-      if (email != null) {
-        yield ForgotPasswordLoading();
+      final form = ForgotPasswordInitialForm(
+        email: event.email,
+      );
+      await _authService.resetPassword(form);
 
-        final form = ForgotPasswordForm(email: email);
-        await _authService.resetPassword(form);
-
-        yield ForgotPasswordNewPasswordInput(email: email);
-      }
+      yield NewPasswordInput(email: event.email);
     } on HttpException catch (e) {
       yield ForgotPasswordError(message: e.message.trim());
     }
@@ -59,15 +57,15 @@ class ForgotPasswordBloc
     ConfirmNewPassword event,
   ) async* {
     if (event.password != event.confirmPassword) {
-      yield ForgotPasswordError(message: 'Passwords do not equals');
+      yield ForgotPasswordError(message: 'Passwords do not equal');
       return;
     }
 
-    if (state is ForgotPasswordNewPasswordInput) {
+    if (state is NewPasswordInput) {
       try {
         yield ForgotPasswordLoading();
 
-        final form = NewPasswordForm(
+        final form = ForgotPasswordConfirmForm(
           email: state.email,
           resetCode: event.code,
           newPassword: event.password,
@@ -78,7 +76,7 @@ class ForgotPasswordBloc
         yield ForgotPasswordSuccess();
       } on HttpException catch (e) {
         yield ForgotPasswordError(message: e.message.trim());
-        yield ForgotPasswordNewPasswordInput(email: state.email);
+        yield NewPasswordInput(email: state.email);
       }
     }
   }

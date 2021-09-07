@@ -30,38 +30,12 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _buildBalanceText(),
-            const SizedBox(height: 32.0),
-            PageTransitionSwitcher(
-              reverse: !_enableAddBalanceForm,
-              layoutBuilder: _defaultLayoutBuilder,
-              duration: const Duration(milliseconds: 375),
-              transitionBuilder: (child, animation, secondaryAnimation) {
-                return SharedAxisTransition(
-                  animation: animation,
-                  secondaryAnimation: secondaryAnimation,
-                  transitionType: SharedAxisTransitionType.horizontal,
-                  fillColor: AppColors.white,
-                  child: child,
-                );
-              },
-              child: !_enableAddBalanceForm
-                  ? _buildAddBalanceButton()
-                  : AddBalanceForm(),
-            ),
-          ],
-        ),
-      ),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.wallet'.tr(),
@@ -84,6 +58,37 @@ class _WalletScreenState extends State<WalletScreen> {
         ),
         AppBarNotificationButton(),
       ],
+    );
+  }
+
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          const SizedBox(height: 64.0),
+          _buildBalanceText(),
+          const SizedBox(height: 32.0),
+          PageTransitionSwitcher(
+            reverse: !_enableAddBalanceForm,
+            layoutBuilder: _defaultLayoutBuilder,
+            duration: const Duration(milliseconds: 375),
+            transitionBuilder: (child, animation, secondaryAnimation) {
+              return SharedAxisTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                fillColor: AppColors.white,
+                child: child,
+              );
+            },
+            child: !_enableAddBalanceForm
+                ? _buildAddBalanceButton()
+                : AddBalanceForm(),
+          ),
+        ],
+      ),
     );
   }
 

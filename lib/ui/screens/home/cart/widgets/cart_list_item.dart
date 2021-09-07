@@ -5,20 +5,13 @@ import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/domain/model/cart/cart_item.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
-class CartListItem extends StatefulWidget {
+class CartListItem extends StatelessWidget {
   const CartListItem({
     Key? key,
     required this.cartItem,
   }) : super(key: key);
 
   final CartItem cartItem;
-
-  @override
-  _CartListItemState createState() => _CartListItemState();
-}
-
-class _CartListItemState extends State<CartListItem> {
-  CartItem get _item => widget.cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +36,7 @@ class _CartListItemState extends State<CartListItem> {
                     const SizedBox(width: 12.0),
                     _buildVolumeText(),
                     const SizedBox(width: 12.0),
-                    _buildRemoveItemButton(),
+                    _buildRemoveItemButton(context),
                   ],
                 ).withPadding(0.0, 0.0, 18.0, 0.0),
                 const SizedBox(height: 12.0),
@@ -51,7 +44,7 @@ class _CartListItemState extends State<CartListItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    _buildAmountPicker(),
+                    _buildAmountPicker(context),
                     const SizedBox(width: 12.0),
                     _buildPriceText(),
                   ],
@@ -70,7 +63,7 @@ class _CartListItemState extends State<CartListItem> {
       child: AspectRatio(
         aspectRatio: 1.0,
         child: CachedNetworkImage(
-          imageUrl: _item.product.imageUri,
+          imageUrl: cartItem.product.imageUri,
           fadeInDuration: const Duration(milliseconds: 250),
           fadeOutDuration: const Duration(milliseconds: 250),
           fadeInCurve: Curves.fastOutSlowIn,
@@ -83,7 +76,7 @@ class _CartListItemState extends State<CartListItem> {
   Widget _buildTitleText() {
     return Expanded(
       child: WaterText(
-        _item.product.title,
+        cartItem.product.title,
         maxLines: 2,
         fontSize: 15.0,
         lineHeight: 1.5,
@@ -95,7 +88,7 @@ class _CartListItemState extends State<CartListItem> {
 
   Widget _buildVolumeText() {
     return WaterText(
-      _item.product.formattedVolume,
+      cartItem.product.formattedVolume,
       maxLines: 1,
       fontSize: 15.0,
       lineHeight: 1.5,
@@ -105,11 +98,11 @@ class _CartListItemState extends State<CartListItem> {
     ).withPadding(0.0, 2.0, 0.0, 0.0);
   }
 
-  Widget _buildRemoveItemButton() {
+  Widget _buildRemoveItemButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context.cart.add(
-          RemoveFromCart(product: _item.product),
+          RemoveFromCart(product: cartItem.product),
         );
       },
       child: Icon(
@@ -120,12 +113,15 @@ class _CartListItemState extends State<CartListItem> {
     );
   }
 
-  Widget _buildAmountPicker() {
+  Widget _buildAmountPicker(BuildContext context) {
     return WaterNumberPicker(
-      value: _item.amount,
+      value: cartItem.amount,
       onChanged: (value) {
         context.cart.add(
-          AddToCart(product: _item.product, amount: value),
+          AddToCart(
+            product: cartItem.product,
+            amount: value,
+          ),
         );
       },
       minValue: 1,
@@ -138,7 +134,7 @@ class _CartListItemState extends State<CartListItem> {
   }
 
   Widget _buildPriceText() {
-    final discount = _item.product.discount;
+    final discount = cartItem.product.discount;
 
     return Flexible(
       child: Column(
@@ -148,7 +144,7 @@ class _CartListItemState extends State<CartListItem> {
           if (discount > 0.0)
             WaterText(
               'text.aed'.tr(args: [
-                _item.totalPrice.toStringAsFixed(2),
+                cartItem.totalPrice.toStringAsFixed(2),
               ]),
               maxLines: 1,
               fontSize: 15.0,
@@ -160,7 +156,7 @@ class _CartListItemState extends State<CartListItem> {
             ).withPadding(0.0, 0.0, 0.0, 3.0),
           WaterText(
             'text.aed'.tr(args: [
-              _item.totalDiscountPrice.toStringAsFixed(2),
+              cartItem.totalDiscountPrice.toStringAsFixed(2),
             ]),
             maxLines: 1,
             fontSize: 19.0,

@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:water/domain/model/auth/auth_response.dart';
-import 'package:water/domain/model/auth/forgot_password_form.dart';
-import 'package:water/domain/model/auth/new_password_form.dart';
+import 'package:water/domain/model/auth/forgot_password_initial_form.dart';
+import 'package:water/domain/model/auth/forgot_password_confirm_form.dart';
 import 'package:water/domain/model/auth/sign_in_form.dart';
 import 'package:water/domain/model/auth/sign_up_form.dart';
 import 'package:water/domain/model/auth/token.dart';
@@ -53,7 +53,7 @@ class AuthService {
     return AuthResponse.fromJson(_handleResponse(response));
   }
 
-  Future<void> resetPassword(ForgotPasswordForm form) async {
+  Future<void> resetPassword(ForgotPasswordInitialForm form) async {
     final response = await Http.post(
       '$_endpoint/ForgotPassword/Initial',
       body: form,
@@ -61,7 +61,7 @@ class AuthService {
     _handleResponse(response);
   }
 
-  Future<AuthResponse> confirmNewPassword(NewPasswordForm form) async {
+  Future<AuthResponse> confirmNewPassword(ForgotPasswordConfirmForm form) async {
     final response = await Http.post(
       '$_endpoint/ForgotPassword/Confirm',
       body: form,

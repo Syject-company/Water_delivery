@@ -28,24 +28,21 @@ class _WalletTopUpScreenState extends State<WalletTopUpScreen> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: WaterAppBar(
-        title: WaterText(
-          'Top Up Wallet',
-          fontSize: 24.0,
-          lineHeight: 2.0,
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          AppBarIconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: AppIcons.close,
-          )
-        ],
+    return WaterAppBar(
+      title: WaterText(
+        'Top Up Wallet',
+        fontSize: 24.0,
+        lineHeight: 2.0,
+        textAlign: TextAlign.center,
       ),
+      actions: [
+        AppBarIconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: AppIcons.close,
+        )
+      ],
     );
   }
 

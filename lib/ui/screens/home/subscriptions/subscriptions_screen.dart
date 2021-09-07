@@ -19,16 +19,13 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: _buildSubscriptionItems(),
-      ),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
       bottomNavigationBar: _buildActionButtons(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.subscriptions'.tr(),
@@ -50,41 +47,73 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     );
   }
 
+  Widget _buildBody() {
+    return LoaderOverlay(
+      child: _buildSubscriptionItems(),
+    );
+  }
+
   Widget _buildSubscriptionItems() {
-    return BlocBuilder<SubscriptionsBloc, SubscriptionsState>(
-      builder: (context, state) {
+    return BlocConsumer<SubscriptionsBloc, SubscriptionsState>(
+      listener: (context, state) {
+        context.showLoader(state is SubscriptionsLoading);
+      },
+      builder: (_, state) {
         if (state is SubscriptionsLoaded) {
-          return SeparatedColumn(
-            children: state.subscriptions.map(
-              (subscription) {
+          if (state.subscriptions.isEmpty) {
+            return _buildNoSubscriptionsText();
+          }
+
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: SeparatedColumn(
+              children: state.subscriptions.map((subscription) {
                 return SubscriptionListItem(
                   key: ValueKey(subscription),
                   subscription: subscription,
-                  selected: state.selectedSubscription == subscription,
+                  selected: subscription == state.selectedSubscription,
                 );
-              },
-            ).toList(),
-            includeOuterSeparators: true,
+              }).toList(),
+              includeOuterSeparators: true,
+            ),
           );
-        } else {
-          return const SizedBox.shrink();
         }
+        return const SizedBox.shrink();
       },
+    );
+  }
+
+  Widget _buildNoSubscriptionsText() {
+    return Center(
+      child: WaterText(
+        'There are not subscriptions yet',
+        fontSize: 20.0,
+        color: AppColors.secondaryText,
+      ),
     );
   }
 
   Widget _buildActionButtons() {
     return BlocBuilder<SubscriptionsBloc, SubscriptionsState>(
-      builder: (context, state) {
-        final enabled = (state is SubscriptionsLoaded &&
-            state.selectedSubscription != null);
+      builder: (_, state) {
+        bool enableStopSubscription = false;
+        bool enableDeleteSubscription = false;
+
+        if (state is SubscriptionsLoaded) {
+          final selectedSubscription = state.selectedSubscription;
+
+          if (selectedSubscription != null) {
+            enableStopSubscription = selectedSubscription.isActive;
+            enableDeleteSubscription = true;
+          }
+        }
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildStopSubscriptionButton(enabled),
+            _buildStopSubscriptionButton(enableStopSubscription),
             const SizedBox(height: 16.0),
-            _buildDeleteSubscriptionButton(enabled),
+            _buildDeleteSubscriptionButton(enableDeleteSubscription),
           ],
         );
       },
@@ -93,7 +122,9 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
 
   Widget _buildStopSubscriptionButton(bool enabled) {
     return WaterButton(
-      onPressed: () {},
+      onPressed: () {
+        context.subscriptions.add(StopSubscription());
+      },
       text: 'button.stop_subscription'.tr(),
       backgroundColor: AppColors.secondary,
       foregroundColor: AppColors.primary,
@@ -103,7 +134,9 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
 
   Widget _buildDeleteSubscriptionButton(bool enabled) {
     return WaterButton(
-      onPressed: () {},
+      onPressed: () {
+        context.subscriptions.add(DeleteSubscription());
+      },
       text: 'button.delete_subscription'.tr(),
       backgroundColor: AppColors.errorSecondary,
       foregroundColor: AppColors.white,

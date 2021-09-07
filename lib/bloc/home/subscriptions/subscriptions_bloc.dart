@@ -5,6 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/subscription/subscription.dart';
+import 'package:water/domain/service/subscription_service.dart';
+import 'package:water/locator.dart';
+import 'package:water/util/nullable.dart';
+import 'package:water/util/session.dart';
 
 part 'subscriptions_event.dart';
 part 'subscriptions_state.dart';
@@ -16,6 +20,9 @@ extension BlocGetter on BuildContext {
 class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
   SubscriptionsBloc() : super(SubscriptionsInitial());
 
+  final SubscriptionService _subscriptionService =
+      locator<SubscriptionService>();
+
   @override
   Stream<SubscriptionsState> mapEventToState(
     SubscriptionsEvent event,
@@ -23,81 +30,76 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
     if (event is LoadSubscriptions) {
       yield* _mapLoadSubscriptionsToState(event);
     } else if (event is SelectSubscription) {
-      yield* _mapSelectSubscriptionToState(event);
+      yield* _mapSelectSubscriptionToState(state, event);
     } else if (event is DeselectSubscription) {
-      yield* _mapDeselectSubscriptionToState();
+      yield* _mapDeselectSubscriptionToState(state);
+    } else if (event is StopSubscription) {
+      yield* _mapStopSubscriptionToState(state);
+    } else if (event is DeleteSubscription) {
+      yield* _mapDeleteSubscriptionToState(state);
     }
   }
 
   Stream<SubscriptionsState> _mapLoadSubscriptionsToState(
     LoadSubscriptions event,
   ) async* {
-    yield SubscriptionsLoaded(subscriptions: _subscriptions);
+    if (Session.isAuthenticated) {
+      yield SubscriptionsLoading();
+      final subscriptions = await _subscriptionService.getAll(Session.token!);
+      yield SubscriptionsLoaded(subscriptions: subscriptions);
+    }
   }
 
   Stream<SubscriptionsState> _mapSelectSubscriptionToState(
+    SubscriptionsState state,
     SelectSubscription event,
   ) async* {
     if (state is SubscriptionsLoaded) {
-      yield SubscriptionsLoaded(
-        subscriptions: _subscriptions,
-        selectedSubscription: event.subscription,
+      yield state.copyWith(
+        selectedSubscription: Nullable(event.subscription),
       );
     }
   }
 
-  Stream<SubscriptionsState> _mapDeselectSubscriptionToState() async* {
+  Stream<SubscriptionsState> _mapDeselectSubscriptionToState(
+    SubscriptionsState state,
+  ) async* {
     if (state is SubscriptionsLoaded) {
-      yield SubscriptionsLoaded(
-        subscriptions: _subscriptions,
+      yield state.copyWith(
+        selectedSubscription: Nullable(null),
       );
+    }
+  }
+
+  Stream<SubscriptionsState> _mapStopSubscriptionToState(
+    SubscriptionsState state,
+  ) async* {
+    if (state is SubscriptionsLoaded) {
+      final subscription = state.selectedSubscription;
+
+      if (subscription == null) {
+        return;
+      }
+
+      print('Stop subscription: ${subscription.id}');
+      await _subscriptionService.stop(Session.token!, subscription.id);
+      add(LoadSubscriptions());
+    }
+  }
+
+  Stream<SubscriptionsState> _mapDeleteSubscriptionToState(
+    SubscriptionsState state,
+  ) async* {
+    if (state is SubscriptionsLoaded) {
+      final subscription = state.selectedSubscription;
+
+      if (subscription == null) {
+        return;
+      }
+
+      print('Delete subscription: ${subscription.id}');
+      await _subscriptionService.delete(Session.token!, subscription.id);
+      add(LoadSubscriptions());
     }
   }
 }
-
-final List<Subscription> _subscriptions = [
-  Subscription(
-    id: '1',
-    isActive: true,
-    deliveryDate: '16-08-2021',
-    products: [
-      SubscriptionProduct(
-        title: 'Title 1',
-        volume: 0.33,
-        amount: 1,
-        price: 12.0,
-      ),
-    ],
-    city: 'City 1',
-    district: 'District 1',
-    street: 'Street 1',
-    building: 'Building 1',
-    apartment: 'Apartment 1',
-    floor: 'Floor 1',
-  ),
-  Subscription(
-    id: '2',
-    isActive: false,
-    deliveryDate: '12-08-2021',
-    products: [
-      SubscriptionProduct(
-        title: 'Title 1',
-        volume: 0.1,
-        amount: 10,
-        price: 17.0,
-      ),
-      SubscriptionProduct(
-        title: 'Title 1',
-        volume: 0.5,
-        amount: 3,
-        price: 10.0,
-      ),
-    ],
-    city: 'City 2',
-    district: 'District 2',
-    street: 'Street 2',
-    building: 'Building 2',
-    apartment: 'Apartment 2',
-    floor: 'Floor 2',
-  )
-];

@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class OrderProductFormFields {
+class SubscriptionProductFormFields {
   static const String id = 'shopItemId';
   static const String amount = 'count';
 }
 
-class OrderProductForm extends Equatable {
-  const OrderProductForm({
+class SubscriptionProductForm extends Equatable {
+  const SubscriptionProductForm({
     required this.id,
     required this.amount,
   });
@@ -16,8 +16,8 @@ class OrderProductForm extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      OrderProductFormFields.id: id,
-      OrderProductFormFields.amount: amount,
+      SubscriptionProductFormFields.id: id,
+      SubscriptionProductFormFields.amount: amount,
     };
   }
 

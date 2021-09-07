@@ -66,7 +66,9 @@ class LoaderOverlayState extends State<LoaderOverlay> {
     return Container(
       color: _backgroundColor,
       child: Center(
-        child: const WaterAnimatedLogo(),
+        child: const WaterAnimatedLogo(
+          widthFactor: 4.5,
+        ),
       ),
     );
   }

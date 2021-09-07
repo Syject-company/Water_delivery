@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-import 'order_product_form.dart';
+import 'subscription_product_form.dart';
 
-export 'order_product_form.dart';
+export 'subscription_product_form.dart';
 
-class OrderFormFields {
+class SubscriptionFormFields {
   static const String deliveryDate = 'deliveryDate';
   static const String periodId = 'periodId';
+  static const String months = 'subscriptionDurationMonth';
   static const String promo = 'promoCode';
   static const String products = 'shopItems';
   static const String city = 'cityName';
@@ -17,10 +18,11 @@ class OrderFormFields {
   static const String apartment = 'apartment';
 }
 
-class OrderForm extends Equatable {
-  const OrderForm({
+class SubscriptionForm extends Equatable {
+  const SubscriptionForm({
     required this.deliveryDate,
     required this.periodId,
+    required this.months,
     required this.promo,
     required this.products,
     required this.city,
@@ -33,8 +35,9 @@ class OrderForm extends Equatable {
 
   final String deliveryDate;
   final String periodId;
+  final int months;
   final String promo;
-  final List<OrderProductForm> products;
+  final List<SubscriptionProductForm> products;
   final String city;
   final String district;
   final String street;
@@ -44,16 +47,17 @@ class OrderForm extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      OrderFormFields.deliveryDate: deliveryDate,
-      OrderFormFields.periodId: periodId,
-      OrderFormFields.promo: promo,
-      OrderFormFields.products: products,
-      OrderFormFields.city: city,
-      OrderFormFields.district: district,
-      OrderFormFields.street: street,
-      OrderFormFields.building: building,
-      OrderFormFields.floor: floor,
-      OrderFormFields.apartment: apartment,
+      SubscriptionFormFields.deliveryDate: deliveryDate,
+      SubscriptionFormFields.periodId: periodId,
+      SubscriptionFormFields.months: months,
+      SubscriptionFormFields.promo: promo,
+      SubscriptionFormFields.products: products,
+      SubscriptionFormFields.city: city,
+      SubscriptionFormFields.district: district,
+      SubscriptionFormFields.street: street,
+      SubscriptionFormFields.building: building,
+      SubscriptionFormFields.floor: floor,
+      SubscriptionFormFields.apartment: apartment,
     };
   }
 
@@ -61,6 +65,7 @@ class OrderForm extends Equatable {
   List<Object> get props => [
         deliveryDate,
         periodId,
+        months,
         promo,
         products,
         city,

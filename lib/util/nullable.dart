@@ -1,7 +1,7 @@
 class Nullable<T> {
-  T? _value;
+  Nullable(T? value) : this._value = value;
 
-  Nullable(this._value);
+  T? _value;
 
   T? get value => _value;
 }

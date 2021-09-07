@@ -45,6 +45,34 @@ class Http {
     );
   }
 
+  static Future<http.Response> delete(
+      String uri, {
+        Map<String, String>? headers,
+        Object? body,
+        Encoding? encoding,
+      }) {
+    return http.delete(
+      Uri.parse(uri),
+      headers: _withContentType(headers),
+      body: jsonEncode(body),
+      encoding: encoding,
+    );
+  }
+
+  static Future<http.Response> patch(
+    String uri, {
+    Map<String, String>? headers,
+    Object? body,
+    Encoding? encoding,
+  }) {
+    return http.patch(
+      Uri.parse(uri),
+      headers: _withContentType(headers),
+      body: jsonEncode(body),
+      encoding: encoding,
+    );
+  }
+
   static Map<String, String> _withContentType(Map<String, String>? headers) {
     final modifiedHeaders = Map.of(headers ?? <String, String>{});
     if (!modifiedHeaders.containsKey(HttpHeaders.contentTypeHeader)) {

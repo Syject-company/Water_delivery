@@ -393,12 +393,12 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   ) {
     return WaterButton(
       onPressed: () async {
-        final subscription = context.subscription.state;
+        final subscriptionState = context.subscription.state;
 
-        if (subscription is SubscriptionDetailsCollected) {
-          final time = subscription.time;
+        if (subscriptionState is SubscriptionDetailsCollected) {
+          final time = subscriptionState.time;
           final items = context.cart.state.items;
-          final address = subscription.address;
+          final address = subscriptionState.address;
 
           context.payment.add(
             PayForSubscription(

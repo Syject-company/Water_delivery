@@ -1,22 +1,45 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/bloc/home/auth/forgot_password/forgot_password_bloc.dart';
+import 'package:water/bloc/home/profile/change_password/change_password_bloc.dart';
+import 'package:water/ui/screens/home/auth/auth_navigator.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/ui/validators/field.dart';
 import 'package:water/ui/validators/password.dart';
 
-class EnterNewPasswordPage extends StatelessWidget {
-  EnterNewPasswordPage({Key? key}) : super(key: key);
+class ChangePasswordScreen extends StatelessWidget {
+  ChangePasswordScreen({Key? key}) : super(key: key);
 
-  final GlobalKey<FormState> _newPasswordFormKey = GlobalKey();
-  final TextEditingController _codeController = TextEditingController();
+  final GlobalKey<FormState> _changePasswordFormKey = GlobalKey();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<ChangePasswordBloc, ChangePasswordState>(
+      listener: (_, state) {
+        if (state is ChangePasswordSuccess) {
+          homeNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(context),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return WaterAppBar(
+      leading: AppBarBackButton(
+        onPressed: () {
+          homeNavigator.pop();
+        },
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
@@ -28,7 +51,7 @@ class EnterNewPasswordPage extends StatelessWidget {
           const SizedBox(height: 36.0),
           _buildEnterNewPasswordLabel(),
           const SizedBox(height: 12.0),
-          _buildInputForm(context),
+          _buildInputForm(),
           const SizedBox(height: 24.0),
           _buildLogInButton(context),
         ],
@@ -39,26 +62,26 @@ class EnterNewPasswordPage extends StatelessWidget {
 
   Widget _buildEnterNewPasswordLabel() {
     return WaterText(
-      'text.enter_new_password'.tr(),
+      'text.change_password'.tr(),
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
     );
   }
 
-  Widget _buildInputForm(BuildContext context) {
+  Widget _buildInputForm() {
     return Form(
-      key: _newPasswordFormKey,
+      key: _changePasswordFormKey,
       child: Column(
         children: [
-          BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-            buildWhen: (context, state) {
-              return state is ForgotPasswordLoading ||
-                  state is ForgotPasswordError;
+          BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
+            buildWhen: (_, state) {
+              return state is ChangePasswordLoading ||
+                  state is ChangePasswordError;
             },
-            builder: (context, state) {
+            builder: (_, state) {
               return WaterText(
-                state is ForgotPasswordError ? state.message : '',
+                state is ChangePasswordError ? state.message : '',
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
@@ -68,25 +91,17 @@ class EnterNewPasswordPage extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            controller: _codeController,
-            validator: const FieldValidator(fieldName: 'Code').validator,
-            hintText: 'input.code'.tr(),
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
             controller: _passwordController,
-            validator: const PasswordValidator(fieldName: 'Password')
-                .validator,
+            validator: const PasswordValidator(fieldName: 'Password').validator,
             hintText: 'input.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            controller: _confirmPasswordController,
-            validator: const PasswordValidator(fieldName: 'Confirm Password')
+            controller: _newPasswordController,
+            validator: const PasswordValidator(fieldName: 'New Password')
                 .validator,
-            hintText: 'input.confirm_password'.tr(),
+            hintText: 'input.new_password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
         ],
@@ -98,23 +113,21 @@ class EnterNewPasswordPage extends StatelessWidget {
     return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
-        if (!_newPasswordFormKey.currentState!.validate()) {
+        if (!_changePasswordFormKey.currentState!.validate()) {
           return;
         }
 
-        final code = _codeController.text;
         final password = _passwordController.text;
-        final confirmPassword = _confirmPasswordController.text;
+        final newPassword = _newPasswordController.text;
 
-        context.forgotPassword.add(
-          ConfirmNewPassword(
-            code: code,
+        context.changePassword.add(
+          ChangePassword(
             password: password,
-            confirmPassword: confirmPassword,
+            newPassword: newPassword,
           ),
         );
       },
-      text: 'button.login'.tr(),
+      text: 'button.save'.tr(),
     );
   }
 }

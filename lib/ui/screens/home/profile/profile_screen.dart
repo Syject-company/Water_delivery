@@ -6,6 +6,7 @@ import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/data/nationalities.dart';
+import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 
@@ -321,7 +322,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildChangePasswordButton() {
     return WaterButton(
-      onPressed: () {},
+      onPressed: () {
+        homeNavigator.pushNamed(HomeRoutes.changePassword);
+      },
       text: 'button.change_password'.tr(),
     );
   }

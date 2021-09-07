@@ -15,7 +15,7 @@ class EmailValidator extends Validator {
 
   String? _validator(String? email) {
     if (email != null) {
-      if (required && email.isEmpty) {
+      if (required && email.trim().isEmpty) {
         return 'The Email field is required';
       } else if (!_emailPattern.hasMatch(email)) {
         return 'Invalid email address';

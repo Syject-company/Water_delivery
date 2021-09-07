@@ -11,6 +11,10 @@ class PaymentInitial extends PaymentState {
   const PaymentInitial();
 }
 
+class PaymentProcessing extends PaymentState {
+  const PaymentProcessing();
+}
+
 class SuccessfulPayment extends PaymentState {
   const SuccessfulPayment();
 }

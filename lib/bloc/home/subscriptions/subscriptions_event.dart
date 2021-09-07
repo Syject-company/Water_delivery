@@ -23,3 +23,11 @@ class SelectSubscription extends SubscriptionsEvent {
 class DeselectSubscription extends SubscriptionsEvent {
   const DeselectSubscription();
 }
+
+class StopSubscription extends SubscriptionsEvent {
+  const StopSubscription();
+}
+
+class DeleteSubscription extends SubscriptionsEvent {
+  const DeleteSubscription();
+}

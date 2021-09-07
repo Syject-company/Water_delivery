@@ -5,9 +5,7 @@ class TokenFields {
 }
 
 class Token extends Equatable {
-  Token({
-    required this.token,
-  });
+  Token({required this.token});
 
   final String token;
 

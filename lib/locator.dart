@@ -9,6 +9,7 @@ import 'domain/service/order_service.dart';
 import 'domain/service/period_service.dart';
 import 'domain/service/product_service.dart';
 import 'domain/service/profile_service.dart';
+import 'domain/service/subscription_service.dart';
 import 'domain/service/support_service.dart';
 
 final locator = GetIt.instance;
@@ -22,6 +23,7 @@ void setupLocator() {
   locator.registerSingleton<NotificationService>(NotificationService());
   locator.registerSingleton<PeriodService>(PeriodService());
   locator.registerSingleton<OrderService>(OrderService());
+  locator.registerSingleton<SubscriptionService>(SubscriptionService());
   locator.registerSingleton<SupportService>(SupportService());
   locator.registerSingleton<AccountService>(AccountService());
 }

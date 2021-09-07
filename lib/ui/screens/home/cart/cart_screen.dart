@@ -20,7 +20,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) {
+      builder: (_, state) {
         return Scaffold(
           body: state.items.isNotEmpty
               ? _buildCartItems(state)

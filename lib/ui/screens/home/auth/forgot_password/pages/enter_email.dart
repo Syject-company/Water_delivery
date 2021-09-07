@@ -8,8 +8,8 @@ import 'package:water/ui/validators/email.dart';
 class EnterEmailPage extends StatelessWidget {
   EnterEmailPage({Key? key}) : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
+  final GlobalKey<FormState> _emailFormKey = GlobalKey();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +44,15 @@ class EnterEmailPage extends StatelessWidget {
 
   Widget _buildInputForm() {
     return Form(
-      key: _formKey,
+      key: _emailFormKey,
       child: Column(
         children: [
           BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
-            builder: (context, state) {
+            buildWhen: (_, state) {
+              return state is ForgotPasswordLoading ||
+                  state is ForgotPasswordError;
+            },
+            builder: (_, state) {
               return WaterText(
                 state is ForgotPasswordError ? state.message : '',
                 fontSize: 15.0,
@@ -60,7 +64,7 @@ class EnterEmailPage extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _emailInputKey,
+            controller: _emailController,
             validator: const EmailValidator().validator,
             hintText: 'input.email'.tr(),
             keyboardType: TextInputType.emailAddress,
@@ -74,11 +78,11 @@ class EnterEmailPage extends StatelessWidget {
     return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
-        if (!_formKey.currentState!.validate()) {
+        if (!_emailFormKey.currentState!.validate()) {
           return;
         }
 
-        final email = _emailInputKey.currentState!.value;
+        final email = _emailController.text;
 
         context.forgotPassword.add(
           ResetPassword(email: email),

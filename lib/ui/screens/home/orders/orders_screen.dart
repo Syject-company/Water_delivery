@@ -14,14 +14,12 @@ class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: LoaderOverlay(
-        child: _buildOrderItems(context),
-      ),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.orders'.tr(),
@@ -43,7 +41,13 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderItems(BuildContext context) {
+  Widget _buildBody() {
+    return LoaderOverlay(
+      child: _buildOrderItems(),
+    );
+  }
+
+  Widget _buildOrderItems() {
     return BlocConsumer<OrdersBloc, OrdersState>(
       listener: (context, state) {
         context.showLoader(state is OrdersLoading);
@@ -55,7 +59,6 @@ class OrdersScreen extends StatelessWidget {
           }
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 24.0),
             physics: const BouncingScrollPhysics(),
             child: SeparatedColumn(
               children: state.orders.map((order) {

@@ -9,16 +9,12 @@ class ReferFriendScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        physics: const BouncingScrollPhysics(),
-        child: _buildBody(),
-      ),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.refer_friend'.tr(),
@@ -43,27 +39,31 @@ class ReferFriendScreen extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return Column(
-      children: [
-        _buildHint(
-          icon: AppIcons.share,
-          content: 'text.share_referral_code'.tr(),
-        ),
-        const SizedBox(height: 24.0),
-        _buildHint(
-          icon: AppIcons.group,
-          content: 'text.first_register'.tr(),
-        ),
-        const SizedBox(height: 24.0),
-        _buildHint(
-          icon: AppIcons.gift,
-          content: 'text.wallet_bonus'.tr(),
-        ),
-        const SizedBox(height: 64.0),
-        _buildCodeInput(),
-        const SizedBox(height: 24.0),
-        _buildShareButton(),
-      ],
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildHint(
+            icon: AppIcons.share,
+            content: 'text.share_referral_code'.tr(),
+          ),
+          const SizedBox(height: 24.0),
+          _buildHint(
+            icon: AppIcons.group,
+            content: 'text.first_register'.tr(),
+          ),
+          const SizedBox(height: 24.0),
+          _buildHint(
+            icon: AppIcons.gift,
+            content: 'text.wallet_bonus'.tr(),
+          ),
+          const SizedBox(height: 64.0),
+          _buildCodeInput(),
+          const SizedBox(height: 24.0),
+          _buildShareButton(),
+        ],
+      ),
     );
   }
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:water/domain/model/subscription/subscription.dart';
+import 'package:water/domain/model/subscription/subscription_form.dart';
 import 'package:water/util/http.dart';
 
 class SubscriptionService {
@@ -28,5 +29,45 @@ class SubscriptionService {
     }
 
     return [];
+  }
+
+  Future<void> create(String token, SubscriptionForm form) async {
+    final response = await Http.post(
+      _endpoint,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+      body: form,
+    );
+
+    if (response.statusCode != HttpStatus.ok) {
+      throw HttpException(response.body);
+    }
+  }
+
+  Future<void> stop(String token, String id) async {
+    final response = await Http.patch(
+      '$_endpoint/$id',
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode != HttpStatus.ok) {
+      throw HttpException(response.body);
+    }
+  }
+
+  Future<void> delete(String token, String id) async {
+    final response = await Http.delete(
+      '$_endpoint/$id',
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode != HttpStatus.ok) {
+      throw HttpException(response.body);
+    }
   }
 }

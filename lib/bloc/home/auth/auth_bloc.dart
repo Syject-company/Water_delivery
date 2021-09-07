@@ -50,7 +50,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapLoginToState(Login event) async* {
+  Stream<AuthState> _mapLoginToState(
+    Login event,
+  ) async* {
     try {
       yield Authenticating();
 
@@ -67,12 +69,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapRegisterToState(Register event) async* {
+  Stream<AuthState> _mapRegisterToState(
+    Register event,
+  ) async* {
     try {
       yield Authenticating();
 
       if (event.password != event.confirmPassword) {
-        yield* _handleAuthError(message: 'Passwords do not equals');
+        yield* _handleAuthError(message: 'Passwords do not equal');
         return;
       }
 
@@ -114,8 +118,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final auth = await account.authentication;
     final token = auth.accessToken!;
 
-    print(auth.accessToken);
-
     yield* _signInWithSocial(Social.Google, token: token);
   }
 
@@ -131,10 +133,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         webAuthenticationOptions: WebAuthenticationOptions(
             clientId: clientId, redirectUri: Uri.parse(redirectUri)),
       );
-
-      print(auth);
-      print(auth.identityToken);
-
       final token = auth.identityToken!;
 
       yield* _signInWithSocial(Social.Apple, token: token);

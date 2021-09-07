@@ -21,26 +21,26 @@ class AuthRouter {
     switch (settings.name) {
       case AuthRoutes.main:
         return SlideWithFadePageRoute(
-          builder: (context) => AuthScreen(),
+          builder: (_) => AuthScreen(),
         );
       case AuthRoutes.signIn:
         return SlideWithFadePageRoute(
-          builder: (context) => SignInScreen(),
+          builder: (_) => SignInScreen(),
         );
       case AuthRoutes.signUp:
         return SlideWithFadePageRoute(
-          builder: (context) => SignUpScreen(),
+          builder: (_) => SignUpScreen(),
         );
       case AuthRoutes.forgotPassword:
         return SlideWithFadePageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => ForgotPasswordBloc(),
+          builder: (_) => BlocProvider(
+            create: (_) => ForgotPasswordBloc(),
             child: ForgotPasswordScreen(),
           ),
         );
       default:
         return SlideWithFadePageRoute(
-          builder: (context) {
+          builder: (_) {
             return Scaffold(
               body: Center(
                 child: Text(

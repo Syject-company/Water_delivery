@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
-import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
@@ -39,7 +38,6 @@ class SubscriptionRouter {
           builder: (_) => BlocProvider(
             create: (context) => PaymentBloc(
               profile: context.profile,
-              wallet: context.wallet,
               cart: context.cart,
             ),
             child: SubscriptionPaymentScreen(),

@@ -40,7 +40,7 @@ class DeliveryAddressScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: _buildAppBar(context),
+        appBar: _buildAppBar(),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           physics: const BouncingScrollPhysics(),
@@ -51,7 +51,7 @@ class DeliveryAddressScreen extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
         'screen.delivery'.tr(),

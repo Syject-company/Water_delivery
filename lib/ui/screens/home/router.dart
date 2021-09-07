@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/orders/orders_bloc.dart';
+import 'package:water/bloc/home/profile/change_password/change_password_bloc.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/screens/home/profile/change_password/change_password_screen.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'auth/auth_navigator.dart';
@@ -20,6 +22,7 @@ import 'wallet/wallet_screen.dart';
 abstract class HomeRoutes {
   static const String main = '/';
   static const String auth = 'auth';
+  static const String changePassword = 'change-password';
   static const String wallet = 'wallet';
   static const String notifications = 'notifications';
   static const String order = 'order';
@@ -37,57 +40,64 @@ class HomeRouter {
     switch (settings.name) {
       case HomeRoutes.main:
         return SlideWithFadePageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (_) => HomeScreen(),
         );
       case HomeRoutes.auth:
         return SlideWithFadePageRoute(
-          builder: (context) => AuthNavigator(),
+          builder: (_) => AuthNavigator(),
+        );
+      case HomeRoutes.changePassword:
+        return SlideWithFadePageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => ChangePasswordBloc(),
+            child: ChangePasswordScreen(),
+          ),
         );
       case HomeRoutes.wallet:
         return SlideWithFadePageRoute(
-          builder: (context) => WalletScreen(),
+          builder: (_) => WalletScreen(),
         );
       case HomeRoutes.notifications:
         return SlideWithFadePageRoute(
-          builder: (context) => NotificationsScreen(),
+          builder: (_) => NotificationsScreen(),
         );
       case HomeRoutes.order:
         return SlideWithFadePageRoute(
-          builder: (context) => OrderNavigator(),
+          builder: (_) => OrderNavigator(),
         );
       case HomeRoutes.orders:
         return SlideWithFadePageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => OrdersBloc()..add(LoadOrders()),
+          builder: (_) => BlocProvider(
+            create: (_) => OrdersBloc()..add(LoadOrders()),
             child: OrdersScreen(),
           ),
         );
       case HomeRoutes.subscription:
         return SlideWithFadePageRoute(
-          builder: (context) => SubscriptionNavigator(),
+          builder: (_) => SubscriptionNavigator(),
         );
       case HomeRoutes.subscriptions:
         return SlideWithFadePageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => SubscriptionsBloc()..add(LoadSubscriptions()),
+          builder: (_) => BlocProvider(
+            create: (_) => SubscriptionsBloc()..add(LoadSubscriptions()),
             child: SubscriptionsScreen(),
           ),
         );
       case HomeRoutes.faq:
         return SlideWithFadePageRoute(
-          builder: (context) => FAQScreen(),
+          builder: (_) => FAQScreen(),
         );
       case HomeRoutes.terms:
         return SlideWithFadePageRoute(
-          builder: (context) => TermsScreen(),
+          builder: (_) => TermsScreen(),
         );
       case HomeRoutes.support:
         return SlideWithFadePageRoute(
-          builder: (context) => SupportScreen(),
+          builder: (_) => SupportScreen(),
         );
       default:
         return SlideWithFadePageRoute(
-          builder: (context) {
+          builder: (_) {
             return Scaffold(
               body: Center(
                 child: Text(

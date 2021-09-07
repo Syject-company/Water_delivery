@@ -17,15 +17,15 @@ class SignInScreen extends StatelessWidget {
     });
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _emailInputKey = GlobalKey();
-  final GlobalKey<WaterFormInputState> _passwordInputKey = GlobalKey();
+  final GlobalKey<FormState> _signInFormKey = GlobalKey();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (_, state) {
         context.showLoader(state is Authenticating);
 
         if (state is Authenticated) {
@@ -34,46 +34,47 @@ class SignInScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-          physics: const BouncingScrollPhysics(),
-          controller: _scrollController,
-          clipBehavior: Clip.none,
-          child: Column(
-            children: [
-              const WaterLogo(),
-              const SizedBox(height: 36.0),
-              _buildSignInLabel(),
-              const SizedBox(height: 12.0),
-              _buildInputForm(),
-              const SizedBox(height: 24.0),
-              _buildForgotPasswordLink(context),
-              const SizedBox(height: 16.0),
-              _buildSignUpLink(context),
-              const SizedBox(height: 32.0),
-              _buildSignUpLabel(),
-              const SizedBox(height: 24.0),
-              _buildSignInButtons(context),
-              const SizedBox(height: 24.0),
-              _buildLogInButton(context),
-            ],
-          ),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        ),
+        body: _buildBody(context),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight),
-      child: WaterAppBar(
-        leading: AppBarBackButton(
-          onPressed: () {
-            authNavigator.pop();
-          },
-        ),
+    return WaterAppBar(
+      leading: AppBarBackButton(
+        onPressed: () {
+          authNavigator.pop();
+        },
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      physics: const BouncingScrollPhysics(),
+      controller: _scrollController,
+      clipBehavior: Clip.none,
+      child: Column(
+        children: [
+          const WaterLogo(),
+          const SizedBox(height: 36.0),
+          _buildSignInLabel(),
+          const SizedBox(height: 12.0),
+          _buildInputForm(),
+          const SizedBox(height: 24.0),
+          _buildForgotPasswordLink(),
+          const SizedBox(height: 16.0),
+          _buildSignUpLink(),
+          const SizedBox(height: 32.0),
+          _buildSignUpLabel(),
+          const SizedBox(height: 24.0),
+          _buildSignInButtons(context),
+          const SizedBox(height: 24.0),
+          _buildLogInButton(context),
+        ],
+      ),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }
 
@@ -88,14 +89,14 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildInputForm() {
     return Form(
-      key: _formKey,
+      key: _signInFormKey,
       child: Column(
         children: [
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (context, state) {
+            buildWhen: (_, state) {
               return state is Authenticating || state is AuthenticationFailed;
             },
-            builder: (context, state) {
+            builder: (_, state) {
               return WaterText(
                 state is AuthenticationFailed ? state.message : '',
                 fontSize: 15.0,
@@ -107,15 +108,15 @@ class SignInScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _emailInputKey,
+            controller: _emailController,
             validator: const EmailValidator().validator,
             hintText: 'input.email'.tr(),
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
-            key: _passwordInputKey,
-            validator: const PasswordValidator().validator,
+            controller: _passwordController,
+            validator: const PasswordValidator(fieldName: 'Password').validator,
             hintText: 'input.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),
@@ -124,7 +125,7 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildForgotPasswordLink(BuildContext context) {
+  Widget _buildForgotPasswordLink() {
     return GestureDetector(
       onTap: () {
         authNavigator.pushNamed(AuthRoutes.forgotPassword);
@@ -140,7 +141,7 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSignUpLink(BuildContext context) {
+  Widget _buildSignUpLink() {
     return RichText(
       text: TextSpan(
         text: 'text.new_in'.tr(),
@@ -214,12 +215,12 @@ class SignInScreen extends StatelessWidget {
     return WaterButton(
       onPressed: () {
         FocusScope.of(context).unfocus();
-        if (!_formKey.currentState!.validate()) {
+        if (!_signInFormKey.currentState!.validate()) {
           return;
         }
 
-        final email = _emailInputKey.currentState!.value;
-        final password = _passwordInputKey.currentState!.value;
+        final email = _emailController.text;
+        final password = _passwordController.text;
 
         context.auth.add(
           Login(

@@ -20,7 +20,7 @@ class OrderPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PaymentBloc, PaymentState>(
-      listener: (context, state) async {
+      listener: (_, state) async {
         if (state is TopUpWallet) {
           await _showDialog(context, TopUpWalletDialog());
         } else if (state is SuccessfulPayment) {
@@ -30,12 +30,7 @@ class OrderPaymentScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SeparatedColumn(
-          children: [
-            _buildBalanceText(),
-            _buildSummary(context),
-          ],
-        ),
+        body: _buildBody(context),
         bottomNavigationBar: _buildBottomPanel(context),
       ),
     );
@@ -60,6 +55,22 @@ class OrderPaymentScreen extends StatelessWidget {
         ),
         AppBarNotificationButton(),
       ],
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return LoaderOverlay(
+      child: BlocListener<PaymentBloc, PaymentState>(
+        listener: (context, state) {
+          context.showLoader(state is PaymentProcessing);
+        },
+        child: SeparatedColumn(
+          children: [
+            _buildBalanceText(),
+            _buildSummary(context),
+          ],
+        ),
+      ),
     );
   }
 
@@ -316,12 +327,12 @@ class OrderPaymentScreen extends StatelessWidget {
   Widget _buildPayButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
-        final order = context.order.state;
+        final orderState = context.order.state;
 
-        if (order is OrderDetailsCollected) {
-          final time = order.time;
+        if (orderState is OrderDetailsCollected) {
+          final time = orderState.time;
           final items = context.cart.state.items;
-          final address = order.address;
+          final address = orderState.address;
 
           context.payment.add(
             PayForOrder(

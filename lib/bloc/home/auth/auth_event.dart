@@ -4,20 +4,20 @@ abstract class AuthEvent extends Equatable {
   const AuthEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class Login extends AuthEvent {
   const Login({
-    this.email,
-    this.password,
+    required this.email,
+    required this.password,
   });
 
-  final String? email;
-  final String? password;
+  final String email;
+  final String password;
 
   @override
-  List<Object?> get props => [
+  List<Object> get props => [
         email,
         password,
       ];
@@ -25,17 +25,17 @@ class Login extends AuthEvent {
 
 class Register extends AuthEvent {
   const Register({
-    this.email,
-    this.password,
-    this.confirmPassword,
+    required this.email,
+    required this.password,
+    required this.confirmPassword,
   });
 
-  final String? email;
-  final String? password;
-  final String? confirmPassword;
+  final String email;
+  final String password;
+  final String confirmPassword;
 
   @override
-  List<Object?> get props => [
+  List<Object> get props => [
         email,
         password,
         confirmPassword,

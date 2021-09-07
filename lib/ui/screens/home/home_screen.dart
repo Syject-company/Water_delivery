@@ -66,9 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        return _onBackPressed(context);
-      },
+      onWillPop: _onBackPressed,
       child: SideMenu(
         key: _sideMenuKey,
         menu: Menu(),
@@ -85,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight),
       child: BlocBuilder<NavigationBloc, NavigationState>(
-        builder: (context, state) {
+        builder: (_, state) {
           Widget? leading;
           if (state is Products) {
             leading = AppBarBackButton(
@@ -132,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (_, state) {
         _pageController.jumpToPage(state.index);
       },
-      builder: (context, state) {
+      builder: (_, state) {
         return WaterBottomNavigationBar(
           selectedIndex: state.index,
           items: [
@@ -178,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<bool> _onBackPressed(BuildContext context) async {
+  Future<bool> _onBackPressed() async {
     if (_sideMenuKey.currentState!.isOpened) {
       _sideMenuKey.currentState!.close();
       return false;
