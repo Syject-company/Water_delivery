@@ -21,7 +21,7 @@ class OrderForm extends Equatable {
   const OrderForm({
     required this.deliveryDate,
     required this.periodId,
-    required this.promo,
+    this.promo,
     required this.products,
     required this.city,
     required this.district,
@@ -33,7 +33,7 @@ class OrderForm extends Equatable {
 
   final String deliveryDate;
   final String periodId;
-  final String promo;
+  final String? promo;
   final List<OrderProductForm> products;
   final String city;
   final String district;
@@ -58,7 +58,7 @@ class OrderForm extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         deliveryDate,
         periodId,
         promo,

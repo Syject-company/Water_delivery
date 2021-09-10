@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
+import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
 import 'package:water/util/localization.dart';
@@ -54,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     context.profile.add(
-      LoadProfile(),
+      UpdateProfile(),
     );
     context.cart.add(
       LoadCart(language: language),
@@ -88,7 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state is Products) {
             leading = AppBarBackButton(
               onPressed: () {
-                context.navigation.add(BackPressed());
+                context.navigation.add(
+                  BackPressed(),
+                );
               },
             );
           }
@@ -97,7 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
             title: WaterText(
               state.title.tr(),
               fontSize: 24.0,
+              fontWeight: FontWeight.w800,
               textAlign: TextAlign.center,
+              color: AppColors.primaryText,
             ),
             leading: leading,
             actions: [
@@ -135,8 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedIndex: state.index,
           items: [
             WaterBottomNavigationBarItem(
-              icon: Icon(AppIcons.bar_home),
-              selectedIcon: Icon(AppIcons.bar_home_filled),
+              icon: SvgPicture.asset(Paths.logo_label_colored)
+                  .withPaddingAll(6.0),
+              selectedIcon:
+                  SvgPicture.asset(Paths.logo_label_white).withPaddingAll(6.0),
               onPressed: () {
                 context.navigation.add(
                   NavigateTo(screen: Screen.home),

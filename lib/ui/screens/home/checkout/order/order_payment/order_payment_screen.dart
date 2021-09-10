@@ -6,13 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/checkout/order/order_bloc.dart';
 import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
-import 'package:water/bloc/home/wallet/wallet_bloc.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart' as navigation;
 import 'package:water/domain/model/cart/cart_item.dart';
 import 'package:water/ui/screens/home/checkout/order/order_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
+import 'package:water/util/slide_with_fade_page_route.dart';
+
+import 'order_payment_view/order_payment_view_screen.dart';
 
 class OrderPaymentScreen extends StatelessWidget {
   OrderPaymentScreen({Key? key}) : super(key: key);
@@ -21,10 +24,26 @@ class OrderPaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<PaymentBloc, PaymentState>(
       listener: (_, state) async {
-        if (state is TopUpWallet) {
-          await _showDialog(context, TopUpWalletDialog());
-        } else if (state is SuccessfulPayment) {
+        if (state is OrderPaymentView) {
+          final successfulPayment = await orderNavigator.push<bool>(
+            SlideWithFadePageRoute(
+              builder: (_) => OrderPaymentViewScreen(url: state.url),
+            ),
+          );
+
+          if (successfulPayment != null && successfulPayment) {
+            context.payment.add(
+              FinishPayment(),
+            );
+          }
+        } else if (state is SuccessfulPaymentAlert) {
           await _showDialog(context, SuccessfulPaymentDialog());
+          context.navigation.add(
+            navigation.NavigateTo(screen: navigation.Screen.home),
+          );
+          context.navigation.add(
+            navigation.BackPressed(),
+          );
           homeNavigator.pop();
         }
       },
@@ -42,6 +61,8 @@ class OrderPaymentScreen extends StatelessWidget {
         'screen.payment'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -62,11 +83,11 @@ class OrderPaymentScreen extends StatelessWidget {
     return LoaderOverlay(
       child: BlocListener<PaymentBloc, PaymentState>(
         listener: (context, state) {
-          context.showLoader(state is PaymentProcessing);
+          context.showLoader(state is OrderPaymentRequest);
         },
-        child: SeparatedColumn(
+        child: Column(
           children: [
-            _buildBalanceText(),
+            defaultDivider,
             _buildSummary(context),
           ],
         ),
@@ -74,40 +95,17 @@ class OrderPaymentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBalanceText() {
-    return BlocBuilder<WalletBloc, WalletState>(
-      buildWhen: (_, state) {
-        return state is WalletLoaded;
-      },
-      builder: (_, state) {
-        if (state is WalletLoaded) {
-          return WaterText(
-            'text.wallet_balance'.tr(args: [
-              state.balance.toStringAsFixed(2),
-            ]),
-            fontSize: 18.0,
-            lineHeight: 1.5,
-            textAlign: TextAlign.center,
-          );
-        }
-        return const SizedBox.shrink();
-      },
-    ).withPaddingAll(24.0);
-  }
-
   Widget _buildSummary(BuildContext context) {
     final details = context.order.state as OrderDetailsCollected;
 
-    return Flexible(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _buildDeliveryAddress(details),
-            _buildDeliveryTime(context, details),
-            _buildCartItems(context),
-          ],
-        ),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildDeliveryAddress(details),
+          _buildDeliveryTime(context, details),
+          _buildCartItems(context),
+        ],
       ),
     );
   }
@@ -132,9 +130,9 @@ class OrderPaymentScreen extends StatelessWidget {
         Expanded(
           child: WaterText(
             '$emirate, $district, $street, $building, $floor, $apartment',
-            fontSize: 12.0,
+            fontSize: 13.0,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: AppColors.secondaryText,
           ),
         ),
@@ -166,9 +164,9 @@ class OrderPaymentScreen extends StatelessWidget {
         Expanded(
           child: WaterText(
             '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
-            fontSize: 12.0,
+            fontSize: 13.0,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: AppColors.secondaryText,
           ),
         ),
@@ -187,7 +185,10 @@ class OrderPaymentScreen extends StatelessWidget {
     ).withPadding(24.0, 0.0, 24.0, 24.0);
   }
 
-  Widget _buildCartItem(int index, CartItem item) {
+  Widget _buildCartItem(
+    int index,
+    CartItem item,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -198,8 +199,8 @@ class OrderPaymentScreen extends StatelessWidget {
             maxLines: 1,
             fontSize: 13.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             overflow: TextOverflow.visible,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -214,7 +215,7 @@ class OrderPaymentScreen extends StatelessWidget {
                   '${item.product.title} ${item.product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.secondaryText,
                 ),
               ),
@@ -223,7 +224,7 @@ class OrderPaymentScreen extends StatelessWidget {
                 'x${item.amount}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: AppColors.secondaryText,
               ),
             ],
@@ -239,7 +240,8 @@ class OrderPaymentScreen extends StatelessWidget {
             fontSize: 15.0,
             lineHeight: 1.5,
             textAlign: TextAlign.end,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -275,7 +277,7 @@ class OrderPaymentScreen extends StatelessWidget {
           'text.vat'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 16.0),
@@ -286,9 +288,9 @@ class OrderPaymentScreen extends StatelessWidget {
             ]),
             fontSize: 18.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             textAlign: TextAlign.end,
-            color: AppColors.secondaryText,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -305,6 +307,8 @@ class OrderPaymentScreen extends StatelessWidget {
           'text.total'.tr(),
           fontSize: 23.0,
           lineHeight: 2.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ),
         const SizedBox(width: 24.0),
         Flexible(
@@ -316,8 +320,8 @@ class OrderPaymentScreen extends StatelessWidget {
             fontSize: 23.0,
             lineHeight: 2.0,
             textAlign: TextAlign.end,
-            overflow: TextOverflow.fade,
-            softWrap: false,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primaryText,
           ),
         ),
       ],

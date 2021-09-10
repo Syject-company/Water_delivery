@@ -43,6 +43,8 @@ class SuccessfulPaymentDialog extends StatelessWidget {
           fontSize: 18.0,
           lineHeight: 1.5,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w800,
+          color: AppColors.primaryText,
         ),
       ],
     );
@@ -53,9 +55,9 @@ class SuccessfulPaymentDialog extends StatelessWidget {
       'text.thanks_for_order'.tr(),
       fontSize: 16.0,
       lineHeight: 1.25,
-      fontWeight: FontWeight.w500,
       textAlign: TextAlign.center,
-      color: AppColors.secondaryText,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryText,
     );
   }
 

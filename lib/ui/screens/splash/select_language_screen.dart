@@ -46,6 +46,8 @@ class SelectLanguageScreen extends StatelessWidget {
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 

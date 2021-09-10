@@ -7,23 +7,21 @@ const double _borderRadius = 15.0;
 const double _fontSize = 18.0;
 const double _textLineHeight = 1.35;
 
-class WaterButton extends StatelessWidget {
-  const WaterButton({
+class WaterSecondaryButton extends StatelessWidget {
+  const WaterSecondaryButton({
     Key? key,
     required this.text,
     this.onPressed,
-    this.enabled = true,
-    this.backgroundColor = AppColors.primary,
-    this.foregroundColor = AppColors.white,
     this.fontSize,
+    this.radialRadius = 1.0,
+    this.enabled = true,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final String text;
-  final bool enabled;
-  final Color backgroundColor;
-  final Color foregroundColor;
   final double? fontSize;
+  final double radialRadius;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +30,30 @@ class WaterButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(_borderRadius),
-          color: enabled ? backgroundColor : AppColors.disabled,
+          gradient: enabled
+              ? RadialGradient(
+                  colors: [
+                    AppColors.white,
+                    AppColors.grey,
+                  ],
+                  stops: [
+                    0.0,
+                    1.0,
+                  ],
+                  radius: radialRadius,
+                )
+              : null,
+          color: enabled ? null : AppColors.disabled,
         ),
         width: _width,
         height: _height,
         child: Center(
           child: WaterText(
             text,
-            color: enabled ? foregroundColor : AppColors.white,
             fontSize: fontSize ?? _fontSize,
             lineHeight: _textLineHeight,
             fontWeight: FontWeight.w700,
+            color: enabled ? AppColors.primaryText : AppColors.white,
           ),
         ),
       ),

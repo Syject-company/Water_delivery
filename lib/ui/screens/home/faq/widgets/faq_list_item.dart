@@ -60,8 +60,8 @@ class FAQListItemState extends State<FAQListItem>
       widget.header,
       fontSize: 16.0,
       lineHeight: 1.5,
-      fontWeight: FontWeight.w700,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
       color: AppColors.primary,
     ).withPadding(24.0, 18.0, 24.0, 18.0);
   }
@@ -99,7 +99,8 @@ class FAQListItemState extends State<FAQListItem>
         widget.header,
         fontSize: 15.0,
         lineHeight: 1.5,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w500,
+        color: AppColors.primaryText,
       ).withPadding(24.0, 0.0, 24.0, 18.0),
     );
   }

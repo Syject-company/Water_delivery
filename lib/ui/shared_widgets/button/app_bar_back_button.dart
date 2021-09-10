@@ -20,7 +20,7 @@ class AppBarBackButton extends StatelessWidget {
       child: Center(
         child: Icon(
           _getPlatformIconData(),
-          color: AppColors.primaryText,
+          color: AppColors.appBarIconColor,
           size: _iconSize,
         ),
       ),

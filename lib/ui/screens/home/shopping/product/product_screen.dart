@@ -29,65 +29,17 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return Hero(
-                  tag: _product,
-                  child: CachedNetworkImage(
-                    imageUrl: _product.imageUri,
-                    height: constraints.maxWidth,
-                    fadeInDuration: const Duration(milliseconds: 250),
-                    fadeOutDuration: const Duration(milliseconds: 250),
-                    fadeInCurve: Curves.fastOutSlowIn,
-                    fadeOutCurve: Curves.fastOutSlowIn,
-                  ),
-                );
-              },
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildTitleText(),
-                    const SizedBox(width: 16.0),
-                    _buildVolumeText(),
-                  ],
-                ),
-                const SizedBox(height: 24.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildPriceText(),
-                    const SizedBox(width: 16.0),
-                    _buildAmountPicker(),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                _buildDescriptionText(),
-              ],
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BlocBuilder<CartBloc, CartState>(
-        builder: (context, state) => _buildCheckoutPanel(),
-      ),
+      body: _buildBody(),
+      bottomNavigationBar: _buildCheckoutPanel(),
     );
   }
 
   PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       leading: AppBarBackButton(
-        onPressed: () => homeNavigator.pop(),
+        onPressed: () {
+          homeNavigator.pop();
+        },
       ),
       actions: [
         AppBarIconButton(
@@ -99,12 +51,66 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          LayoutBuilder(
+            builder: (_, constraints) {
+              return Hero(
+                tag: _product,
+                child: CachedNetworkImage(
+                  imageUrl: _product.imageUri,
+                  height: constraints.maxWidth,
+                  fadeInDuration: const Duration(milliseconds: 250),
+                  fadeOutDuration: const Duration(milliseconds: 250),
+                  fadeInCurve: Curves.fastOutSlowIn,
+                  fadeOutCurve: Curves.fastOutSlowIn,
+                ),
+              );
+            },
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 24.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildTitleText(),
+                  const SizedBox(width: 16.0),
+                  _buildVolumeText(),
+                ],
+              ),
+              const SizedBox(height: 24.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildPriceText(),
+                  const SizedBox(width: 16.0),
+                  _buildAmountPicker(),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              _buildDescriptionText(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildTitleText() {
     return Flexible(
       child: WaterText(
         _product.title,
         fontSize: 24.0,
         lineHeight: 2.0,
+        fontWeight: FontWeight.w700,
+        color: AppColors.primaryText,
       ),
     );
   }
@@ -112,8 +118,9 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget _buildVolumeText() {
     return WaterText(
       _product.formattedVolume,
-      fontSize: 24.0,
+      fontSize: 22.0,
       lineHeight: 2.0,
+      fontWeight: FontWeight.w700,
       color: AppColors.secondaryText,
     );
   }
@@ -134,10 +141,10 @@ class _ProductScreenState extends State<ProductScreen> {
               maxLines: 1,
               fontSize: 18.0,
               lineHeight: 1.5,
-              fontWeight: FontWeight.w500,
               overflow: TextOverflow.fade,
-              decoration: TextDecoration.lineThrough,
+              fontWeight: FontWeight.w700,
               color: AppColors.secondaryText,
+              decoration: TextDecoration.lineThrough,
               softWrap: false,
             ).withPadding(0.0, 0.0, 0.0, 6.0),
           WaterText(
@@ -147,8 +154,9 @@ class _ProductScreenState extends State<ProductScreen> {
             maxLines: 1,
             fontSize: 27.0,
             lineHeight: 2,
-            fontWeight: FontWeight.w500,
             overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primaryText,
             softWrap: false,
           ),
         ],
@@ -181,7 +189,7 @@ class _ProductScreenState extends State<ProductScreen> {
       _product.description,
       fontSize: 16.0,
       lineHeight: 2.0,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
       color: AppColors.secondaryText,
     );
   }
@@ -192,33 +200,39 @@ class _ProductScreenState extends State<ProductScreen> {
     final totalPrice = _product.price * amount;
     final totalDiscountPrice = totalPrice * (1.0 - _product.discount);
 
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: const BoxDecoration(
-        border: Border(top: defaultBorder),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            child: WaterText(
-              'text.aed'.tr(args: [
-                totalDiscountPrice.toStringAsFixed(2),
-              ]),
-              maxLines: 1,
-              fontSize: 27.0,
-              fontWeight: FontWeight.w500,
-              overflow: TextOverflow.clip,
-              softWrap: false,
-            ),
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (_, state) {
+        return Container(
+          padding: const EdgeInsets.all(24.0),
+          decoration: const BoxDecoration(
+            border: Border(top: defaultBorder),
           ),
-          const SizedBox(width: 16.0),
-          Expanded(
-            child:
-                addedToCart ? _buildCheckoutButton() : _buildAddToCartButton(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: WaterText(
+                  'text.aed'.tr(args: [
+                    totalDiscountPrice.toStringAsFixed(2),
+                  ]),
+                  maxLines: 1,
+                  fontSize: 27.0,
+                  overflow: TextOverflow.clip,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primaryText,
+                  softWrap: false,
+                ),
+              ),
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: addedToCart
+                    ? _buildCheckoutButton()
+                    : _buildAddToCartButton(),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

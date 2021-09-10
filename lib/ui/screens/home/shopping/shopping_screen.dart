@@ -2,10 +2,10 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/ui/shared_widgets/shimmer.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 import 'categories/categories_screen.dart';
-import '../../../shared_widgets/shimmer.dart';
 import 'products/products_screen.dart';
 import 'widgets/banners.dart';
 

@@ -23,7 +23,7 @@ class SubscriptionForm extends Equatable {
     required this.deliveryDate,
     required this.periodId,
     required this.months,
-    required this.promo,
+    this.promo,
     required this.products,
     required this.city,
     required this.district,
@@ -36,7 +36,7 @@ class SubscriptionForm extends Equatable {
   final String deliveryDate;
   final String periodId;
   final int months;
-  final String promo;
+  final String? promo;
   final List<SubscriptionProductForm> products;
   final String city;
   final String district;
@@ -62,7 +62,7 @@ class SubscriptionForm extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         deliveryDate,
         periodId,
         months,

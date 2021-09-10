@@ -11,8 +11,6 @@ class WaterIconButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.icon,
-    this.backgroundColor = AppColors.primary,
-    this.foregroundColor = AppColors.white,
     this.width,
     this.height,
     this.borderRadius,
@@ -21,8 +19,6 @@ class WaterIconButton extends StatelessWidget {
 
   final VoidCallback onPressed;
   final IconData icon;
-  final Color backgroundColor;
-  final Color foregroundColor;
   final double? width;
   final double? height;
   final double? borderRadius;
@@ -34,17 +30,25 @@ class WaterIconButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            borderRadius ?? _borderRadius,
+          borderRadius: BorderRadius.circular(borderRadius ?? _borderRadius),
+          gradient: RadialGradient(
+            colors: [
+              AppColors.white,
+              AppColors.grey,
+            ],
+            stops: [
+              0.0,
+              1.0,
+            ],
+            radius: 1.0,
           ),
-          color: backgroundColor,
         ),
         width: width ?? _width,
         height: height ?? _height,
         child: Center(
           child: Icon(
             icon,
-            color: foregroundColor,
+            color: AppColors.primaryText,
             size: iconSize ?? _iconSize,
           ),
         ),

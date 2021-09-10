@@ -29,7 +29,7 @@ class AppBarNotificationButton extends StatelessWidget {
   Widget _buildIcon() {
     return Icon(
       AppIcons.notification,
-      color: AppColors.primaryText,
+      color: AppColors.appBarIconColor,
       size: _iconSize,
     );
   }
@@ -65,7 +65,7 @@ class AppBarNotificationButton extends StatelessWidget {
   }
 
   Widget _buildNotificationsCounter(NotificationsState state) {
-    final amount = state.notifications.length;
+    final count = state.notifications.length;
 
     return Container(
       width: 14.0,
@@ -74,14 +74,17 @@ class AppBarNotificationButton extends StatelessWidget {
         color: AppColors.primary,
         shape: BoxShape.circle,
       ),
-      child: WaterText(
-        '$amount',
-        maxLines: 1,
-        fontSize: 9.0,
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
-        color: AppColors.white,
-      ).withPadding(1.0, 0.0, 1.0, 0.0),
+      child: Center(
+        child: WaterText(
+          '$count',
+          maxLines: 1,
+          fontSize: 8.0,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          fontWeight: FontWeight.w700,
+          color: AppColors.white,
+        ).withPadding(1.0, 0.0, 1.0, 0.0),
+      ),
     );
   }
 }

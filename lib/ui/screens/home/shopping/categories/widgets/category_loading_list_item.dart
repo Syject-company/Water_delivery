@@ -12,14 +12,16 @@ class CategoryLoadingListItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(24.0),
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
+          gradient: RadialGradient(
             colors: [
-              Color(0xFFFFFFFF),
-              Color(0xFFD2F4FF),
+              AppColors.white,
+              AppColors.grey,
             ],
-            begin: FractionalOffset(-0.33, -0.33),
-            end: FractionalOffset(0.66, 0.66),
-            stops: [0.0, 1.0],
+            stops: [
+              0.15,
+              1.0,
+            ],
+            radius: 1.0,
           ),
         ),
         child: Column(
@@ -29,8 +31,8 @@ class CategoryLoadingListItem extends StatelessWidget {
               child: Center(
                 child: Icon(
                   AppIcons.bottle,
-                  color: AppColors.white,
-                  size: 128.0,
+                  color: AppColors.grey,
+                  size: 144.0,
                 ),
               ),
             ),
@@ -38,7 +40,7 @@ class CategoryLoadingListItem extends StatelessWidget {
             Container(
               height: 18.0,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: AppColors.grey,
                 borderRadius: BorderRadius.circular(9.0),
               ),
             ),

@@ -59,6 +59,10 @@ class SaveProfile extends ProfileEvent {
       ];
 }
 
+class UpdateProfile extends ProfileEvent {
+  const UpdateProfile();
+}
+
 class ClearProfile extends ProfileEvent {
   const ClearProfile();
 }

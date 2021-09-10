@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
 import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
-import 'package:water/bloc/home/wallet/wallet_bloc.dart';
+import 'package:water/bloc/home/navigation/navigation_bloc.dart' as navigation;
+import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/cart/cart_item.dart';
 import 'package:water/ui/screens/home/checkout/subscription/subscription_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
@@ -21,21 +22,22 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<PaymentBloc, PaymentState>(
       listener: (context, state) async {
-        if (state is TopUpWallet) {
+        if (state is TopUpWalletAlert) {
           await _showDialog(context, TopUpWalletDialog());
-        } else if (state is SuccessfulPayment) {
+        } else if (state is SuccessfulPaymentAlert) {
           await _showDialog(context, SuccessfulPaymentDialog());
+          context.navigation.add(
+            navigation.NavigateTo(screen: navigation.Screen.home),
+          );
+          context.navigation.add(
+            navigation.BackPressed(),
+          );
           homeNavigator.pop();
         }
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SeparatedColumn(
-          children: [
-            _buildBalanceText(),
-            _buildSummary(context),
-          ],
-        ),
+        body: _buildBody(context),
         bottomNavigationBar: _buildBottomPanel(context),
       ),
     );
@@ -47,6 +49,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
         'screen.payment'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -63,24 +67,35 @@ class SubscriptionPaymentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBalanceText() {
-    return BlocBuilder<WalletBloc, WalletState>(
-      buildWhen: (_, state) {
-        return state is WalletLoaded;
-      },
-      builder: (_, state) {
-        if (state is WalletLoaded) {
-          return WaterText(
-            'text.wallet_balance'.tr(args: [
-              state.balance.toStringAsFixed(2),
-            ]),
-            fontSize: 18.0,
-            lineHeight: 1.5,
-            textAlign: TextAlign.center,
-          );
-        }
-        return const SizedBox.shrink();
-      },
+  Widget _buildBody(BuildContext context) {
+    return LoaderOverlay(
+      child: BlocListener<PaymentBloc, PaymentState>(
+        listener: (context, state) {
+          context.showLoader(state is SubscriptionPaymentRequest);
+        },
+        child: Column(
+          children: [
+            _buildBalanceText(context),
+            defaultDivider,
+            _buildSummary(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBalanceText(BuildContext context) {
+    final balance = context.profile.state.walletBalance;
+
+    return WaterText(
+      'text.wallet_balance'.tr(args: [
+        balance.toStringAsFixed(2),
+      ]),
+      fontSize: 18.0,
+      lineHeight: 1.5,
+      textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     ).withPaddingAll(24.0);
   }
 
@@ -122,9 +137,9 @@ class SubscriptionPaymentScreen extends StatelessWidget {
         Expanded(
           child: WaterText(
             '$emirate, $district, $street, $building, $floor, $apartment',
-            fontSize: 12.0,
+            fontSize: 13.0,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: AppColors.secondaryText,
           ),
         ),
@@ -156,9 +171,9 @@ class SubscriptionPaymentScreen extends StatelessWidget {
         Expanded(
           child: WaterText(
             '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
-            fontSize: 12.0,
+            fontSize: 13.0,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: AppColors.secondaryText,
           ),
         ),
@@ -183,9 +198,9 @@ class SubscriptionPaymentScreen extends StatelessWidget {
         Expanded(
           child: WaterText(
             'text.months'.plural(months),
-            fontSize: 12.0,
+            fontSize: 13.0,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: AppColors.secondaryText,
           ),
         ),
@@ -218,8 +233,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             maxLines: 1,
             fontSize: 13.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             overflow: TextOverflow.visible,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -234,7 +249,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
                   '${item.product.title} ${item.product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.secondaryText,
                 ),
               ),
@@ -243,7 +258,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
                 'x${item.amount}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: AppColors.secondaryText,
               ),
             ],
@@ -259,7 +274,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             fontSize: 15.0,
             lineHeight: 1.5,
             textAlign: TextAlign.end,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -302,7 +318,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
           'text.vat'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 16.0),
@@ -313,9 +329,9 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             ]),
             fontSize: 18.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             textAlign: TextAlign.end,
-            color: AppColors.secondaryText,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -335,7 +351,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
           'text.monthly'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 16.0),
@@ -346,9 +362,9 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             ]),
             fontSize: 18.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             textAlign: TextAlign.end,
-            color: AppColors.secondaryText,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -368,6 +384,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
           'text.total'.tr(),
           fontSize: 23.0,
           lineHeight: 2.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ),
         const SizedBox(width: 24.0),
         Flexible(
@@ -379,8 +397,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             fontSize: 23.0,
             lineHeight: 2.0,
             textAlign: TextAlign.end,
-            overflow: TextOverflow.fade,
-            softWrap: false,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primaryText,
           ),
         ),
       ],

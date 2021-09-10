@@ -33,8 +33,16 @@ class WaterAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   List<Widget> _buildActionsButtons() {
     final buttons = <Widget>[];
-    actions?.forEach((action) =>
-        buttons.addAll([action, const SizedBox(width: _actionsSpaceBetween)]));
+
+    actions?.forEach((action) {
+      buttons.addAll([
+        if (action == actions?.first)
+          const SizedBox(width: _actionsSpaceBetween),
+        action,
+        const SizedBox(width: _actionsSpaceBetween),
+      ]);
+    });
+
     return buttons;
   }
 

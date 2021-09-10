@@ -40,23 +40,30 @@ class ChangePasswordScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-      physics: const BouncingScrollPhysics(),
-      clipBehavior: Clip.none,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const WaterLogo(),
-          const SizedBox(height: 36.0),
-          _buildEnterNewPasswordLabel(),
-          const SizedBox(height: 12.0),
-          _buildInputForm(),
-          const SizedBox(height: 24.0),
-          _buildLogInButton(context),
-        ],
+    return LoaderOverlay(
+      child: BlocListener<ChangePasswordBloc, ChangePasswordState>(
+        listener: (context, state) {
+          context.showLoader(state is ChangePasswordLoading);
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
+          clipBehavior: Clip.none,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const WaterLogo(),
+              const SizedBox(height: 36.0),
+              _buildEnterNewPasswordLabel(),
+              const SizedBox(height: 12.0),
+              _buildInputForm(),
+              const SizedBox(height: 24.0),
+              _buildLogInButton(context),
+            ],
+          ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        ),
       ),
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }
 
@@ -66,6 +73,8 @@ class ChangePasswordScreen extends StatelessWidget {
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 
@@ -85,6 +94,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
                 color: AppColors.errorText,
               );
             },

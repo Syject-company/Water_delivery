@@ -92,6 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       'text.language'.tr(),
       fontSize: 18.0,
       lineHeight: 1.75,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     ).withPadding(24.0, 0.0, 0.0, 0.0);
   }
 
@@ -201,6 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             'text.delivery_address'.tr(),
             fontSize: 18.0,
             lineHeight: 1.75,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ).withPadding(24.0, 0.0, 0.0, 0.0),
           const SizedBox(height: 24.0),
           WaterFormSelect(
@@ -269,6 +273,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             'text.family_members'.tr(),
             fontSize: 18.0,
             lineHeight: 1.5,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ).withPadding(24.0, 0.0, 0.0, 0.0),
         ),
         WaterNumberPicker(
@@ -330,13 +336,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildLogOutButton() {
-    return WaterButton(
+    return WaterSecondaryButton(
       onPressed: () {
         context.auth.add(Logout());
       },
       text: 'button.logout'.tr(),
-      backgroundColor: AppColors.secondary,
-      foregroundColor: AppColors.primary,
+      radialRadius: 3.0,
     );
   }
 }

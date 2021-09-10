@@ -57,6 +57,8 @@ class DeliveryAddressScreen extends StatelessWidget {
         'screen.delivery'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {

@@ -9,7 +9,7 @@ class SubscriptionFields {
   static const String id = 'id';
   static const String isActive = 'isActive';
   static const String deliveryDate = 'deliveryDay';
-  static const String period = 'period';
+  static const String time = 'periods';
   static const String products = 'subscriptionShopItems';
   static const String city = 'cityName';
   static const String district = 'districtName';
@@ -24,7 +24,7 @@ class Subscription extends Equatable {
     required this.id,
     required this.isActive,
     required this.deliveryDate,
-    required this.period,
+    required this.time,
     required this.products,
     required this.city,
     required this.district,
@@ -37,7 +37,7 @@ class Subscription extends Equatable {
   final String id;
   final bool isActive;
   final String deliveryDate;
-  final Period period;
+  final Period time;
   final List<SubscriptionProduct> products;
   final String city;
   final String district;
@@ -56,7 +56,7 @@ class Subscription extends Equatable {
       id: json[SubscriptionFields.id],
       isActive: json[SubscriptionFields.isActive],
       deliveryDate: json[SubscriptionFields.deliveryDate],
-      period: Period.fromJson(json[SubscriptionFields.period]),
+      time: Period.fromJson(json[SubscriptionFields.time]),
       products: products,
       city: json[SubscriptionFields.city],
       district: json[SubscriptionFields.district],

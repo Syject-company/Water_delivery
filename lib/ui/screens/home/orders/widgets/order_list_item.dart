@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/domain/model/order/order.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 
 class OrderListItem extends StatefulWidget {
@@ -62,17 +63,18 @@ class _OrderListItemState extends State<OrderListItem>
       children: [
         WaterText(
           'text.order_number'.tr(
-            args: [_order.id],
+            args: ['${_order.id}'],
           ),
           fontSize: 15.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
+          color: AppColors.primaryText,
         ),
         WaterText(
           formattedCreatedDate,
           fontSize: 15.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.secondaryText,
         ),
       ],
@@ -111,6 +113,7 @@ class _OrderListItemState extends State<OrderListItem>
       child: Column(
         children: [
           _buildDeliveryAddress(),
+          _buildDeliveryTime(),
           const SizedBox(height: 12.0),
           _buildOrderProducts(),
           const SizedBox(height: 12.0),
@@ -143,14 +146,45 @@ class _OrderListItemState extends State<OrderListItem>
         Expanded(
           child: WaterText(
             '$city, $district, $street, $building, $floor, $apartment',
-            fontSize: 12.0,
+            fontSize: 13.0,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: AppColors.secondaryText,
           ),
         ),
       ],
     ).withPadding(18.0, 6.0, 24.0, 0.0);
+  }
+
+  Widget _buildDeliveryTime() {
+    final deliveryTime = _order.time;
+    final locale = Localization.currentLocale(context).languageCode;
+    final formattedDayOfWeek =
+        DateFormat('EEEE', locale).format(_order.deliveryDate);
+    final startTime = DateFormat('h').parse('${deliveryTime.startTime}');
+    final endTime = DateFormat('h').parse('${deliveryTime.endTime}');
+    final formattedStartTime = DateFormat('h a', locale).format(startTime);
+    final formattedEndTime = DateFormat('h a', locale).format(endTime);
+
+    return Row(
+      children: [
+        Icon(
+          AppIcons.time,
+          size: 32.0,
+          color: AppColors.secondaryText,
+        ),
+        const SizedBox(width: 12.0),
+        Expanded(
+          child: WaterText(
+            '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
+            fontSize: 13.0,
+            lineHeight: 1.25,
+            fontWeight: FontWeight.w500,
+            color: AppColors.secondaryText,
+          ),
+        ),
+      ],
+    ).withPadding(18.0, 0.0, 24.0, 0.0);
   }
 
   Widget _buildOrderProducts() {
@@ -177,8 +211,8 @@ class _OrderListItemState extends State<OrderListItem>
             maxLines: 1,
             fontSize: 13.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             overflow: TextOverflow.visible,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -193,7 +227,7 @@ class _OrderListItemState extends State<OrderListItem>
                   '${product.title} ${product.formattedVolume}',
                   fontSize: 15.0,
                   lineHeight: 1.5,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: AppColors.secondaryText,
                 ),
               ),
@@ -202,7 +236,7 @@ class _OrderListItemState extends State<OrderListItem>
                 'x${product.amount}',
                 fontSize: 15.0,
                 lineHeight: 1.5,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 color: AppColors.secondaryText,
               ),
             ],
@@ -218,7 +252,8 @@ class _OrderListItemState extends State<OrderListItem>
             fontSize: 15.0,
             lineHeight: 1.5,
             textAlign: TextAlign.end,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -247,8 +282,8 @@ class _OrderListItemState extends State<OrderListItem>
           status,
           fontSize: 15.0,
           lineHeight: 1.25,
-          fontWeight: FontWeight.w500,
-          color: AppColors.secondaryText,
+          fontWeight: FontWeight.w600,
+          color: AppColors.primaryText,
         ),
       ],
     ).withPadding(24.0, 0.0, 24.0, 0.0);
@@ -276,8 +311,8 @@ class _OrderListItemState extends State<OrderListItem>
           ]),
           fontSize: 15.0,
           lineHeight: 1.25,
-          fontWeight: FontWeight.w500,
-          color: AppColors.secondaryText,
+          fontWeight: FontWeight.w600,
+          color: AppColors.primaryText,
         ),
       ],
     ).withPadding(24.0, 0.0, 24.0, 0.0);
@@ -297,6 +332,7 @@ class _OrderListItemState extends State<OrderListItem>
           fontSize: 18.0,
           lineHeight: 1.5,
           fontWeight: FontWeight.w600,
+          color: AppColors.primaryText,
         ),
         WaterText(
           'text.aed'.tr(args: [
@@ -304,7 +340,8 @@ class _OrderListItemState extends State<OrderListItem>
           ]),
           fontSize: 18.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ),
       ],
     ).withPadding(24.0, 6.0, 24.0, 12.0);

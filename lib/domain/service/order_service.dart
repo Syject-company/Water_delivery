@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:water/domain/model/order/order.dart';
 import 'package:water/domain/model/order/order_form.dart';
+import 'package:water/domain/model/payment_response.dart';
 import 'package:water/util/http.dart';
 
 class OrderService {
@@ -30,7 +31,10 @@ class OrderService {
     return [];
   }
 
-  Future<void> create(String token, OrderForm form) async {
+  Future<PaymentResponse> create(
+    String token,
+    OrderForm form,
+  ) async {
     final response = await Http.post(
       _endpoint,
       headers: {
@@ -42,5 +46,7 @@ class OrderService {
     if (response.statusCode != HttpStatus.ok) {
       throw HttpException(response.body);
     }
+
+    return PaymentResponse.fromJson(jsonDecode(response.body));
   }
 }

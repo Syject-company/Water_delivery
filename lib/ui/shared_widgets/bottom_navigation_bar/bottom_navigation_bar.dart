@@ -7,7 +7,7 @@ typedef SelectCallback = void Function(int index);
 
 const double _iconSize = 32.0;
 const Color _selectedIconColor = AppColors.white;
-const Color _deselectedIconColor = AppColors.primaryText;
+const Color _deselectedIconColor = AppColors.bottomNavBarIconColor;
 const Color _disabledIconColor = AppColors.disabled;
 const double _borderRadius = 15.0;
 

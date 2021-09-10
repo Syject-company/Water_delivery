@@ -42,7 +42,7 @@ class _ProductListItemState extends State<ProductListItem> {
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19.0),
-            border: Border.all(color: AppColors.borderColor),
+            border: Border.fromBorderSide(defaultBorder),
           ),
           child: Column(
             children: [
@@ -87,19 +87,22 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildPriceText() {
+    final price = _product.price;
+    final discountPrice = _product.discountPrice;
     final discount = _product.discount;
 
     return Row(
       children: [
         WaterText(
           'text.aed'.tr(args: [
-            _product.discountPrice.toStringAsFixed(2),
+            price.toStringAsFixed(2),
           ]),
           maxLines: 1,
           fontSize: 19.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
           overflow: TextOverflow.fade,
+          fontWeight: FontWeight.w800,
+          color: AppColors.primaryText,
           softWrap: false,
         ),
         if (discount > 0.0)
@@ -109,12 +112,10 @@ class _ProductListItemState extends State<ProductListItem> {
                 const SizedBox(width: 6.0),
                 Flexible(
                   child: WaterText(
-                    'text.aed'.tr(args: [
-                      _product.price.toStringAsFixed(2),
-                    ]),
+                    discountPrice.toStringAsFixed(2),
                     maxLines: 1,
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
                     overflow: TextOverflow.fade,
                     decoration: TextDecoration.lineThrough,
                     color: AppColors.secondaryText,
@@ -129,24 +130,30 @@ class _ProductListItemState extends State<ProductListItem> {
   }
 
   Widget _buildTitleText() {
+    final title = _product.title;
+
     return Flexible(
       child: WaterText(
-        _product.title,
+        title,
         maxLines: 2,
         fontSize: 15.0,
         lineHeight: 1.5,
         overflow: TextOverflow.ellipsis,
+        fontWeight: FontWeight.w700,
+        color: AppColors.primaryText,
       ),
     );
   }
 
   Widget _buildVolumeText() {
+    final volume = _product.formattedVolume;
+
     return WaterText(
-      _product.formattedVolume,
+      volume,
       maxLines: 1,
       fontSize: 15.0,
       lineHeight: 1.5,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
       overflow: TextOverflow.ellipsis,
       color: AppColors.secondaryText,
     );
@@ -163,8 +170,6 @@ class _ProductListItemState extends State<ProductListItem> {
           _showToast('toast.product_added'.tr());
         },
         icon: AppIcons.plus,
-        backgroundColor: AppColors.secondary,
-        foregroundColor: AppColors.primaryText,
       ),
     );
   }
@@ -197,7 +202,7 @@ class _ProductListItemState extends State<ProductListItem> {
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
         decoration: BoxDecoration(
           color: AppColors.white,
-          border: Border.all(color: AppColors.borderColor),
+          border: Border.fromBorderSide(defaultBorder),
           borderRadius: BorderRadius.circular(19.0),
           boxShadow: [
             BoxShadow(
@@ -225,8 +230,10 @@ class _ProductListItemState extends State<ProductListItem> {
             Expanded(
               child: WaterText(
                 message,
-                fontSize: 16.0,
+                fontSize: 18.0,
                 textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primaryText,
                 decoration: TextDecoration.none,
               ),
             ),

@@ -1,16 +1,24 @@
 part of 'dates_bloc.dart';
 
-class DeliveryDatesState extends Equatable {
-  const DeliveryDatesState({required this.dates});
+abstract class DeliveryDatesState extends Equatable {
+  const DeliveryDatesState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class DeliveryDatesInitial extends DeliveryDatesState {
+  const DeliveryDatesInitial();
+}
+
+class DeliveryDatesLoading extends DeliveryDatesState {
+  const DeliveryDatesLoading();
+}
+
+class DeliveryDatesLoaded extends DeliveryDatesState {
+  const DeliveryDatesLoaded({required this.dates});
 
   final List<DeliveryDate> dates;
-
-  DeliveryDatesState copyWith({
-    List<DeliveryDate>? dates,
-  }) =>
-      DeliveryDatesState(
-        dates: dates ?? this.dates,
-      );
 
   @override
   List<Object> get props => [dates];

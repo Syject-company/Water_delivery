@@ -39,6 +39,8 @@ class EnterEmailPage extends StatelessWidget {
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 
@@ -58,6 +60,7 @@ class EnterEmailPage extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
                 color: AppColors.errorText,
               );
             },

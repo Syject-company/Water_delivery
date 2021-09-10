@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -28,25 +29,30 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
     SubscriptionsEvent event,
   ) async* {
     if (event is LoadSubscriptions) {
-      yield* _mapLoadSubscriptionsToState(event);
+      yield* _mapLoadSubscriptionsToState(state, event);
     } else if (event is SelectSubscription) {
       yield* _mapSelectSubscriptionToState(state, event);
     } else if (event is DeselectSubscription) {
       yield* _mapDeselectSubscriptionToState(state);
-    } else if (event is StopSubscription) {
-      yield* _mapStopSubscriptionToState(state);
+    } else if (event is ToggleSubscriptionStatus) {
+      yield* _mapToggleSubscriptionStatusToState(state);
     } else if (event is DeleteSubscription) {
       yield* _mapDeleteSubscriptionToState(state);
     }
   }
 
   Stream<SubscriptionsState> _mapLoadSubscriptionsToState(
+    SubscriptionsState state,
     LoadSubscriptions event,
   ) async* {
-    if (Session.isAuthenticated) {
-      yield SubscriptionsLoading();
-      final subscriptions = await _subscriptionService.getAll(Session.token!);
-      yield SubscriptionsLoaded(subscriptions: subscriptions);
+    try {
+      if (Session.isAuthenticated) {
+        yield SubscriptionsLoading();
+        final subscriptions = await _subscriptionService.getAll(Session.token!);
+        yield SubscriptionsLoaded(subscriptions: subscriptions);
+      }
+    } on HttpException catch (_) {
+      yield SubscriptionsError();
     }
   }
 
@@ -71,35 +77,51 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
     }
   }
 
-  Stream<SubscriptionsState> _mapStopSubscriptionToState(
+  Stream<SubscriptionsState> _mapToggleSubscriptionStatusToState(
     SubscriptionsState state,
   ) async* {
-    if (state is SubscriptionsLoaded) {
-      final subscription = state.selectedSubscription;
+    try {
+      if (state is SubscriptionsLoaded) {
+        final subscription = state.selectedSubscription;
+        if (subscription == null) {
+          return;
+        }
 
-      if (subscription == null) {
-        return;
+        yield SubscriptionsToggleStatusRequest();
+
+        await _subscriptionService.toggleStatus(
+          Session.token!,
+          subscription.id,
+        );
+
+        add(LoadSubscriptions());
       }
-
-      print('Stop subscription: ${subscription.id}');
-      await _subscriptionService.stop(Session.token!, subscription.id);
-      add(LoadSubscriptions());
+    } on HttpException catch (_) {
+      yield SubscriptionsError();
     }
   }
 
   Stream<SubscriptionsState> _mapDeleteSubscriptionToState(
     SubscriptionsState state,
   ) async* {
-    if (state is SubscriptionsLoaded) {
-      final subscription = state.selectedSubscription;
+    try {
+      if (state is SubscriptionsLoaded) {
+        final subscription = state.selectedSubscription;
+        if (subscription == null) {
+          return;
+        }
 
-      if (subscription == null) {
-        return;
+        yield SubscriptionsDeleteRequest();
+
+        await _subscriptionService.delete(
+          Session.token!,
+          subscription.id,
+        );
+
+        add(LoadSubscriptions());
       }
-
-      print('Delete subscription: ${subscription.id}');
-      await _subscriptionService.delete(Session.token!, subscription.id);
-      add(LoadSubscriptions());
+    } on HttpException catch (_) {
+      yield SubscriptionsError();
     }
   }
 }

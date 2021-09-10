@@ -23,7 +23,9 @@ class TermsScreen extends StatelessWidget {
         fontSize: 24.0,
         lineHeight: 2.0,
         textAlign: TextAlign.center,
-      ),
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
+      ).withPadding(16.0, 0.0, 0.0, 0.0),
       leading: AppBarBackButton(
         onPressed: () {
           homeNavigator.pop();
@@ -82,6 +84,7 @@ class TermsScreen extends StatelessWidget {
       fontSize: 18.0,
       lineHeight: 1.75,
       fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 
@@ -90,7 +93,8 @@ class TermsScreen extends StatelessWidget {
       content,
       fontSize: 15.0,
       lineHeight: 1.75,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
+      color: AppColors.primaryText,
     );
   }
 }

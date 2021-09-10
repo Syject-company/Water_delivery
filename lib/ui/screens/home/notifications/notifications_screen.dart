@@ -24,6 +24,8 @@ class NotificationsScreen extends StatelessWidget {
         'screen.notifications'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -35,18 +37,18 @@ class NotificationsScreen extends StatelessWidget {
 
   Widget _buildBody() {
     return BlocBuilder<NotificationsBloc, NotificationsState>(
-      builder: (context, state) {
+      builder: (_, state) {
         return ListView.separated(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
           physics: const BouncingScrollPhysics(),
           itemCount: state.notifications.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (_, index) {
             return NotificationListItem(
               key: ValueKey(state.notifications[index]),
               notification: state.notifications[index],
             );
           },
-          separatorBuilder: (context, index) {
+          separatorBuilder: (_, __) {
             return const SizedBox(height: 12.0);
           },
         );

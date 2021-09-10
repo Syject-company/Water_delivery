@@ -52,13 +52,12 @@ class AuthScreen extends StatelessWidget {
   }
 
   Widget _buildSignUpButton() {
-    return WaterButton(
+    return WaterSecondaryButton(
       onPressed: () {
         authNavigator.pushNamed(AuthRoutes.signUp);
       },
       text: 'button.sign_up_free'.tr(),
-      backgroundColor: AppColors.secondary,
-      foregroundColor: AppColors.primary,
+      radialRadius: 3.0,
     );
   }
 }

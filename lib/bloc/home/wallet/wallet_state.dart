@@ -18,8 +18,12 @@ class WalletLoaded extends WalletState {
   List<Object> get props => [balance];
 }
 
-class WalletTopUp extends WalletState {
-  const WalletTopUp({
+class TopUpWalletRequest extends WalletState {
+  const TopUpWalletRequest();
+}
+
+class TopUpWalletView extends WalletState {
+  const TopUpWalletView({
     required this.url,
   });
 
@@ -27,4 +31,12 @@ class WalletTopUp extends WalletState {
 
   @override
   List<Object> get props => [url];
+}
+
+class TopUpWalletSuccess extends WalletState {
+  const TopUpWalletSuccess();
+}
+
+class TopUpWalletError extends WalletState {
+  const TopUpWalletError();
 }

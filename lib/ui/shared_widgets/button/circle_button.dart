@@ -29,7 +29,7 @@ class WaterSocialButton extends StatelessWidget {
         child: Center(
           child: Icon(
             icon,
-            color: AppColors.primary,
+            color: AppColors.white,
             size: _iconSize,
           ),
         ),

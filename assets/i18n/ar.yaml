@@ -15,6 +15,8 @@ screen:
   support: "يدعم"
   terms: "البنود و الظروف"
   faq: "التعليمات"
+  top_up_wallet: "رصيد المحفظة"
+  order_payment: "دفع النظام"
 
 text:
   select_language: "اختار اللغة"
@@ -60,6 +62,8 @@ text:
   share_referral_code: "شارك رمز الإحالة الفريد الخاص بك مع الأصدقاء"
   first_register: "بمجرد تسجيلهم بنجاح كعميل جديد وإكمال أول تعبئة لمحفظة عبر الإنترنت"
   wallet_bonus: "ستحصل على مكافأة قدرها 10 دراهم إماراتية في محفظتك مقابل كل إحالة ناجحة"
+  no_orders: "لا توجد طلبات مرتبطة بهذا الحساب"
+  no_subscriptions: "لا توجد اشتراكات مرتبطة بهذا الحساب"
   months:
     one: '{} شهر'
     two: '{} شهور'
@@ -114,6 +118,7 @@ button:
   cancel: "يلغي"
   pay: "دفع"
   stop_subscription: "وقف الاشتراك"
+  resume_subscription: "استئناف الاشتراك"
   delete_subscription: "حذف الاشتراك"
   send: "يرسل"
   click_to_call: "اضغط للاتصال"

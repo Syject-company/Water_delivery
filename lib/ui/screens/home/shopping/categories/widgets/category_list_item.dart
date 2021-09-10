@@ -28,15 +28,17 @@ class CategoryListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(19.0),
         child: Container(
           padding: const EdgeInsets.all(24.0),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
               colors: [
-                Color(0xFFFFFFFF),
-                Color(0xFFD2F4FF),
+                AppColors.white,
+                AppColors.grey,
               ],
-              begin: FractionalOffset(-0.33, -0.33),
-              end: FractionalOffset(0.66, 0.66),
-              stops: [0.0, 1.0],
+              stops: [
+                0.15,
+                1.0,
+              ],
+              radius: 1.0,
             ),
           ),
           child: Column(
@@ -49,13 +51,15 @@ class CategoryListItem extends StatelessWidget {
                   fadeOutDuration: const Duration(milliseconds: 250),
                   fadeInCurve: Curves.fastOutSlowIn,
                   fadeOutCurve: Curves.fastOutSlowIn,
-                ).withPaddingAll(12.0),
+                ),
               ),
               const SizedBox(height: 24.0),
               WaterText(
                 category.title,
                 fontSize: 18.0,
                 lineHeight: 1.5,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primaryText,
               ),
             ],
           ),

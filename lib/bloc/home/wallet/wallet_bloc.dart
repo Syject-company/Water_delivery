@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,15 +19,18 @@ extension BlocGetter on BuildContext {
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
   WalletBloc({required ProfileBloc profile})
-      : super(
+      : _profile = profile,
+        super(
           WalletLoaded(
             balance: 0.0,
           ),
         ) {
     _profileStateSubscription = profile.stream.listen((state) {
-      add(LoadBalance(amount: state.walletBalance));
+      add(UpdateBalance(amount: state.walletBalance));
     });
   }
+
+  final ProfileBloc _profile;
 
   final AccountService _accountService = locator<AccountService>();
 
@@ -37,11 +41,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     WalletEvent event,
   ) async* {
     if (event is LoadBalance) {
-      yield* _mapLoadBalanceToState(event);
-    } else if (event is AddBalance) {
-      yield* _mapAddBalanceToState(event);
-    } else if (event is RemoveBalance) {
-      yield* _mapRemoveBalanceToState(event);
+      yield* _mapLoadBalanceToState();
+    } else if (event is UpdateBalance) {
+      yield* _mapUpdateBalanceToState(event);
+    } else if (event is TopUp) {
+      yield* _mapTopUpToState(event);
     }
   }
 
@@ -51,26 +55,32 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     return super.close();
   }
 
-  Stream<WalletState> _mapLoadBalanceToState(
-    LoadBalance event,
+  Stream<WalletState> _mapLoadBalanceToState() async* {
+    yield WalletLoaded(balance: _profile.state.walletBalance);
+  }
+
+  Stream<WalletState> _mapUpdateBalanceToState(
+    UpdateBalance event,
   ) async* {
     yield WalletLoaded(balance: event.amount);
   }
 
-  Stream<WalletState> _mapAddBalanceToState(
-    AddBalance event,
+  Stream<WalletState> _mapTopUpToState(
+    TopUp event,
   ) async* {
-    if (Session.isAuthenticated) {
-      final paymentResponse = await _accountService.topUpWallet(
-        Session.token!,
-        event.amount,
-      );
+    try {
+      if (Session.isAuthenticated) {
+        yield TopUpWalletRequest();
 
-      yield WalletTopUp(url: paymentResponse.paymentUrl);
+        final paymentResponse = await _accountService.topUpWallet(
+          Session.token!,
+          event.amount,
+        );
+
+        yield TopUpWalletView(url: paymentResponse.paymentUrl);
+      }
+    } on HttpException catch (_) {
+      yield TopUpWalletError();
     }
   }
-
-  Stream<WalletState> _mapRemoveBalanceToState(
-    RemoveBalance event,
-  ) async* {}
 }

@@ -41,3 +41,15 @@ class SubscriptionsLoaded extends SubscriptionsState {
         selectedSubscription,
       ];
 }
+
+class SubscriptionsToggleStatusRequest extends SubscriptionsState {
+  const SubscriptionsToggleStatusRequest();
+}
+
+class SubscriptionsDeleteRequest extends SubscriptionsState {
+  const SubscriptionsDeleteRequest();
+}
+
+class SubscriptionsError extends SubscriptionsState {
+  const SubscriptionsError();
+}

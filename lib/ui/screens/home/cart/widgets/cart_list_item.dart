@@ -80,7 +80,8 @@ class CartListItem extends StatelessWidget {
         maxLines: 2,
         fontSize: 15.0,
         lineHeight: 1.5,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
         overflow: TextOverflow.ellipsis,
       ).withPadding(0.0, 2.0, 0.0, 0.0),
     );
@@ -92,7 +93,7 @@ class CartListItem extends StatelessWidget {
       maxLines: 1,
       fontSize: 15.0,
       lineHeight: 1.5,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
       color: AppColors.secondaryText,
       overflow: TextOverflow.ellipsis,
     ).withPadding(0.0, 2.0, 0.0, 0.0);
@@ -127,7 +128,6 @@ class CartListItem extends StatelessWidget {
       minValue: 1,
       maxWidth: 120.0,
       showBorder: false,
-      dynamicColor: false,
       size: PickerSize.small,
       alignment: AlignmentDirectional.centerStart,
     );
@@ -149,9 +149,9 @@ class CartListItem extends StatelessWidget {
               maxLines: 1,
               fontSize: 15.0,
               lineHeight: 1.5,
-              fontWeight: FontWeight.w500,
+              overflow: TextOverflow.fade,
+              fontWeight: FontWeight.w700,
               color: AppColors.secondaryText,
-              overflow: TextOverflow.ellipsis,
               decoration: TextDecoration.lineThrough,
             ).withPadding(0.0, 0.0, 0.0, 3.0),
           WaterText(
@@ -161,8 +161,9 @@ class CartListItem extends StatelessWidget {
             maxLines: 1,
             fontSize: 19.0,
             lineHeight: 1.5,
-            overflow: TextOverflow.ellipsis,
-            fontWeight: FontWeight.w500,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primaryText,
           )
         ],
       ),

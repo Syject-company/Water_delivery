@@ -75,9 +75,9 @@ class WaterFormSelectState extends State<WaterFormSelect>
       },
       style: const TextStyle(
         fontSize: _fontSize,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         color: AppColors.primaryText,
-      ).poppins,
+      ).nunitoSans,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
         height: _lineHeight,
@@ -96,13 +96,13 @@ class WaterFormSelectState extends State<WaterFormSelect>
           fontSize: _hintFontSize,
           fontWeight: FontWeight.w500,
           color: AppColors.secondaryText,
-        ).poppins,
+        ).nunitoSans,
         errorStyle: const TextStyle(
           height: _lineHeight,
           fontSize: _errorFontSize,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.errorText,
-        ).poppins,
+        ).nunitoSans,
         errorMaxLines: _errorMaxLines,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -114,31 +114,27 @@ class WaterFormSelectState extends State<WaterFormSelect>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 8.0),
-          child: WaterText(
-            widget.labelText!,
-            maxLines: 1,
-            fontSize: 15.0,
-            lineHeight: 1.25,
-            overflow: TextOverflow.fade,
-            softWrap: false,
-          ),
-        ),
+        WaterText(
+          widget.labelText!,
+          maxLines: 1,
+          fontSize: 15.0,
+          lineHeight: 1.25,
+          overflow: TextOverflow.fade,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
+          softWrap: false,
+        ).withPadding(24.0, 0.0, 24.0, 8.0),
         child,
       ],
     );
   }
 
   Widget _buildArrowIcon() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 12.0),
-      child: Icon(
-        AppIcons.arrow_down,
-        color: _items.isNotEmpty ? AppColors.secondaryText : AppColors.disabled,
-        size: 32.0,
-      ),
-    );
+    return Icon(
+      AppIcons.arrow_down,
+      color: _items.isNotEmpty ? AppColors.secondaryText : AppColors.disabled,
+      size: 32.0,
+    ).withPadding(0.0, 0.0, 12.0, 0.0);
   }
 
   Future<void> _showSelectDialog() async {
@@ -203,6 +199,8 @@ class _SelectDialogState extends State<_SelectDialog> {
               widget.helpText!.toUpperCase(),
               fontSize: 15.0,
               lineHeight: 1.25,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primaryText,
             )
           : null,
       content: Container(
@@ -214,25 +212,16 @@ class _SelectDialogState extends State<_SelectDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (widget.enableSearch)
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        start: 12.0, end: 18.0),
-                    child: WaterFormSearch(
-                      hintText: 'input.search'.tr(),
-                      onChanged: (value) {
-                        setState(() {
-                          searchedItems = widget.items.where((item) {
-                            return _containsIgnoreCase(item, value);
-                          }).toList();
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 18.0),
-                ],
-              ),
+              WaterFormSearch(
+                hintText: 'input.search'.tr(),
+                onChanged: (value) {
+                  setState(() {
+                    searchedItems = widget.items.where((item) {
+                      return _containsIgnoreCase(item, value);
+                    }).toList();
+                  });
+                },
+              ).withPadding(12.0, 0.0, 18.0, 18.0),
             Flexible(
               child: RawScrollbar(
                 isAlwaysShown: true,
@@ -241,8 +230,6 @@ class _SelectDialogState extends State<_SelectDialog> {
                 radius: Radius.circular(15.0),
                 thickness: 3.0,
                 child: ListView.builder(
-                  padding:
-                      const EdgeInsetsDirectional.only(start: 12.0, end: 18.0),
                   physics: const BouncingScrollPhysics(),
                   controller: scrollController,
                   itemCount: searchedItems.length,
@@ -250,7 +237,7 @@ class _SelectDialogState extends State<_SelectDialog> {
                   itemBuilder: (_, index) {
                     return _buildItem(searchedItems[index]);
                   },
-                ),
+                ).withPadding(12.0, 0.0, 18.0, 0.0),
               ),
             ),
           ],
@@ -279,7 +266,7 @@ class _SelectDialogState extends State<_SelectDialog> {
             item,
             fontSize: _fontSize,
             lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             color: selected ? AppColors.white : AppColors.primaryText,
           ),
         ),

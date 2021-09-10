@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/extensions/text_style.dart';
 
 class WaterText extends StatelessWidget {
   const WaterText(
     this.text, {
     Key? key,
+    required this.fontSize,
+    required this.fontWeight,
+    required this.color,
     this.textAlign = TextAlign.start,
-    this.fontWeight = FontWeight.w600,
-    this.color = AppColors.primaryText,
-    this.fontSize,
     this.lineHeight,
     this.maxLines,
     this.overflow,
@@ -19,7 +18,7 @@ class WaterText extends StatelessWidget {
 
   final String text;
   final TextAlign textAlign;
-  final FontWeight fontWeight;
+  final FontWeight? fontWeight;
   final Color color;
   final double? fontSize;
   final double? lineHeight;
@@ -41,7 +40,7 @@ class WaterText extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         decoration: decoration,
-      ).poppins,
+      ).nunitoSans,
       strutStyle: lineHeight != null
           ? StrutStyle(
               forceStrutHeight: true,

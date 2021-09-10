@@ -19,9 +19,9 @@ class ReferFriendScreen extends StatelessWidget {
       title: WaterText(
         'screen.refer_friend'.tr(),
         fontSize: 24.0,
-        maxLines: 2,
-        lineHeight: 2.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {

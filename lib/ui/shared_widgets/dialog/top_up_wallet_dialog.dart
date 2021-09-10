@@ -62,6 +62,8 @@ class TopUpWalletDialog extends StatelessWidget {
               fontSize: 18.0,
               lineHeight: 1.5,
               textAlign: TextAlign.center,
+              fontWeight: FontWeight.w800,
+              color: AppColors.primaryText,
             ),
           ],
         ),
@@ -74,9 +76,9 @@ class TopUpWalletDialog extends StatelessWidget {
       'text.not_enough_money'.tr(),
       fontSize: 16.0,
       lineHeight: 1.25,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       textAlign: TextAlign.center,
-      color: AppColors.secondaryText,
+      color: AppColors.primaryText,
     );
   }
 

@@ -98,11 +98,15 @@ class _CarouselSliderState extends State<CarouselSlider> {
                 SliverFillViewport(
                   viewportFraction: _pageController.viewportFraction,
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => _wrapItem(
-                        widget.items.asMap()[index % widget.items.length]),
-                    childCount: widget.options.infiniteScroll
-                        ? _itemCount
-                        : widget.items.length,
+                    (_, index) {
+                      return widget.items.isNotEmpty
+                          ? _wrapItem(
+                              widget.items.asMap()[index % widget.items.length])
+                          : const SizedBox.shrink();
+                    },
+                    childCount: !widget.options.infiniteScroll
+                        ? widget.items.length
+                        : _itemCount,
                   ),
                   padEnds: widget.options.alignCenter,
                 ),

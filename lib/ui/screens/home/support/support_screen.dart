@@ -26,6 +26,10 @@ class SupportScreen extends StatelessWidget {
       body: BlocListener<SupportBloc, SupportState>(
         listener: (_, state) {
           context.showLoader(state.status == MessageStatus.sending);
+
+          if (state.status == MessageStatus.sent) {
+            _messageController.clear();
+          }
         },
         child: _buildBody(context),
       ),
@@ -37,9 +41,9 @@ class SupportScreen extends StatelessWidget {
       title: WaterText(
         'screen.support'.tr(),
         fontSize: 24.0,
-        maxLines: 2,
-        lineHeight: 2.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -92,6 +96,8 @@ class SupportScreen extends StatelessWidget {
             'text.your_credentials'.tr(),
             fontSize: 18.0,
             lineHeight: 1.75,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ).withPadding(24.0, 0.0, 0.0, 0.0),
           const SizedBox(height: 24.0),
           WaterFormInput(
@@ -129,6 +135,8 @@ class SupportScreen extends StatelessWidget {
             'text.type_your_message'.tr(),
             fontSize: 18.0,
             lineHeight: 1.75,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ).withPadding(24.0, 0.0, 0.0, 0.0),
           const SizedBox(height: 24.0),
           WaterFormInput(
@@ -173,11 +181,10 @@ class SupportScreen extends StatelessWidget {
   }
 
   Widget _buildCallButton() {
-    return WaterButton(
+    return WaterSecondaryButton(
       onPressed: () {},
       text: 'button.click_to_call'.tr(),
-      backgroundColor: AppColors.secondary,
-      foregroundColor: AppColors.primary,
+      radialRadius: 3.0,
     );
   }
 }

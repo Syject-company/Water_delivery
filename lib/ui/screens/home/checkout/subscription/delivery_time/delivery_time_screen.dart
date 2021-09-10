@@ -24,7 +24,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SubscriptionBloc, SubscriptionState>(
-      listener: (context, state) async {
+      listener: (_, state) async {
         if (state is SubscriptionDetailsCollected && state.push) {
           await subscriptionNavigator.pushNamed(SubscriptionRoutes.payment);
           context.subscription.add(BackPressed());
@@ -32,35 +32,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              WaterText(
-                'text.select_time'.tr(),
-                fontSize: 15.0,
-                lineHeight: 1.5,
-                textAlign: TextAlign.center,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryText,
-              ),
-              const SizedBox(height: 24.0),
-              BlocBuilder<DeliveryDatesBloc, DeliveryDatesState>(
-                builder: (context, state) {
-                  return DeliveryTimePicker(
-                    dates: state.dates,
-                    onSelected: (time) {
-                      setState(() => _selectedTime = time);
-                    },
-                  );
-                },
-              ),
-              if (_selectedTime != null) _buildSelectedTimeText(),
-            ],
-          ),
-        ),
+        body: _buildBody(),
         bottomNavigationBar: _buildNextButton(),
       ),
     );
@@ -72,6 +44,8 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
         'screen.time'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -85,6 +59,54 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
         ),
         AppBarNotificationButton(),
       ],
+    );
+  }
+
+  Widget _buildBody() {
+    return LoaderOverlay(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildHintText(),
+            const SizedBox(height: 24.0),
+            _buildDeliveryTimePicker(),
+            if (_selectedTime != null) _buildSelectedTimeText(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHintText() {
+    return WaterText(
+      'text.select_time'.tr(),
+      fontSize: 15.0,
+      lineHeight: 1.5,
+      textAlign: TextAlign.center,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryText,
+    );
+  }
+
+  Widget _buildDeliveryTimePicker() {
+    return BlocBuilder<DeliveryDatesBloc, DeliveryDatesState>(
+      builder: (context, state) {
+        context.showLoader(state is DeliveryDatesLoading);
+
+        if (state is DeliveryDatesLoaded) {
+          return DeliveryTimePicker(
+            dates: state.dates,
+            onSelected: (time) {
+              setState(() => _selectedTime = time);
+            },
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 
@@ -105,12 +127,15 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ).withPadding(0.0, 40.0, 0.0, 0.0),
         WaterText(
           formattedDayOfMonth,
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ).withPadding(0.0, 32.0, 0.0, 0.0),
         WaterText(
@@ -118,6 +143,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ).withPadding(0.0, 4.0, 0.0, 0.0),
       ],

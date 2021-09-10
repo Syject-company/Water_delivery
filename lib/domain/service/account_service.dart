@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:water/domain/model/payment_response.dart';
 import 'package:water/domain/model/profile/change_password_form.dart';
+import 'package:water/domain/model/wallet/wallet_payment_response.dart';
 import 'package:water/util/http.dart';
 
 class AccountService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Account';
 
-  Future<void> changePassword(String token, ChangePasswordForm form) async {
+  Future<void> changePassword(
+    String token,
+    ChangePasswordForm form,
+  ) async {
     final response = await Http.post(
       '$_endpoint/ChangePassword',
       headers: {
@@ -22,7 +25,10 @@ class AccountService {
     }
   }
 
-  Future<PaymentResponse> topUpWallet(String token, double amount) async {
+  Future<WalletPaymentResponse> topUpWallet(
+    String token,
+    double amount,
+  ) async {
     final response = await Http.post(
       '$_endpoint/TopUpWallet/$amount',
       headers: {
@@ -34,6 +40,6 @@ class AccountService {
       throw HttpException(response.body);
     }
 
-    return PaymentResponse.fromJson(jsonDecode(response.body));
+    return WalletPaymentResponse.fromJson(jsonDecode(response.body));
   }
 }

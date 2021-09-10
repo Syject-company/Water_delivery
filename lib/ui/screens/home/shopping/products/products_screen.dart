@@ -35,10 +35,8 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsBloc, ProductsState>(
       builder: (_, state) {
-        Widget page = SizedBox.shrink();
-        if (state is ProductsLoading) {
-          page = _buildProductsLoader();
-        } else if (state is ProductsLoaded) {
+        Widget page = _buildProductsLoader();
+        if (state is ProductsLoaded) {
           page = _buildProducts(state);
         }
 

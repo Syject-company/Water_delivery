@@ -1,22 +1,22 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
-import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/app_bar.dart';
 import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
-class WalletTopUpScreen extends StatefulWidget {
-  WalletTopUpScreen({required this.url});
+class TopUpWalletScreen extends StatefulWidget {
+  TopUpWalletScreen({required this.url});
 
   final String url;
 
   @override
-  _WalletTopUpScreenState createState() => _WalletTopUpScreenState();
+  _TopUpWalletScreenState createState() => _TopUpWalletScreenState();
 }
 
-class _WalletTopUpScreenState extends State<WalletTopUpScreen> {
+class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   double _progress = 0.0;
 
   @override
@@ -30,15 +30,16 @@ class _WalletTopUpScreenState extends State<WalletTopUpScreen> {
   PreferredSizeWidget _buildAppBar() {
     return WaterAppBar(
       title: WaterText(
-        'Top Up Wallet',
+        'screen.top_up_wallet'.tr(),
         fontSize: 24.0,
-        lineHeight: 2.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       actions: [
         AppBarIconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context).pop(false);
           },
           icon: AppIcons.close,
         )
@@ -66,12 +67,20 @@ class _WalletTopUpScreenState extends State<WalletTopUpScreen> {
               allowsInlineMediaPlayback: true,
             ),
           ),
-          onProgressChanged: (controller, progress) {
+          onProgressChanged: (_, progress) {
             setState(() => _progress = progress / 100);
           },
-          onLoadStop: (controller, url) {
-            if (url.toString().contains('/Account/return')) {
-              homeNavigator.pop();
+          onLoadStop: (controller, _) async {
+            final html = await controller.getHtml();
+
+            if (html == null) {
+              return;
+            }
+
+            if (html.contains('{"isSuccessfulPayment":true}')) {
+              Navigator.of(context).pop(true);
+            } else if (html.contains('{"isSuccessfulPayment":false}')) {
+              Navigator.of(context).pop(false);
             }
           },
         ),
@@ -80,7 +89,7 @@ class _WalletTopUpScreenState extends State<WalletTopUpScreen> {
             height: 3.0,
             child: LinearProgressIndicator(
               value: _progress,
-              backgroundColor: AppColors.secondary,
+              backgroundColor: AppColors.primaryLight,
             ),
           ),
       ],

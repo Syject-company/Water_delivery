@@ -4,6 +4,7 @@ import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
+import 'package:water/ui/shared_widgets/logo/logo_label.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/session.dart';
 
@@ -16,13 +17,7 @@ class Menu extends StatelessWidget {
       child: Column(
         children: [
           _buildHeader(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 0.0),
-              physics: const BouncingScrollPhysics(),
-              child: _buildActionButtons(context),
-            ),
-          ),
+          _buildBody(context),
           _buildSocialButtons(),
         ],
       ),
@@ -32,21 +27,22 @@ class Menu extends StatelessWidget {
   Widget _buildHeader() {
     return Container(
       height: 148.0,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFFFFFFFF),
-            Color(0xFFD2F4FF),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+      color: AppColors.secondary,
+      child: Center(
+        child: const WaterLogoLabel(
+          color: AppColors.white,
+          widthFactor: 2.25,
         ),
       ),
-      child: Center(
-        child: const WaterLogo(
-          labelWidthFactor: 2.25,
-          showIcon: false,
-        ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 0.0),
+        physics: const BouncingScrollPhysics(),
+        child: _buildActionButtons(context),
       ),
     );
   }
@@ -150,9 +146,10 @@ class Menu extends StatelessWidget {
             child: WaterText(
               label,
               maxLines: 1,
-              fontSize: 18.0,
+              fontSize: 20.0,
               lineHeight: 1.75,
               color: labelColor,
+              fontWeight: FontWeight.w700,
               overflow: TextOverflow.ellipsis,
             ),
           ),

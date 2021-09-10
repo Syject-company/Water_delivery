@@ -26,7 +26,7 @@ class _SubscriptionDurationPickerState
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
-        border: Border.all(color: AppColors.borderColor),
+        border: Border.fromBorderSide(defaultBorder),
         color: AppColors.white,
       ),
       child: SeparatedRow(
@@ -78,17 +78,19 @@ class _MonthButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
-            color: selected ? AppColors.primary : AppColors.secondary,
+            color: selected ? AppColors.primary : AppColors.primaryLight,
           ),
-          color: selected ? AppColors.primary : AppColors.secondary,
+          color: selected ? AppColors.primary : AppColors.primaryLight,
         ),
         height: 48.0,
         child: Center(
           child: WaterText(
             'text.months'.plural(months),
             maxLines: 1,
+            fontSize: 15.0,
             lineHeight: 1.25,
             textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
             color: selected ? AppColors.white : AppColors.primary,
           ),
         ),

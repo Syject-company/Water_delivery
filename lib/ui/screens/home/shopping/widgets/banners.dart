@@ -73,14 +73,16 @@ class Banners extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.75 - 24.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
-        gradient: LinearGradient(
+        gradient: RadialGradient(
           colors: [
-            Color(0xFFFFFFFF),
-            Color(0xFFD2F4FF),
+            AppColors.white,
+            AppColors.grey,
           ],
-          begin: FractionalOffset(-0.33, -0.33),
-          end: FractionalOffset(0.66, 0.66),
-          stops: [0.0, 1.0],
+          stops: [
+            0.15,
+            1.0,
+          ],
+          radius: 1.0,
         ),
       ),
       child: AspectRatio(
@@ -88,7 +90,7 @@ class Banners extends StatelessWidget {
         child: Center(
           child: Icon(
             AppIcons.placeholder,
-            color: AppColors.white,
+            color: AppColors.grey,
             size: 80.0,
           ),
         ),

@@ -15,15 +15,8 @@ extension BlocGetter on BuildContext {
   DeliveryDatesBloc get deliveryDates => this.read<DeliveryDatesBloc>();
 }
 
-const int days = 7;
-
 class DeliveryDatesBloc extends Bloc<DeliveryDatesEvent, DeliveryDatesState> {
-  DeliveryDatesBloc()
-      : super(
-          DeliveryDatesState(
-            dates: const [],
-          ),
-        );
+  DeliveryDatesBloc() : super(DeliveryDatesInitial());
 
   final PeriodService _periodService = locator<PeriodService>();
 
@@ -39,8 +32,8 @@ class DeliveryDatesBloc extends Bloc<DeliveryDatesEvent, DeliveryDatesState> {
   Stream<DeliveryDatesState> _mapLoadDeliveryDatesToState(
     LoadDeliveryDates event,
   ) async* {
-    yield state.copyWith(dates: const []);
+    yield DeliveryDatesLoading();
     final dates = await _periodService.getAll(event.city);
-    yield state.copyWith(dates: dates);
+    yield DeliveryDatesLoaded(dates: dates);
   }
 }

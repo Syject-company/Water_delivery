@@ -25,6 +25,8 @@ class OrdersScreen extends StatelessWidget {
         'screen.orders'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -58,16 +60,18 @@ class OrdersScreen extends StatelessWidget {
             return _buildNoOrdersText();
           }
 
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: SeparatedColumn(
-              children: state.orders.map((order) {
-                return OrderListItem(
-                  key: ValueKey(order),
-                  order: order,
-                );
-              }).toList(),
-              includeOuterSeparators: true,
+          return SizedBox.expand(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: SeparatedColumn(
+                children: state.orders.map((order) {
+                  return OrderListItem(
+                    key: ValueKey(order),
+                    order: order,
+                  );
+                }).toList(),
+                includeOuterSeparators: true,
+              ),
             ),
           );
         }
@@ -79,10 +83,12 @@ class OrdersScreen extends StatelessWidget {
   Widget _buildNoOrdersText() {
     return Center(
       child: WaterText(
-        'There are not orders yet',
+        'text.no_orders'.tr(),
         fontSize: 20.0,
+        textAlign: TextAlign.center,
+        fontWeight: FontWeight.w700,
         color: AppColors.secondaryText,
       ),
-    );
+    ).withPaddingAll(24.0);
   }
 }

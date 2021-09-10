@@ -48,18 +48,6 @@ class PayForSubscription extends PaymentEvent {
       ];
 }
 
-class LoadPaymentView extends PaymentEvent {
-  const LoadPaymentView({
-    required this.url,
-    required this.code,
-  });
-
-  final String url;
-  final String code;
-
-  @override
-  List<Object> get props => [
-        url,
-        code,
-      ];
+class FinishPayment extends PaymentEvent {
+  const FinishPayment();
 }

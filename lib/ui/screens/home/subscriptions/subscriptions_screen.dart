@@ -31,6 +31,8 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         'screen.subscriptions'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -56,7 +58,12 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   Widget _buildSubscriptionItems() {
     return BlocConsumer<SubscriptionsBloc, SubscriptionsState>(
       listener: (context, state) {
-        context.showLoader(state is SubscriptionsLoading);
+        context.showLoader(state is SubscriptionsLoading ||
+            state is SubscriptionsToggleStatusRequest ||
+            state is SubscriptionsDeleteRequest);
+      },
+      buildWhen: (_, state) {
+        return state is SubscriptionsLoaded;
       },
       builder: (_, state) {
         if (state is SubscriptionsLoaded) {
@@ -64,17 +71,19 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
             return _buildNoSubscriptionsText();
           }
 
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: SeparatedColumn(
-              children: state.subscriptions.map((subscription) {
-                return SubscriptionListItem(
-                  key: ValueKey(subscription),
-                  subscription: subscription,
-                  selected: subscription == state.selectedSubscription,
-                );
-              }).toList(),
-              includeOuterSeparators: true,
+          return SizedBox.expand(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: SeparatedColumn(
+                children: state.subscriptions.map((subscription) {
+                  return SubscriptionListItem(
+                    key: ValueKey(subscription),
+                    subscription: subscription,
+                    selected: subscription == state.selectedSubscription,
+                  );
+                }).toList(),
+                includeOuterSeparators: true,
+              ),
             ),
           );
         }
@@ -86,60 +95,74 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   Widget _buildNoSubscriptionsText() {
     return Center(
       child: WaterText(
-        'There are not subscriptions yet',
+        'text.no_subscriptions'.tr(),
         fontSize: 20.0,
+        textAlign: TextAlign.center,
+        fontWeight: FontWeight.w700,
         color: AppColors.secondaryText,
       ),
-    );
+    ).withPaddingAll(24.0);
   }
 
   Widget _buildActionButtons() {
     return BlocBuilder<SubscriptionsBloc, SubscriptionsState>(
       builder: (_, state) {
-        bool enableStopSubscription = false;
-        bool enableDeleteSubscription = false;
+        bool isActive = false;
+        bool enabled = false;
 
         if (state is SubscriptionsLoaded) {
-          final selectedSubscription = state.selectedSubscription;
-
-          if (selectedSubscription != null) {
-            enableStopSubscription = selectedSubscription.isActive;
-            enableDeleteSubscription = true;
-          }
+          isActive = state.selectedSubscription?.isActive ?? false;
+          enabled = state.selectedSubscription != null;
         }
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildStopSubscriptionButton(enableStopSubscription),
-            const SizedBox(height: 16.0),
-            _buildDeleteSubscriptionButton(enableDeleteSubscription),
-          ],
-        );
+        if (state is SubscriptionsLoaded &&
+            state.selectedSubscription != null) {
+          return Container(
+            padding: const EdgeInsets.all(24.0),
+            decoration: BoxDecoration(
+              border: Border(top: defaultBorder),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildToggleSubscriptionStatusButton(isActive, enabled),
+                const SizedBox(height: 16.0),
+                _buildDeleteSubscriptionButton(enabled),
+              ],
+            ),
+          );
+        }
+        return const SizedBox.shrink();
       },
-    ).withPaddingAll(24.0);
+    );
   }
 
-  Widget _buildStopSubscriptionButton(bool enabled) {
+  Widget _buildToggleSubscriptionStatusButton(
+    bool isActive,
+    bool enabled,
+  ) {
     return WaterButton(
       onPressed: () {
-        context.subscriptions.add(StopSubscription());
+        context.subscriptions.add(
+          ToggleSubscriptionStatus(),
+        );
       },
-      text: 'button.stop_subscription'.tr(),
-      backgroundColor: AppColors.secondary,
-      foregroundColor: AppColors.primary,
+      text: isActive
+          ? 'button.stop_subscription'.tr()
+          : 'button.resume_subscription'.tr(),
       enabled: enabled,
     );
   }
 
   Widget _buildDeleteSubscriptionButton(bool enabled) {
-    return WaterButton(
+    return WaterSecondaryButton(
       onPressed: () {
-        context.subscriptions.add(DeleteSubscription());
+        context.subscriptions.add(
+          DeleteSubscription(),
+        );
       },
       text: 'button.delete_subscription'.tr(),
-      backgroundColor: AppColors.errorSecondary,
-      foregroundColor: AppColors.white,
+      radialRadius: 3.0,
       enabled: enabled,
     );
   }

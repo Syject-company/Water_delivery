@@ -118,9 +118,10 @@ class _RadioButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24.0),
           child: WaterText(
             label,
-            color: AppColors.secondaryText,
             fontSize: labelFontSize ?? _labelFontSize,
             lineHeight: labelLineHeight ?? _labelLineHeight,
+            fontWeight: FontWeight.w700,
+            color: AppColors.secondaryText,
           ),
         )
       ],

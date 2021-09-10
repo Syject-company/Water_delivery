@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
-import 'package:water/ui/screens/home/wallet/top_up/wallet_top_up_screen.dart';
+import 'package:water/ui/screens/home/wallet/top_up/top_up_wallet_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/currency_input_formatter.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
@@ -25,20 +25,26 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   Widget build(BuildContext context) {
     return BlocListener<WalletBloc, WalletState>(
       listener: (_, state) async {
-        if (state is WalletTopUp) {
+        if (state is TopUpWalletView) {
           FocusScope.of(context).unfocus();
 
-          await homeNavigator.push<bool>(
+          final successfulPayment = await homeNavigator.push<bool>(
             SlideWithFadePageRoute(
-              builder: (_) => WalletTopUpScreen(url: state.url),
+              builder: (_) => TopUpWalletScreen(url: state.url),
             ),
           );
 
-          setState(() => _isValidForm = false);
-          _amountController.clear();
-          context.profile.add(
-            LoadProfile(),
-          );
+          if (successfulPayment != null && successfulPayment) {
+            setState(() => _isValidForm = false);
+            _amountController.clear();
+            context.profile.add(
+              UpdateProfile(),
+            );
+          } else {
+            context.profile.add(
+              UpdateProfile(),
+            );
+          }
         }
       },
       child: Column(
@@ -76,6 +82,8 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
         WaterText(
           'text.aed'.tr(args: ['']),
           fontSize: 18.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ),
       ],
     );
@@ -84,10 +92,12 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   Widget _buildTopUpButton() {
     return WaterButton(
       onPressed: () {
+        FocusScope.of(context).unfocus();
+
         final amount = double.parse(_amountController.text);
 
         context.wallet.add(
-          AddBalance(amount: amount),
+          TopUp(amount: amount),
         );
       },
       text: 'button.top_up'.tr(),

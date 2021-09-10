@@ -59,7 +59,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
-        border: Border.all(color: AppColors.borderColor),
+        border: Border.fromBorderSide(defaultBorder),
         color: AppColors.white,
       ),
       child: Column(
@@ -67,9 +67,10 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
         children: [
           WaterText(
             formattedDayOfWeek,
-            fontSize: 15.0,
+            fontSize: 16.0,
             lineHeight: 1.5,
             textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
             color: AppColors.secondaryText,
           ),
           const SizedBox(height: 8.0),
@@ -78,6 +79,8 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
             fontSize: 20.0,
             lineHeight: 2.0,
             textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
           if (deliveryDate.periods.isNotEmpty) _buildPeriods(deliveryDate),
         ],
@@ -144,7 +147,7 @@ class _PeriodButton extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: AppColors.borderColor),
+        border: Border.fromBorderSide(defaultBorder),
         color: AppColors.white,
       ),
       height: 48.0,
@@ -152,8 +155,10 @@ class _PeriodButton extends StatelessWidget {
         child: WaterText(
           '$formattedStartDate - $formattedEndTime',
           maxLines: 1,
+          fontSize: 15.0,
           lineHeight: 1.25,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
       ),
@@ -173,17 +178,19 @@ class _PeriodButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           border: Border.all(
-            color: selected ? AppColors.primary : AppColors.secondary,
+            color: selected ? AppColors.primary : AppColors.primaryLight,
           ),
-          color: selected ? AppColors.primary : AppColors.secondary,
+          color: selected ? AppColors.primary : AppColors.primaryLight,
         ),
         height: 48.0,
         child: Center(
           child: WaterText(
             '$formattedStartDate - $formattedEndTime',
             maxLines: 1,
+            fontSize: 15.0,
             lineHeight: 1.25,
             textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
             color: selected ? AppColors.white : AppColors.primary,
           ),
         ),

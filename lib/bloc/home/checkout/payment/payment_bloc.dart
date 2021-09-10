@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,7 +20,6 @@ import 'package:water/locator.dart';
 import 'package:water/util/session.dart';
 
 part 'payment_event.dart';
-
 part 'payment_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -34,12 +34,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         _cart = cart,
         super(PaymentInitial());
 
+  final ProfileBloc _profile;
+  final CartBloc _cart;
+
   final OrderService _orderService = locator<OrderService>();
   final SubscriptionService _subscriptionService =
       locator<SubscriptionService>();
-
-  final ProfileBloc _profile;
-  final CartBloc _cart;
 
   @override
   Stream<PaymentState> mapEventToState(
@@ -49,81 +49,92 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       yield* _mapPayForOrderToState(event);
     } else if (event is PayForSubscription) {
       yield* _mapPayForSubscriptionToState(event);
+    } else if (event is FinishPayment) {
+      yield* _mapFinishPaymentToState();
     }
   }
 
   Stream<PaymentState> _mapPayForOrderToState(
     PayForOrder event,
   ) async* {
-    yield PaymentInitial();
+    try {
+      yield OrderPaymentRequest();
 
-    final balance = _profile.state.walletBalance;
-    final totalPrice = _cart.state.totalPrice;
+      final form = OrderForm(
+        deliveryDate: DateFormat('yyyy-MM-dd').format(event.time.date),
+        periodId: event.time.period.id,
+        products: event.items.map((item) {
+          return OrderProductForm(
+            id: item.product.id,
+            amount: item.amount,
+          );
+        }).toList(),
+        city: event.address.city,
+        district: event.address.district,
+        street: event.address.street,
+        building: event.address.building,
+        floor: event.address.floor,
+        apartment: event.address.apartment,
+      );
+      final paymentResponse = await _orderService.create(
+        Session.token!,
+        form,
+      );
 
-    if (balance < totalPrice) {
-      yield TopUpWallet();
-      return;
+      yield OrderPaymentView(url: paymentResponse.paymentUrl);
+    } on HttpException catch (_) {
+      yield PaymentError();
     }
-
-    yield PaymentProcessing();
-    final form = OrderForm(
-      deliveryDate: DateFormat('yyyy-MM-dd').format(event.time.date),
-      periodId: '1',
-      promo: '',
-      products: event.items.map((item) {
-        return OrderProductForm(
-          id: item.product.id,
-          amount: item.amount,
-        );
-      }).toList(),
-      city: event.address.city,
-      district: event.address.district,
-      street: event.address.street,
-      building: event.address.building,
-      floor: event.address.floor,
-      apartment: event.address.apartment,
-    );
-    await _orderService.create(Session.token!, form);
-
-    _cart.add(ClearCart());
-    yield SuccessfulPayment();
   }
 
   Stream<PaymentState> _mapPayForSubscriptionToState(
     PayForSubscription event,
   ) async* {
-    yield PaymentInitial();
+    try {
+      yield PaymentInitial();
 
-    final balance = _profile.state.walletBalance;
-    final totalPrice = _cart.state.totalPrice * (event.months * 4);
+      final balance = _profile.state.walletBalance;
+      final totalPrice = _cart.state.totalPrice * (event.months * 4);
 
-    if (balance < totalPrice) {
-      yield TopUpWallet();
-      return;
+      if (balance < totalPrice) {
+        yield TopUpWalletAlert();
+        return;
+      }
+
+      yield SubscriptionPaymentRequest();
+
+      final form = SubscriptionForm(
+        deliveryDate: DateFormat('yyyy-MM-dd').format(event.time.date),
+        periodId: event.time.period.id,
+        months: event.months,
+        products: event.items.map((item) {
+          return SubscriptionProductForm(
+            id: item.product.id,
+            amount: item.amount,
+          );
+        }).toList(),
+        city: event.address.city,
+        district: event.address.district,
+        street: event.address.street,
+        building: event.address.building,
+        floor: event.address.floor,
+        apartment: event.address.apartment,
+      );
+      await _subscriptionService.create(
+        Session.token!,
+        form,
+      );
+
+      add(FinishPayment());
+    } on HttpException catch (_) {
+      yield PaymentError();
     }
+  }
 
-    yield PaymentProcessing();
-    final form = SubscriptionForm(
-      deliveryDate: DateFormat('yyyy-MM-dd').format(event.time.date),
-      periodId: event.time.period.id,
-      months: event.months,
-      promo: '123',
-      products: event.items.map((item) {
-        return SubscriptionProductForm(
-          id: item.product.id,
-          amount: item.amount,
-        );
-      }).toList(),
-      city: event.address.city,
-      district: event.address.district,
-      street: event.address.street,
-      building: event.address.building,
-      floor: event.address.floor,
-      apartment: event.address.apartment,
-    );
-    _subscriptionService.create(Session.token!, form);
-
+  Stream<PaymentState> _mapFinishPaymentToState() async* {
     _cart.add(ClearCart());
-    yield SuccessfulPayment();
+    _profile.add(UpdateProfile());
+
+    yield SuccessfulPaymentAlert();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +85,8 @@ class SignInScreen extends StatelessWidget {
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 
@@ -102,6 +105,7 @@ class SignInScreen extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
                 color: AppColors.errorText,
               );
             },
@@ -132,11 +136,11 @@ class SignInScreen extends StatelessWidget {
       },
       child: WaterText(
         'text.forgot_your_password'.tr(),
-        color: AppColors.primary,
         fontSize: 16.0,
         lineHeight: 1.5,
-        fontWeight: FontWeight.w500,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w600,
+        color: AppColors.primary,
       ),
     );
   }
@@ -146,10 +150,10 @@ class SignInScreen extends StatelessWidget {
       text: TextSpan(
         text: 'text.new_in'.tr(),
         style: const TextStyle(
-          color: AppColors.secondaryText,
           fontSize: 16.0,
-          fontWeight: FontWeight.w500,
-        ).poppins,
+          fontWeight: FontWeight.w600,
+          color: AppColors.secondaryText,
+        ).nunitoSans,
         children: <TextSpan>[
           TextSpan(
             text: 'text.sign_up'.tr(),
@@ -177,6 +181,8 @@ class SignInScreen extends StatelessWidget {
       fontSize: 18.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 

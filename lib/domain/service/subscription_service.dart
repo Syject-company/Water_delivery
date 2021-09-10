@@ -31,7 +31,10 @@ class SubscriptionService {
     return [];
   }
 
-  Future<void> create(String token, SubscriptionForm form) async {
+  Future<void> create(
+    String token,
+    SubscriptionForm form,
+  ) async {
     final response = await Http.post(
       _endpoint,
       headers: {
@@ -45,7 +48,10 @@ class SubscriptionService {
     }
   }
 
-  Future<void> stop(String token, String id) async {
+  Future<void> toggleStatus(
+    String token,
+    String id,
+  ) async {
     final response = await Http.patch(
       '$_endpoint/$id',
       headers: {
@@ -58,7 +64,10 @@ class SubscriptionService {
     }
   }
 
-  Future<void> delete(String token, String id) async {
+  Future<void> delete(
+    String token,
+    String id,
+  ) async {
     final response = await Http.delete(
       '$_endpoint/$id',
       headers: {

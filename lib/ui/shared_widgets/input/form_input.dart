@@ -101,9 +101,9 @@ class WaterFormInputState extends State<WaterFormInput> {
       cursorColor: AppColors.primary,
       style: const TextStyle(
         fontSize: _fontSize,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         color: AppColors.primaryText,
-      ).poppins,
+      ).nunitoSans,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
         height: _lineHeight,
@@ -129,13 +129,13 @@ class WaterFormInputState extends State<WaterFormInput> {
           fontSize: _hintFontSize,
           fontWeight: FontWeight.w500,
           color: AppColors.secondaryText,
-        ).poppins,
+        ).nunitoSans,
         errorStyle: const TextStyle(
           height: _lineHeight,
           fontSize: _errorFontSize,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.errorText,
-        ).poppins,
+        ).nunitoSans,
         errorMaxLines: _errorMaxLines,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -148,17 +148,16 @@ class WaterFormInputState extends State<WaterFormInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 8.0),
-          child: WaterText(
-            widget.labelText!,
-            maxLines: 1,
-            fontSize: 15.0,
-            lineHeight: 1.25,
-            overflow: TextOverflow.fade,
-            softWrap: false,
-          ),
-        ),
+        WaterText(
+          widget.labelText!,
+          maxLines: 1,
+          fontSize: 15.0,
+          lineHeight: 1.25,
+          overflow: TextOverflow.fade,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
+          softWrap: false,
+        ).withPadding(24.0, 0.0, 24.0, 8.0),
         child,
       ],
     );

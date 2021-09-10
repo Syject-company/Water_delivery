@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/orders/orders_bloc.dart';
 import 'package:water/bloc/home/profile/change_password/change_password_bloc.dart';
+import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
+import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/screens/home/profile/change_password/change_password_screen.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
@@ -55,7 +57,12 @@ class HomeRouter {
         );
       case HomeRoutes.wallet:
         return SlideWithFadePageRoute(
-          builder: (_) => WalletScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => WalletBloc(
+              profile: context.profile,
+            )..add(LoadBalance()),
+            child: WalletScreen(),
+          ),
         );
       case HomeRoutes.notifications:
         return SlideWithFadePageRoute(

@@ -24,7 +24,7 @@ class _SubscriptionDurationScreenState
   @override
   Widget build(BuildContext context) {
     return BlocListener<SubscriptionBloc, SubscriptionState>(
-      listener: (context, state) async {
+      listener: (_, state) async {
         if (state is DeliveryTimeInput && state.push) {
           await subscriptionNavigator
               .pushNamed(SubscriptionRoutes.deliveryTime);
@@ -33,30 +33,7 @@ class _SubscriptionDurationScreenState
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              WaterText(
-                'text.select_duration'.tr(),
-                fontSize: 15.0,
-                lineHeight: 1.5,
-                textAlign: TextAlign.center,
-                fontWeight: FontWeight.w500,
-                color: AppColors.primaryText,
-              ),
-              const SizedBox(height: 24.0),
-              SubscriptionDurationPicker(
-                onSelected: (months) {
-                  setState(() => _selectedDuration = months);
-                },
-              ),
-              if (_selectedDuration != null) _buildSelectedDurationText(),
-            ],
-          ),
-        ),
+        body: _buildBody(),
         bottomNavigationBar: _buildNextButton(),
       ),
     );
@@ -68,6 +45,8 @@ class _SubscriptionDurationScreenState
         'screen.duration'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -84,6 +63,41 @@ class _SubscriptionDurationScreenState
     );
   }
 
+  Widget _buildBody() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildHintText(),
+          const SizedBox(height: 24.0),
+          _buildSubscriptionDurationPicker(),
+          if (_selectedDuration != null) _buildSelectedDurationText(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHintText() {
+    return WaterText(
+      'text.select_duration'.tr(),
+      fontSize: 15.0,
+      lineHeight: 1.5,
+      textAlign: TextAlign.center,
+      fontWeight: FontWeight.w600,
+      color: AppColors.primaryText,
+    );
+  }
+
+  Widget _buildSubscriptionDurationPicker() {
+    return SubscriptionDurationPicker(
+      onSelected: (months) {
+        setState(() => _selectedDuration = months);
+      },
+    );
+  }
+
   Widget _buildSelectedDurationText() {
     return Column(
       children: [
@@ -92,12 +106,15 @@ class _SubscriptionDurationScreenState
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ).withPadding(0.0, 40.0, 0.0, 0.0),
         WaterText(
           'text.months'.plural(_selectedDuration!),
           fontSize: 18.0,
           lineHeight: 1.75,
           textAlign: TextAlign.center,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ).withPadding(0.0, 32.0, 0.0, 0.0),
       ],

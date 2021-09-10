@@ -24,8 +24,8 @@ class DeselectSubscription extends SubscriptionsEvent {
   const DeselectSubscription();
 }
 
-class StopSubscription extends SubscriptionsEvent {
-  const StopSubscription();
+class ToggleSubscriptionStatus extends SubscriptionsEvent {
+  const ToggleSubscriptionStatus();
 }
 
 class DeleteSubscription extends SubscriptionsEvent {

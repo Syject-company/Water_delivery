@@ -10,12 +10,14 @@ class WaterLogo extends StatelessWidget {
     this.showLabel = true,
     this.iconWidthFactor = 3.25,
     this.labelWidthFactor = 2.75,
+    this.labelColor,
   }) : super(key: key);
 
   final bool showIcon;
   final bool showLabel;
   final double iconWidthFactor;
   final double labelWidthFactor;
+  final Color? labelColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +34,15 @@ class WaterLogo extends StatelessWidget {
   Widget _buildIcon(BuildContext context) {
     return SvgPicture.asset(
       Paths.logo_icon,
-      color: AppColors.secondary,
+      color: AppColors.primaryLight,
       width: MediaQuery.of(context).size.width / iconWidthFactor,
     );
   }
 
   Widget _buildLabel(BuildContext context) {
     return SvgPicture.asset(
-      Paths.logo_label,
+      Paths.logo_label_colored,
+      color: labelColor,
       width: MediaQuery.of(context).size.width / labelWidthFactor,
     );
   }

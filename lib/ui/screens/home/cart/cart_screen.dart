@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
@@ -36,6 +37,8 @@ class _CartScreenState extends State<CartScreen> {
       child: WaterText(
         'text.empty_cart'.tr(),
         fontSize: 20.0,
+        textAlign: TextAlign.center,
+        fontWeight: FontWeight.w700,
         color: AppColors.secondaryText,
       ),
     );
@@ -85,7 +88,7 @@ class _CartScreenState extends State<CartScreen> {
           'text.vat'.tr(),
           fontSize: 18.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 16.0),
@@ -96,9 +99,9 @@ class _CartScreenState extends State<CartScreen> {
             ]),
             fontSize: 18.0,
             lineHeight: 1.5,
-            fontWeight: FontWeight.w500,
             textAlign: TextAlign.end,
-            color: AppColors.secondaryText,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -115,6 +118,8 @@ class _CartScreenState extends State<CartScreen> {
           'text.total'.tr(),
           fontSize: 23.0,
           lineHeight: 2.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
         ),
         const SizedBox(width: 24.0),
         Flexible(
@@ -125,6 +130,8 @@ class _CartScreenState extends State<CartScreen> {
             fontSize: 23.0,
             lineHeight: 2.0,
             textAlign: TextAlign.end,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primaryText,
           ),
         ),
       ],
@@ -137,7 +144,7 @@ class _CartScreenState extends State<CartScreen> {
     return Row(
       children: [
         Expanded(
-          child: WaterButton(
+          child: WaterSecondaryButton(
             onPressed: () {
               if (Session.isAuthenticated) {
                 homeNavigator.pushNamed(HomeRoutes.subscription);
@@ -146,9 +153,8 @@ class _CartScreenState extends State<CartScreen> {
               }
             },
             text: 'button.subscription'.tr(),
-            backgroundColor: AppColors.secondary,
-            foregroundColor: AppColors.primary,
             enabled: !isCartEmpty,
+            radialRadius: 2.0,
           ),
         ),
         const SizedBox(width: 16.0),

@@ -36,7 +36,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     if (Session.isAuthenticated) {
       yield OrdersLoading();
       final orders = await _orderService.getAll(Session.token!);
-      yield OrdersLoaded(orders: orders);
+      yield OrdersLoaded(
+        orders: orders.where((order) {
+          return order.status != 'Created';
+        }).toList(),
+      );
     }
   }
 }

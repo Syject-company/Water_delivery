@@ -3,7 +3,7 @@ part of form_fields;
 const TextStyle _datePickerTextStyle = TextStyle(
   inherit: false,
   fontSize: _fontSize,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w700,
 );
 
 class WaterFormDatePicker extends StatefulWidget {
@@ -59,10 +59,10 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
         }
       },
       style: const TextStyle(
-        color: AppColors.primaryText,
         fontSize: _fontSize,
-        fontWeight: FontWeight.w500,
-      ).poppins,
+        fontWeight: FontWeight.w600,
+        color: AppColors.primaryText,
+      ).nunitoSans,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
         height: _lineHeight,
@@ -80,13 +80,13 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
           fontSize: _hintFontSize,
           fontWeight: FontWeight.w500,
           color: AppColors.secondaryText,
-        ).poppins,
+        ).nunitoSans,
         errorStyle: const TextStyle(
           height: _lineHeight,
           fontSize: _errorFontSize,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           color: AppColors.errorText,
-        ).poppins,
+        ).nunitoSans,
         errorMaxLines: _errorMaxLines,
       ),
       autovalidateMode: AutovalidateMode.disabled,
@@ -130,21 +130,21 @@ class WaterFormDatePickerState extends State<WaterFormDatePicker>
             dialogBackgroundColor: AppColors.white,
             textTheme: TextTheme(
               // help style
-              overline: _datePickerTextStyle.poppins,
+              overline: _datePickerTextStyle.nunitoSans,
               // title style
               headline4: const TextStyle(
                 inherit: false,
                 fontSize: 24.0,
-                fontWeight: FontWeight.w600,
-              ).poppins,
+                fontWeight: FontWeight.w700,
+              ).nunitoSans,
               // years style
-              bodyText1: _datePickerTextStyle.poppins,
+              bodyText1: _datePickerTextStyle.nunitoSans,
               // month/year style
-              subtitle2: _datePickerTextStyle.poppins,
+              subtitle2: _datePickerTextStyle.nunitoSans,
               // days style
-              caption: _datePickerTextStyle.poppins,
+              caption: _datePickerTextStyle.nunitoSans,
               // button style
-              button: _datePickerTextStyle.poppins,
+              button: _datePickerTextStyle.nunitoSans,
             ),
             colorScheme: ColorScheme(
               primary: AppColors.primary,

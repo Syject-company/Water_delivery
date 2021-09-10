@@ -41,6 +41,8 @@ class _WalletScreenState extends State<WalletScreen> {
         'screen.wallet'.tr(),
         fontSize: 24.0,
         textAlign: TextAlign.center,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primaryText,
       ),
       leading: AppBarBackButton(
         onPressed: () {
@@ -106,6 +108,8 @@ class _WalletScreenState extends State<WalletScreen> {
             fontSize: 18.0,
             lineHeight: 1.5,
             textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
           );
         }
         return const SizedBox.shrink();

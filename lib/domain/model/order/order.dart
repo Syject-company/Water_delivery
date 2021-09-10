@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:water/domain/model/delivery/period.dart';
 
 import 'order_product.dart';
 
@@ -10,6 +11,7 @@ class OrderFields {
   static const String status = 'status';
   static const String deliveryDate = 'deliveryDate';
   static const String createdDate = 'createDate';
+  static const String time = 'periods';
   static const String products = 'ordersShopItems';
   static const String customerName = 'customerName';
   static const String isSubscribed = 'isSubscribed';
@@ -27,6 +29,7 @@ class Order extends Equatable {
     required this.status,
     required this.deliveryDate,
     required this.createdDate,
+    required this.time,
     required this.products,
     required this.customerName,
     required this.isSubscribed,
@@ -38,13 +41,14 @@ class Order extends Equatable {
     required this.floor,
   });
 
-  final String id;
+  final int id;
   final String status;
   final DateTime deliveryDate;
   final DateTime createdDate;
+  final Period time;
   final List<OrderProduct> products;
   final String customerName;
-  final bool isSubscribed;
+  final bool? isSubscribed;
   final String city;
   final String district;
   final String street;
@@ -67,6 +71,7 @@ class Order extends Equatable {
       status: json[OrderFields.status],
       deliveryDate: deliveryDate,
       createdDate: createdDate,
+      time: Period.fromJson(json[OrderFields.time]),
       products: products,
       customerName: json[OrderFields.customerName],
       isSubscribed: json[OrderFields.isSubscribed],
@@ -80,11 +85,12 @@ class Order extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         status,
         deliveryDate,
         createdDate,
+        time,
         products,
         customerName,
         isSubscribed,

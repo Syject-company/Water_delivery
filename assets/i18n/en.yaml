@@ -15,6 +15,8 @@ screen:
   support: "Support"
   terms: "Terms & Conditions"
   faq: "F.A.Q"
+  top_up_wallet: "Top Up Wallet"
+  order_payment: "Order Payment"
 
 text:
   select_language: "Select Language"
@@ -38,7 +40,7 @@ text:
   vat: "VAT 5%"
   monthly: "Monthly"
   total: "Total"
-  wallet_balance: "Wallet balance: AED {}"
+  wallet_balance: "Wallet Balance: AED {}"
   select_duration: "Select a convenient subscription duration"
   select_time: "Select a convenient delivery time for your district"
   selected_duration: "Selected duration:"
@@ -60,6 +62,8 @@ text:
   share_referral_code: "Share your unique referral code with friends"
   first_register: "Once they have successfully registered as a new customer and completed their first online wallet top up"
   wallet_bonus: "You will receive a 10 AED bonus in your wallet for every successful referral"
+  no_orders: "There are no orders associated with this account"
+  no_subscriptions: "There are no subscriptions associated with this account"
   months:
     one: '{} Month'
     two: '{} Months'
@@ -114,6 +118,7 @@ button:
   cancel: "Cancel"
   pay: "Pay"
   stop_subscription: "Stop Subscription"
+  resume_subscription: "Resume Subscription"
   delete_subscription: "Delete Subscription"
   send: "Send"
   click_to_call: "Click To Call"

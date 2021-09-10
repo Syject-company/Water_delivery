@@ -8,7 +8,11 @@ abstract class WalletEvent extends Equatable {
 }
 
 class LoadBalance extends WalletEvent {
-  const LoadBalance({required this.amount});
+  const LoadBalance();
+}
+
+class UpdateBalance extends WalletEvent {
+  const UpdateBalance({required this.amount});
 
   final double amount;
 
@@ -16,17 +20,8 @@ class LoadBalance extends WalletEvent {
   List<Object> get props => [amount];
 }
 
-class AddBalance extends WalletEvent {
-  const AddBalance({required this.amount});
-
-  final double amount;
-
-  @override
-  List<Object> get props => [amount];
-}
-
-class RemoveBalance extends WalletEvent {
-  const RemoveBalance({required this.amount});
+class TopUp extends WalletEvent {
+  const TopUp({required this.amount});
 
   final double amount;
 

@@ -81,6 +81,8 @@ class SignUpScreen extends StatelessWidget {
       fontSize: 24.0,
       lineHeight: 2.0,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 
@@ -99,6 +101,7 @@ class SignUpScreen extends StatelessWidget {
                 fontSize: 15.0,
                 lineHeight: 1.25,
                 textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
                 color: AppColors.errorText,
               );
             },
@@ -136,6 +139,8 @@ class SignUpScreen extends StatelessWidget {
       fontSize: 18.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
     );
   }
 

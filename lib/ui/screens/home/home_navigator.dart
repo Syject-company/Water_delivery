@@ -76,12 +76,6 @@ class HomeNavigator extends StatelessWidget {
               lazy: false,
             ),
             BlocProvider(
-              create: (context) => WalletBloc(
-                profile: context.profile,
-              ),
-              lazy: false,
-            ),
-            BlocProvider(
               create: (context) => SupportBloc(),
               lazy: false,
             ),

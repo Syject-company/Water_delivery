@@ -41,7 +41,7 @@ class NotificationListItem extends StatelessWidget {
     return WaterText(
       formattedPostedDate,
       fontSize: 13.0,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       color: AppColors.secondaryText,
     );
   }
@@ -54,7 +54,8 @@ class NotificationListItem extends StatelessWidget {
         body,
         fontSize: 15.0,
         lineHeight: 1.5,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
+        color: AppColors.primaryText,
       ).withPadding(0.0, 6.0, 0.0, 0.0);
     }
 

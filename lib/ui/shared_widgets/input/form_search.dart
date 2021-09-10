@@ -28,10 +28,10 @@ class WaterFormSearchState<T> extends State<WaterFormSearch>
       controller: _textController,
       onChanged: widget.onChanged,
       style: const TextStyle(
-        color: AppColors.primaryText,
         fontSize: _fontSize,
-        fontWeight: FontWeight.w500,
-      ).poppins,
+        fontWeight: FontWeight.w600,
+        color: AppColors.primaryText,
+      ).nunitoSans,
       strutStyle: const StrutStyle(
         forceStrutHeight: true,
         height: _lineHeight,
@@ -48,7 +48,7 @@ class WaterFormSearchState<T> extends State<WaterFormSearch>
           fontSize: _hintFontSize,
           fontWeight: FontWeight.w500,
           color: AppColors.secondaryText,
-        ).poppins,
+        ).nunitoSans,
       ),
       autovalidateMode: AutovalidateMode.disabled,
       enableInteractiveSelection: false,
@@ -60,13 +60,10 @@ class WaterFormSearchState<T> extends State<WaterFormSearch>
   }
 
   Widget _buildSearchIcon() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 12.0),
-      child: Icon(
-        AppIcons.search,
-        color: AppColors.borderColor,
-        size: _searchIconSize,
-      ),
-    );
+    return Icon(
+      AppIcons.search,
+      color: AppColors.secondaryText,
+      size: _searchIconSize,
+    ).withPadding(0.0, 0.0, 12.0, 0.0);
   }
 }

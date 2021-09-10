@@ -20,7 +20,7 @@ class AppBarIconButton extends StatelessWidget {
       child: Center(
         child: Icon(
           icon,
-          color: AppColors.primaryText,
+          color: AppColors.appBarIconColor,
           size: iconSize,
         ),
       ),
