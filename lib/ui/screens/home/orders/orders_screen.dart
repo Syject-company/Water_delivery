@@ -53,8 +53,12 @@ class OrdersScreen extends StatelessWidget {
     return BlocConsumer<OrdersBloc, OrdersState>(
       listener: (context, state) {
         context.showLoader(state is OrdersLoading);
+
+        if (state is OrdersError) {
+          showWaterDialog(context, ErrorAlert());
+        }
       },
-      builder: (_, state) {
+      builder: (context, state) {
         if (state is OrdersLoaded) {
           if (state.orders.isEmpty) {
             return _buildNoOrdersText();
@@ -74,6 +78,8 @@ class OrdersScreen extends StatelessWidget {
               ),
             ),
           );
+        } else if (state is OrdersError) {
+          return _buildTryAgainButton(context);
         }
         return const SizedBox.shrink();
       },
@@ -88,6 +94,19 @@ class OrdersScreen extends StatelessWidget {
         textAlign: TextAlign.center,
         fontWeight: FontWeight.w700,
         color: AppColors.secondaryText,
+      ),
+    ).withPaddingAll(24.0);
+  }
+
+  Widget _buildTryAgainButton(BuildContext context) {
+    return Center(
+      child: WaterButton(
+        onPressed: () {
+          context.orders.add(
+            LoadOrders(),
+          );
+        },
+        text: 'button.try_again'.tr(),
       ),
     ).withPaddingAll(24.0);
   }

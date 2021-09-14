@@ -4,7 +4,7 @@ abstract class PaymentEvent extends Equatable {
   const PaymentEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class PayForOrder extends PaymentEvent {
@@ -12,17 +12,20 @@ class PayForOrder extends PaymentEvent {
     required this.time,
     required this.items,
     required this.address,
+    this.promoCode,
   });
 
   final DeliveryTime time;
   final List<CartItem> items;
   final DeliveryAddress address;
+  final String? promoCode;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         time,
         items,
         address,
+        promoCode,
       ];
 }
 
@@ -32,19 +35,22 @@ class PayForSubscription extends PaymentEvent {
     required this.items,
     required this.address,
     required this.months,
+    this.promoCode,
   });
 
   final DeliveryTime time;
   final List<CartItem> items;
   final DeliveryAddress address;
   final int months;
+  final String? promoCode;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         time,
         items,
         address,
         months,
+        promoCode,
       ];
 }
 

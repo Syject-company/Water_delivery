@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
@@ -106,7 +107,14 @@ class Menu extends StatelessWidget {
         ),
         _buildActionButton(
           onPressed: () {
-            homeNavigator.pushNamed(HomeRoutes.terms);
+            _launchURL('https://www.gulfawater.com/privacy-policy');
+          },
+          icon: AppIcons.privacy,
+          label: 'side_menu.privacy_policy'.tr(),
+        ),
+        _buildActionButton(
+          onPressed: () {
+            _launchURL('https://www.gulfawater.com/terms-conditions');
           },
           icon: AppIcons.terms,
           label: 'side_menu.terms'.tr(),
@@ -164,12 +172,16 @@ class Menu extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         WaterSocialButton(
-          onPressed: () {},
+          onPressed: () {
+            _launchURL('https://www.facebook.com/Gulfa-Water-112565847320891');
+          },
           icon: AppIcons.facebook,
         ),
         const SizedBox(width: 18.0),
         WaterSocialButton(
-          onPressed: () {},
+          onPressed: () {
+            _launchURL('https://www.instagram.com/gulfawater');
+          },
           icon: AppIcons.instagram,
         ),
         const SizedBox(width: 18.0),
@@ -179,6 +191,12 @@ class Menu extends StatelessWidget {
         ),
       ],
     ).withPaddingAll(26.0);
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
   }
 
   void _navigateTo(BuildContext context, Screen screen) {

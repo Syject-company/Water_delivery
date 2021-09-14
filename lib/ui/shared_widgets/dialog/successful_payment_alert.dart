@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
-class SuccessfulPaymentDialog extends StatelessWidget {
-  const SuccessfulPaymentDialog({Key? key}) : super(key: key);
+class SuccessfulPaymentAlert extends StatelessWidget {
+  const SuccessfulPaymentAlert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,22 @@ class SuccessfulPaymentDialog extends StatelessWidget {
   Widget _buildTitle() {
     return Column(
       children: [
-        Icon(
+        GradientIcon(
           AppIcons.logo,
           size: 96.0,
           color: AppColors.secondary,
+          gradient: RadialGradient(
+            colors: [
+              AppColors.white,
+              AppColors.secondary,
+            ],
+            stops: [
+              0.0,
+              1.0,
+            ],
+            center: Alignment.bottomLeft,
+            radius: 3.0,
+          ),
         ),
         const SizedBox(height: 16.0),
         WaterText(

@@ -84,7 +84,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
   Widget _buildHintText() {
     return WaterText(
       'text.select_time'.tr(),
-      fontSize: 15.0,
+      fontSize: 16.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
       fontWeight: FontWeight.w600,
@@ -151,14 +151,20 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
   }
 
   Widget _buildNextButton() {
-    return WaterButton(
-      enabled: _selectedTime != null,
-      onPressed: () {
-        context.order.add(
-          SubmitDeliveryTime(time: _selectedTime!),
-        );
-      },
-      text: 'button.next'.tr(),
-    ).withPaddingAll(24.0);
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        border: Border(top: defaultBorder),
+      ),
+      child: WaterButton(
+        enabled: _selectedTime != null,
+        onPressed: () {
+          context.order.add(
+            SubmitDeliveryTime(time: _selectedTime!),
+          );
+        },
+        text: 'button.next'.tr(),
+      ),
+    );
   }
 }

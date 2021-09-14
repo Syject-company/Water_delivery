@@ -13,7 +13,6 @@ screen:
   subscriptions: "Subscriptions"
   refer_friend: "Refer A Friend"
   support: "Support"
-  terms: "Terms & Conditions"
   faq: "F.A.Q"
   top_up_wallet: "Top Up Wallet"
   order_payment: "Order Payment"
@@ -49,6 +48,8 @@ text:
   not_enough_money: "You don't have enough funds."
   successful_payment: "Successful Payment!"
   thanks_for_order: "Thanks a lot for your order. Wait for the delivery."
+  something_went_wrong: "Something went wrong!"
+  try_again: "Please try again or contact support."
   today: "Today"
   tomorrow: "Tomorrow"
   order_number: "Order #{}"
@@ -64,6 +65,13 @@ text:
   wallet_bonus: "You will receive a 10 AED bonus in your wallet for every successful referral"
   no_orders: "There are no orders associated with this account"
   no_subscriptions: "There are no subscriptions associated with this account"
+  tap_and_hold: "Tap and hold to select"
+  expires_on: "Expires on {}"
+  have_promo_code: "I have a promo code:"
+  promo_code_applied: "Promo code successfully applied."
+  promo_code_expired: "Promo code is expired."
+  promo_code_not_exist: "Promo code does not exist."
+  promo_code_is_over: "Promo code is over."
   months:
     one: '{} Month'
     two: '{} Months'
@@ -98,6 +106,7 @@ input:
   your_email: "Your email"
   your_phone: "Your phone"
   your_message: "Enter your message here..."
+  enter_promo_code: "Enter the code"
 
 button:
   have_account: "I have an account"
@@ -123,6 +132,7 @@ button:
   send: "Send"
   click_to_call: "Click To Call"
   share: "Share"
+  try_again: "Try Again"
 
 side_menu:
   login: "Log In"
@@ -133,6 +143,7 @@ side_menu:
   refer_friend: "Refer A Friend"
   profile: "Profile"
   support: "Support"
+  privacy_policy: "Privacy Policy"
   terms: "Terms & Conditions"
   faq: "F.A.Q"
 

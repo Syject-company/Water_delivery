@@ -2,9 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/icons/app_icons.dart';
 import 'package:water/ui/shared_widgets/app_bar.dart';
-import 'package:water/ui/shared_widgets/button/app_bar_icon_button.dart';
+import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 class TopUpWalletScreen extends StatefulWidget {
@@ -36,14 +35,11 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
         fontWeight: FontWeight.w800,
         color: AppColors.primaryText,
       ),
-      actions: [
-        AppBarIconButton(
-          onPressed: () {
-            Navigator.of(context).pop(false);
-          },
-          icon: AppIcons.close,
-        )
-      ],
+      leading: AppBarBackButton(
+        onPressed: () {
+          Navigator.of(context).pop(false);
+        },
+      ),
     );
   }
 

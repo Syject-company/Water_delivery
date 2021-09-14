@@ -7,7 +7,7 @@ export 'order_product_form.dart';
 class OrderFormFields {
   static const String deliveryDate = 'deliveryDate';
   static const String periodId = 'periodId';
-  static const String promo = 'promoCode';
+  static const String promoCode = 'promoCode';
   static const String products = 'shopItems';
   static const String city = 'cityName';
   static const String district = 'districtName';
@@ -21,7 +21,7 @@ class OrderForm extends Equatable {
   const OrderForm({
     required this.deliveryDate,
     required this.periodId,
-    this.promo,
+    this.promoCode,
     required this.products,
     required this.city,
     required this.district,
@@ -33,7 +33,7 @@ class OrderForm extends Equatable {
 
   final String deliveryDate;
   final String periodId;
-  final String? promo;
+  final String? promoCode;
   final List<OrderProductForm> products;
   final String city;
   final String district;
@@ -46,7 +46,7 @@ class OrderForm extends Equatable {
     return {
       OrderFormFields.deliveryDate: deliveryDate,
       OrderFormFields.periodId: periodId,
-      OrderFormFields.promo: promo,
+      OrderFormFields.promoCode: promoCode,
       OrderFormFields.products: products,
       OrderFormFields.city: city,
       OrderFormFields.district: district,
@@ -61,7 +61,7 @@ class OrderForm extends Equatable {
   List<Object?> get props => [
         deliveryDate,
         periodId,
-        promo,
+        promoCode,
         products,
         city,
         district,

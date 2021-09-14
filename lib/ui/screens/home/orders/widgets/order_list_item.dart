@@ -65,16 +65,16 @@ class _OrderListItemState extends State<OrderListItem>
           'text.order_number'.tr(
             args: ['${_order.id}'],
           ),
-          fontSize: 15.0,
+          fontSize: 16.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: AppColors.primaryText,
         ),
         WaterText(
           formattedCreatedDate,
-          fontSize: 15.0,
+          fontSize: 16.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
       ],
@@ -139,16 +139,16 @@ class _OrderListItemState extends State<OrderListItem>
       children: [
         Icon(
           AppIcons.pin,
-          size: 32.0,
+          size: 36.0,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
             '$city, $district, $street, $building, $floor, $apartment',
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -170,16 +170,16 @@ class _OrderListItemState extends State<OrderListItem>
       children: [
         Icon(
           AppIcons.time,
-          size: 32.0,
+          size: 36.0,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
             '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -193,7 +193,7 @@ class _OrderListItemState extends State<OrderListItem>
         for (int i = 0; i < _order.products.length; i++)
           _buildOrderProduct(i, _order.products[i]),
       ],
-      separator: const SizedBox(height: 6.0),
+      separator: const SizedBox(height: 12.0),
     ).withPadding(24.0, 0.0, 24.0, 0.0);
   }
 
@@ -209,7 +209,7 @@ class _OrderListItemState extends State<OrderListItem>
           child: WaterText(
             '${index + 1}.',
             maxLines: 1,
-            fontSize: 13.0,
+            fontSize: 14.0,
             lineHeight: 1.5,
             overflow: TextOverflow.visible,
             fontWeight: FontWeight.w600,
@@ -225,7 +225,7 @@ class _OrderListItemState extends State<OrderListItem>
               Flexible(
                 child: WaterText(
                   '${product.title} ${product.formattedVolume}',
-                  fontSize: 15.0,
+                  fontSize: 16.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w600,
                   color: AppColors.secondaryText,
@@ -234,7 +234,7 @@ class _OrderListItemState extends State<OrderListItem>
               const SizedBox(width: 12.0),
               WaterText(
                 'x${product.amount}',
-                fontSize: 15.0,
+                fontSize: 16.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w600,
                 color: AppColors.secondaryText,
@@ -242,14 +242,13 @@ class _OrderListItemState extends State<OrderListItem>
             ],
           ),
         ),
-        const SizedBox(width: 12.0),
         Expanded(
           flex: 3,
           child: WaterText(
             'text.aed'.tr(args: [
               (product.price * product.amount).toStringAsFixed(2),
             ]),
-            fontSize: 15.0,
+            fontSize: 16.0,
             lineHeight: 1.5,
             textAlign: TextAlign.end,
             fontWeight: FontWeight.w700,
@@ -273,16 +272,16 @@ class _OrderListItemState extends State<OrderListItem>
       children: [
         WaterText(
           'text.status'.tr(),
-          fontSize: 15.0,
-          lineHeight: 1.25,
-          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
         WaterText(
           status,
-          fontSize: 15.0,
-          lineHeight: 1.25,
-          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w700,
           color: AppColors.primaryText,
         ),
       ],
@@ -300,18 +299,18 @@ class _OrderListItemState extends State<OrderListItem>
       children: [
         WaterText(
           'text.vat'.tr(),
-          fontSize: 15.0,
-          lineHeight: 1.25,
-          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w700,
           color: AppColors.secondaryText,
         ),
         WaterText(
           'text.aed'.tr(args: [
             vat.toStringAsFixed(2),
           ]),
-          fontSize: 15.0,
-          lineHeight: 1.25,
-          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w700,
           color: AppColors.primaryText,
         ),
       ],
@@ -329,18 +328,18 @@ class _OrderListItemState extends State<OrderListItem>
       children: [
         WaterText(
           'text.total'.tr(),
-          fontSize: 18.0,
+          fontSize: 19.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: AppColors.primaryText,
         ),
         WaterText(
           'text.aed'.tr(args: [
             totalPrice.toStringAsFixed(2),
           ]),
-          fontSize: 18.0,
+          fontSize: 19.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: AppColors.primaryText,
         ),
       ],

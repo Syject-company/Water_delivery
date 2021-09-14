@@ -20,6 +20,7 @@ import 'package:water/locator.dart';
 import 'package:water/util/session.dart';
 
 part 'payment_event.dart';
+
 part 'payment_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -63,6 +64,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       final form = OrderForm(
         deliveryDate: DateFormat('yyyy-MM-dd').format(event.time.date),
         periodId: event.time.period.id,
+        promoCode: event.promoCode,
         products: event.items.map((item) {
           return OrderProductForm(
             id: item.product.id,
@@ -94,10 +96,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       yield PaymentInitial();
 
       final balance = _profile.state.walletBalance;
-      final totalPrice = _cart.state.totalPrice * (event.months * 4);
+      final totalPrice = _cart.state.totalPrice;
 
       if (balance < totalPrice) {
-        yield TopUpWalletAlert();
+        yield TopUpWallet();
         return;
       }
 
@@ -106,6 +108,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       final form = SubscriptionForm(
         deliveryDate: DateFormat('yyyy-MM-dd').format(event.time.date),
         periodId: event.time.period.id,
+        promoCode: event.promoCode,
         months: event.months,
         products: event.items.map((item) {
           return SubscriptionProductForm(
@@ -132,9 +135,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Stream<PaymentState> _mapFinishPaymentToState() async* {
-    _cart.add(ClearCart());
     _profile.add(UpdateProfile());
+    _cart.add(ClearCart());
 
-    yield SuccessfulPaymentAlert();
+    yield SuccessfulPayment();
   }
 }

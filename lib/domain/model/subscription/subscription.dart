@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:water/domain/model/delivery/period.dart';
 
@@ -8,7 +9,8 @@ export 'subscription_product.dart';
 class SubscriptionFields {
   static const String id = 'id';
   static const String isActive = 'isActive';
-  static const String deliveryDate = 'deliveryDay';
+  static const String deliveryDate = 'deliveryDate';
+  static const String expireDate = 'subscriptionExpireDate';
   static const String time = 'periods';
   static const String products = 'subscriptionShopItems';
   static const String city = 'cityName';
@@ -24,6 +26,7 @@ class Subscription extends Equatable {
     required this.id,
     required this.isActive,
     required this.deliveryDate,
+    required this.expireDate,
     required this.time,
     required this.products,
     required this.city,
@@ -36,7 +39,8 @@ class Subscription extends Equatable {
 
   final String id;
   final bool isActive;
-  final String deliveryDate;
+  final DateTime deliveryDate;
+  final DateTime expireDate;
   final Period time;
   final List<SubscriptionProduct> products;
   final String city;
@@ -47,6 +51,10 @@ class Subscription extends Equatable {
   final String floor;
 
   factory Subscription.fromJson(Map<String, dynamic> json) {
+    final deliveryDate =
+        DateFormat('yyyy-MM-dd').parse(json[SubscriptionFields.deliveryDate]);
+    final expireDate = DateFormat('yyyy-MM-ddTHH:mm:ss')
+        .parse(json[SubscriptionFields.expireDate]);
     final Iterable iterable = json[SubscriptionFields.products];
     final products = List<SubscriptionProduct>.from(iterable.map((json) {
       return SubscriptionProduct.fromJson(json);
@@ -55,7 +63,8 @@ class Subscription extends Equatable {
     return Subscription(
       id: json[SubscriptionFields.id],
       isActive: json[SubscriptionFields.isActive],
-      deliveryDate: json[SubscriptionFields.deliveryDate],
+      deliveryDate: deliveryDate,
+      expireDate: expireDate,
       time: Period.fromJson(json[SubscriptionFields.time]),
       products: products,
       city: json[SubscriptionFields.city],
@@ -72,6 +81,8 @@ class Subscription extends Equatable {
         id,
         isActive,
         deliveryDate,
+        expireDate,
+        time,
         products,
         city,
         district,

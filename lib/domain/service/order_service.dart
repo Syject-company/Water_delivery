@@ -43,6 +43,8 @@ class OrderService {
       body: form,
     );
 
+    print(response.body);
+
     if (response.statusCode != HttpStatus.ok) {
       throw HttpException(response.body);
     }

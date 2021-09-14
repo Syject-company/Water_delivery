@@ -21,8 +21,8 @@ class SubscriptionNavigator extends StatelessWidget {
       onWillPop: _onBackPressed,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => SubscriptionBloc()),
-          BlocProvider(create: (context) => DeliveryDatesBloc()),
+          BlocProvider(create: (_) => SubscriptionBloc()),
+          BlocProvider(create: (_) => DeliveryDatesBloc()),
         ],
         child: Navigator(
           key: subscriptionNavigator,

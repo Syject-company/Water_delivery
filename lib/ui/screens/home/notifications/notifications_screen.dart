@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -8,7 +9,9 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'widgets/notification_list_item.dart';
 
 class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({Key? key}) : super(key: key);
+  NotificationsScreen({Key? key}) : super(key: key);
+
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,21 +39,40 @@ class NotificationsScreen extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return BlocBuilder<NotificationsBloc, NotificationsState>(
-      builder: (_, state) {
-        return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-          physics: const BouncingScrollPhysics(),
-          itemCount: state.notifications.length,
-          itemBuilder: (_, index) {
-            return NotificationListItem(
-              key: ValueKey(state.notifications[index]),
-              notification: state.notifications[index],
+    return BlocConsumer<NotificationsBloc, NotificationsState>(
+      listener: (_, state) {
+        if (state.status == NotificationsStatus.loaded) {
+          _refreshController.refreshCompleted();
+        }
+      },
+      builder: (context, state) {
+        return SmartRefresher(
+          controller: _refreshController,
+          header: MaterialClassicHeader(
+            backgroundColor: AppColors.white,
+            color: AppColors.primary,
+            distance: 12.0,
+            height: 12.0,
+          ),
+          onRefresh: () {
+            context.notifications.add(
+              LoadNotifications(),
             );
           },
-          separatorBuilder: (_, __) {
-            return const SizedBox(height: 12.0);
-          },
+          child: ListView.separated(
+            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+            physics: const BouncingScrollPhysics(),
+            itemCount: state.notifications.length,
+            itemBuilder: (_, index) {
+              return NotificationListItem(
+                key: ValueKey(state.notifications[index]),
+                notification: state.notifications[index],
+              );
+            },
+            separatorBuilder: (_, __) {
+              return const SizedBox(height: 12.0);
+            },
+          ),
         );
       },
     );

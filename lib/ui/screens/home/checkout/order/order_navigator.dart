@@ -21,8 +21,8 @@ class OrderNavigator extends StatelessWidget {
       onWillPop: _onBackPressed,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => OrderBloc()),
-          BlocProvider(create: (context) => DeliveryDatesBloc()),
+          BlocProvider(create: (_) => OrderBloc()),
+          BlocProvider(create: (_) => DeliveryDatesBloc()),
         ],
         child: Navigator(
           key: orderNavigator,

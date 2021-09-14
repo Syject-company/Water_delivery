@@ -76,9 +76,9 @@ class AppIcons {
       IconData(0xe822, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData arrow_down =
       IconData(0xe823, fontFamily: _fontFamily, fontPackage: _fontPackage);
-  static const IconData bar_home =
+  static const IconData privacy =
       IconData(0xe824, fontFamily: _fontFamily, fontPackage: _fontPackage);
-  static const IconData bar_home_filled =
+  static const IconData duration =
       IconData(0xe825, fontFamily: _fontFamily, fontPackage: _fontPackage);
   static const IconData bar_menu =
       IconData(0xe826, fontFamily: _fontFamily, fontPackage: _fontPackage);

@@ -65,17 +65,17 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       final notifications = await _notificationService.getAll(Session.token!);
 
       yield state.copyWith(
-        notifications: notifications,
+        notifications: notifications.where((notification) {
+          return notification.body != null && notification.body!.isNotEmpty;
+        }).toList(),
         status: NotificationsStatus.loaded,
       );
     }
   }
 
   Stream<NotificationsState> _mapClearNotificationsToState() async* {
-    print('clear notifications');
-
     yield state.copyWith(
-      notifications: [],
+      notifications: const [],
       status: NotificationsStatus.empty,
     );
   }

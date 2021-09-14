@@ -92,16 +92,16 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
           'text.order_number'.tr(
             args: ['${_subscription.id}'],
           ),
-          fontSize: 15.0,
+          fontSize: 16.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: widget.selected ? AppColors.white : AppColors.primaryText,
         ),
         WaterText(
           '${'text.status'.tr()}: ${subscriptionStatus.tr()}',
-          fontSize: 15.0,
+          fontSize: 16.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: widget.selected ? AppColors.white : AppColors.secondaryText,
         ),
       ],
@@ -141,6 +141,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
         children: [
           _buildDeliveryAddress(),
           _buildDeliveryDate(),
+          _buildExpireDate(),
           const SizedBox(height: 12.0),
           _buildSubscriptionsProducts(),
           const SizedBox(height: 12.0),
@@ -164,16 +165,16 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
       children: [
         Icon(
           AppIcons.pin,
-          size: 32.0,
+          size: 36.0,
           color: widget.selected ? AppColors.white : AppColors.secondaryText,
         ),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
             '$city, $district, $street, $building, $floor, $apartment',
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: widget.selected ? AppColors.white : AppColors.secondaryText,
           ),
         ),
@@ -182,12 +183,12 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
   }
 
   Widget _buildDeliveryDate() {
+    final deliveryTime = _subscription.time;
     final locale = Localization.currentLocale(context).languageCode;
-    // final deliveryDate =
-    //     DateFormat('yyyy-MM-dd').parse(_subscription.deliveryDate);
-    // final formattedDayOfWeek = DateFormat('EEEE', locale).format(deliveryDate);
-    final startTime = DateFormat('h').parse('${_subscription.time.startTime}');
-    final endTime = DateFormat('h').parse('${_subscription.time.endTime}');
+    final formattedDayOfWeek =
+        DateFormat('EEEE', locale).format(_subscription.deliveryDate);
+    final startTime = DateFormat('h').parse('${deliveryTime.startTime}');
+    final endTime = DateFormat('h').parse('${deliveryTime.endTime}');
     final formattedStartTime = DateFormat('h a', locale).format(startTime);
     final formattedEndTime = DateFormat('h a', locale).format(endTime);
 
@@ -195,16 +196,42 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
       children: [
         Icon(
           AppIcons.time,
-          size: 32.0,
+          size: 36.0,
           color: widget.selected ? AppColors.white : AppColors.secondaryText,
         ),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
-            '${_subscription.deliveryDate}  $formattedStartTime - $formattedEndTime',
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
+            color: widget.selected ? AppColors.white : AppColors.secondaryText,
+          ),
+        ),
+      ],
+    ).withPadding(18.0, 0.0, 24.0, 0.0);
+  }
+
+  Widget _buildExpireDate() {
+    final expireDate = DateFormat.yMMMMd().format(_subscription.expireDate);
+
+    return Row(
+      children: [
+        Icon(
+          AppIcons.duration,
+          size: 28.0,
+          color: widget.selected ? AppColors.white : AppColors.secondaryText,
+        ).withPaddingAll(4),
+        const SizedBox(width: 12.0),
+        Expanded(
+          child: WaterText(
+            'text.expires_on'.tr(args: [
+              expireDate,
+            ]),
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: widget.selected ? AppColors.white : AppColors.secondaryText,
           ),
         ),
@@ -218,7 +245,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
         for (int i = 0; i < _subscription.products.length; i++)
           _buildSubscriptionProduct(i, _subscription.products[i]),
       ],
-      separator: const SizedBox(height: 6.0),
+      separator: const SizedBox(height: 12.0),
     ).withPadding(24.0, 0.0, 24.0, 0.0);
   }
 
@@ -234,7 +261,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
           child: WaterText(
             '${index + 1}.',
             maxLines: 1,
-            fontSize: 13.0,
+            fontSize: 14.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w600,
             overflow: TextOverflow.visible,
@@ -250,7 +277,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
               Flexible(
                 child: WaterText(
                   '${product.title} ${product.formattedVolume}',
-                  fontSize: 15.0,
+                  fontSize: 16.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w600,
                   color: widget.selected
@@ -261,7 +288,7 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
               const SizedBox(width: 12.0),
               WaterText(
                 'x${product.amount}',
-                fontSize: 15.0,
+                fontSize: 16.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w600,
                 color:
@@ -270,14 +297,13 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
             ],
           ),
         ),
-        const SizedBox(width: 12.0),
         Expanded(
           flex: 3,
           child: WaterText(
             'text.aed'.tr(args: [
               (product.price * product.amount).toStringAsFixed(2),
             ]),
-            fontSize: 15.0,
+            fontSize: 16.0,
             lineHeight: 1.5,
             textAlign: TextAlign.end,
             fontWeight: FontWeight.w700,
@@ -299,18 +325,18 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
       children: [
         WaterText(
           'text.vat'.tr(),
-          fontSize: 15.0,
-          lineHeight: 1.25,
-          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w700,
           color: widget.selected ? AppColors.white : AppColors.secondaryText,
         ),
         WaterText(
           'text.aed'.tr(args: [
             vat.toStringAsFixed(2),
           ]),
-          fontSize: 15.0,
-          lineHeight: 1.25,
-          fontWeight: FontWeight.w600,
+          fontSize: 16.0,
+          lineHeight: 1.5,
+          fontWeight: FontWeight.w700,
           color: widget.selected ? AppColors.white : AppColors.primaryText,
         ),
       ],
@@ -328,18 +354,18 @@ class SubscriptionListItemState extends State<SubscriptionListItem>
       children: [
         WaterText(
           'text.total'.tr(),
-          fontSize: 18.0,
+          fontSize: 19.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: widget.selected ? AppColors.white : AppColors.primaryText,
         ),
         WaterText(
           'text.aed'.tr(args: [
             totalPrice.toStringAsFixed(2),
           ]),
-          fontSize: 18.0,
+          fontSize: 19.0,
           lineHeight: 1.5,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           color: widget.selected ? AppColors.white : AppColors.primaryText,
         ),
       ],

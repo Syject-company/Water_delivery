@@ -45,6 +45,8 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
               UpdateProfile(),
             );
           }
+        } else if (state is TopUpWalletError) {
+          await showWaterDialog(context, ErrorAlert());
         }
       },
       child: Column(

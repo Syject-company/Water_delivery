@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
+import 'package:water/bloc/home/promo_codes/promo_codes_bloc.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
@@ -29,11 +30,16 @@ class CheckoutRouter {
         );
       case OrderRoutes.orderPayment:
         return SlideWithFadePageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => PaymentBloc(
-              profile: context.profile,
-              cart: context.cart,
-            ),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => PaymentBloc(
+                  profile: context.profile,
+                  cart: context.cart,
+                ),
+              ),
+              BlocProvider(create: (_) => PromoCodesBloc()),
+            ],
             child: OrderPaymentScreen(),
           ),
         );

@@ -8,8 +8,11 @@ import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
 import 'package:water/bloc/home/checkout/subscription/subscription_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart' as navigation;
 import 'package:water/bloc/home/profile/profile_bloc.dart';
+import 'package:water/bloc/home/promo_codes/promo_codes_bloc.dart';
 import 'package:water/domain/model/cart/cart_item.dart';
+import 'package:water/domain/model/promo_code/promo_code.dart';
 import 'package:water/ui/screens/home/checkout/subscription/subscription_navigator.dart';
+import 'package:water/ui/screens/home/checkout/widgets/promo_code_input.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
@@ -22,10 +25,10 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<PaymentBloc, PaymentState>(
       listener: (context, state) async {
-        if (state is TopUpWalletAlert) {
-          await _showDialog(context, TopUpWalletDialog());
-        } else if (state is SuccessfulPaymentAlert) {
-          await _showDialog(context, SuccessfulPaymentDialog());
+        if (state is TopUpWallet) {
+          await showWaterDialog(context, TopUpWalletAlert());
+        } else if (state is SuccessfulPayment) {
+          await showWaterDialog(context, SuccessfulPaymentAlert());
           context.navigation.add(
             navigation.NavigateTo(screen: navigation.Screen.home),
           );
@@ -33,6 +36,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             navigation.BackPressed(),
           );
           homeNavigator.pop();
+        } else if (state is PaymentError) {
+          await showWaterDialog(context, ErrorAlert());
         }
       },
       child: Scaffold(
@@ -111,6 +116,8 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             _buildDeliveryTime(context, details),
             _buildSubscriptionDuration(context, details),
             _buildCartItems(context),
+            defaultDivider,
+            PromoCodeInput(),
           ],
         ),
       ),
@@ -130,16 +137,16 @@ class SubscriptionPaymentScreen extends StatelessWidget {
       children: [
         Icon(
           AppIcons.pin,
-          size: 32.0,
+          size: 36.0,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
             '$emirate, $district, $street, $building, $floor, $apartment',
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -164,16 +171,16 @@ class SubscriptionPaymentScreen extends StatelessWidget {
       children: [
         Icon(
           AppIcons.time,
-          size: 32.0,
+          size: 36.0,
           color: AppColors.secondaryText,
         ),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
             '$formattedDayOfWeek  $formattedStartTime - $formattedEndTime',
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -191,16 +198,16 @@ class SubscriptionPaymentScreen extends StatelessWidget {
       children: [
         Icon(
           Icons.update,
-          size: 26.0,
+          size: 30.0,
           color: AppColors.secondaryText,
         ).withPaddingAll(3),
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
             'text.months'.plural(months),
-            fontSize: 13.0,
-            lineHeight: 1.25,
-            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            lineHeight: 1.5,
+            fontWeight: FontWeight.w600,
             color: AppColors.secondaryText,
           ),
         ),
@@ -231,7 +238,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
           child: WaterText(
             '${index + 1}.',
             maxLines: 1,
-            fontSize: 13.0,
+            fontSize: 14.0,
             lineHeight: 1.5,
             overflow: TextOverflow.visible,
             fontWeight: FontWeight.w600,
@@ -247,7 +254,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
               Flexible(
                 child: WaterText(
                   '${item.product.title} ${item.product.formattedVolume}',
-                  fontSize: 15.0,
+                  fontSize: 16.0,
                   lineHeight: 1.5,
                   fontWeight: FontWeight.w600,
                   color: AppColors.secondaryText,
@@ -256,7 +263,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
               const SizedBox(width: 12.0),
               WaterText(
                 'x${item.amount}',
-                fontSize: 15.0,
+                fontSize: 16.0,
                 lineHeight: 1.5,
                 fontWeight: FontWeight.w600,
                 color: AppColors.secondaryText,
@@ -264,14 +271,13 @@ class SubscriptionPaymentScreen extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12.0),
         Expanded(
           flex: 3,
           child: WaterText(
             'text.aed'.tr(args: [
               item.totalDiscountPrice.toStringAsFixed(2),
             ]),
-            fontSize: 15.0,
+            fontSize: 16.0,
             lineHeight: 1.5,
             textAlign: TextAlign.end,
             fontWeight: FontWeight.w700,
@@ -293,11 +299,11 @@ class SubscriptionPaymentScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildVATText(context, details),
+          _buildVATText(details),
           const SizedBox(height: 4.0),
-          _buildMonthlyPaymentText(context, details),
+          _buildMonthlyPaymentText(details),
           const SizedBox(height: 4.0),
-          _buildTotalPriceText(context, details),
+          _buildTotalPriceText(details),
           const SizedBox(height: 20.0),
           _buildPayButton(context, details),
         ],
@@ -305,103 +311,124 @@ class SubscriptionPaymentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildVATText(
-    BuildContext context,
-    SubscriptionDetailsCollected details,
-  ) {
-    final vat = context.cart.state.vat * (details.months * 4);
+  Widget _buildVATText(SubscriptionDetailsCollected details) {
+    return BlocBuilder<PromoCodesBloc, PromoCodesState>(
+      builder: (context, state) {
+        PromoCode? promoCode;
+        if (state is PromoCodeLoaded) {
+          promoCode = state.promoCode;
+        }
+        double vat = context.cart.state.vat * (details.months * 4);
+        vat *= (1.0 - (promoCode?.discount ?? 0.0));
+        vat -= (promoCode?.discountAmount ?? 0.0);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        WaterText(
-          'text.vat'.tr(),
-          fontSize: 18.0,
-          lineHeight: 1.5,
-          fontWeight: FontWeight.w700,
-          color: AppColors.secondaryText,
-        ),
-        const SizedBox(width: 16.0),
-        Flexible(
-          child: WaterText(
-            'text.aed'.tr(args: [
-              vat.toStringAsFixed(2),
-            ]),
-            fontSize: 18.0,
-            lineHeight: 1.5,
-            textAlign: TextAlign.end,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primaryText,
-          ),
-        ),
-      ],
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            WaterText(
+              'text.vat'.tr(),
+              fontSize: 18.0,
+              lineHeight: 1.5,
+              fontWeight: FontWeight.w700,
+              color: AppColors.secondaryText,
+            ),
+            const SizedBox(width: 16.0),
+            Flexible(
+              child: WaterText(
+                'text.aed'.tr(args: [
+                  vat.toStringAsFixed(2),
+                ]),
+                fontSize: 18.0,
+                lineHeight: 1.5,
+                textAlign: TextAlign.end,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primaryText,
+              ),
+            ),
+          ],
+        );
+      },
     ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
-  Widget _buildMonthlyPaymentText(
-    BuildContext context,
-    SubscriptionDetailsCollected details,
-  ) {
-    final monthlyPayment = context.cart.state.totalPrice * 4;
+  Widget _buildMonthlyPaymentText(SubscriptionDetailsCollected details) {
+    return BlocBuilder<PromoCodesBloc, PromoCodesState>(
+      builder: (context, state) {
+        PromoCode? promoCode;
+        if (state is PromoCodeLoaded) {
+          promoCode = state.promoCode;
+        }
+        double monthlyPayment = context.cart.state.totalPrice * 4;
+        monthlyPayment *= (1.0 - (promoCode?.discount ?? 0.0));
+        monthlyPayment -= (promoCode?.discountAmount ?? 0.0);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        WaterText(
-          'text.monthly'.tr(),
-          fontSize: 18.0,
-          lineHeight: 1.5,
-          fontWeight: FontWeight.w700,
-          color: AppColors.secondaryText,
-        ),
-        const SizedBox(width: 16.0),
-        Flexible(
-          child: WaterText(
-            'text.aed'.tr(args: [
-              monthlyPayment.toStringAsFixed(2),
-            ]),
-            fontSize: 18.0,
-            lineHeight: 1.5,
-            textAlign: TextAlign.end,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primaryText,
-          ),
-        ),
-      ],
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            WaterText(
+              'text.monthly'.tr(),
+              fontSize: 18.0,
+              lineHeight: 1.5,
+              fontWeight: FontWeight.w700,
+              color: AppColors.secondaryText,
+            ),
+            const SizedBox(width: 16.0),
+            Flexible(
+              child: WaterText(
+                'text.aed'.tr(args: [
+                  monthlyPayment.toStringAsFixed(2),
+                ]),
+                fontSize: 18.0,
+                lineHeight: 1.5,
+                textAlign: TextAlign.end,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primaryText,
+              ),
+            ),
+          ],
+        );
+      },
     ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
-  Widget _buildTotalPriceText(
-    BuildContext context,
-    SubscriptionDetailsCollected details,
-  ) {
-    final totalPrice = context.cart.state.totalPrice * (details.months * 4);
+  Widget _buildTotalPriceText(SubscriptionDetailsCollected details) {
+    return BlocBuilder<PromoCodesBloc, PromoCodesState>(
+      builder: (context, state) {
+        PromoCode? promoCode;
+        if (state is PromoCodeLoaded) {
+          promoCode = state.promoCode;
+        }
+        double totalPrice = context.cart.state.totalPrice;
+        totalPrice *= (1.0 - (promoCode?.discount ?? 0.0));
+        totalPrice -= (promoCode?.discountAmount ?? 0.0);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        WaterText(
-          'text.total'.tr(),
-          fontSize: 23.0,
-          lineHeight: 2.0,
-          fontWeight: FontWeight.w700,
-          color: AppColors.primaryText,
-        ),
-        const SizedBox(width: 24.0),
-        Flexible(
-          child: WaterText(
-            'text.aed'.tr(args: [
-              totalPrice.toStringAsFixed(2),
-            ]),
-            maxLines: 1,
-            fontSize: 23.0,
-            lineHeight: 2.0,
-            textAlign: TextAlign.end,
-            fontWeight: FontWeight.w800,
-            color: AppColors.primaryText,
-          ),
-        ),
-      ],
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            WaterText(
+              'text.total'.tr(),
+              fontSize: 23.0,
+              lineHeight: 2.0,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primaryText,
+            ),
+            const SizedBox(width: 24.0),
+            Flexible(
+              child: WaterText(
+                'text.aed'.tr(args: [
+                  totalPrice.toStringAsFixed(2),
+                ]),
+                maxLines: 1,
+                fontSize: 23.0,
+                lineHeight: 2.0,
+                textAlign: TextAlign.end,
+                fontWeight: FontWeight.w800,
+                color: AppColors.primaryText,
+              ),
+            ),
+          ],
+        );
+      },
     ).withPadding(12.0, 0.0, 12.0, 0.0);
   }
 
@@ -411,12 +438,24 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   ) {
     return WaterButton(
       onPressed: () async {
+        final paymentState = context.payment.state;
+
+        if (paymentState is SubscriptionPaymentRequest) {
+          return;
+        }
+
         final subscriptionState = context.subscription.state;
+        final promoCodesState = context.promoCodes.state;
 
         if (subscriptionState is SubscriptionDetailsCollected) {
           final time = subscriptionState.time;
           final items = context.cart.state.items;
           final address = subscriptionState.address;
+
+          String? promoCode;
+          if (promoCodesState is PromoCodeLoaded) {
+            promoCode = promoCodesState.promoCode.code;
+          }
 
           context.payment.add(
             PayForSubscription(
@@ -424,22 +463,12 @@ class SubscriptionPaymentScreen extends StatelessWidget {
               items: items,
               address: address,
               months: details.months,
+              promoCode: promoCode,
             ),
           );
         }
       },
       text: 'button.pay'.tr(),
-    );
-  }
-
-  Future<void> _showDialog(
-    BuildContext context,
-    Widget dialog,
-  ) async {
-    return showDialog(
-      context: context,
-      builder: (_) => dialog,
-      barrierDismissible: false,
     );
   }
 }

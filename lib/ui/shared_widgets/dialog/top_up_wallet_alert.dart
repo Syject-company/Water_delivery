@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
-class TopUpWalletDialog extends StatelessWidget {
-  const TopUpWalletDialog({Key? key}) : super(key: key);
+class TopUpWalletAlert extends StatelessWidget {
+  const TopUpWalletAlert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +51,21 @@ class TopUpWalletDialog extends StatelessWidget {
         ),
         Column(
           children: [
-            Icon(
+            GradientIcon(
               AppIcons.alert,
               size: 96.0,
               color: AppColors.secondary,
+              gradient: RadialGradient(
+                colors: [
+                  AppColors.white,
+                  AppColors.secondary,
+                ],
+                stops: [
+                  0.0,
+                  1.0,
+                ],
+                radius: 1.5,
+              ),
             ),
             const SizedBox(height: 16.0),
             WaterText(

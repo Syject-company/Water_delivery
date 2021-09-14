@@ -36,5 +36,8 @@ class OrderDetailsCollected extends OrderState {
   final bool push;
 
   @override
-  List<Object> get props => [address, time];
+  List<Object> get props => [
+        address,
+        time,
+      ];
 }

@@ -13,7 +13,6 @@ screen:
   subscriptions: "الاشتراكات"
   refer_friend: "أوص أحد الأصدقاء"
   support: "يدعم"
-  terms: "البنود و الظروف"
   faq: "التعليمات"
   top_up_wallet: "رصيد المحفظة"
   order_payment: "دفع النظام"
@@ -49,6 +48,8 @@ text:
   not_enough_money: "ليس لديك أموال كافية."
   successful_payment: "دفع ناجح!"
   thanks_for_order: "شكرا جزيلا لطلبك. انتظر التسليم."
+  something_went_wrong: "هناك خطأ ما!"
+  try_again: "يرجى المحاولة مرة أخرى أو الاتصال بالدعم."
   today: "اليوم"
   tomorrow: "الغد"
   order_number: "طلب #{}"
@@ -64,6 +65,13 @@ text:
   wallet_bonus: "ستحصل على مكافأة قدرها 10 دراهم إماراتية في محفظتك مقابل كل إحالة ناجحة"
   no_orders: "لا توجد طلبات مرتبطة بهذا الحساب"
   no_subscriptions: "لا توجد اشتراكات مرتبطة بهذا الحساب"
+  tap_and_hold: "انقر مع الاستمرار للتحديد"
+  expires_on: "تنتهي صلاحيته في {}"
+  have_promo_code: "لدي رمز ترويجي:"
+  promo_code_applied: "تم تطبيق الرمز الترويجي بنجاح."
+  promo_code_expired: "انتهت صلاحية الرمز الترويجي."
+  promo_code_not_exist: "الرمز الترويجي غير موجود."
+  promo_code_is_over: "الرمز الترويجي قد انتهى."
   months:
     one: '{} شهر'
     two: '{} شهور'
@@ -98,6 +106,7 @@ input:
   your_email: "بريدك الالكتروني"
   your_phone: "هاتفك"
   your_message: "أدخل رسالتك هنا..."
+  enter_promo_code: "ادخل الرمز"
 
 button:
   have_account: "لدي حساب"
@@ -123,6 +132,7 @@ button:
   send: "يرسل"
   click_to_call: "اضغط للاتصال"
   share: "يشارك"
+  try_again: "حاول مجددا"
 
 side_menu:
   login: "تسجيل الدخول"
@@ -133,6 +143,7 @@ side_menu:
   refer_friend: "أوص أحد الأصدقاء"
   profile: "حساب تعريفي"
   support: "الدعم"
+  privacy_policy: "سياسة خاصة"
   terms: "البنود و الظروف"
   faq: "التعليمات"
 

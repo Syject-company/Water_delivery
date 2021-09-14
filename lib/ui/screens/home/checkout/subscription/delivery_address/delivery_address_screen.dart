@@ -41,11 +41,7 @@ class DeliveryAddressScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          physics: const BouncingScrollPhysics(),
-          child: _buildDeliveryInputForm(context),
-        ),
+        body: _buildBody(context),
         bottomNavigationBar: _buildNextButton(context),
       ),
     );
@@ -72,6 +68,14 @@ class DeliveryAddressScreen extends StatelessWidget {
         ),
         AppBarNotificationButton(),
       ],
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
+      child: _buildDeliveryInputForm(context),
     );
   }
 
@@ -163,33 +167,39 @@ class DeliveryAddressScreen extends StatelessWidget {
   }
 
   Widget _buildNextButton(BuildContext context) {
-    return WaterButton(
-      onPressed: () {
-        if (!_formKey.currentState!.validate()) {
-          return;
-        }
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        border: Border(top: defaultBorder),
+      ),
+      child: WaterButton(
+        onPressed: () {
+          if (!_formKey.currentState!.validate()) {
+            return;
+          }
 
-        final city = _cityController.text;
-        final district = _districtController.text;
-        final street = _streetController.text;
-        final building = _buildingController.text;
-        final floor = _floorController.text;
-        final apartment = _apartmentController.text;
+          final city = _cityController.text;
+          final district = _districtController.text;
+          final street = _streetController.text;
+          final building = _buildingController.text;
+          final floor = _floorController.text;
+          final apartment = _apartmentController.text;
 
-        context.subscription.add(
-          SubmitDeliveryAddress(
-            address: DeliveryAddress(
-              city: city,
-              district: district,
-              street: street,
-              building: building,
-              floor: floor,
-              apartment: apartment,
+          context.subscription.add(
+            SubmitDeliveryAddress(
+              address: DeliveryAddress(
+                city: city,
+                district: district,
+                street: street,
+                building: building,
+                floor: floor,
+                apartment: apartment,
+              ),
             ),
-          ),
-        );
-      },
-      text: 'button.next'.tr(),
-    ).withPaddingAll(24.0);
+          );
+        },
+        text: 'button.next'.tr(),
+      ),
+    );
   }
 }

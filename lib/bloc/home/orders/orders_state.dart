@@ -23,3 +23,7 @@ class OrdersLoaded extends OrdersState {
   @override
   List<Object> get props => [orders];
 }
+
+class OrdersError extends OrdersState {
+  const OrdersError();
+}

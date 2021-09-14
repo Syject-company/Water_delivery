@@ -8,7 +8,7 @@ class SubscriptionFormFields {
   static const String deliveryDate = 'deliveryDate';
   static const String periodId = 'periodId';
   static const String months = 'subscriptionDurationMonth';
-  static const String promo = 'promoCode';
+  static const String promoCode = 'promoCode';
   static const String products = 'shopItems';
   static const String city = 'cityName';
   static const String district = 'districtName';
@@ -23,7 +23,7 @@ class SubscriptionForm extends Equatable {
     required this.deliveryDate,
     required this.periodId,
     required this.months,
-    this.promo,
+    this.promoCode,
     required this.products,
     required this.city,
     required this.district,
@@ -36,7 +36,7 @@ class SubscriptionForm extends Equatable {
   final String deliveryDate;
   final String periodId;
   final int months;
-  final String? promo;
+  final String? promoCode;
   final List<SubscriptionProductForm> products;
   final String city;
   final String district;
@@ -50,7 +50,7 @@ class SubscriptionForm extends Equatable {
       SubscriptionFormFields.deliveryDate: deliveryDate,
       SubscriptionFormFields.periodId: periodId,
       SubscriptionFormFields.months: months,
-      SubscriptionFormFields.promo: promo,
+      SubscriptionFormFields.promoCode: promoCode,
       SubscriptionFormFields.products: products,
       SubscriptionFormFields.city: city,
       SubscriptionFormFields.district: district,
@@ -66,7 +66,7 @@ class SubscriptionForm extends Equatable {
         deliveryDate,
         periodId,
         months,
-        promo,
+        promoCode,
         products,
         city,
         district,

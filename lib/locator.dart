@@ -9,6 +9,7 @@ import 'domain/service/order_service.dart';
 import 'domain/service/period_service.dart';
 import 'domain/service/product_service.dart';
 import 'domain/service/profile_service.dart';
+import 'domain/service/promo_code_service.dart';
 import 'domain/service/subscription_service.dart';
 import 'domain/service/support_service.dart';
 
@@ -26,4 +27,5 @@ void setupLocator() {
   locator.registerSingleton<SubscriptionService>(SubscriptionService());
   locator.registerSingleton<SupportService>(SupportService());
   locator.registerSingleton<AccountService>(AccountService());
+  locator.registerSingleton<PromoCodeService>(PromoCodeService());
 }

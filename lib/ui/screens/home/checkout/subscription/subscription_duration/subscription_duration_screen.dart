@@ -82,7 +82,7 @@ class _SubscriptionDurationScreenState
   Widget _buildHintText() {
     return WaterText(
       'text.select_duration'.tr(),
-      fontSize: 15.0,
+      fontSize: 16.0,
       lineHeight: 1.5,
       textAlign: TextAlign.center,
       fontWeight: FontWeight.w600,
@@ -122,14 +122,20 @@ class _SubscriptionDurationScreenState
   }
 
   Widget _buildNextButton() {
-    return WaterButton(
-      enabled: _selectedDuration != null,
-      onPressed: () {
-        context.subscription.add(
-          SubmitSubscriptionDuration(months: _selectedDuration!),
-        );
-      },
-      text: 'button.next'.tr(),
-    ).withPaddingAll(24.0);
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        border: Border(top: defaultBorder),
+      ),
+      child: WaterButton(
+        enabled: _selectedDuration != null,
+        onPressed: () {
+          context.subscription.add(
+            SubmitSubscriptionDuration(months: _selectedDuration!),
+          );
+        },
+        text: 'button.next'.tr(),
+      ),
+    );
   }
 }

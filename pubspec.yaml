@@ -21,6 +21,8 @@ dependencies:
   responsive_framework: ^0.1.4
   cached_network_image: ^3.1.0
   flutter_inappwebview: ^5.3.2
+  url_launcher: ^6.0.10
+  pull_to_refresh: ^2.0.0
 
   # graphics
   flutter_svg: ^0.22.0

@@ -61,9 +61,13 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         context.showLoader(state is SubscriptionsLoading ||
             state is SubscriptionsToggleStatusRequest ||
             state is SubscriptionsDeleteRequest);
+
+        if (state is SubscriptionsError) {
+          showWaterDialog(context, ErrorAlert());
+        }
       },
       buildWhen: (_, state) {
-        return state is SubscriptionsLoaded;
+        return state is SubscriptionsLoaded || state is SubscriptionsError;
       },
       builder: (_, state) {
         if (state is SubscriptionsLoaded) {
@@ -86,6 +90,8 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
               ),
             ),
           );
+        } else if (state is SubscriptionsError) {
+          return _buildTryAgainButton();
         }
         return const SizedBox.shrink();
       },
@@ -104,19 +110,27 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     ).withPaddingAll(24.0);
   }
 
+  Widget _buildHintText() {
+    return WaterText(
+      'text.tap_and_hold'.tr(),
+      fontSize: 18.0,
+      textAlign: TextAlign.center,
+      fontWeight: FontWeight.w700,
+      color: AppColors.primaryText,
+    ).withPaddingAll(24.0);
+  }
+
   Widget _buildActionButtons() {
     return BlocBuilder<SubscriptionsBloc, SubscriptionsState>(
       builder: (_, state) {
         bool isActive = false;
         bool enabled = false;
 
-        if (state is SubscriptionsLoaded) {
-          isActive = state.selectedSubscription?.isActive ?? false;
-          enabled = state.selectedSubscription != null;
-        }
-
         if (state is SubscriptionsLoaded &&
             state.selectedSubscription != null) {
+          isActive = state.selectedSubscription?.isActive ?? false;
+          enabled = true;
+
           return Container(
             padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
@@ -131,6 +145,10 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
               ],
             ),
           );
+        } else if (state is SubscriptionsLoaded &&
+            state.selectedSubscription == null &&
+            state.subscriptions.isNotEmpty) {
+          return _buildHintText();
         }
         return const SizedBox.shrink();
       },
@@ -165,5 +183,18 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
       radialRadius: 3.0,
       enabled: enabled,
     );
+  }
+
+  Widget _buildTryAgainButton() {
+    return Center(
+      child: WaterButton(
+        onPressed: () {
+          context.subscriptions.add(
+            LoadSubscriptions(),
+          );
+        },
+        text: 'button.try_again'.tr(),
+      ),
+    ).withPaddingAll(24.0);
   }
 }

@@ -30,12 +30,12 @@ class SubscriptionPaymentRequest extends PaymentState {
   const SubscriptionPaymentRequest();
 }
 
-class SuccessfulPaymentAlert extends PaymentState {
-  const SuccessfulPaymentAlert();
+class SuccessfulPayment extends PaymentState {
+  const SuccessfulPayment();
 }
 
-class TopUpWalletAlert extends PaymentState {
-  const TopUpWalletAlert();
+class TopUpWallet extends PaymentState {
+  const TopUpWallet();
 }
 
 class PaymentError extends PaymentState {

@@ -31,7 +31,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final ProductService _productService = locator<ProductService>();
 
   CartItem? findItem(String id) {
-    return state.items.firstWhereOrNull((item) => item.product.id == id);
+    return state.items.firstWhereOrNull((item) {
+      return item.product.id == id;
+    });
   }
 
   bool contains(Product product) {

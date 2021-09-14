@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -33,14 +34,18 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   Stream<OrdersState> _mapLoadSubscriptionsToState(
     LoadOrders event,
   ) async* {
-    if (Session.isAuthenticated) {
-      yield OrdersLoading();
-      final orders = await _orderService.getAll(Session.token!);
-      yield OrdersLoaded(
-        orders: orders.where((order) {
-          return order.status != 'Created';
-        }).toList(),
-      );
+    try {
+      if (Session.isAuthenticated) {
+        yield OrdersLoading();
+        final orders = await _orderService.getAll(Session.token!);
+        yield OrdersLoaded(
+          orders: orders.where((order) {
+            return order.status != 'Created';
+          }).toList(),
+        );
+      }
+    } on HttpException catch (_) {
+      yield OrdersError();
     }
   }
 }

@@ -40,7 +40,7 @@ class WaterIconButton extends StatelessWidget {
               0.0,
               1.0,
             ],
-            radius: 1.0,
+            radius: 0.75,
           ),
         ),
         width: width ?? _width,
