@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -51,7 +50,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
         final subscriptions = await _subscriptionService.getAll(Session.token!);
         yield SubscriptionsLoaded(subscriptions: subscriptions);
       }
-    } on HttpException catch (_) {
+    } catch (_) {
       yield SubscriptionsError();
     }
   }
@@ -96,7 +95,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
 
         add(LoadSubscriptions());
       }
-    } on HttpException catch (_) {
+    } catch (_) {
       yield SubscriptionsError();
     }
   }
@@ -120,7 +119,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
 
         add(LoadSubscriptions());
       }
-    } on HttpException catch (_) {
+    } catch (_) {
       yield SubscriptionsError();
     }
   }

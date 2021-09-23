@@ -64,89 +64,95 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _mapLoadProfileToState() async* {
-    if (Session.isAuthenticated) {
-      print('load profile');
+    try {
+      if (Session.isAuthenticated) {
+        print('load profile');
 
-      yield state.copyWith(status: ProfileStatus.loading);
+        yield state.copyWith(status: ProfileStatus.loading);
 
-      final profile = await _profileService.getByToken(Session.token!);
+        final profile = await _profileService.getByToken(Session.token!);
 
-      yield state.copyWith(
-        firstName: Nullable(profile.firstName),
-        lastName: Nullable(profile.lastName),
-        email: Nullable(profile.email),
-        phoneNumber: Nullable(profile.phoneNumber),
-        birthday: Nullable(profile.birthday),
-        nationality: Nullable(profile.nationality),
-        city: Nullable(profile.city),
-        district: Nullable(profile.district),
-        street: Nullable(profile.street),
-        building: Nullable(profile.building),
-        apartment: Nullable(profile.apartment),
-        floor: Nullable(profile.floor),
-        familyMembersCount: profile.familyMembersCount,
-        referralCode: profile.referralCode,
-        walletBalance: profile.walletBalance,
-        status: ProfileStatus.loaded,
-      );
+        yield state.copyWith(
+          firstName: Nullable(profile.firstName),
+          lastName: Nullable(profile.lastName),
+          email: Nullable(profile.email),
+          phoneNumber: Nullable(profile.phoneNumber),
+          birthday: Nullable(profile.birthday),
+          nationality: Nullable(profile.nationality),
+          city: Nullable(profile.city),
+          district: Nullable(profile.district),
+          street: Nullable(profile.street),
+          building: Nullable(profile.building),
+          apartment: Nullable(profile.apartment),
+          floor: Nullable(profile.floor),
+          familyMembersCount: profile.familyMembersCount,
+          referralCode: profile.referralCode,
+          walletBalance: profile.walletBalance,
+          status: ProfileStatus.loaded,
+        );
+      }
+    } catch (_) {
+      yield state.copyWith(status: ProfileStatus.error);
     }
   }
 
   Stream<ProfileState> _mapSaveProfileToState(
     SaveProfile event,
   ) async* {
-    if (Session.isAuthenticated) {
-      print('save profile');
+    try {
+      if (Session.isAuthenticated) {
+        print('save profile');
 
-      yield state.copyWith(status: ProfileStatus.saving);
+        yield state.copyWith(status: ProfileStatus.saving);
 
-      String? birthday;
-      if (event.birthday != null) {
-        birthday = DateFormat('yyyy-MM-ddTHH:mm:ss').format(event.birthday!);
+        String? birthday;
+        if (event.birthday != null) {
+          birthday = DateFormat('yyyy-MM-ddTHH:mm:ss').format(event.birthday!);
+        }
+
+        final form = ProfileForm(
+          firstName: event.firstName,
+          lastName: event.lastName,
+          phoneNumber: event.phoneNumber,
+          birthday: birthday,
+          familyMembersCount: event.familyMembersAmount,
+          nationality: event.nationality,
+          addressTranslations: [
+            AddressTranslationForm(
+              language: event.language,
+              city: event.city,
+              district: event.district,
+              street: event.street,
+              building: event.building,
+              apartment: event.apartment,
+              floor: event.floor,
+            ),
+          ],
+        );
+        await _profileService.save(Session.token!, form);
+
+        yield state.copyWith(
+          firstName: Nullable(event.firstName),
+          lastName: Nullable(event.lastName),
+          phoneNumber: Nullable(event.phoneNumber),
+          birthday: Nullable(event.birthday),
+          nationality: Nullable(event.nationality),
+          city: Nullable(event.city),
+          district: Nullable(event.district),
+          street: Nullable(event.street),
+          building: Nullable(event.building),
+          apartment: Nullable(event.apartment),
+          floor: Nullable(event.floor),
+          familyMembersCount: event.familyMembersAmount,
+          status: ProfileStatus.saved,
+        );
       }
-
-      final form = ProfileForm(
-        firstName: event.firstName,
-        lastName: event.lastName,
-        phoneNumber: event.phoneNumber,
-        birthday: birthday,
-        familyMembersCount: event.familyMembersAmount,
-        nationality: event.nationality,
-        addressTranslations: [
-          AddressTranslationForm(
-            language: event.language,
-            city: event.city,
-            district: event.district,
-            street: event.street,
-            building: event.building,
-            apartment: event.apartment,
-            floor: event.floor,
-          ),
-        ],
-      );
-      await _profileService.save(Session.token!, form);
-
-      yield state.copyWith(
-        firstName: Nullable(event.firstName),
-        lastName: Nullable(event.lastName),
-        phoneNumber: Nullable(event.phoneNumber),
-        birthday: Nullable(event.birthday),
-        nationality: Nullable(event.nationality),
-        city: Nullable(event.city),
-        district: Nullable(event.district),
-        street: Nullable(event.street),
-        building: Nullable(event.building),
-        apartment: Nullable(event.apartment),
-        floor: Nullable(event.floor),
-        familyMembersCount: event.familyMembersAmount,
-        status: ProfileStatus.saved,
-      );
+    } catch (_) {
+      yield state.copyWith(status: ProfileStatus.error);
     }
   }
 
   Stream<ProfileState> _mapClearProfileToState() async* {
-    print('clear profile');
-
     yield state.copyWith(
       firstName: Nullable(null),
       lastName: Nullable(null),

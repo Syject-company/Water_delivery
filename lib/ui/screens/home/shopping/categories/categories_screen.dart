@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
@@ -43,7 +42,7 @@ class CategoriesScreen extends StatelessWidget {
             },
           );
         }
-        return SizedBox(height: 24.0);
+        return SizedBox(height: 12.0);
       },
     );
   }
@@ -59,6 +58,7 @@ class CategoriesScreen extends StatelessWidget {
 
           return AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
+            reverseDuration: const Duration(milliseconds: 250),
             switchInCurve: Curves.fastOutSlowIn,
             switchOutCurve: Curves.fastOutSlowIn,
             child: page,
@@ -72,11 +72,11 @@ class CategoriesScreen extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
       physics: const BouncingScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isMobile ? 2 : 3,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 0.75,
+        childAspectRatio: 0.865,
       ),
       itemCount: state.categories.length,
       itemBuilder: (_, index) {
@@ -94,13 +94,13 @@ class CategoriesScreen extends StatelessWidget {
       child: GridView.builder(
         padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: isMobile ? 2 : 3,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
-          childAspectRatio: 0.75,
+          childAspectRatio: 0.865,
         ),
-        itemCount: 10,
+        itemCount: 4,
         itemBuilder: (_, __) {
           return CategoryLoadingListItem();
         },

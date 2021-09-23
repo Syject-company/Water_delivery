@@ -58,6 +58,7 @@ class HomeRouter {
               profile: context.profile,
             )..add(LoadBalance()),
             child: WalletScreen(),
+            lazy: false,
           ),
         );
       case HomeRoutes.notifications:
@@ -73,6 +74,7 @@ class HomeRouter {
           builder: (_) => BlocProvider(
             create: (_) => OrdersBloc()..add(LoadOrders()),
             child: OrdersScreen(),
+            lazy: false,
           ),
         );
       case HomeRoutes.subscription:
@@ -84,6 +86,7 @@ class HomeRouter {
           builder: (_) => BlocProvider(
             create: (_) => SubscriptionsBloc()..add(LoadSubscriptions()),
             child: SubscriptionsScreen(),
+            lazy: false,
           ),
         );
       case HomeRoutes.support:

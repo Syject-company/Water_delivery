@@ -17,17 +17,23 @@ class EnterEmailPage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
       clipBehavior: Clip.none,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const WaterLogo(),
-          const SizedBox(height: 36.0),
-          _buildForgotPasswordLabel(),
-          const SizedBox(height: 12.0),
-          _buildInputForm(),
-          const SizedBox(height: 24.0),
-          _buildResetPasswordButton(context),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const WaterLogo(),
+              const SizedBox(height: 36.0),
+              _buildForgotPasswordLabel(),
+              const SizedBox(height: 12.0),
+              _buildInputForm(),
+              const SizedBox(height: 24.0),
+              _buildResetPasswordButton(context),
+            ],
+          ),
+        ),
       ),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );

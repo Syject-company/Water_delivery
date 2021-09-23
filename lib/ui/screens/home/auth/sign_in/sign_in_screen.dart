@@ -12,11 +12,7 @@ import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignInScreen extends StatelessWidget {
-  SignInScreen({Key? key}) : super(key: key) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    });
-  }
+  SignInScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey();
   final TextEditingController _emailController = TextEditingController();
@@ -56,24 +52,30 @@ class SignInScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       clipBehavior: Clip.none,
-      child: Column(
-        children: [
-          const WaterLogo(),
-          const SizedBox(height: 36.0),
-          _buildSignInLabel(),
-          const SizedBox(height: 12.0),
-          _buildInputForm(),
-          const SizedBox(height: 24.0),
-          _buildForgotPasswordLink(),
-          const SizedBox(height: 16.0),
-          _buildSignUpLink(),
-          const SizedBox(height: 32.0),
-          _buildSignUpLabel(),
-          const SizedBox(height: 24.0),
-          _buildSignInButtons(context),
-          const SizedBox(height: 24.0),
-          _buildLogInButton(context),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            children: [
+              const WaterLogo(),
+              const SizedBox(height: 36.0),
+              _buildSignInLabel(),
+              const SizedBox(height: 12.0),
+              _buildInputForm(),
+              const SizedBox(height: 24.0),
+              _buildForgotPasswordLink(),
+              const SizedBox(height: 16.0),
+              _buildSignUpLink(),
+              const SizedBox(height: 32.0),
+              _buildSignUpLabel(),
+              const SizedBox(height: 24.0),
+              _buildSignInButtons(context),
+              const SizedBox(height: 24.0),
+              _buildLogInButton(context),
+            ],
+          ),
+        ),
       ),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );

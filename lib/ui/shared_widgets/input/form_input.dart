@@ -18,6 +18,7 @@ class WaterFormInput extends StatefulWidget {
     this.prefixIcon,
     this.maxLength,
     this.maxLines = 1,
+    this.autovalidateMode,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -35,6 +36,7 @@ class WaterFormInput extends StatefulWidget {
   final Widget? prefixIcon;
   final int? maxLength;
   final int? maxLines;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   WaterFormInputState createState() => WaterFormInputState();
@@ -138,7 +140,8 @@ class WaterFormInputState extends State<WaterFormInput> {
         ).nunitoSans,
         errorMaxLines: _errorMaxLines,
       ),
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode:
+          widget.autovalidateMode ?? AutovalidateMode.onUserInteraction,
       enableInteractiveSelection: !widget.readOnly,
       textInputAction: TextInputAction.done,
     );
@@ -151,7 +154,7 @@ class WaterFormInputState extends State<WaterFormInput> {
         WaterText(
           widget.labelText!,
           maxLines: 1,
-          fontSize: 15.0,
+          fontSize: 16.0,
           lineHeight: 1.25,
           overflow: TextOverflow.fade,
           fontWeight: FontWeight.w700,

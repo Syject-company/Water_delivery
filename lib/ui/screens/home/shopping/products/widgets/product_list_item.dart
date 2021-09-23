@@ -51,8 +51,6 @@ class _ProductListItemState extends State<ProductListItem> {
                   tag: _product,
                   child: CachedNetworkImage(
                     imageUrl: _product.imageUri,
-                    fadeInDuration: const Duration(milliseconds: 250),
-                    fadeOutDuration: const Duration(milliseconds: 250),
                     fadeInCurve: Curves.fastOutSlowIn,
                     fadeOutCurve: Curves.fastOutSlowIn,
                   ),
@@ -199,7 +197,7 @@ class _ProductListItemState extends State<ProductListItem> {
     return ToastBuilder.of(context).showToast(
       child: Container(
         height: 96.0,
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
         decoration: BoxDecoration(
           color: AppColors.white,
           border: Border.fromBorderSide(defaultBorder),
@@ -219,11 +217,9 @@ class _ProductListItemState extends State<ProductListItem> {
             AspectRatio(
               aspectRatio: 1.0,
               child: CachedNetworkImage(
-                imageUrl: _product.imageUri,
-                fadeInDuration: const Duration(milliseconds: 250),
-                fadeOutDuration: const Duration(milliseconds: 250),
                 fadeInCurve: Curves.fastOutSlowIn,
                 fadeOutCurve: Curves.fastOutSlowIn,
+                imageUrl: _product.imageUri,
               ),
             ),
             const SizedBox(width: 24.0),

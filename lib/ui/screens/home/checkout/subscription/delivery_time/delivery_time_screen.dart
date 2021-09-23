@@ -67,15 +67,20 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         physics: const BouncingScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildHintText(),
-            const SizedBox(height: 24.0),
-            _buildDeliveryTimePicker(),
-            if (_selectedTime != null) _buildSelectedTimeText(),
-          ],
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: isMobile ? 100.w : 50.w,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildHintText(),
+                const SizedBox(height: 24.0),
+                _buildDeliveryTimePicker(),
+                if (_selectedTime != null) _buildSelectedTimeText(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -156,14 +161,19 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
       decoration: BoxDecoration(
         border: Border(top: defaultBorder),
       ),
-      child: WaterButton(
-        enabled: _selectedTime != null,
-        onPressed: () {
-          context.subscription.add(
-            SubmitDeliveryTime(time: _selectedTime!),
-          );
-        },
-        text: 'button.next'.tr(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          WaterButton(
+            enabled: _selectedTime != null,
+            onPressed: () {
+              context.subscription.add(
+                SubmitDeliveryTime(time: _selectedTime!),
+              );
+            },
+            text: 'button.next'.tr(),
+          ),
+        ],
       ),
     );
   }

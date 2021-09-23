@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -50,7 +49,7 @@ class PromoCodesBloc extends Bloc<PromoCodesEvent, PromoCodesState> {
 
         yield PromoCodeLoaded(promoCode: promoCode);
       }
-    } on HttpException {
+    } catch (_) {
       yield PromoCodeNotExists();
     }
   }

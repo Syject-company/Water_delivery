@@ -17,7 +17,7 @@ import 'package:water/ui/validators/field.dart';
 class DeliveryAddressScreen extends StatelessWidget {
   DeliveryAddressScreen({Key? key}) : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _deliveryAddressFormKey = GlobalKey();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _districtController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
@@ -75,7 +75,13 @@ class DeliveryAddressScreen extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
       physics: const BouncingScrollPhysics(),
-      child: _buildDeliveryInputForm(context),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: _buildDeliveryInputForm(context),
+        ),
+      ),
     );
   }
 
@@ -96,7 +102,7 @@ class DeliveryAddressScreen extends StatelessWidget {
     _apartmentController.text = profile.apartment ?? '';
 
     return Form(
-      key: _formKey,
+      key: _deliveryAddressFormKey,
       child: Column(
         children: [
           WaterFormSelect(
@@ -172,33 +178,38 @@ class DeliveryAddressScreen extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(top: defaultBorder),
       ),
-      child: WaterButton(
-        onPressed: () {
-          if (!_formKey.currentState!.validate()) {
-            return;
-          }
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          WaterButton(
+            onPressed: () {
+              if (!_deliveryAddressFormKey.currentState!.validate()) {
+                return;
+              }
 
-          final city = _cityController.text;
-          final district = _districtController.text;
-          final street = _streetController.text;
-          final building = _buildingController.text;
-          final floor = _floorController.text;
-          final apartment = _apartmentController.text;
+              final city = _cityController.text;
+              final district = _districtController.text;
+              final street = _streetController.text;
+              final building = _buildingController.text;
+              final floor = _floorController.text;
+              final apartment = _apartmentController.text;
 
-          context.subscription.add(
-            SubmitDeliveryAddress(
-              address: DeliveryAddress(
-                city: city,
-                district: district,
-                street: street,
-                building: building,
-                floor: floor,
-                apartment: apartment,
-              ),
-            ),
-          );
-        },
-        text: 'button.next'.tr(),
+              context.subscription.add(
+                SubmitDeliveryAddress(
+                  address: DeliveryAddress(
+                    city: city,
+                    district: district,
+                    street: street,
+                    building: building,
+                    floor: floor,
+                    apartment: apartment,
+                  ),
+                ),
+              );
+            },
+            text: 'button.next'.tr(),
+          ),
+        ],
       ),
     );
   }

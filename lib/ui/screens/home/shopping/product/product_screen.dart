@@ -52,53 +52,53 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          LayoutBuilder(
-            builder: (_, constraints) {
-              return Hero(
-                tag: _product,
-                child: CachedNetworkImage(
-                  imageUrl: _product.imageUri,
-                  height: constraints.maxWidth,
-                  fadeInDuration: const Duration(milliseconds: 250),
-                  fadeOutDuration: const Duration(milliseconds: 250),
-                  fadeInCurve: Curves.fastOutSlowIn,
-                  fadeOutCurve: Curves.fastOutSlowIn,
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            LayoutBuilder(
+              builder: (_, constraints) {
+                return Hero(
+                  tag: _product,
+                  child: CachedNetworkImage(
+                    height: isMobile
+                        ? constraints.maxWidth / 1.25
+                        : constraints.maxWidth / 2.0,
+                    fadeInCurve: Curves.fastOutSlowIn,
+                    fadeOutCurve: Curves.fastOutSlowIn,
+                    imageUrl: _product.imageUri,
+                  ),
+                );
+              },
+            ).withPadding(isMobile ? 0.0 : 48.0, 0.0, isMobile ? 0.0 : 48.0, 0.0),
+            const SizedBox(height: 24.0),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildTitleText(),
+                    const SizedBox(width: 16.0),
+                    _buildVolumeText(),
+                  ],
                 ),
-              );
-            },
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildTitleText(),
-                  const SizedBox(width: 16.0),
-                  _buildVolumeText(),
-                ],
-              ),
-              const SizedBox(height: 24.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildPriceText(),
-                  const SizedBox(width: 16.0),
-                  _buildAmountPicker(),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              _buildDescriptionText(),
-            ],
-          ),
-        ],
+                const SizedBox(height: 24.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildPriceText(),
+                    const SizedBox(width: 16.0),
+                    _buildAmountPicker(),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                _buildDescriptionText(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

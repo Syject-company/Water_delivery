@@ -117,6 +117,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final auth = await account.authentication;
     final token = auth.accessToken!;
+    print(token);
 
     yield* _signInWithSocial(Social.Google, token: token);
   }

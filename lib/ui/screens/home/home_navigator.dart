@@ -10,7 +10,7 @@ import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/bloc/home/support/support_bloc.dart';
-import 'package:water/bloc/home/wallet/wallet_bloc.dart';
+import 'package:water/main.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/localization.dart';
@@ -37,7 +37,6 @@ class HomeNavigator extends StatelessWidget {
           providers: [
             BlocProvider(
               create: (_) => AuthBloc(),
-              lazy: false,
             ),
             BlocProvider(
               create: (context) => NotificationsBloc(
@@ -56,14 +55,12 @@ class HomeNavigator extends StatelessWidget {
             ),
             BlocProvider(
               create: (_) => ProductsBloc(),
-              lazy: false,
             ),
             BlocProvider(
               create: (context) => ShoppingBloc(
                 categoriesBloc: context.categories,
                 productsBloc: context.products,
               ),
-              lazy: false,
             ),
             BlocProvider(
               create: (_) => CartBloc()..add(LoadCart(language: language)),
@@ -76,14 +73,12 @@ class HomeNavigator extends StatelessWidget {
               lazy: false,
             ),
             BlocProvider(
-              create: (context) => SupportBloc(),
-              lazy: false,
+              create: (_) => SupportBloc(),
             ),
             BlocProvider(
               create: (context) => NavigationBloc(
                 shoppingBloc: context.shopping,
               ),
-              lazy: false,
             ),
           ],
           child: BlocConsumer<AuthBloc, AuthState>(

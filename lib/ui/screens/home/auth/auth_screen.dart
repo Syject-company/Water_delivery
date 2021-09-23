@@ -11,7 +11,7 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
@@ -25,19 +25,25 @@ class AuthScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
       clipBehavior: Clip.none,
-      child: Column(
-        children: [
-          const WaterLogo(labelWidthFactor: 2.25),
-          const SizedBox(height: 128.0),
-          _buildSignInButton(),
-          const SizedBox(height: 12.0),
-          _buildSignUpButton(),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            children: [
+              const WaterLogo(labelWidthFactor: 2.25),
+              const SizedBox(height: 128.0),
+              _buildSignInButton(),
+              const SizedBox(height: 12.0),
+              _buildSignUpButton(),
+            ],
+          ),
+        ),
       ),
     );
   }

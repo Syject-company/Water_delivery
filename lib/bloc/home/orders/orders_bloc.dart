@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -11,6 +10,7 @@ import 'package:water/locator.dart';
 import 'package:water/util/session.dart';
 
 part 'orders_event.dart';
+
 part 'orders_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -44,7 +44,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           }).toList(),
         );
       }
-    } on HttpException catch (_) {
+    } catch (_) {
       yield OrdersError();
     }
   }

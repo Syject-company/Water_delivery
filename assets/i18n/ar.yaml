@@ -33,6 +33,7 @@ text:
   liter: "لتر"
   milliliter: "مل"
   language: "لغة"
+  my_account: "حسابي"
   delivery_address: "عنوان التسليم"
   family_members: "أفراد الأسرة"
   empty_cart: "السلة فارغة"

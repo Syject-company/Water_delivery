@@ -1,6 +1,5 @@
 library form_fields;
 
-import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +12,10 @@ part 'form_search.dart';
 part 'form_select.dart';
 
 const int _errorMaxLines = 3;
-const double _fontSize = 15.0;
-const double _lineHeight = 1.65;
-const double _hintFontSize = 15.0;
-const double _errorFontSize = 14.0;
+const double _fontSize = 16.0;
+const double _lineHeight = 1.95;
+const double _hintFontSize = 16.0;
+const double _errorFontSize = 15.0;
 const double _borderRadius = 19.0;
 const double _borderWidth = 1.0;
 const EdgeInsetsGeometry _contentPadding =

@@ -48,7 +48,7 @@ class LoaderOverlayState extends State<LoaderOverlay> {
 
   void showLoader() {
     if (!_showLoader) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         setState(() => _showLoader = true);
       });
     }
@@ -56,7 +56,7 @@ class LoaderOverlayState extends State<LoaderOverlay> {
 
   void hideLoader() {
     if (_showLoader) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         setState(() => _showLoader = false);
       });
     }
@@ -66,7 +66,7 @@ class LoaderOverlayState extends State<LoaderOverlay> {
     return Container(
       color: _backgroundColor,
       child: Center(
-        child: const WaterAnimatedLogo(
+        child: WaterAnimatedLogo(
           widthFactor: 4.5,
         ),
       ),

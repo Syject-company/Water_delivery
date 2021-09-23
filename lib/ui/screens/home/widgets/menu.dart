@@ -14,13 +14,17 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          _buildHeader(),
-          _buildBody(context),
-          _buildSocialButtons(),
-        ],
+    return Container(
+      color: AppColors.secondary,
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            _buildHeader(),
+            _buildBody(context),
+            _buildSocialButtons(),
+          ],
+        ),
       ),
     );
   }
@@ -40,10 +44,13 @@ class Menu extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 0.0),
-        physics: const BouncingScrollPhysics(),
-        child: _buildActionButtons(context),
+      child: Container(
+        color: AppColors.white,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 0.0),
+          physics: const BouncingScrollPhysics(),
+          child: _buildActionButtons(context),
+        ),
       ),
     );
   }
@@ -168,29 +175,33 @@ class Menu extends StatelessWidget {
   }
 
   Widget _buildSocialButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        WaterSocialButton(
-          onPressed: () {
-            _launchURL('https://www.facebook.com/Gulfa-Water-112565847320891');
-          },
-          icon: AppIcons.facebook,
-        ),
-        const SizedBox(width: 18.0),
-        WaterSocialButton(
-          onPressed: () {
-            _launchURL('https://www.instagram.com/gulfawater');
-          },
-          icon: AppIcons.instagram,
-        ),
-        const SizedBox(width: 18.0),
-        WaterSocialButton(
-          onPressed: () {},
-          icon: AppIcons.twitter,
-        ),
-      ],
-    ).withPaddingAll(26.0);
+    return Container(
+      color: AppColors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          WaterSocialButton(
+            onPressed: () {
+              _launchURL(
+                  'https://www.facebook.com/Gulfa-Water-112565847320891');
+            },
+            icon: AppIcons.facebook,
+          ),
+          const SizedBox(width: 18.0),
+          WaterSocialButton(
+            onPressed: () {
+              _launchURL('https://www.instagram.com/gulfawater');
+            },
+            icon: AppIcons.instagram,
+          ),
+          const SizedBox(width: 18.0),
+          WaterSocialButton(
+            onPressed: () {},
+            icon: AppIcons.twitter,
+          ),
+        ],
+      ).withPaddingAll(26.0),
+    );
   }
 
   void _launchURL(String url) async {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
-const double _width = double.infinity;
 const double _height = 58.0;
 const double _borderRadius = 15.0;
 const double _fontSize = 18.0;
@@ -34,7 +33,7 @@ class WaterButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(_borderRadius),
           color: enabled ? backgroundColor : AppColors.disabled,
         ),
-        width: _width,
+        width: _getWidth(context),
         height: _height,
         child: Center(
           child: WaterText(
@@ -47,5 +46,9 @@ class WaterButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double _getWidth(BuildContext context) {
+    return isMobile ? 100.w : 50.w;
   }
 }

@@ -32,7 +32,7 @@ class CategoryLoadingListItem extends StatelessWidget {
                 child: Icon(
                   AppIcons.bottle,
                   color: AppColors.grey,
-                  size: 144.0,
+                  size: 120.0,
                 ),
               ),
             ),

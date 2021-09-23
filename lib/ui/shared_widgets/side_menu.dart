@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 typedef DrawerCallback = void Function(bool);
 
@@ -53,9 +53,9 @@ class SideMenuState extends State<SideMenu>
 
   bool get isOpened => _controller.value > 0.5;
 
-  double get _width => MediaQuery.of(context).size.width;
+  double get _width => 100.w;
 
-  double get _height => MediaQuery.of(context).size.height;
+  double get _height => 100.h;
 
   double get _offset =>
       _width * _maxOffset > _maxWidth ? _maxWidth / _width : _maxOffset;

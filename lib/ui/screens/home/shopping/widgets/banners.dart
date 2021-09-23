@@ -20,6 +20,7 @@ class Banners extends StatelessWidget {
 
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
+          reverseDuration: const Duration(milliseconds: 250),
           switchInCurve: Curves.fastOutSlowIn,
           switchOutCurve: Curves.fastOutSlowIn,
           child: page,
@@ -31,21 +32,19 @@ class Banners extends StatelessWidget {
   Widget _buildBanners(BannersLoaded state) {
     return CarouselSlider(
       options: CarouselOptions(
-        aspectRatio: 1.9,
-        viewportFraction: 0.75,
-        spaceBetween: 24.0,
+        aspectRatio: 2.53,
+        viewportFraction: isMobile ? 1.0 : 0.5,
+        spaceBetween: 12.0,
       ),
       items: state.banners.map((banner) {
         return CachedNetworkImage(
           imageUrl: banner.image,
-          fadeInDuration: const Duration(milliseconds: 250),
-          fadeOutDuration: const Duration(milliseconds: 250),
           fadeInCurve: Curves.fastOutSlowIn,
           fadeOutCurve: Curves.fastOutSlowIn,
           fit: BoxFit.fill,
         );
       }).toList(),
-    );
+    ).withPadding(6.0, 0.0, 6.0, 0.0);
   }
 
   Widget _buildBannersLoader(BuildContext context) {
@@ -62,7 +61,7 @@ class Banners extends StatelessWidget {
             _buildLoadingItem(context),
             _buildLoadingItem(context),
           ],
-          separator: const SizedBox(width: 24.0),
+          separator: const SizedBox(width: 12.0),
         ),
       ),
     );
@@ -70,7 +69,8 @@ class Banners extends StatelessWidget {
 
   Widget _buildLoadingItem(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.75 - 24.0,
+      width: 100.w * (isMobile ? 1.0 : 0.5) - 18.0,
+      height: (100.w * (isMobile ? 1.0 : 0.5) - 18.0) / 2.53,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
         gradient: RadialGradient(
@@ -85,14 +85,11 @@ class Banners extends StatelessWidget {
           radius: 1.0,
         ),
       ),
-      child: AspectRatio(
-        aspectRatio: 1.9,
-        child: Center(
-          child: Icon(
-            AppIcons.placeholder,
-            color: AppColors.grey,
-            size: 80.0,
-          ),
+      child: Center(
+        child: Icon(
+          AppIcons.placeholder,
+          color: AppColors.grey,
+          size: 80.0,
         ),
       ),
     );

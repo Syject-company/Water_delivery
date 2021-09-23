@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -79,7 +78,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
         yield TopUpWalletView(url: paymentResponse.paymentUrl);
       }
-    } on HttpException catch (_) {
+    } catch (_) {
       yield TopUpWalletError();
     }
   }

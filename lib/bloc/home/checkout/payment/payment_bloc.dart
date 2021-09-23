@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,7 +19,6 @@ import 'package:water/locator.dart';
 import 'package:water/util/session.dart';
 
 part 'payment_event.dart';
-
 part 'payment_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -84,7 +82,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       );
 
       yield OrderPaymentView(url: paymentResponse.paymentUrl);
-    } on HttpException catch (_) {
+    } catch (_) {
       yield PaymentError();
     }
   }
@@ -129,7 +127,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       );
 
       add(FinishPayment());
-    } on HttpException catch (_) {
+    } catch (_) {
       yield PaymentError();
     }
   }

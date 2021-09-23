@@ -9,11 +9,7 @@ import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
 
 class SignUpScreen extends StatelessWidget {
-  SignUpScreen({Key? key}) : super(key: key) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-    });
-  }
+  SignUpScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey();
   final TextEditingController _emailController = TextEditingController();
@@ -55,21 +51,27 @@ class SignUpScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       clipBehavior: Clip.none,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const WaterLogo(),
-          const SizedBox(height: 36.0),
-          _buildCreateAccountLabel(),
-          const SizedBox(height: 12.0),
-          _buildInputForm(),
-          const SizedBox(height: 40.0),
-          _buildSignUpLabel(),
-          const SizedBox(height: 24.0),
-          _buildSignUpButtons(context),
-          const SizedBox(height: 24.0),
-          _buildRegisterButton(context),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const WaterLogo(),
+              const SizedBox(height: 36.0),
+              _buildCreateAccountLabel(),
+              const SizedBox(height: 12.0),
+              _buildInputForm(),
+              const SizedBox(height: 40.0),
+              _buildSignUpLabel(),
+              const SizedBox(height: 24.0),
+              _buildSignUpButtons(context),
+              const SizedBox(height: 24.0),
+              _buildRegisterButton(context),
+            ],
+          ),
+        ),
       ),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );

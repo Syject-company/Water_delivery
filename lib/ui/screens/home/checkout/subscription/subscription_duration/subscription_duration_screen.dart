@@ -67,14 +67,20 @@ class _SubscriptionDurationScreenState
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
       physics: const BouncingScrollPhysics(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHintText(),
-          const SizedBox(height: 24.0),
-          _buildSubscriptionDurationPicker(),
-          if (_selectedDuration != null) _buildSelectedDurationText(),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildHintText(),
+              const SizedBox(height: 24.0),
+              _buildSubscriptionDurationPicker(),
+              if (_selectedDuration != null) _buildSelectedDurationText(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -127,14 +133,19 @@ class _SubscriptionDurationScreenState
       decoration: BoxDecoration(
         border: Border(top: defaultBorder),
       ),
-      child: WaterButton(
-        enabled: _selectedDuration != null,
-        onPressed: () {
-          context.subscription.add(
-            SubmitSubscriptionDuration(months: _selectedDuration!),
-          );
-        },
-        text: 'button.next'.tr(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          WaterButton(
+            enabled: _selectedDuration != null,
+            onPressed: () {
+              context.subscription.add(
+                SubmitSubscriptionDuration(months: _selectedDuration!),
+              );
+            },
+            text: 'button.next'.tr(),
+          ),
+        ],
       ),
     );
   }

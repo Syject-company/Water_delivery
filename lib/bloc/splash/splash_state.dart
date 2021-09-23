@@ -1,22 +1,27 @@
 part of 'splash_bloc.dart';
 
-@immutable
 abstract class SplashState extends Equatable {
   const SplashState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class SplashInitial extends SplashState {
   const SplashInitial();
+}
+
+class ImagesPreloaded extends SplashState {
+  const ImagesPreloaded({required this.images});
+
+  final List<String> images;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [images];
 }
 
 class SplashLoading extends SplashState {
   const SplashLoading();
-
-  @override
-  List<Object> get props => [];
 }
 
 class SplashVideo extends SplashState {

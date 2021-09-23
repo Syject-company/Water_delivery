@@ -8,7 +8,7 @@ class ProductService {
   static const String _endpoint =
       'https://gulfaweb.azurewebsites.net/ShopItems';
 
-  Future<List<Product>> getAll(String language) async {
+  Future<List<Product>> getAll([String language = 'en']) async {
     final response = await Http.get(
       _endpoint,
       headers: {
@@ -31,9 +31,9 @@ class ProductService {
   }
 
   Future<List<Product>> getAllByCategoryId(
-    String categoryId,
-    String language,
-  ) async {
+    String categoryId, [
+    String language = 'en',
+  ]) async {
     final response = await Http.get(
       _endpoint,
       headers: {

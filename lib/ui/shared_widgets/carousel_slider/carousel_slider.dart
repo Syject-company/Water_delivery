@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 part 'carousel_options.dart';
 
@@ -88,11 +89,12 @@ class _CarouselSliderState extends State<CarouselSlider> {
           axisDirection: axisDirection,
           controller: _pageController,
           physics: physics,
-          viewportBuilder: (context, position) {
+          viewportBuilder: (_, position) {
             return Viewport(
               cacheExtent: widget.options.allowImplicitScrolling ? 1.0 : 0.0,
               cacheExtentStyle: CacheExtentStyle.viewport,
               axisDirection: axisDirection,
+              clipBehavior: Clip.none,
               offset: position,
               slivers: [
                 SliverFillViewport(
@@ -149,7 +151,7 @@ class _CarouselSliderState extends State<CarouselSlider> {
   }
 
   double _calculateHeight() {
-    return ((MediaQuery.of(context).size.width / widget.options.aspectRatio) *
+    return ((100.w / widget.options.aspectRatio) *
             widget.options.viewportFraction) -
         (widget.options.spaceBetween / 2);
   }

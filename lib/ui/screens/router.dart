@@ -19,24 +19,24 @@ class RootRouter {
     switch (settings.name) {
       case AppRoutes.splash:
         return SlideWithFadePageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => SplashBloc()..add(Loading()),
+          builder: (_) => BlocProvider(
+            create: (_) => SplashBloc()..add(PreloadImages()),
             child: SplashScreen(),
           ),
         );
       case AppRoutes.selectLanguage:
         return SlideWithFadePageRoute(
-          builder: (context) => SelectLanguageScreen(),
+          builder: (_) => SelectLanguageScreen(),
         );
       case AppRoutes.home:
         return SlideWithFadePageRoute(
-          builder: (context) => LoaderOverlay(
+          builder: (_) => LoaderOverlay(
             child: HomeNavigator(),
           ),
         );
       default:
         return SlideWithFadePageRoute(
-          builder: (context) => Scaffold(
+          builder: (_) => Scaffold(
             body: Center(
               child: Text(
                 'No route defined for ${settings.name}',

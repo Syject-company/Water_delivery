@@ -16,7 +16,10 @@ class SuccessfulPaymentAlert extends StatelessWidget {
       ),
       title: _buildTitle(),
       content: Container(
-        width: MediaQuery.of(context).size.width,
+        width: 100.w,
+        constraints: BoxConstraints(
+          maxWidth: 264.0,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

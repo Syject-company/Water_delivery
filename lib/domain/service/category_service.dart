@@ -8,11 +8,11 @@ class CategoryService {
   static const String _endpoint =
       'https://gulfaweb.azurewebsites.net/Categories';
 
-  Future<List<Category>> getAll(String locale) async {
+  Future<List<Category>> getAll([String language = 'en']) async {
     final response = await Http.get(
       _endpoint,
       headers: {
-        HttpHeaders.acceptLanguageHeader: locale,
+        HttpHeaders.acceptLanguageHeader: language,
       },
     );
 

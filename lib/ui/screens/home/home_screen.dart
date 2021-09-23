@@ -32,10 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didUpdateWidget(HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
     final language = Localization.currentLanguage(context);
     final shoppingState = context.shopping.state;
     final categoriesState = context.categories.state;
     final productsState = context.products.state;
+    final profileState = context.profile.state;
 
     if (categoriesState is CategoriesLoaded) {
       context.categories.add(
@@ -55,14 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     }
-    context.profile.add(
-      UpdateProfile(),
-    );
+    if (profileState.status == ProfileStatus.loaded) {
+      context.profile.add(
+        UpdateProfile(),
+      );
+    }
     context.cart.add(
       LoadCart(language: language),
     );
-
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -191,12 +194,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (context.navigation.state is! Home) {
-      context.navigation.add(NavigateTo(screen: Screen.home));
+      context.navigation.add(
+        NavigateTo(screen: Screen.home),
+      );
       return false;
     }
 
     if (context.navigation.state is Products) {
-      context.navigation.add(BackPressed());
+      context.navigation.add(
+        BackPressed(),
+      );
       return false;
     }
 

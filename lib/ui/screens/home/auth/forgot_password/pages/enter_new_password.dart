@@ -21,17 +21,23 @@ class EnterNewPasswordPage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
       clipBehavior: Clip.none,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const WaterLogo(),
-          const SizedBox(height: 36.0),
-          _buildEnterNewPasswordLabel(),
-          const SizedBox(height: 12.0),
-          _buildInputForm(context),
-          const SizedBox(height: 24.0),
-          _buildLogInButton(context),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const WaterLogo(),
+              const SizedBox(height: 36.0),
+              _buildEnterNewPasswordLabel(),
+              const SizedBox(height: 12.0),
+              _buildInputForm(context),
+              const SizedBox(height: 24.0),
+              _buildLogInButton(context),
+            ],
+          ),
+        ),
       ),
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
@@ -79,8 +85,7 @@ class EnterNewPasswordPage extends StatelessWidget {
           const SizedBox(height: 16.0),
           WaterFormInput(
             controller: _passwordController,
-            validator: const PasswordValidator(fieldName: 'Password')
-                .validator,
+            validator: const PasswordValidator(fieldName: 'Password').validator,
             hintText: 'input.password'.tr(),
             keyboardType: TextInputType.visiblePassword,
           ),

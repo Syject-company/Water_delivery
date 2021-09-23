@@ -25,17 +25,23 @@ class SelectLanguageScreen extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
       physics: const BouncingScrollPhysics(),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const WaterLogo(),
-          const SizedBox(height: 64.0),
-          _buildSelectLanguageLabel(),
-          const SizedBox(height: 32.0),
-          _buildLanguagePicker(context),
-          const SizedBox(height: 40.0),
-          _buildSaveButton(context),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const WaterLogo(),
+              const SizedBox(height: 64.0),
+              _buildSelectLanguageLabel(),
+              const SizedBox(height: 32.0),
+              _buildLanguagePicker(context),
+              const SizedBox(height: 40.0),
+              _buildSaveButton(context),
+            ],
+          ),
+        ),
       ),
     );
   }

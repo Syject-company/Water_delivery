@@ -64,8 +64,6 @@ class CartListItem extends StatelessWidget {
         aspectRatio: 1.0,
         child: CachedNetworkImage(
           imageUrl: cartItem.product.imageUri,
-          fadeInDuration: const Duration(milliseconds: 250),
-          fadeOutDuration: const Duration(milliseconds: 250),
           fadeInCurve: Curves.fastOutSlowIn,
           fadeOutCurve: Curves.fastOutSlowIn,
         ),

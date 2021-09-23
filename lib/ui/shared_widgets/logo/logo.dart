@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/constants/paths.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 class WaterLogo extends StatelessWidget {
   const WaterLogo({
@@ -35,7 +36,7 @@ class WaterLogo extends StatelessWidget {
     return SvgPicture.asset(
       Paths.logo_icon,
       color: AppColors.primaryLight,
-      width: MediaQuery.of(context).size.width / iconWidthFactor,
+      width: 100.w / (isMobile ? iconWidthFactor : iconWidthFactor * 1.5),
     );
   }
 
@@ -43,7 +44,7 @@ class WaterLogo extends StatelessWidget {
     return SvgPicture.asset(
       Paths.logo_label_colored,
       color: labelColor,
-      width: MediaQuery.of(context).size.width / labelWidthFactor,
+      width: 100.w / (isMobile ? labelWidthFactor : labelWidthFactor * 1.5),
     );
   }
 }

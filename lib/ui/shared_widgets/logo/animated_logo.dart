@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:water/ui/constants/paths.dart';
-
-const double _iconWidthFactor = 3.25;
+import 'package:water/ui/shared_widgets/water.dart';
 
 class WaterAnimatedLogo extends StatelessWidget {
   const WaterAnimatedLogo({
     Key? key,
-    this.widthFactor = _iconWidthFactor,
+    required this.widthFactor,
   }) : super(key: key);
 
   final double widthFactor;
@@ -21,7 +20,7 @@ class WaterAnimatedLogo extends StatelessWidget {
     return Lottie.asset(
       Paths.drop_logo,
       frameRate: FrameRate.max,
-      width: MediaQuery.of(context).size.width / widthFactor,
+      width: 100.w / (isMobile ? widthFactor : widthFactor * 1.5),
     );
   }
 }

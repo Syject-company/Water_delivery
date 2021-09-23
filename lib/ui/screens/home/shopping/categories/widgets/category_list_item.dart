@@ -47,8 +47,6 @@ class CategoryListItem extends StatelessWidget {
               Expanded(
                 child: CachedNetworkImage(
                   imageUrl: category.imageUri,
-                  fadeInDuration: const Duration(milliseconds: 250),
-                  fadeOutDuration: const Duration(milliseconds: 250),
                   fadeInCurve: Curves.fastOutSlowIn,
                   fadeOutCurve: Curves.fastOutSlowIn,
                 ),
@@ -58,6 +56,7 @@ class CategoryListItem extends StatelessWidget {
                 category.title,
                 fontSize: 18.0,
                 lineHeight: 1.5,
+                textAlign: TextAlign.center,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primaryText,
               ),

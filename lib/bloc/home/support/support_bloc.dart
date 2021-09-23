@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -48,7 +47,8 @@ class SupportBloc extends Bloc<SupportEvent, SupportState> {
       await _supportService.sendMessage(form);
 
       yield state.copyWith(status: MessageStatus.sent);
-    } on HttpException catch (e) {
+    } catch (_) {
+      print(_);
       yield state.copyWith(status: MessageStatus.failed);
     }
   }

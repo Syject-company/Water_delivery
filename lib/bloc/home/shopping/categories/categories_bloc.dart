@@ -9,7 +9,6 @@ import 'package:water/domain/service/category_service.dart';
 import 'package:water/locator.dart';
 
 part 'categories_event.dart';
-
 part 'categories_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -43,8 +42,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       yield CategoriesLoaded(categories: _cachedCategories);
     }
 
-    final categories = await _categoryService.getAll(event.language);
+    final categories =
+        _cachedCategories = await _categoryService.getAll(event.language);
     yield CategoriesLoaded(categories: categories);
-    _cachedCategories = categories;
   }
 }

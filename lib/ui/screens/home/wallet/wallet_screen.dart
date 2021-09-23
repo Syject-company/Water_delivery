@@ -64,32 +64,40 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24.0),
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          const SizedBox(height: 64.0),
-          _buildBalanceText(),
-          const SizedBox(height: 32.0),
-          PageTransitionSwitcher(
-            reverse: !_enableAddBalanceForm,
-            layoutBuilder: _defaultLayoutBuilder,
-            duration: const Duration(milliseconds: 375),
-            transitionBuilder: (child, animation, secondaryAnimation) {
-              return SharedAxisTransition(
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                transitionType: SharedAxisTransitionType.horizontal,
-                fillColor: AppColors.white,
-                child: child,
-              );
-            },
-            child: !_enableAddBalanceForm
-                ? _buildAddBalanceButton()
-                : AddBalanceForm(),
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        physics: const BouncingScrollPhysics(),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: isMobile ? 100.w : 50.w,
+            child: Column(
+              children: [
+                const SizedBox(height: 64.0),
+                _buildBalanceText(),
+                const SizedBox(height: 32.0),
+                PageTransitionSwitcher(
+                  reverse: !_enableAddBalanceForm,
+                  layoutBuilder: _defaultLayoutBuilder,
+                  duration: const Duration(milliseconds: 375),
+                  transitionBuilder: (child, animation, secondaryAnimation) {
+                    return SharedAxisTransition(
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                      fillColor: AppColors.white,
+                      child: child,
+                    );
+                  },
+                  child: !_enableAddBalanceForm
+                      ? _buildAddBalanceButton()
+                      : AddBalanceForm(),
+                ),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

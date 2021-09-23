@@ -5,15 +5,13 @@ part 'bottom_navigation_bar_item.dart';
 
 typedef SelectCallback = void Function(int index);
 
+const double bottomNavigationBarHeight = 80.0;
+
 const double _iconSize = 32.0;
 const Color _selectedIconColor = AppColors.white;
 const Color _deselectedIconColor = AppColors.bottomNavBarIconColor;
 const Color _disabledIconColor = AppColors.disabled;
 const double _borderRadius = 15.0;
-
-const double bottomNavigationBarHeight = 80.0;
-const EdgeInsetsGeometry _contentPadding =
-    EdgeInsets.symmetric(vertical: 12.0, horizontal: 36.0);
 
 class WaterBottomNavigationBar extends StatelessWidget {
   WaterBottomNavigationBar({
@@ -30,7 +28,8 @@ class WaterBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: _contentPadding,
+      padding: EdgeInsets.symmetric(
+          vertical: 12.0, horizontal: isMobile ? 36.0 : 48.0),
       height: bottomNavigationBarHeight,
       decoration: const BoxDecoration(
         border: Border(top: defaultBorder),

@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/domain/model/data/cities.dart';
@@ -44,6 +46,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             context.showLoader(true);
           } else if (state.status == ProfileStatus.saved) {
             context.showLoader(false);
+          } else if (state.status == ProfileStatus.error) {
+            showWaterDialog(context, ErrorAlert());
+            context.showLoader(false);
           }
         },
         buildWhen: (_, state) {
@@ -56,69 +61,117 @@ class _ProfileScreenState extends State<ProfileScreen> {
             context.showLoader(true);
           } else if (state.status == ProfileStatus.loaded) {
             context.showLoader(false);
+          } else if (state.status == ProfileStatus.error) {
+            showWaterDialog(context, ErrorAlert());
+            context.showLoader(false);
           }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildLanguageText(),
-                const SizedBox(height: 24.0),
-                _buildLanguagePicker(context),
-                const SizedBox(height: 24.0),
-                _buildUserInputForm(context, state),
-                const SizedBox(height: 24.0),
-                _buildDeliveryInputForm(state),
-                const SizedBox(height: 24.0),
-                _buildFamilyMembersPicker(state),
-                const SizedBox(height: 24.0),
-                _buildSaveButton(),
-                const SizedBox(height: 16.0),
-                _buildChangePasswordButton(),
-                const SizedBox(height: 16.0),
-                _buildLogOutButton(),
-              ],
-            ),
-          );
+          return isMobile
+              ? _buildMobileLayout(state)
+              : _buildTabletLayout(state);
         },
       ),
     );
   }
 
-  Widget _buildLanguageText() {
-    return WaterText(
-      'text.language'.tr(),
-      fontSize: 18.0,
-      lineHeight: 1.75,
-      fontWeight: FontWeight.w700,
-      color: AppColors.primaryText,
-    ).withPadding(24.0, 0.0, 0.0, 0.0);
+  Widget _buildMobileLayout(ProfileState state) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildLanguagePicker(),
+          const SizedBox(height: 24.0),
+          _buildUserInputForm(state),
+          const SizedBox(height: 24.0),
+          _buildDeliveryInputForm(state),
+          const SizedBox(height: 24.0),
+          _buildFamilyMembersPicker(state),
+          const SizedBox(height: 24.0),
+          _buildSaveButton(),
+          const SizedBox(height: 16.0),
+          _buildChangePasswordButton(),
+          const SizedBox(height: 16.0),
+          _buildLogOutButton(),
+        ],
+      ),
+    );
   }
 
-  Widget _buildLanguagePicker(BuildContext context) {
-    return WaterRadioGroup<Locale>(
-      onChanged: (locale) {
-        Localization.changeLocale(context, locale);
-      },
-      initialValue: Localization.currentLocale(context),
-      values: {
-        const Locale('en'): 'English',
-        const Locale('ar'): 'العربية',
-      },
-      axis: Axis.horizontal,
-      spaceBetween: 0.0,
-      labelFontSize: 15.0,
-      labelLineHeight: 1.25,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    ).withPadding(48.0, 0.0, 48.0, 0.0);
+  Widget _buildTabletLayout(ProfileState state) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildLanguagePicker(),
+          const SizedBox(height: 24.0),
+          StaggeredGridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisSpacing: 24.0,
+            crossAxisCount: 2,
+            staggeredTiles: [
+              StaggeredTile.fit(1),
+              StaggeredTile.fit(1),
+            ],
+            children: [
+              _buildUserInputForm(state),
+              _buildDeliveryInputForm(state),
+            ],
+            shrinkWrap: true,
+          ),
+          const SizedBox(height: 24.0),
+          _buildFamilyMembersPicker(state),
+          const SizedBox(height: 24.0),
+          Column(
+            children: [
+              _buildSaveButton(),
+              const SizedBox(height: 16.0),
+              _buildChangePasswordButton(),
+              const SizedBox(height: 16.0),
+              _buildLogOutButton(),
+            ],
+          )
+        ],
+      ),
+    );
   }
 
-  Widget _buildUserInputForm(
-    BuildContext context,
-    ProfileState state,
-  ) {
+  Widget _buildLanguagePicker() {
+    return Column(
+      crossAxisAlignment:
+          isMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      children: [
+        WaterText(
+          'text.language'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.75,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
+        ).withPadding(isMobile ? 24.0 : 0.0, 0.0, 0.0, 0.0),
+        const SizedBox(height: 24.0),
+        WaterRadioGroup<Locale>(
+          onChanged: (locale) {
+            Localization.changeLocale(context, locale);
+          },
+          initialValue: Localization.currentLocale(context),
+          values: {
+            const Locale('en'): 'English',
+            const Locale('ar'): 'العربية',
+          },
+          axis: Axis.horizontal,
+          spaceBetween: 0.0,
+          labelFontSize: 16.0,
+          labelLineHeight: 1.25,
+          mainAxisAlignment: isMobile
+              ? MainAxisAlignment.spaceBetween
+              : MainAxisAlignment.spaceEvenly,
+        ).withPadding(48.0, 0.0, 48.0, 0.0),
+      ],
+    );
+  }
+
+  Widget _buildUserInputForm(ProfileState state) {
     _firstNameController.text = state.firstName ?? '';
     _lastNameController.text = state.lastName ?? '';
     _emailController.text = state.email ?? '';
@@ -130,53 +183,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _birthdayController.text = formattedBirthday ?? '';
     _nationalityController.text = state.nationality ?? '';
 
-    return Form(
-      child: Column(
-        children: [
-          WaterFormInput(
-            controller: _firstNameController,
-            hintText: 'input.first_name'.tr(),
-            keyboardType: TextInputType.text,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        WaterText(
+          'text.my_account'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.75,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
+        ).withPadding(24.0, 0.0, 0.0, 24.0),
+        WaterFormInput(
+          controller: _firstNameController,
+          hintText: 'input.first_name'.tr(),
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _lastNameController,
+          hintText: 'input.last_name'.tr(),
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _emailController,
+          hintText: 'input.email'.tr(),
+          readOnly: true,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _phoneNumberController,
+          hintText: '00971544400611',
+          prefixIcon: Icon(
+            AppIcons.phone,
+            size: 32.0,
           ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _lastNameController,
-            hintText: 'input.last_name'.tr(),
-            keyboardType: TextInputType.text,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _emailController,
-            hintText: 'input.email'.tr(),
-            readOnly: true,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _phoneNumberController,
-            hintText: '00971544400611',
-            prefixIcon: Icon(
-              AppIcons.phone,
-              size: 32.0,
-            ),
-            keyboardType: TextInputType.phone,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormDatePicker(
-            key: _birthdayDatePickerKey,
-            controller: _birthdayController,
-            format: DateFormat.yMMMMd(),
-            hintText: 'input.birthday'.tr(),
-            helpText: 'input.select_birthday_date'.tr(),
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormSelect(
-            controller: _nationalityController,
-            hintText: 'input.nationality'.tr(),
-            helpText: 'input.select_nationality'.tr(),
-            items: nationalities,
-          ),
-        ],
-      ),
+          keyboardType: TextInputType.phone,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormDatePicker(
+          key: _birthdayDatePickerKey,
+          controller: _birthdayController,
+          format: DateFormat.yMMMMd(),
+          hintText: 'input.birthday'.tr(),
+          helpText: 'input.select_birthday_date'.tr(),
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormSelect(
+          controller: _nationalityController,
+          hintText: 'input.nationality'.tr(),
+          helpText: 'input.select_nationality'.tr(),
+          items: nationalities,
+        ),
+      ],
     );
   }
 
@@ -195,70 +254,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _floorController.text = state.floor ?? '';
     _apartmentController.text = state.apartment ?? '';
 
-    return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          WaterText(
-            'text.delivery_address'.tr(),
-            fontSize: 18.0,
-            lineHeight: 1.75,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primaryText,
-          ).withPadding(24.0, 0.0, 0.0, 0.0),
-          const SizedBox(height: 24.0),
-          WaterFormSelect(
-            controller: _cityController,
-            hintText: 'input.select_emirate'.tr(),
-            helpText: 'input.select_emirate'.tr(),
-            onChanged: (value) {
-              _districtSelectKey.currentState!.setItems(
-                cities.firstWhereOrNull((city) {
-                      return city.name == value;
-                    })?.districts ??
-                    [],
-              );
-            },
-            items: cities.map((city) => city.name).toList(),
-            enableSearch: false,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormSelect(
-            key: _districtSelectKey,
-            controller: _districtController,
-            hintText: 'input.select_district'.tr(),
-            helpText: 'input.select_district'.tr(),
-            items: cities.firstWhereOrNull((city) {
-                  return city.name == _cityController.text;
-                })?.districts ??
-                [],
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _streetController,
-            hintText: 'input.street'.tr(),
-            keyboardType: TextInputType.text,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _buildingController,
-            hintText: 'input.building'.tr(),
-            keyboardType: TextInputType.text,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _floorController,
-            hintText: 'input.floor'.tr(),
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 16.0),
-          WaterFormInput(
-            controller: _apartmentController,
-            hintText: 'input.apartment'.tr(),
-            keyboardType: TextInputType.text,
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        WaterText(
+          'text.delivery_address'.tr(),
+          fontSize: 18.0,
+          lineHeight: 1.75,
+          fontWeight: FontWeight.w700,
+          color: AppColors.primaryText,
+        ).withPadding(24.0, 0.0, 0.0, 24.0),
+        WaterFormSelect(
+          controller: _cityController,
+          hintText: 'input.select_emirate'.tr(),
+          helpText: 'input.select_emirate'.tr(),
+          onChanged: (value) {
+            _districtSelectKey.currentState!.setItems(
+              cities.firstWhereOrNull((city) {
+                    return city.name == value;
+                  })?.districts ??
+                  [],
+            );
+          },
+          items: cities.map((city) => city.name).toList(),
+          enableSearch: false,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormSelect(
+          key: _districtSelectKey,
+          controller: _districtController,
+          hintText: 'input.select_district'.tr(),
+          helpText: 'input.select_district'.tr(),
+          items: cities.firstWhereOrNull((city) {
+                return city.name == _cityController.text;
+              })?.districts ??
+              [],
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _streetController,
+          hintText: 'input.street'.tr(),
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _buildingController,
+          hintText: 'input.building'.tr(),
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _floorController,
+          hintText: 'input.floor'.tr(),
+          keyboardType: TextInputType.number,
+        ),
+        const SizedBox(height: 16.0),
+        WaterFormInput(
+          controller: _apartmentController,
+          hintText: 'input.apartment'.tr(),
+          keyboardType: TextInputType.text,
+        ),
+      ],
     );
   }
 

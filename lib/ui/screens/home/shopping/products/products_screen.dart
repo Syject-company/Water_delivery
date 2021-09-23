@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
-import 'package:water/ui/extensions/widget.dart';
-import 'package:water/ui/shared_widgets/shimmer.dart';
+import 'package:water/ui/shared_widgets/water.dart';
 
 import 'widgets/product_list_item.dart';
 import 'widgets/product_loading_list_item.dart';
@@ -34,6 +32,9 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsBloc, ProductsState>(
+      buildWhen: (_, state) {
+        return state is ProductsLoading || state is ProductsLoaded;
+      },
       builder: (_, state) {
         Widget page = _buildProductsLoader();
         if (state is ProductsLoaded) {
@@ -42,6 +43,7 @@ class ProductsScreen extends StatelessWidget {
 
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
+          reverseDuration: const Duration(milliseconds: 250),
           switchInCurve: Curves.fastOutSlowIn,
           switchOutCurve: Curves.fastOutSlowIn,
           child: page,
@@ -54,8 +56,8 @@ class ProductsScreen extends StatelessWidget {
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
       physics: const BouncingScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isMobile ? 2 : 3,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
         childAspectRatio: 0.67,
@@ -78,13 +80,13 @@ class ProductsScreen extends StatelessWidget {
         child: GridView.builder(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: isMobile ? 2 : 3,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
             childAspectRatio: 0.67,
           ),
-          itemCount: 10,
+          itemCount: 12,
           itemBuilder: (_, __) {
             return ProductLoadingListItem();
           },

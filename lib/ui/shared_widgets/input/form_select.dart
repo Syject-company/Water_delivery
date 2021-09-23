@@ -1,6 +1,7 @@
 part of form_fields;
 
-const double _itemHeight = 48.0;
+const double _itemHeight = 54.0;
+const double _maxWidth = 330.0;
 
 class WaterFormSelect extends StatefulWidget {
   const WaterFormSelect({
@@ -117,7 +118,7 @@ class WaterFormSelectState extends State<WaterFormSelect>
         WaterText(
           widget.labelText!,
           maxLines: 1,
-          fontSize: 15.0,
+          fontSize: 16.0,
           lineHeight: 1.25,
           overflow: TextOverflow.fade,
           fontWeight: FontWeight.w700,
@@ -204,9 +205,10 @@ class _SelectDialogState extends State<_SelectDialog> {
             )
           : null,
       content: Container(
-        width: MediaQuery.of(context).size.width,
+        width: 100.w,
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height / 1.5,
+          maxWidth: _maxWidth,
+          maxHeight: 66.h,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

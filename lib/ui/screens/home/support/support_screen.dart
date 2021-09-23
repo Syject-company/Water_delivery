@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/support/support_bloc.dart';
+import 'package:water/main.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
@@ -24,11 +25,14 @@ class SupportScreen extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       body: BlocListener<SupportBloc, SupportState>(
-        listener: (_, state) {
+        listener: (context, state) {
+          print(state);
           context.showLoader(state.status == MessageStatus.sending);
 
           if (state.status == MessageStatus.sent) {
             _messageController.clear();
+          } else if (state.status == MessageStatus.failed) {
+            showWaterDialog(context, ErrorAlert());
           }
         },
         child: _buildBody(context),
@@ -64,17 +68,22 @@ class SupportScreen extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
       physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildCredentialsForm(context),
-          const SizedBox(height: 24.0),
-          _buildMessageForm(),
-          const SizedBox(height: 24.0),
-          _buildSendButton(context),
-          const SizedBox(height: 16.0),
-          _buildCallButton()
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: isMobile ? 100.w : 50.w,
+          child: Column(
+            children: [
+              _buildCredentialsForm(context),
+              const SizedBox(height: 24.0),
+              _buildMessageForm(),
+              const SizedBox(height: 24.0),
+              _buildSendButton(context),
+              const SizedBox(height: 16.0),
+              _buildCallButton()
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -144,6 +153,7 @@ class SupportScreen extends StatelessWidget {
             hintText: 'input.your_message'.tr(),
             keyboardType: TextInputType.multiline,
             validator: const FieldValidator(fieldName: 'Message').validator,
+            autovalidateMode: AutovalidateMode.disabled,
             maxLines: 5,
           ),
         ],
