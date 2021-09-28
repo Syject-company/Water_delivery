@@ -45,7 +45,8 @@ class HomeNavigator extends StatelessWidget {
               lazy: false,
             ),
             BlocProvider(
-              create: (_) => BannersBloc()..add(LoadBanners()),
+              create: (_) =>
+                  BannersBloc()..add(LoadBanners(language: language)),
               lazy: false,
             ),
             BlocProvider(

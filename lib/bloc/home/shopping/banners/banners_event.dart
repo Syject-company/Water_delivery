@@ -8,5 +8,10 @@ abstract class BannersEvent extends Equatable {
 }
 
 class LoadBanners extends BannersEvent {
-  const LoadBanners();
+  const LoadBanners({required this.language});
+
+  final String language;
+
+  @override
+  List<Object> get props => [language];
 }

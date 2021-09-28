@@ -11,7 +11,7 @@ class OrderService {
 
   Future<List<Order>> getAll(String token) async {
     final response = await Http.get(
-      _endpoint,
+      '$_endpoint/user',
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },

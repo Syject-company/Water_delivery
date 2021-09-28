@@ -30,6 +30,7 @@ class SupportScreen extends StatelessWidget {
           context.showLoader(state.status == MessageStatus.sending);
 
           if (state.status == MessageStatus.sent) {
+            _showToast(context, 'toast.message_sent'.tr());
             _messageController.clear();
           } else if (state.status == MessageStatus.failed) {
             showWaterDialog(context, ErrorAlert());
@@ -164,6 +165,8 @@ class SupportScreen extends StatelessWidget {
   Widget _buildSendButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
+        FocusScope.of(context).unfocus();
+
         if (!_credentialsFormKey.currentState!.validate()) {
           return;
         }
@@ -195,6 +198,39 @@ class SupportScreen extends StatelessWidget {
       onPressed: () {},
       text: 'button.click_to_call'.tr(),
       radialRadius: 3.0,
+    );
+  }
+
+  void _showToast(BuildContext context, String message) {
+    return ToastBuilder.of(context).showToast(
+      child: Container(
+        height: 64.0,
+        padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.fromBorderSide(defaultBorder),
+          borderRadius: BorderRadius.circular(19.0),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.15),
+              spreadRadius: 0.0,
+              blurRadius: 6.0,
+              offset: const Offset(0.0, 3.0),
+            ),
+          ],
+        ),
+        child: Center(
+          child: WaterText(
+            message,
+            fontSize: 18.0,
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
+            decoration: TextDecoration.none,
+          ),
+        ),
+      ),
+      duration: const Duration(seconds: 2),
     );
   }
 }

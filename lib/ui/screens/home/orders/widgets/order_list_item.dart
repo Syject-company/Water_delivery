@@ -265,6 +265,10 @@ class _OrderListItemState extends State<OrderListItem>
       status = 'text.order_created'.tr();
     } else if (_order.status == 'Paid') {
       status = 'text.order_paid'.tr();
+    } else if (_order.status == 'Delivered') {
+      status = 'text.order_delivered'.tr();
+    } else if (_order.status == 'Issue') {
+      status = 'text.order_issue'.tr();
     }
 
     return Row(

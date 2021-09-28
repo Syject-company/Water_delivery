@@ -10,7 +10,6 @@ import 'package:water/locator.dart';
 import 'package:water/util/session.dart';
 
 part 'orders_event.dart';
-
 part 'orders_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -38,11 +37,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       if (Session.isAuthenticated) {
         yield OrdersLoading();
         final orders = await _orderService.getAll(Session.token!);
-        yield OrdersLoaded(
-          orders: orders.where((order) {
-            return order.status != 'Created';
-          }).toList(),
-        );
+        yield OrdersLoaded(orders: orders);
       }
     } catch (_) {
       yield OrdersError();

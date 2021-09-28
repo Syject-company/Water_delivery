@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
+import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
 import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
@@ -36,10 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final language = Localization.currentLanguage(context);
     final shoppingState = context.shopping.state;
+    final bannersState = context.banners.state;
     final categoriesState = context.categories.state;
     final productsState = context.products.state;
     final profileState = context.profile.state;
 
+    if (bannersState is BannersLoaded) {
+      context.banners.add(
+        LoadBanners(language: language),
+      );
+    }
     if (categoriesState is CategoriesLoaded) {
       context.categories.add(
         LoadCategories(

@@ -182,6 +182,8 @@ class DeliveryAddressScreen extends StatelessWidget {
         children: [
           WaterButton(
             onPressed: () {
+              FocusScope.of(context).unfocus();
+
               if (!_deliveryAddressFormKey.currentState!.validate()) {
                 return;
               }

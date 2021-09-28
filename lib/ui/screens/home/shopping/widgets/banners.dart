@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
@@ -32,8 +33,8 @@ class Banners extends StatelessWidget {
   Widget _buildBanners(BannersLoaded state) {
     return CarouselSlider(
       options: CarouselOptions(
-        aspectRatio: 2.53,
-        viewportFraction: isMobile ? 1.0 : 0.5,
+        aspectRatio: 1.9,
+        viewportFraction: isMobile ? 0.75 : 0.5,
         spaceBetween: 12.0,
       ),
       items: state.banners.map((banner) {
@@ -51,7 +52,7 @@ class Banners extends StatelessWidget {
     return ShimmerLoading(
       isLoading: true,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
         physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: SeparatedRow(
@@ -61,7 +62,7 @@ class Banners extends StatelessWidget {
             _buildLoadingItem(context),
             _buildLoadingItem(context),
           ],
-          separator: const SizedBox(width: 12.0),
+          separator: const SizedBox.shrink(),
         ),
       ),
     );
@@ -69,8 +70,7 @@ class Banners extends StatelessWidget {
 
   Widget _buildLoadingItem(BuildContext context) {
     return Container(
-      width: 100.w * (isMobile ? 1.0 : 0.5) - 18.0,
-      height: (100.w * (isMobile ? 1.0 : 0.5) - 18.0) / 2.53,
+      width: 100.w * (isMobile ? 0.75 : 0.5) - 18.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
         gradient: RadialGradient(
@@ -85,13 +85,16 @@ class Banners extends StatelessWidget {
           radius: 1.0,
         ),
       ),
-      child: Center(
-        child: Icon(
-          AppIcons.placeholder,
-          color: AppColors.grey,
-          size: 80.0,
+      child: AspectRatio(
+        aspectRatio: 1.9,
+        child: Center(
+          child: Icon(
+            AppIcons.placeholder,
+            color: AppColors.grey,
+            size: 80.0,
+          ),
         ),
       ),
-    );
+    ).withPadding(6.0, 0.0, 6.0, 0.0);
   }
 }

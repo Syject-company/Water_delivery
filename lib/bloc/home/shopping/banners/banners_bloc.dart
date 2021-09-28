@@ -41,7 +41,7 @@ class BannersBloc extends Bloc<BannersEvent, BannersState> {
       yield BannersLoaded(banners: _cachedBanners);
     }
 
-    final banners = await _bannerService.getAll();
+    final banners = await _bannerService.getAll(event.language);
     yield BannersLoaded(banners: banners);
     _cachedBanners.addAll([...banners]);
   }

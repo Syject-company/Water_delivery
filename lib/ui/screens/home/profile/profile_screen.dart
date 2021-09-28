@@ -45,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state.status == ProfileStatus.saving) {
             context.showLoader(true);
           } else if (state.status == ProfileStatus.saved) {
+            _showToast('toast.profile_saved'.tr());
             context.showLoader(false);
           } else if (state.status == ProfileStatus.error) {
             showWaterDialog(context, ErrorAlert());
@@ -346,6 +347,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildSaveButton() {
     return WaterButton(
       onPressed: () {
+        FocusScope.of(context).unfocus();
+
         final language = 'en';
         final firstName = _firstNameController.text;
         final lastName = _lastNameController.text;
@@ -398,6 +401,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
       text: 'button.logout'.tr(),
       radialRadius: 3.0,
+    );
+  }
+
+  void _showToast(String message) {
+    return ToastBuilder.of(context).showToast(
+      child: Container(
+        height: 64.0,
+        padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.fromBorderSide(defaultBorder),
+          borderRadius: BorderRadius.circular(19.0),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.15),
+              spreadRadius: 0.0,
+              blurRadius: 6.0,
+              offset: const Offset(0.0, 3.0),
+            ),
+          ],
+        ),
+        child: Center(
+          child: WaterText(
+            message,
+            fontSize: 18.0,
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryText,
+            decoration: TextDecoration.none,
+          ),
+        ),
+      ),
+      duration: const Duration(seconds: 2),
     );
   }
 }

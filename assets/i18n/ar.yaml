@@ -57,6 +57,8 @@ text:
   status: "حالة"
   order_created: "مخلوق"
   order_paid: "دفع"
+  order_delivered: "تم التوصيل"
+  order_issue: "مشكلة"
   subscription_active: "نشيط"
   subscription_stopped: "توقفت"
   your_credentials: "أوراق اعتمادك"
@@ -151,3 +153,5 @@ side_menu:
 toast:
   product_added: "تمت إضافة المنتج إلى عربة التسوق!"
   product_removed: "تمت إزالة المنتج من عربة التسوق!"
+  profile_saved: "تم حفظ الملف الشخصي بنجاح"
+  message_sent: "تم ارسال الرسالة بنجاح"

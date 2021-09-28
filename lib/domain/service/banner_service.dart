@@ -7,8 +7,13 @@ import 'package:water/util/http.dart';
 class BannerService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Banners';
 
-  Future<List<water.Banner>> getAll() async {
-    final response = await Http.get(_endpoint);
+  Future<List<water.Banner>> getAll([String language = 'en']) async {
+    final response = await Http.get(
+      '$_endpoint/localized',
+      headers: {
+        HttpHeaders.acceptLanguageHeader: language,
+      },
+    );
 
     if (response.statusCode != HttpStatus.ok) {
       throw HttpException(response.body);

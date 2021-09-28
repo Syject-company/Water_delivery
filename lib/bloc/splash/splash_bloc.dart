@@ -36,12 +36,14 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   Stream<SplashState> _mapPreloadImagesToState() async* {
-    final banners = await _bannerService.getAll();
+    final enBanners = await _bannerService.getAll('en');
+    final arBanners = await _bannerService.getAll('ar');
     final categories = await _categoryService.getAll();
     final products = await _productService.getAll();
 
     yield ImagesPreloaded(images: [
-      ...banners.map((banner) => banner.image),
+      ...enBanners.map((banner) => banner.image),
+      ...arBanners.map((banner) => banner.image),
       ...categories.map((category) => category.imageUri),
       ...products.map((product) => product.imageUri),
     ]);

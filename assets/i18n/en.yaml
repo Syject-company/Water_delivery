@@ -57,6 +57,8 @@ text:
   status: "Status"
   order_created: "Created"
   order_paid: "Paid"
+  order_delivered: "Delivered"
+  order_issue: "Issue"
   subscription_active: "Active"
   subscription_stopped: "Stopped"
   your_credentials: "Your credentials"
@@ -151,3 +153,5 @@ side_menu:
 toast:
   product_added: "Product has been added to the cart!"
   product_removed: "Product has been removed from the cart!"
+  profile_saved: "Profile successfully saved"
+  message_sent: "Message successfully sent"

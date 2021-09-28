@@ -75,6 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ).withPadding(isMobile ? 0.0 : 48.0, 0.0, isMobile ? 0.0 : 48.0, 0.0),
             const SizedBox(height: 24.0),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
