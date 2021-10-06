@@ -33,6 +33,9 @@ class DeliveryDate extends Equatable {
     final periods = List<Period>.from(iterable.map((json) {
       return Period.fromJson(json);
     }));
+    periods.sort((a, b) {
+      return a.startTime.compareTo(b.startTime);
+    });
 
     return DeliveryDate(
       id: json[DeliveryDateFields.id],

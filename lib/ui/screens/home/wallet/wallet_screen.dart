@@ -54,10 +54,7 @@ class _WalletScreenState extends State<WalletScreen> {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );

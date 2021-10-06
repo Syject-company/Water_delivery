@@ -53,10 +53,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );

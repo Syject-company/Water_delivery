@@ -63,6 +63,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       yield state.copyWith(status: NotificationsStatus.loading);
 
       final notifications = await _notificationService.getAll(Session.token!);
+      notifications.sort((a, b) {
+        return b.postedDate.compareTo(a.postedDate);
+      });
 
       yield state.copyWith(
         notifications: notifications.where((notification) {

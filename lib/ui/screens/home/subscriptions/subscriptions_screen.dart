@@ -40,10 +40,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );

@@ -34,10 +34,7 @@ class OrdersScreen extends StatelessWidget {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );

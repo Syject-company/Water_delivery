@@ -51,7 +51,7 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (_) {
         return Sizer(
           builder: (_, __, ___) {

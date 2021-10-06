@@ -16,16 +16,9 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChangePasswordBloc, ChangePasswordState>(
-      listener: (_, state) {
-        if (state is ChangePasswordSuccess) {
-          homeNavigator.pop();
-        }
-      },
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(context),
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildBody(context),
     );
   }
 
@@ -44,6 +37,10 @@ class ChangePasswordScreen extends StatelessWidget {
       child: BlocListener<ChangePasswordBloc, ChangePasswordState>(
         listener: (context, state) {
           context.showLoader(state is ChangePasswordLoading);
+
+          if (state is ChangePasswordSuccess) {
+            homeNavigator.pop();
+          }
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),

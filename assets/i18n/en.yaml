@@ -75,6 +75,7 @@ text:
   promo_code_expired: "Promo code is expired."
   promo_code_not_exist: "Promo code does not exist."
   promo_code_is_over: "Promo code is over."
+  no_notifications: "There are no notifications"
   months:
     one: '{} Month'
     two: '{} Months'

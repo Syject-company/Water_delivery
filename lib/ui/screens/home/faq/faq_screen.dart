@@ -39,10 +39,7 @@ class _FAQScreenState extends State<FAQScreen> {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );

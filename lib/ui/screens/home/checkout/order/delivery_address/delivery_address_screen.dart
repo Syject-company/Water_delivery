@@ -14,16 +14,28 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/field.dart';
 
-class DeliveryAddressScreen extends StatelessWidget {
+class DeliveryAddressScreen extends StatefulWidget {
   DeliveryAddressScreen({Key? key}) : super(key: key);
 
+  @override
+  _DeliveryAddressScreenState createState() => _DeliveryAddressScreenState();
+}
+
+class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   final GlobalKey<FormState> _deliveryAddressFormKey = GlobalKey();
+
   final TextEditingController _cityController = TextEditingController();
+
   final TextEditingController _districtController = TextEditingController();
+
   final TextEditingController _streetController = TextEditingController();
+
   final TextEditingController _buildingController = TextEditingController();
+
   final TextEditingController _floorController = TextEditingController();
+
   final TextEditingController _apartmentController = TextEditingController();
+
   final GlobalKey<WaterFormSelectState> _districtSelectKey = GlobalKey();
 
   @override
@@ -61,16 +73,14 @@ class DeliveryAddressScreen extends StatelessWidget {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );
   }
 
   Widget _buildBody(BuildContext context) {
+    print('body');
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
       physics: const BouncingScrollPhysics(),

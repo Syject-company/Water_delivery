@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
+import 'package:water/util/separated_row.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
@@ -20,18 +23,9 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        context.showLoader(state is Authenticating);
-
-        if (state is Authenticated) {
-          homeNavigator.pop();
-        }
-      },
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(context),
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildBody(context),
     );
   }
 
@@ -46,34 +40,45 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-      physics: const BouncingScrollPhysics(),
-      controller: _scrollController,
-      clipBehavior: Clip.none,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: SizedBox(
-          width: isMobile ? 100.w : 50.w,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const WaterLogo(),
-              const SizedBox(height: 36.0),
-              _buildCreateAccountLabel(),
-              const SizedBox(height: 12.0),
-              _buildInputForm(),
-              const SizedBox(height: 40.0),
-              _buildSignUpLabel(),
-              const SizedBox(height: 24.0),
-              _buildSignUpButtons(context),
-              const SizedBox(height: 24.0),
-              _buildRegisterButton(context),
-            ],
+    return LoaderOverlay(
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          context.showLoader(state is Authenticating);
+
+          if (state is Authenticated) {
+            homeNavigator.pop();
+          }
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
+          controller: _scrollController,
+          clipBehavior: Clip.none,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              width: isMobile ? 100.w : 50.w,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const WaterLogo(),
+                  const SizedBox(height: 36.0),
+                  _buildCreateAccountLabel(),
+                  const SizedBox(height: 12.0),
+                  _buildInputForm(),
+                  const SizedBox(height: 40.0),
+                  _buildSignUpLabel(),
+                  const SizedBox(height: 24.0),
+                  _buildSignUpButtons(context),
+                  const SizedBox(height: 24.0),
+                  _buildRegisterButton(context),
+                ],
+              ),
+            ),
           ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         ),
       ),
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }
 
@@ -147,7 +152,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildSignUpButtons(BuildContext context) {
-    return Row(
+    return SeparatedRow(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         WaterSocialButton(
@@ -157,7 +162,6 @@ class SignUpScreen extends StatelessWidget {
           },
           icon: AppIcons.facebook,
         ),
-        const SizedBox(width: 18.0),
         WaterSocialButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
@@ -165,15 +169,16 @@ class SignUpScreen extends StatelessWidget {
           },
           icon: AppIcons.google,
         ),
-        const SizedBox(width: 18.0),
-        WaterSocialButton(
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            context.auth.add(AppleLogin());
-          },
-          icon: AppIcons.apple,
-        ),
+        if (Platform.isIOS)
+          WaterSocialButton(
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              context.auth.add(AppleLogin());
+            },
+            icon: AppIcons.apple,
+          ),
       ],
+      separator: const SizedBox(width: 18.0),
     );
   }
 

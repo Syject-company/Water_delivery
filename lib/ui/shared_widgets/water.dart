@@ -14,6 +14,7 @@ export 'bottom_navigation_bar/bottom_navigation_bar.dart';
 export 'button/app_bar_back_button.dart';
 export 'button/app_bar_icon_button.dart';
 export 'button/app_bar_notification_button.dart';
+export 'button/app_bar_whatsapp_button.dart';
 export 'button/button.dart';
 export 'button/circle_button.dart';
 export 'button/icon_button.dart';

@@ -30,9 +30,7 @@ class RootRouter {
         );
       case AppRoutes.home:
         return SlideWithFadePageRoute(
-          builder: (_) => LoaderOverlay(
-            child: HomeNavigator(),
-          ),
+          builder: (_) => HomeNavigator(),
         );
       default:
         return SlideWithFadePageRoute(

@@ -75,6 +75,7 @@ text:
   promo_code_expired: "انتهت صلاحية الرمز الترويجي."
   promo_code_not_exist: "الرمز الترويجي غير موجود."
   promo_code_is_over: "الرمز الترويجي قد انتهى."
+  no_notifications: "لا توجد إخطارات"
   months:
     one: '{} شهر'
     two: '{} شهور'

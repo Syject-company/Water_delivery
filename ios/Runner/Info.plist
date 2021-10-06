@@ -9,13 +9,13 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>fb402083827881830</string>
-                <string>com.googleusercontent.apps.2948040009681-tihffjre0ntbndvr869p9e6mhoafg2l4</string>
+                <string>fb154338450234491</string>
+                <string>com.googleusercontent.apps.420449922030-t2m46kj21p7qptccq5c0tijh7nuqfc5e</string>
             </array>
         </dict>
     </array>
     <key>FacebookAppID</key>
-    <string>402083827881830</string>
+    <string>154338450234491</string>
     <key>FacebookDisplayName</key>
     <string>Gulfa Water</string>
     <key>LSApplicationQueriesSchemes</key>

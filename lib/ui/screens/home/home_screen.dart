@@ -117,10 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             leading: leading,
             actions: [
-              AppBarIconButton(
-                onPressed: () {},
-                icon: AppIcons.whatsapp,
-              ),
+              AppBarWhatsappButton(),
               if (Session.isAuthenticated) AppBarNotificationButton(),
             ],
           );

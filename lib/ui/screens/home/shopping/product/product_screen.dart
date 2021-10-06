@@ -42,10 +42,7 @@ class _ProductScreenState extends State<ProductScreen> {
         },
       ),
       actions: [
-        AppBarIconButton(
-          icon: AppIcons.whatsapp,
-          onPressed: () {},
-        ),
+        AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
     );

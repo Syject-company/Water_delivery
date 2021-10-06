@@ -39,13 +39,13 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('debug.keystore')
+            storeFile file('debug-keystore.jks')
             storePassword 'android'
         }
         release {
             keyAlias 'androidreleasekey'
             keyPassword 'android'
-            storeFile file('release.keystore')
+            storeFile file('release-keystore.jks')
             storePassword 'android'
         }
     }

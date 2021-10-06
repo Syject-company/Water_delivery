@@ -24,20 +24,7 @@ class SupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: BlocListener<SupportBloc, SupportState>(
-        listener: (context, state) {
-          print(state);
-          context.showLoader(state.status == MessageStatus.sending);
-
-          if (state.status == MessageStatus.sent) {
-            _showToast(context, 'toast.message_sent'.tr());
-            _messageController.clear();
-          } else if (state.status == MessageStatus.failed) {
-            showWaterDialog(context, ErrorAlert());
-          }
-        },
-        child: _buildBody(context),
-      ),
+      body: _buildBody(context),
     );
   }
 
@@ -56,33 +43,44 @@ class SupportScreen extends StatelessWidget {
         },
       ),
       actions: [
-        AppBarIconButton(
-          onPressed: () {},
-          icon: AppIcons.whatsapp,
-        ),
+        AppBarWhatsappButton(),
         if (Session.isAuthenticated) AppBarNotificationButton(),
       ],
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24.0),
-      physics: const BouncingScrollPhysics(),
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: SizedBox(
-          width: isMobile ? 100.w : 50.w,
-          child: Column(
-            children: [
-              _buildCredentialsForm(context),
-              const SizedBox(height: 24.0),
-              _buildMessageForm(),
-              const SizedBox(height: 24.0),
-              _buildSendButton(context),
-              const SizedBox(height: 16.0),
-              _buildCallButton()
-            ],
+    return LoaderOverlay(
+      child: BlocListener<SupportBloc, SupportState>(
+        listener: (context, state) {
+          context.showLoader(state.status == MessageStatus.sending);
+
+          if (state.status == MessageStatus.sent) {
+            _showToast(context, 'toast.message_sent'.tr());
+            _messageController.clear();
+          } else if (state.status == MessageStatus.failed) {
+            showWaterDialog(context, ErrorAlert());
+          }
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          physics: const BouncingScrollPhysics(),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              width: isMobile ? 100.w : 50.w,
+              child: Column(
+                children: [
+                  _buildCredentialsForm(context),
+                  const SizedBox(height: 24.0),
+                  _buildMessageForm(),
+                  const SizedBox(height: 24.0),
+                  _buildSendButton(context),
+                  const SizedBox(height: 16.0),
+                  _buildCallButton(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

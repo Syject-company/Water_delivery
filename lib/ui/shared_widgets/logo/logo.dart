@@ -9,7 +9,7 @@ class WaterLogo extends StatelessWidget {
     Key? key,
     this.showIcon = true,
     this.showLabel = true,
-    this.iconWidthFactor = 3.25,
+    this.iconWidthFactor = 3.75,
     this.labelWidthFactor = 2.75,
     this.labelColor,
   }) : super(key: key);

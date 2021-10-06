@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -10,6 +12,7 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/password.dart';
+import 'package:water/util/separated_row.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({Key? key}) : super(key: key);
@@ -21,18 +24,9 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (_, state) {
-        context.showLoader(state is Authenticating);
-
-        if (state is Authenticated) {
-          homeNavigator.pop();
-        }
-      },
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(context),
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildBody(context),
     );
   }
 
@@ -47,37 +41,48 @@ class SignInScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
-      physics: const BouncingScrollPhysics(),
-      controller: _scrollController,
-      clipBehavior: Clip.none,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: SizedBox(
-          width: isMobile ? 100.w : 50.w,
-          child: Column(
-            children: [
-              const WaterLogo(),
-              const SizedBox(height: 36.0),
-              _buildSignInLabel(),
-              const SizedBox(height: 12.0),
-              _buildInputForm(),
-              const SizedBox(height: 24.0),
-              _buildForgotPasswordLink(),
-              const SizedBox(height: 16.0),
-              _buildSignUpLink(),
-              const SizedBox(height: 32.0),
-              _buildSignUpLabel(),
-              const SizedBox(height: 24.0),
-              _buildSignInButtons(context),
-              const SizedBox(height: 24.0),
-              _buildLogInButton(context),
-            ],
+    return LoaderOverlay(
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          context.showLoader(state is Authenticating);
+
+          if (state is Authenticated) {
+            homeNavigator.pop();
+          }
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+          physics: const BouncingScrollPhysics(),
+          controller: _scrollController,
+          clipBehavior: Clip.none,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              width: isMobile ? 100.w : 50.w,
+              child: Column(
+                children: [
+                  const WaterLogo(),
+                  const SizedBox(height: 36.0),
+                  _buildSignInLabel(),
+                  const SizedBox(height: 12.0),
+                  _buildInputForm(),
+                  const SizedBox(height: 24.0),
+                  _buildForgotPasswordLink(),
+                  const SizedBox(height: 16.0),
+                  _buildSignUpLink(),
+                  const SizedBox(height: 32.0),
+                  _buildSignUpLabel(),
+                  const SizedBox(height: 24.0),
+                  _buildSignInButtons(context),
+                  const SizedBox(height: 24.0),
+                  _buildLogInButton(context),
+                ],
+              ),
+            ),
           ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         ),
       ),
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
     );
   }
 
@@ -189,7 +194,7 @@ class SignInScreen extends StatelessWidget {
   }
 
   Widget _buildSignInButtons(BuildContext context) {
-    return Row(
+    return SeparatedRow(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         WaterSocialButton(
@@ -199,7 +204,6 @@ class SignInScreen extends StatelessWidget {
           },
           icon: AppIcons.facebook,
         ),
-        const SizedBox(width: 18.0),
         WaterSocialButton(
           onPressed: () {
             FocusScope.of(context).unfocus();
@@ -207,15 +211,16 @@ class SignInScreen extends StatelessWidget {
           },
           icon: AppIcons.google,
         ),
-        const SizedBox(width: 18.0),
-        WaterSocialButton(
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            context.auth.add(AppleLogin());
-          },
-          icon: AppIcons.apple,
-        ),
+        if (Platform.isIOS)
+          WaterSocialButton(
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              context.auth.add(AppleLogin());
+            },
+            icon: AppIcons.apple,
+          ),
       ],
+      separator: const SizedBox(width: 18.0),
     );
   }
 
