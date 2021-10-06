@@ -347,7 +347,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildSaveButton() {
     return WaterButton(
       onPressed: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
 
         final language = 'en';
         final firstName = _firstNameController.text;

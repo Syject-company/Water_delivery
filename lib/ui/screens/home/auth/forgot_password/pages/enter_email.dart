@@ -86,7 +86,8 @@ class EnterEmailPage extends StatelessWidget {
   Widget _buildResetPasswordButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+
         if (!_emailFormKey.currentState!.validate()) {
           return;
         }

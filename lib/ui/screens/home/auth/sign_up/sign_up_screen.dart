@@ -157,14 +157,14 @@ class SignUpScreen extends StatelessWidget {
       children: [
         WaterSocialButton(
           onPressed: () {
-            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
             context.auth.add(FacebookLogin());
           },
           icon: AppIcons.facebook,
         ),
         WaterSocialButton(
           onPressed: () {
-            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
             context.auth.add(GoogleLogin());
           },
           icon: AppIcons.google,
@@ -172,7 +172,7 @@ class SignUpScreen extends StatelessWidget {
         if (Platform.isIOS)
           WaterSocialButton(
             onPressed: () {
-              FocusScope.of(context).unfocus();
+              FocusManager.instance.primaryFocus?.unfocus();
               context.auth.add(AppleLogin());
             },
             icon: AppIcons.apple,
@@ -185,7 +185,8 @@ class SignUpScreen extends StatelessWidget {
   Widget _buildRegisterButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+
         if (!_signUpFormKey.currentState!.validate()) {
           return;
         }

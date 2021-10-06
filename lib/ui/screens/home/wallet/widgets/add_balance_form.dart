@@ -26,7 +26,7 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
     return BlocListener<WalletBloc, WalletState>(
       listener: (_, state) async {
         if (state is TopUpWalletView) {
-          FocusScope.of(context).unfocus();
+          FocusManager.instance.primaryFocus?.unfocus();
 
           final successfulPayment = await homeNavigator.push<bool>(
             SlideWithFadePageRoute(
@@ -94,7 +94,7 @@ class _AddBalanceFormState extends State<AddBalanceForm> {
   Widget _buildTopUpButton() {
     return WaterButton(
       onPressed: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
 
         final amount = double.parse(_amountController.text);
 

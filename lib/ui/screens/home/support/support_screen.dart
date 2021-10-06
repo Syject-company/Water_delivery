@@ -163,7 +163,7 @@ class SupportScreen extends StatelessWidget {
   Widget _buildSendButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
 
         if (!_credentialsFormKey.currentState!.validate()) {
           return;

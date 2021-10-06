@@ -125,7 +125,8 @@ class ChangePasswordScreen extends StatelessWidget {
   Widget _buildLogInButton(BuildContext context) {
     return WaterButton(
       onPressed: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+
         if (!_changePasswordFormKey.currentState!.validate()) {
           return;
         }
