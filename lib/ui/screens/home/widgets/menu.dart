@@ -7,6 +7,7 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/logo/logo_label.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/separated_row.dart';
 import 'package:water/util/session.dart';
 
 class Menu extends StatelessWidget {
@@ -177,7 +178,7 @@ class Menu extends StatelessWidget {
   Widget _buildSocialButtons() {
     return Container(
       color: AppColors.white,
-      child: Row(
+      child: SeparatedRow(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           WaterSocialButton(
@@ -187,19 +188,14 @@ class Menu extends StatelessWidget {
             },
             icon: AppIcons.facebook,
           ),
-          const SizedBox(width: 18.0),
           WaterSocialButton(
             onPressed: () {
               _launchURL('https://www.instagram.com/gulfawater');
             },
             icon: AppIcons.instagram,
           ),
-          const SizedBox(width: 18.0),
-          WaterSocialButton(
-            onPressed: () {},
-            icon: AppIcons.twitter,
-          ),
         ],
+        separator: const SizedBox(width: 18.0),
       ).withPaddingAll(26.0),
     );
   }
