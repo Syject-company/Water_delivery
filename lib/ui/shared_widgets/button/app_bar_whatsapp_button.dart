@@ -46,7 +46,13 @@ class AppBarWhatsappButton extends StatelessWidget {
   void _errorMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: new Text("WhatsApp not installed"),
+        content: new WaterText(
+          'WhatsApp not installed',
+          fontSize: 16.0,
+          fontWeight: FontWeight.w700,
+          color: AppColors.white,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

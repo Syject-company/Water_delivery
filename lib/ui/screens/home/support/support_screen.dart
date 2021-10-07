@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/support/support_bloc.dart';
 import 'package:water/main.dart';
@@ -9,6 +10,8 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/field.dart';
 import 'package:water/util/session.dart';
+
+const String _supportPhoneNumber = '80048534';
 
 class SupportScreen extends StatelessWidget {
   SupportScreen({Key? key}) : super(key: key);
@@ -193,7 +196,13 @@ class SupportScreen extends StatelessWidget {
 
   Widget _buildCallButton() {
     return WaterSecondaryButton(
-      onPressed: () {},
+      onPressed: () async {
+        final supportUrl = 'tel:$_supportPhoneNumber';
+
+        if (await canLaunch(supportUrl)) {
+          await launch(supportUrl);
+        }
+      },
       text: 'button.click_to_call'.tr(),
       radialRadius: 3.0,
     );
