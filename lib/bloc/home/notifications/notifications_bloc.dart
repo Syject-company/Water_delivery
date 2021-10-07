@@ -8,6 +8,7 @@ import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/domain/model/notification.dart' as water;
 import 'package:water/domain/service/notification_service.dart';
 import 'package:water/locator.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
 
 part 'notifications_event.dart';
@@ -26,7 +27,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         ) {
     _authStateSubscription = auth.stream.listen((state) {
       if (state is Authenticated) {
-        add(LoadNotifications());
+        final language = Localization.loadLocale().languageCode;
+        add(LoadNotifications(language: language));
       } else if (state is Unauthenticated) {
         add(ClearNotifications());
       }
@@ -43,9 +45,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     NotificationsEvent event,
   ) async* {
     if (event is LoadNotifications) {
-      yield* _mapLoadNotificationsToState();
-    }
-    if (event is ClearNotifications) {
+      yield* _mapLoadNotificationsToState(event);
+    } else if (event is ClearNotifications) {
       yield* _mapClearNotificationsToState();
     }
   }
@@ -56,13 +57,18 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     return super.close();
   }
 
-  Stream<NotificationsState> _mapLoadNotificationsToState() async* {
+  Stream<NotificationsState> _mapLoadNotificationsToState(
+    LoadNotifications event,
+  ) async* {
     if (Session.isAuthenticated) {
       print('load notifications');
 
       yield state.copyWith(status: NotificationsStatus.loading);
 
-      final notifications = await _notificationService.getAll(Session.token!);
+      final notifications = await _notificationService.getAll(
+        Session.token!,
+        event.language,
+      );
       notifications.sort((a, b) {
         return b.postedDate.compareTo(a.postedDate);
       });

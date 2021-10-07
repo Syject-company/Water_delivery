@@ -8,7 +8,12 @@ abstract class NotificationsEvent extends Equatable {
 }
 
 class LoadNotifications extends NotificationsEvent {
-  const LoadNotifications();
+  const LoadNotifications({required this.language});
+
+  final String language;
+
+  @override
+  List<Object> get props => [language];
 }
 
 class ClearNotifications extends NotificationsEvent {

@@ -41,7 +41,7 @@ class HomeNavigator extends StatelessWidget {
             BlocProvider(
               create: (context) => NotificationsBloc(
                 auth: context.auth,
-              )..add(LoadNotifications()),
+              )..add(LoadNotifications(language: language)),
               lazy: false,
             ),
             BlocProvider(

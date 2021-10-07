@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/navigation/navigation_bloc.dart';
+import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
 import 'package:water/bloc/home/shopping/categories/categories_bloc.dart';
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final categoriesState = context.categories.state;
     final productsState = context.products.state;
     final profileState = context.profile.state;
+    final notificationsState = context.notifications.state;
 
     if (bannersState is BannersLoaded) {
       context.banners.add(
@@ -68,6 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (profileState.status == ProfileStatus.loaded) {
       context.profile.add(
         UpdateProfile(),
+      );
+    }
+    if (notificationsState.status == NotificationsStatus.loaded) {
+      context.notifications.add(
+        LoadNotifications(language: language),
       );
     }
     context.cart.add(

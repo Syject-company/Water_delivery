@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 
 import 'widgets/notification_list_item.dart';
 
@@ -57,8 +58,10 @@ class NotificationsScreen extends StatelessWidget {
                 height: 48.0,
               ),
               onRefresh: () {
+                final language = Localization.currentLanguage(context);
+
                 context.notifications.add(
-                  LoadNotifications(),
+                  LoadNotifications(language: language),
                 );
               },
               child: ListView.separated(
