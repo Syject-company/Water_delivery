@@ -154,6 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         WaterRadioGroup<Locale>(
           onChanged: (locale) {
             Localization.changeLocale(context, locale);
+            Localization.saveLocale(locale);
           },
           initialValue: Localization.currentLocale(context),
           values: {
