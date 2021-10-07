@@ -125,13 +125,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield Authenticating();
 
-      final clientId = 'com.syject.water.glitch';
-      final redirectUri =
-          'https://gulfa-water.glitch.me/callbacks/sign_in_with_apple';
       final auth = await SignInWithApple.getAppleIDCredential(
         scopes: [AppleIDAuthorizationScopes.email],
-        webAuthenticationOptions: WebAuthenticationOptions(
-            clientId: clientId, redirectUri: Uri.parse(redirectUri)),
       );
       final token = auth.identityToken!;
 

@@ -10,12 +10,14 @@
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>fb154338450234491</string>
-                <string>com.googleusercontent.apps.420449922030-t2m46kj21p7qptccq5c0tijh7nuqfc5e</string>
+                <string>com.googleusercontent.apps.420449922030-i3bv7i1qtjmblkfk9o824d5b2divp13k</string>
             </array>
         </dict>
     </array>
     <key>FacebookAppID</key>
     <string>154338450234491</string>
+    <key>FacebookClientToken</key>
+    <string>4a312faafd08a128de38f4d208034f2d</string>
     <key>FacebookDisplayName</key>
     <string>Gulfa Water</string>
     <key>LSApplicationQueriesSchemes</key>

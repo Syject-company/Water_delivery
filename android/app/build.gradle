@@ -28,7 +28,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.syject.water"
+        applicationId "VimDrive.Gulfa.Water"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
