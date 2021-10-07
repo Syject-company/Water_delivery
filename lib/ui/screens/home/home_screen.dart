@@ -38,17 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final language = Localization.currentLanguage(context);
     final shoppingState = context.shopping.state;
-    final bannersState = context.banners.state;
     final categoriesState = context.categories.state;
     final productsState = context.products.state;
-    final profileState = context.profile.state;
-    final notificationsState = context.notifications.state;
 
-    if (bannersState is BannersLoaded) {
-      context.banners.add(
-        LoadBanners(language: language),
-      );
-    }
     if (categoriesState is CategoriesLoaded) {
       context.categories.add(
         LoadCategories(
@@ -67,16 +59,15 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     }
-    if (profileState.status == ProfileStatus.loaded) {
-      context.profile.add(
-        UpdateProfile(),
-      );
-    }
-    if (notificationsState.status == NotificationsStatus.loaded) {
-      context.notifications.add(
-        LoadNotifications(language: language),
-      );
-    }
+    context.banners.add(
+      LoadBanners(language: language),
+    );
+    context.profile.add(
+      UpdateProfile(),
+    );
+    context.notifications.add(
+      LoadNotifications(language: language),
+    );
     context.cart.add(
       LoadCart(language: language),
     );
