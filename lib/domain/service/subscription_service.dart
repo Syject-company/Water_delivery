@@ -9,11 +9,15 @@ class SubscriptionService {
   static const String _endpoint =
       'https://gulfaweb.azurewebsites.net/Subscriptions';
 
-  Future<List<Subscription>> getAll(String token) async {
+  Future<List<Subscription>> getAll(
+    String token, [
+    String language = 'en',
+  ]) async {
     final response = await Http.get(
       _endpoint,
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.acceptLanguageHeader: language,
       },
     );
 

@@ -42,7 +42,7 @@ class CategoriesScreen extends StatelessWidget {
             },
           );
         }
-        return SizedBox(height: 12.0);
+        return const SizedBox(height: 24.0);
       },
     );
   }

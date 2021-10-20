@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:water/domain/model/notification.dart' as water;
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 
 class NotificationListItem extends StatelessWidget {
   const NotificationListItem({
@@ -25,7 +26,7 @@ class NotificationListItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPostedDate(),
+              _buildPostedDate(context),
               _buildBodyText(),
             ],
           ),
@@ -34,9 +35,14 @@ class NotificationListItem extends StatelessWidget {
     );
   }
 
-  Widget _buildPostedDate() {
-    final formattedPostedDate =
+  Widget _buildPostedDate(BuildContext context) {
+    final locale = Localization.currentLocale(context).languageCode;
+    String formattedPostedDate =
         DateFormat('dd/MM/yyyy  hh:mm a').format(notification.postedDate);
+    if (locale == 'ar') {
+      formattedPostedDate =
+          DateFormat('yyyy/MM/dd  hh:mm a').format(notification.postedDate);
+    }
 
     return WaterText(
       formattedPostedDate,

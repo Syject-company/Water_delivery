@@ -103,7 +103,7 @@ input:
   street: "Street Name"
   building: "Building Name"
   floor: "Floor"
-  apartment: "Apartment"
+  apartment: "Apartment / Villa"
   search: "Search"
   enter_amount: "Enter the amount"
   your_name: "Your name"

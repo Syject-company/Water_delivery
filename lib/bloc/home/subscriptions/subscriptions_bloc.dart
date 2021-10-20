@@ -11,6 +11,7 @@ import 'package:water/util/nullable.dart';
 import 'package:water/util/session.dart';
 
 part 'subscriptions_event.dart';
+
 part 'subscriptions_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -34,9 +35,9 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
     } else if (event is DeselectSubscription) {
       yield* _mapDeselectSubscriptionToState(state);
     } else if (event is ToggleSubscriptionStatus) {
-      yield* _mapToggleSubscriptionStatusToState(state);
+      yield* _mapToggleSubscriptionStatusToState(state, event);
     } else if (event is DeleteSubscription) {
-      yield* _mapDeleteSubscriptionToState(state);
+      yield* _mapDeleteSubscriptionToState(state, event);
     }
   }
 
@@ -47,7 +48,10 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
     try {
       if (Session.isAuthenticated) {
         yield SubscriptionsLoading();
-        final subscriptions = await _subscriptionService.getAll(Session.token!);
+        final subscriptions = await _subscriptionService.getAll(
+          Session.token!,
+          // event.language,
+        );
         yield SubscriptionsLoaded(subscriptions: subscriptions);
       }
     } catch (_) {
@@ -78,6 +82,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
 
   Stream<SubscriptionsState> _mapToggleSubscriptionStatusToState(
     SubscriptionsState state,
+    ToggleSubscriptionStatus event,
   ) async* {
     try {
       if (state is SubscriptionsLoaded) {
@@ -93,7 +98,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
           subscription.id,
         );
 
-        add(LoadSubscriptions());
+        add(LoadSubscriptions(language: event.language));
       }
     } catch (_) {
       yield SubscriptionsError();
@@ -102,6 +107,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
 
   Stream<SubscriptionsState> _mapDeleteSubscriptionToState(
     SubscriptionsState state,
+    DeleteSubscription event,
   ) async* {
     try {
       if (state is SubscriptionsLoaded) {
@@ -117,7 +123,7 @@ class SubscriptionsBloc extends Bloc<SubscriptionsEvent, SubscriptionsState> {
           subscription.id,
         );
 
-        add(LoadSubscriptions());
+        add(LoadSubscriptions(language: event.language));
       }
     } catch (_) {
       yield SubscriptionsError();

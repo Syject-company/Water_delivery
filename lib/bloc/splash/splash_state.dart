@@ -32,3 +32,7 @@ class SplashVideo extends SplashState {
   @override
   List<Object> get props => [firstLaunch];
 }
+
+class SplashError extends SplashState {
+  const SplashError();
+}

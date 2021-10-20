@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
+import 'package:water/util/localization.dart';
 import 'package:water/util/separated_column.dart';
 
 import 'widgets/subscription_list_item.dart';
@@ -159,7 +160,8 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     return WaterButton(
       onPressed: () {
         context.subscriptions.add(
-          ToggleSubscriptionStatus(),
+          ToggleSubscriptionStatus(
+              language: Localization.loadLocale().languageCode),
         );
       },
       text: isActive
@@ -173,7 +175,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
     return WaterSecondaryButton(
       onPressed: () {
         context.subscriptions.add(
-          DeleteSubscription(),
+          DeleteSubscription(language: Localization.loadLocale().languageCode),
         );
       },
       text: 'button.delete_subscription'.tr(),
@@ -187,7 +189,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
       child: WaterButton(
         onPressed: () {
           context.subscriptions.add(
-            LoadSubscriptions(),
+            LoadSubscriptions(language: Localization.loadLocale().languageCode),
           );
         },
         text: 'button.try_again'.tr(),

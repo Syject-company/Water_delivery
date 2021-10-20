@@ -8,7 +8,12 @@ abstract class SubscriptionsEvent extends Equatable {
 }
 
 class LoadSubscriptions extends SubscriptionsEvent {
-  const LoadSubscriptions();
+  const LoadSubscriptions({required this.language});
+
+  final String language;
+
+  @override
+  List<Object> get props => [language];
 }
 
 class SelectSubscription extends SubscriptionsEvent {
@@ -25,9 +30,19 @@ class DeselectSubscription extends SubscriptionsEvent {
 }
 
 class ToggleSubscriptionStatus extends SubscriptionsEvent {
-  const ToggleSubscriptionStatus();
+  const ToggleSubscriptionStatus({required this.language});
+
+  final String language;
+
+  @override
+  List<Object> get props => [language];
 }
 
 class DeleteSubscription extends SubscriptionsEvent {
-  const DeleteSubscription();
+  const DeleteSubscription({required this.language});
+
+  final String language;
+
+  @override
+  List<Object> get props => [language];
 }

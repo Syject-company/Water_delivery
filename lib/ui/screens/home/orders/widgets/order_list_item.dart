@@ -55,8 +55,13 @@ class _OrderListItemState extends State<OrderListItem>
   }
 
   Widget _buildTitle() {
-    final formattedCreatedDate =
+    final locale = Localization.currentLocale(context).languageCode;
+    String formattedCreatedDate =
         DateFormat('dd/MM/yyyy').format(_order.createdDate);
+    if (locale == 'ar') {
+      formattedCreatedDate =
+          DateFormat('yyyy/MM/dd').format(_order.createdDate);
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,8 +168,8 @@ class _OrderListItemState extends State<OrderListItem>
         DateFormat('EEEE', locale).format(_order.deliveryDate);
     final startTime = DateFormat('h').parse('${deliveryTime.startTime}');
     final endTime = DateFormat('h').parse('${deliveryTime.endTime}');
-    final formattedStartTime = DateFormat('h a', locale).format(startTime);
-    final formattedEndTime = DateFormat('h a', locale).format(endTime);
+    final formattedStartTime = DateFormat('ha').format(startTime);
+    final formattedEndTime = DateFormat('ha').format(endTime);
 
     return Row(
       children: [

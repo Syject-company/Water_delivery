@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +44,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(
       listener: (_, state) async {
-        if (state is ImagesPreloaded) {
+        if (state is SplashError) {
+          await showWaterDialog(context, ErrorAlert());
+          exit(0);
+        } else if (state is ImagesPreloaded) {
           await Future.wait([
             precachePicture(
               ExactAssetPicture(SvgPicture.svgStringDecoder, Paths.logo_icon),
@@ -65,8 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }));
 
           context.splash.add(Loading());
-        }
-        if (state is SplashLoading) {
+        } else if (state is SplashLoading) {
           await _videoController.initialize();
           await _videoController.play();
 
