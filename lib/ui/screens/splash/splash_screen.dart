@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/main.dart';
@@ -44,33 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(
       listener: (_, state) async {
-        if (state is SplashError) {
-          await showWaterDialog(context, ErrorAlert());
-          exit(0);
-        } else if (state is ImagesPreloaded) {
-          await Future.wait([
-            precachePicture(
-              ExactAssetPicture(SvgPicture.svgStringDecoder, Paths.logo_icon),
-              context,
-            ),
-            precachePicture(
-              ExactAssetPicture(
-                  SvgPicture.svgStringDecoder, Paths.logo_label_white),
-              context,
-            ),
-            precachePicture(
-              ExactAssetPicture(
-                  SvgPicture.svgStringDecoder, Paths.logo_label_colored),
-              context,
-            ),
-          ]);
-
-          await Future.wait(state.images.map((image) {
-            return precacheImage(CachedNetworkImageProvider(image), context);
-          }));
-
-          context.splash.add(Loading());
-        } else if (state is SplashLoading) {
+        if (state is ImagesPreloaded) {
           await _videoController.initialize();
           await _videoController.play();
 
@@ -81,6 +51,15 @@ class _SplashScreenState extends State<SplashScreen> {
           appNavigator.pushReplacementNamed(
             state.firstLaunch ? AppRoutes.selectLanguage : AppRoutes.home,
           );
+        } else if (state is SplashError) {
+          await showWaterDialog(
+            context,
+            ErrorAlert(
+              errorMessage: 'Please try again.',
+              actionText: 'Retry',
+            ),
+          );
+          context.splash.add(const PreloadImages());
         }
       },
       builder: (_, state) {

@@ -22,9 +22,12 @@ class Http {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
+    Map<String, String>? queryParameters,
   }) {
+    String queryString = Uri(queryParameters: queryParameters).query;
+
     return http.post(
-      Uri.parse(uri),
+      Uri.parse('$uri?$queryString'),
       headers: _withContentType(headers),
       body: jsonEncode(body),
       encoding: encoding,
@@ -46,11 +49,11 @@ class Http {
   }
 
   static Future<http.Response> delete(
-      String uri, {
-        Map<String, String>? headers,
-        Object? body,
-        Encoding? encoding,
-      }) {
+    String uri, {
+    Map<String, String>? headers,
+    Object? body,
+    Encoding? encoding,
+  }) {
     return http.delete(
       Uri.parse(uri),
       headers: _withContentType(headers),

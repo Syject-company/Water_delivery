@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:water/domain/model/auth/auth_response.dart';
-import 'package:water/domain/model/auth/forgot_password_initial_form.dart';
 import 'package:water/domain/model/auth/forgot_password_confirm_form.dart';
+import 'package:water/domain/model/auth/forgot_password_initial_form.dart';
 import 'package:water/domain/model/auth/sign_in_form.dart';
 import 'package:water/domain/model/auth/sign_up_form.dart';
 import 'package:water/domain/model/auth/token.dart';
@@ -61,12 +61,29 @@ class AuthService {
     _handleResponse(response);
   }
 
-  Future<AuthResponse> confirmNewPassword(ForgotPasswordConfirmForm form) async {
+  Future<AuthResponse> confirmNewPassword(
+      ForgotPasswordConfirmForm form) async {
     final response = await Http.post(
       '$_endpoint/ForgotPassword/Confirm',
       body: form,
     );
     return AuthResponse.fromJson(_handleResponse(response));
+  }
+
+  Future<void> setFirebaseToken(
+    String authToken,
+    String fcmToken,
+  ) async {
+    final response = await Http.post(
+      '$_endpoint/FirebaseToken',
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $authToken',
+      },
+      queryParameters: {
+        'Token': fcmToken,
+      },
+    );
+    _handleResponse(response);
   }
 
   Map<String, dynamic> _handleResponse(Response response) {

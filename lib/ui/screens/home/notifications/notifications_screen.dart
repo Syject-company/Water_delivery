@@ -1,18 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
 
 import 'widgets/notification_list_item.dart';
 
 class NotificationsScreen extends StatelessWidget {
   NotificationsScreen({Key? key}) : super(key: key);
-
-  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,31 +36,14 @@ class NotificationsScreen extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return BlocConsumer<NotificationsBloc, NotificationsState>(
-      listener: (_, state) {
-        if (state.status == NotificationsStatus.loaded) {
-          _refreshController.refreshCompleted();
-        }
-      },
-      builder: (context, state) {
-        return Stack(
-          children: [
-            SmartRefresher(
-              controller: _refreshController,
-              header: MaterialClassicHeader(
-                backgroundColor: AppColors.white,
-                color: AppColors.primary,
-                distance: 30.0,
-                height: 48.0,
-              ),
-              onRefresh: () {
-                final language = Localization.currentLanguage(context);
+    return LoaderOverlay(
+      child: BlocBuilder<NotificationsBloc, NotificationsState>(
+        builder: (context, state) {
+          context.showLoader(state.status == NotificationsStatus.loading);
 
-                context.notifications.add(
-                  LoadNotifications(language: language),
-                );
-              },
-              child: ListView.separated(
+          if (state.status == NotificationsStatus.loaded) {
+            if (state.notifications.isNotEmpty) {
+              return ListView.separated(
                 padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
                 physics: const BouncingScrollPhysics(),
                 itemCount: state.notifications.length,
@@ -77,12 +56,13 @@ class NotificationsScreen extends StatelessWidget {
                 separatorBuilder: (_, __) {
                   return const SizedBox(height: 12.0);
                 },
-              ),
-            ),
-            if (state.notifications.isEmpty) _buildNoSubscriptionsText(),
-          ],
-        );
-      },
+              );
+            }
+            return _buildNoSubscriptionsText();
+          }
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 

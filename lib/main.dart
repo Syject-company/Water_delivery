@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -11,6 +15,7 @@ import 'package:water/ui/constants/colors.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/local_storage.dart' as water;
 import 'package:water/util/localization.dart';
+import 'package:water/util/notifications_util.dart';
 import 'package:water/util/session.dart';
 import 'package:water/util/shopping_cart.dart';
 
@@ -25,8 +30,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await water.LocalStorage.ensureInitialized();
+  await NotificationsUtil.ensureInitialized();
   await ShoppingCart.ensureInitialized();
   await Session.ensureInitialized();
+  await Firebase.initializeApp();
   setupLocator();
 
   if (Platform.isAndroid) {
@@ -48,6 +55,9 @@ void main() async {
       );
     }
   }
+
+  await _initializeFirebaseMessaging();
+  await _initializeFirebaseCrashlytics();
 
   runApp(
     DevicePreview(
@@ -123,6 +133,29 @@ class GulfaWaterApp extends StatelessWidget {
       backgroundColor: AppColors.white,
     );
   }
+}
+
+Future<void> _initializeFirebaseMessaging() async {
+  if (Platform.isIOS) {
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+  FirebaseMessaging.instance.setAutoInitEnabled(true);
+}
+
+Future<void> _initializeFirebaseCrashlytics() async {
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  await FirebaseCrashlytics.instance
+      .setCrashlyticsCollectionEnabled(!kDebugMode);
+
+  final originalOnError = FlutterError.onError;
+  FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+    await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+    originalOnError?.call(errorDetails);
+  };
 }
 
 class ResponsiveUtils {

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,6 +32,23 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey();
   final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.onMessage.listen((message) {
+      print('onMessage');
+      context.notifications.add(
+        LoadNotifications(language: Localization.currentLanguage(context)),
+      );
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print('onMessageOpenedApp');
+      context.notifications.add(
+        LoadNotifications(language: Localization.currentLanguage(context)),
+      );
+    });
+  }
 
   @override
   void didUpdateWidget(HomeScreen oldWidget) {

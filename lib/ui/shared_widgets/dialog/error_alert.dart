@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 class ErrorAlert extends StatelessWidget {
-  const ErrorAlert({Key? key}) : super(key: key);
+  const ErrorAlert({
+    Key? key,
+    this.errorMessage,
+    this.actionText,
+  }) : super(key: key);
+
+  final String? errorMessage;
+  final String? actionText;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +73,7 @@ class ErrorAlert extends StatelessWidget {
 
   Widget _buildMessageText() {
     return WaterText(
-      'text.try_again'.tr(),
+      errorMessage ?? 'text.try_again'.tr(),
       fontSize: 16.0,
       lineHeight: 1.25,
       fontWeight: FontWeight.w600,
@@ -80,7 +87,7 @@ class ErrorAlert extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).pop();
       },
-      text: 'button.ok'.tr(),
+      text: actionText ?? 'button.ok'.tr(),
     );
   }
 }

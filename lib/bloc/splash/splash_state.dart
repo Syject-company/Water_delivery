@@ -12,12 +12,7 @@ class SplashInitial extends SplashState {
 }
 
 class ImagesPreloaded extends SplashState {
-  const ImagesPreloaded({required this.images});
-
-  final List<String> images;
-
-  @override
-  List<Object> get props => [images];
+  const ImagesPreloaded();
 }
 
 class SplashLoading extends SplashState {

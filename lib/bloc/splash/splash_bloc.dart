@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,9 +7,13 @@ import 'package:water/domain/service/banner_service.dart';
 import 'package:water/domain/service/category_service.dart';
 import 'package:water/domain/service/product_service.dart';
 import 'package:water/locator.dart';
+import 'package:water/ui/constants/paths.dart';
 import 'package:water/util/local_storage.dart';
+import 'package:water/util/preload_image.dart';
+import 'package:water/util/preload_svg.dart';
 
 part 'splash_event.dart';
+
 part 'splash_state.dart';
 
 extension BlocGetter on BuildContext {
@@ -28,8 +33,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async* {
     if (event is PreloadImages) {
       yield* _mapPreloadImagesToState();
-    } else if (event is Loading) {
-      yield* _mapLoadingToState();
     } else if (event is LoadVideo) {
       yield* _mapLoadVideoToState();
     }
@@ -37,24 +40,34 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
   Stream<SplashState> _mapPreloadImagesToState() async* {
     try {
+      yield const SplashLoading();
+
       final enBanners = await _bannerService.getAll('en');
       final arBanners = await _bannerService.getAll('ar');
       final categories = await _categoryService.getAll();
       final products = await _productService.getAll();
 
-      yield ImagesPreloaded(images: [
+      final imagesToPreload = [
         ...enBanners.map((banner) => banner.image),
         ...arBanners.map((banner) => banner.image),
         ...categories.map((category) => category.imageUri),
         ...products.map((product) => product.imageUri),
-      ]);
-    } catch (_) {
-      yield SplashError();
-    }
-  }
+      ];
 
-  Stream<SplashState> _mapLoadingToState() async* {
-    yield SplashLoading();
+      await Future.wait([
+        preloadSvg(Paths.logo_icon),
+        preloadSvg(Paths.logo_label_white),
+        preloadSvg(Paths.logo_label_colored),
+      ]);
+
+      await Future.wait(imagesToPreload.map((image) {
+        return preloadImage(CachedNetworkImageProvider(image));
+      }));
+
+      yield const ImagesPreloaded();
+    } catch (_) {
+      yield const SplashError();
+    }
   }
 
   Stream<SplashState> _mapLoadVideoToState() async* {
