@@ -148,6 +148,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         );
       }
     } catch (_) {
+      print(_);
       yield state.copyWith(status: ProfileStatus.error);
     }
   }

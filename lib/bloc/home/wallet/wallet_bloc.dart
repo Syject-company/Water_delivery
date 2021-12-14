@@ -71,6 +71,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       if (Session.isAuthenticated) {
         yield TopUpWalletRequest();
 
+        print(Session.token!);
         final paymentResponse = await _accountService.topUpWallet(
           Session.token!,
           event.amount,
@@ -79,6 +80,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         yield TopUpWalletView(url: paymentResponse.paymentUrl);
       }
     } catch (_) {
+      print(_);
       yield TopUpWalletError();
     }
   }

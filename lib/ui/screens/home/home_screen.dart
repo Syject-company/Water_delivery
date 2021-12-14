@@ -16,6 +16,8 @@ import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/ui/constants/paths.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/keep_alive.dart';
+import 'package:water/util/local_notification.dart';
+import 'package:water/util/local_storage.dart';
 import 'package:water/util/localization.dart';
 import 'package:water/util/session.dart';
 
@@ -36,14 +38,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessage.listen((message) {
-      print('onMessage');
+    _listenNotifications();
+  }
+
+  void _listenNotifications() {
+    FirebaseMessaging.onMessage.listen((message) async {
+      await LocalStorage.ensureInitialized();
+
+      LocalNotifications.showNotification(
+        id: message.hashCode,
+        body: message.data[LocalStorage.locale],
+      );
+
       context.notifications.add(
         LoadNotifications(language: Localization.currentLanguage(context)),
       );
     });
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('onMessageOpenedApp');
+    FirebaseMessaging.onMessageOpenedApp.listen((_) {
       context.notifications.add(
         LoadNotifications(language: Localization.currentLanguage(context)),
       );

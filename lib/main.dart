@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -21,6 +20,7 @@ import 'package:water/util/shopping_cart.dart';
 
 import 'locator.dart';
 import 'ui/screens/router.dart';
+import 'util/local_notification.dart';
 
 export 'package:water/ui/extensions/navigator.dart';
 
@@ -28,12 +28,14 @@ export 'ui/screens/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   await water.LocalStorage.ensureInitialized();
+  await LocalNotifications.ensureInitialized();
   await NotificationsUtil.ensureInitialized();
   await ShoppingCart.ensureInitialized();
   await Session.ensureInitialized();
-  await Firebase.initializeApp();
   setupLocator();
 
   if (Platform.isAndroid) {
@@ -56,7 +58,6 @@ void main() async {
     }
   }
 
-  await _initializeFirebaseMessaging();
   await _initializeFirebaseCrashlytics();
 
   runApp(
@@ -133,17 +134,6 @@ class GulfaWaterApp extends StatelessWidget {
       backgroundColor: AppColors.white,
     );
   }
-}
-
-Future<void> _initializeFirebaseMessaging() async {
-  if (Platform.isIOS) {
-    await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  }
-  FirebaseMessaging.instance.setAutoInitEnabled(true);
 }
 
 Future<void> _initializeFirebaseCrashlytics() async {
