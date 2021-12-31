@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:water/app_resources.dart';
 import 'package:water/ui/screens/home/auth/auth_navigator.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
@@ -27,7 +28,7 @@ class AuthScreen extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 24.0),
+      padding: const EdgeInsets.all(24.0),
       physics: const BouncingScrollPhysics(),
       clipBehavior: Clip.none,
       child: Align(
@@ -36,8 +37,11 @@ class AuthScreen extends StatelessWidget {
           width: isMobile ? 100.w : 50.w,
           child: Column(
             children: [
-              const WaterLogo(labelWidthFactor: 2.25),
-              const SizedBox(height: 128.0),
+              Image.asset(
+                AppResources.icon,
+                width: 100.w / (isMobile ? 1.75 : 2.5),
+              ),
+              const SizedBox(height: 64.0),
               _buildSignInButton(),
               const SizedBox(height: 12.0),
               _buildSignUpButton(),

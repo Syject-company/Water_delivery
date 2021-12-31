@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/shared_widgets/water.dart';
 
 class SeparatedColumn extends StatelessWidget {
   const SeparatedColumn({
     Key? key,
-    this.separator = defaultDivider,
+    required this.separator,
     this.children = const <Widget>[],
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -33,7 +32,7 @@ class SeparatedColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final children = <Widget>[];
 
-    if (this.children.length > 0) {
+    if (this.children.isNotEmpty) {
       if (includeOuterSeparators && includeOuterTop) {
         children.add(separator);
       }
