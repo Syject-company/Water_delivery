@@ -9,7 +9,7 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/ui/validators/email.dart';
 import 'package:water/ui/validators/field.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 const String _supportPhoneNumber = '80048534';
 

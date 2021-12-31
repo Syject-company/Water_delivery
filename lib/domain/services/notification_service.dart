@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:water/domain/model/notification.dart' as water;
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class NotificationService {
   static const String _endpoint =

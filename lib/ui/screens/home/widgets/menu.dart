@@ -7,8 +7,7 @@ import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/router.dart';
 import 'package:water/ui/shared_widgets/logo/logo_label.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_row.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);

@@ -16,7 +16,7 @@ class ShoppingCart {
   static Future<void> saveItems(List<CartItem> items) async {
     final savedItems = items.map((item) {
       return SavedCartItem(id: item.product.id, amount: item.amount);
-    }).toList();
+    }).toList(growable: false);
 
     await _prefs.setString(_savedCartItemsKey, jsonEncode(savedItems));
   }

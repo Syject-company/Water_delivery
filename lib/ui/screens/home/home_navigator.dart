@@ -13,7 +13,7 @@ import 'package:water/bloc/home/support/support_bloc.dart';
 import 'package:water/main.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
+import 'package:water/utils/localization.dart';
 
 import 'router.dart';
 

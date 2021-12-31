@@ -9,6 +9,8 @@ class SeparatedRow extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.verticalDirection = VerticalDirection.down,
     this.mainAxisSize = MainAxisSize.max,
+    this.includeOuterTop = true,
+    this.includeOuterBottom = true,
     this.includeOuterSeparators = false,
     this.textDirection,
     this.textBaseline,
@@ -20,6 +22,8 @@ class SeparatedRow extends StatelessWidget {
   final VerticalDirection verticalDirection;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
+  final bool includeOuterTop;
+  final bool includeOuterBottom;
   final bool includeOuterSeparators;
   final TextDirection? textDirection;
   final TextBaseline? textBaseline;
@@ -29,7 +33,7 @@ class SeparatedRow extends StatelessWidget {
     final children = <Widget>[];
 
     if (this.children.isNotEmpty) {
-      if (includeOuterSeparators) {
+      if (includeOuterSeparators && includeOuterTop) {
         children.add(separator);
       }
 
@@ -40,7 +44,7 @@ class SeparatedRow extends StatelessWidget {
         }
       }
 
-      if (includeOuterSeparators) {
+      if (includeOuterSeparators && includeOuterBottom) {
         children.add(separator);
       }
     }

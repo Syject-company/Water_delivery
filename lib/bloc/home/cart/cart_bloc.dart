@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/cart/cart_item.dart';
 import 'package:water/domain/model/shopping/product.dart';
-import 'package:water/domain/service/product_service.dart';
+import 'package:water/domain/services/product_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/shopping_cart.dart';
+import 'package:water/utils/shopping_cart.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -75,7 +75,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             }
           })
           .whereNotNull()
-          .toList();
+          .toList(growable: false);
 
       yield state.copyWith(
         items: items,
@@ -94,7 +94,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           .map((item) => item.product.id == event.product.id
               ? item.copyWith(amount: event.amount)
               : item)
-          .toList();
+          .toList(growable: false);
     } else {
       items = [
         ...state.items,
@@ -116,7 +116,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   ) async* {
     final items = state.items
         .where((item) => item.product.id != event.product.id)
-        .toList();
+        .toList(growable: false);
 
     yield state.copyWith(
       items: items,

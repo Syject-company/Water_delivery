@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_column.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 import 'widgets/cart_list_item.dart';
 
@@ -48,13 +47,14 @@ class _CartScreenState extends State<CartScreen> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: SeparatedColumn(
+        includeOuterSeparators: true,
+        separator: defaultDivider,
         children: state.items.map((item) {
           return CartListItem(
             key: ValueKey(item),
             cartItem: item,
           );
-        }).toList(),
-        includeOuterSeparators: true,
+        }).toList(growable: false),
       ),
     );
   }

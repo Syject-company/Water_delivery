@@ -7,7 +7,7 @@ import 'package:water/domain/model/shopping/product.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/shopping/product/product_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/fade_page_route.dart';
+import 'package:water/utils/fade_page_route.dart';
 
 class ProductListItem extends StatefulWidget {
   const ProductListItem({

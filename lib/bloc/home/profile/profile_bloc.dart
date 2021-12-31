@@ -8,10 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/domain/model/profile/address_translation_form.dart';
 import 'package:water/domain/model/profile/profile_form.dart';
-import 'package:water/domain/service/profile_service.dart';
+import 'package:water/domain/services/profile_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/nullable.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/nullable.dart';
+import 'package:water/utils/session.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

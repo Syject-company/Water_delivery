@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water/domain/model/auth/auth_response.dart';
-import 'package:water/domain/service/auth_service.dart';
+import 'package:water/domain/services/auth_service.dart';
 import 'package:water/locator.dart';
 
 class Session {

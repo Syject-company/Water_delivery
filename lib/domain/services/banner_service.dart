@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:water/domain/model/banner.dart' as water;
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class BannerService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Banners';

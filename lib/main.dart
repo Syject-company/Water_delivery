@@ -10,18 +10,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sizer/sizer.dart';
-import 'package:water/app_colors.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/local_storage.dart' as water;
-import 'package:water/util/localization.dart';
-import 'package:water/util/notifications_util.dart';
-import 'package:water/util/session.dart';
-import 'package:water/util/shopping_cart.dart';
 
 import 'locator.dart';
 import 'resources_preloader.dart';
 import 'ui/screens/router.dart';
-import 'util/local_notification.dart';
+import 'utils/local_notification.dart';
+import 'utils/local_storage.dart' as water;
+import 'utils/localization.dart';
+import 'utils/notifications_util.dart';
+import 'utils/session.dart';
+import 'utils/shopping_cart.dart';
 
 export 'package:water/ui/extensions/navigator.dart';
 

@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:water/domain/model/profile/profile.dart';
 import 'package:water/domain/model/support/message_form.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class SupportService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Support';

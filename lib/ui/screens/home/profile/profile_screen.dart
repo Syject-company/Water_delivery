@@ -10,7 +10,7 @@ import 'package:water/domain/model/data/cities.dart';
 import 'package:water/domain/model/data/nationalities.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
+import 'package:water/utils/localization.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -278,7 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   [],
             );
           },
-          items: cities.map((city) => city.name).toList(),
+          items: cities.map((city) => city.name).toList(growable: false),
           enableSearch: false,
         ),
         const SizedBox(height: 16.0),

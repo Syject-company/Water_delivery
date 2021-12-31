@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:water/domain/model/shopping/product.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class ProductService {
   static const String _endpoint =
@@ -51,7 +51,7 @@ class ProductService {
         return Product.fromJson(json);
       })).where((product) {
         return product.categoryId == categoryId;
-      }).toList();
+      }).toList(growable: false);
     }
 
     return [];

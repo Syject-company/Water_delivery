@@ -13,10 +13,10 @@ import 'package:water/domain/model/delivery/date.dart';
 import 'package:water/domain/model/order/order_form.dart';
 import 'package:water/domain/model/order/order_product_form.dart';
 import 'package:water/domain/model/subscription/subscription_form.dart';
-import 'package:water/domain/service/order_service.dart';
-import 'package:water/domain/service/subscription_service.dart';
+import 'package:water/domain/services/order_service.dart';
+import 'package:water/domain/services/subscription_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
@@ -68,7 +68,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             id: item.product.id,
             amount: item.amount,
           );
-        }).toList(),
+        }).toList(growable: false),
         city: event.address.city,
         district: event.address.district,
         street: event.address.street,
@@ -113,7 +113,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             id: item.product.id,
             amount: item.amount,
           );
-        }).toList(),
+        }).toList(growable: false),
         city: event.address.city,
         district: event.address.district,
         street: event.address.street,

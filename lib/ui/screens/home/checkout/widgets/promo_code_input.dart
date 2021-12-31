@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/promo_codes/promo_codes_bloc.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/debounce.dart';
+import 'package:water/utils/debounce.dart';
 
 class PromoCodeInput extends StatelessWidget {
   PromoCodeInput({Key? key}) : super(key: key);

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:water/domain/model/profile/change_password_form.dart';
 import 'package:water/domain/model/wallet/wallet_payment_response.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class AccountService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Account';

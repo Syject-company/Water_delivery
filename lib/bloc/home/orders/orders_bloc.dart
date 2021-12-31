@@ -5,9 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/order/order.dart';
-import 'package:water/domain/service/order_service.dart';
+import 'package:water/domain/services/order_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'orders_event.dart';
 part 'orders_state.dart';

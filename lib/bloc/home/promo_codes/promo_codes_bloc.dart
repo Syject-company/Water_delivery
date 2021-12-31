@@ -5,9 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/promo_code/promo_code.dart';
-import 'package:water/domain/service/promo_code_service.dart';
+import 'package:water/domain/services/promo_code_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'promo_codes_event.dart';
 part 'promo_codes_state.dart';

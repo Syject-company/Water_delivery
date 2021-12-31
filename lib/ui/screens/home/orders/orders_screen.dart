@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/orders/orders_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_column.dart';
 
 import 'widgets/order_list_item.dart';
 
@@ -65,13 +64,14 @@ class OrdersScreen extends StatelessWidget {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: SeparatedColumn(
+                includeOuterSeparators: true,
+                separator: defaultDivider,
                 children: state.orders.map((order) {
                   return OrderListItem(
                     key: ValueKey(order),
                     order: order,
                   );
-                }).toList(),
-                includeOuterSeparators: true,
+                }).toList(growable: false),
               ),
             ),
           );

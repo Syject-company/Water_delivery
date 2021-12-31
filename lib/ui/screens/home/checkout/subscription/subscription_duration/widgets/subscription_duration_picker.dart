@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_row.dart';
 
 class SubscriptionDurationPicker extends StatefulWidget {
   const SubscriptionDurationPicker({

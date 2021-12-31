@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/separated_column.dart';
+import 'package:water/utils/localization.dart';
 
 import 'widgets/subscription_list_item.dart';
 
@@ -77,14 +76,15 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: SeparatedColumn(
+                includeOuterSeparators: true,
+                separator: defaultDivider,
                 children: state.subscriptions.map((subscription) {
                   return SubscriptionListItem(
                     key: ValueKey(subscription),
                     subscription: subscription,
                     selected: subscription == state.selectedSubscription,
                   );
-                }).toList(),
-                includeOuterSeparators: true,
+                }).toList(growable: false),
               ),
             ),
           );

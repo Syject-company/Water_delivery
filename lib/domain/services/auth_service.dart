@@ -8,7 +8,7 @@ import 'package:water/domain/model/auth/forgot_password_initial_form.dart';
 import 'package:water/domain/model/auth/sign_in_form.dart';
 import 'package:water/domain/model/auth/sign_up_form.dart';
 import 'package:water/domain/model/auth/token.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class AuthService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Account';

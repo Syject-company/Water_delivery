@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/auth/forgot_password_confirm_form.dart';
 import 'package:water/domain/model/auth/forgot_password_initial_form.dart';
-import 'package:water/domain/service/auth_service.dart';
+import 'package:water/domain/services/auth_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'forgot_password_event.dart';
 part 'forgot_password_state.dart';

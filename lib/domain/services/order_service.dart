@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:water/domain/model/order/order.dart';
 import 'package:water/domain/model/order/order_form.dart';
 import 'package:water/domain/model/payment_response.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class OrderService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Orders';

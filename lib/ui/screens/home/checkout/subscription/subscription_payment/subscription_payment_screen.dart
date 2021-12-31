@@ -15,8 +15,7 @@ import 'package:water/ui/screens/home/checkout/subscription/subscription_navigat
 import 'package:water/ui/screens/home/checkout/widgets/promo_code_input.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/separated_column.dart';
+import 'package:water/utils/localization.dart';
 
 class SubscriptionPaymentScreen extends StatelessWidget {
   SubscriptionPaymentScreen({Key? key}) : super(key: key);

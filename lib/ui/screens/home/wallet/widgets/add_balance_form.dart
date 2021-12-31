@@ -6,8 +6,8 @@ import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/screens/home/wallet/top_up/top_up_wallet_screen.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/currency_input_formatter.dart';
-import 'package:water/util/slide_with_fade_page_route.dart';
+import 'package:water/utils/currency_input_formatter.dart';
+import 'package:water/utils/slide_with_fade_page_route.dart';
 
 class AddBalanceForm extends StatefulWidget {
   AddBalanceForm({Key? key}) : super(key: key);

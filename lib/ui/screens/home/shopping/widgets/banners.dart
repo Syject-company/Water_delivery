@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/shopping/banners/banners_bloc.dart';
 import 'package:water/ui/shared_widgets/shimmer.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_row.dart';
 
 class Banners extends StatelessWidget {
   const Banners({Key? key}) : super(key: key);
@@ -44,7 +43,7 @@ class Banners extends StatelessWidget {
           fadeOutCurve: Curves.fastOutSlowIn,
           fit: BoxFit.fill,
         );
-      }).toList(),
+      }).toList(growable: false),
     ).withPadding(6.0, 0.0, 6.0, 0.0);
   }
 

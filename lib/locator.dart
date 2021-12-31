@@ -1,17 +1,17 @@
 import 'package:get_it/get_it.dart';
 
-import 'domain/service/account_service.dart';
-import 'domain/service/auth_service.dart';
-import 'domain/service/banner_service.dart';
-import 'domain/service/category_service.dart';
-import 'domain/service/notification_service.dart';
-import 'domain/service/order_service.dart';
-import 'domain/service/period_service.dart';
-import 'domain/service/product_service.dart';
-import 'domain/service/profile_service.dart';
-import 'domain/service/promo_code_service.dart';
-import 'domain/service/subscription_service.dart';
-import 'domain/service/support_service.dart';
+import 'domain/services/account_service.dart';
+import 'domain/services/auth_service.dart';
+import 'domain/services/banner_service.dart';
+import 'domain/services/category_service.dart';
+import 'domain/services/notification_service.dart';
+import 'domain/services/order_service.dart';
+import 'domain/services/period_service.dart';
+import 'domain/services/product_service.dart';
+import 'domain/services/profile_service.dart';
+import 'domain/services/promo_code_service.dart';
+import 'domain/services/subscription_service.dart';
+import 'domain/services/support_service.dart';
 
 final locator = GetIt.instance;
 

@@ -14,9 +14,8 @@ import 'package:water/ui/screens/home/checkout/order/order_navigator.dart';
 import 'package:water/ui/screens/home/checkout/widgets/promo_code_input.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/separated_column.dart';
-import 'package:water/util/slide_with_fade_page_route.dart';
+import 'package:water/utils/localization.dart';
+import 'package:water/utils/slide_with_fade_page_route.dart';
 
 import 'order_payment_view/order_payment_view_screen.dart';
 

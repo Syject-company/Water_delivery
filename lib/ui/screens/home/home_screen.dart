@@ -15,11 +15,11 @@ import 'package:water/bloc/home/shopping/products/products_bloc.dart';
 import 'package:water/bloc/home/shopping/shopping_bloc.dart';
 import 'package:water/app_resources.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/keep_alive.dart';
-import 'package:water/util/local_notification.dart';
-import 'package:water/util/local_storage.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/keep_alive.dart';
+import 'package:water/utils/local_notification.dart';
+import 'package:water/utils/local_storage.dart';
+import 'package:water/utils/localization.dart';
+import 'package:water/utils/session.dart';
 
 import 'cart/cart_screen.dart';
 import 'profile/profile_screen.dart';

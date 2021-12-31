@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/support/message_form.dart';
-import 'package:water/domain/service/support_service.dart';
+import 'package:water/domain/services/support_service.dart';
 import 'package:water/locator.dart';
 
 part 'support_event.dart';

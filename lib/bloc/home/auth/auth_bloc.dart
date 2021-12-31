@@ -12,9 +12,9 @@ import 'package:water/domain/model/auth/auth_response.dart';
 import 'package:water/domain/model/auth/sign_in_form.dart';
 import 'package:water/domain/model/auth/sign_up_form.dart';
 import 'package:water/domain/model/auth/token.dart';
-import 'package:water/domain/service/auth_service.dart';
+import 'package:water/domain/services/auth_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

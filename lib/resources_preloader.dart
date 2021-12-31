@@ -1,8 +1,8 @@
 import 'package:flutter/painting.dart';
 
 import 'app_resources.dart';
-import 'util/preload_image.dart';
-import 'util/preload_svg.dart';
+import 'utils/preload_image.dart';
+import 'utils/preload_svg.dart';
 
 Future<void> preloadResources() async {
   await Future.wait([

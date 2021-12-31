@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:water/domain/model/delivery/date.dart';
 import 'package:water/ui/extensions/date_time.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/separated_column.dart';
-import 'package:water/util/separated_row.dart';
+import 'package:water/utils/localization.dart';
 
 class DeliveryTimePicker extends StatefulWidget {
   const DeliveryTimePicker({
@@ -35,7 +33,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
       child: SeparatedRow(
         children: _dates.map((date) {
           return _buildDeliveryDate(date);
-        }).toList(),
+        }).toList(growable: false),
         separator: const SizedBox(width: 12.0),
       ),
     );
@@ -106,7 +104,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
           available: deliveryDate.available,
           period: period,
         );
-      }).toList(),
+      }).toList(growable: false),
       separator: const SizedBox(height: 12.0),
     ).withPadding(0.0, 16.0, 0.0, 0.0);
   }

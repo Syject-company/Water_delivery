@@ -114,7 +114,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                     [],
               );
             },
-            items: cities.map((city) => city.name).toList(),
+            items: cities.map((city) => city.name).toList(growable: false),
             validator: FieldValidator(fieldName: 'Emirate').validator,
             enableSearch: false,
           ),

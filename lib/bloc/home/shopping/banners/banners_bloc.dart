@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/banner.dart' as water;
-import 'package:water/domain/service/banner_service.dart';
+import 'package:water/domain/services/banner_service.dart';
 import 'package:water/locator.dart';
 
 part 'banners_event.dart';

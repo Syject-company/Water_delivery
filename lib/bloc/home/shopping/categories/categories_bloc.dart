@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/shopping/category.dart';
-import 'package:water/domain/service/category_service.dart';
+import 'package:water/domain/services/category_service.dart';
 import 'package:water/locator.dart';
 
 part 'categories_event.dart';

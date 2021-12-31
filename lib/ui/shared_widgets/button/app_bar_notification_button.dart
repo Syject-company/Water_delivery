@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/notifications/notifications_bloc.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/notifications_util.dart';
+import 'package:water/utils/notifications_util.dart';
 
 const double _iconSize = 32.0;
 
@@ -29,7 +29,7 @@ class _AppBarNotificationButtonState extends State<AppBarNotificationButton> {
 
             final notificationIds = state.notifications.map((notification) {
               return notification.id;
-            }).toList();
+            }).toList(growable: false);
 
             NotificationsUtil.markAsRead(notificationIds);
             setState(() {});

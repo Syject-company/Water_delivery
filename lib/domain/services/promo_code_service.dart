@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:water/domain/model/promo_code/promo_code.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class PromoCodeService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Admin';

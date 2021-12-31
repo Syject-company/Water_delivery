@@ -6,9 +6,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/profile/change_password_form.dart';
-import 'package:water/domain/service/account_service.dart';
+import 'package:water/domain/services/account_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'change_password_event.dart';
 part 'change_password_state.dart';

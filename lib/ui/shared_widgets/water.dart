@@ -7,7 +7,7 @@ export 'package:water/app_colors.dart';
 export 'package:water/ui/extensions/num.dart';
 export 'package:water/ui/extensions/widget.dart';
 export 'package:water/ui/icons/app_icons.dart';
-export 'package:water/util/sizer.dart';
+export 'package:water/utils/sizer.dart';
 
 export 'app_bar.dart';
 export 'bottom_navigation_bar/bottom_navigation_bar.dart';
@@ -28,6 +28,8 @@ export 'logo/animated_logo.dart';
 export 'logo/logo.dart';
 export 'number_picker.dart';
 export 'radio/radio_group.dart';
+export 'separated_column.dart';
+export 'separated_row.dart';
 export 'shimmer.dart';
 export 'side_menu.dart';
 export 'text/text.dart';

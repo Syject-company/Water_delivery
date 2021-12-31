@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:water/domain/model/profile/profile.dart';
 import 'package:water/domain/model/profile/profile_form.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class ProfileService {
   static const String _endpoint = 'https://gulfaweb.azurewebsites.net/Profile';

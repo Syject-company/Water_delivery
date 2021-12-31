@@ -67,7 +67,7 @@ class WaterBottomNavigationBar extends StatelessWidget {
           );
         })
         .values
-        .toList();
+        .toList(growable: false);
   }
 }
 

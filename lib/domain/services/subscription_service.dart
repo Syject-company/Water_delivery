@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:water/domain/model/subscription/subscription.dart';
 import 'package:water/domain/model/subscription/subscription_form.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class SubscriptionService {
   static const String _endpoint =

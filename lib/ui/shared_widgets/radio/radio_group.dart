@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_column.dart';
-import 'package:water/util/separated_row.dart';
 
 const double _circleWidth = 24.0;
 const double _circleHeight = 24.0;

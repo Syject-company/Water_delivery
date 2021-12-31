@@ -220,7 +220,7 @@ class _SelectDialogState extends State<_SelectDialog> {
                   setState(() {
                     searchedItems = widget.items.where((item) {
                       return _containsIgnoreCase(item, value);
-                    }).toList();
+                    }).toList(growable: false);
                   });
                 },
               ).withPadding(12.0, 0.0, 18.0, 18.0),

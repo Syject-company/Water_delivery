@@ -6,8 +6,8 @@ import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/subscriptions/subscriptions_bloc.dart';
 import 'package:water/bloc/home/wallet/wallet_bloc.dart';
 import 'package:water/app_colors.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/slide_with_fade_page_route.dart';
+import 'package:water/utils/localization.dart';
+import 'package:water/utils/slide_with_fade_page_route.dart';
 
 import 'auth/auth_navigator.dart';
 import 'checkout/order/order_navigator.dart';

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/auth/auth_bloc.dart';
 import 'package:water/domain/model/notification.dart' as water;
-import 'package:water/domain/service/notification_service.dart';
+import 'package:water/domain/services/notification_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/localization.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/localization.dart';
+import 'package:water/utils/session.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
@@ -76,7 +76,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       yield state.copyWith(
         notifications: notifications.where((notification) {
           return notification.body != null && notification.body!.isNotEmpty;
-        }).toList(),
+        }).toList(growable: false),
         status: NotificationsStatus.loaded,
       );
     }

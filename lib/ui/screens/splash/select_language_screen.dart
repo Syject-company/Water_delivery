@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:water/main.dart';
 import 'package:water/ui/extensions/navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/local_storage.dart';
-import 'package:water/util/localization.dart';
+import 'package:water/utils/local_storage.dart';
+import 'package:water/utils/localization.dart';
 
 class SelectLanguageScreen extends StatelessWidget {
   const SelectLanguageScreen({Key? key}) : super(key: key);

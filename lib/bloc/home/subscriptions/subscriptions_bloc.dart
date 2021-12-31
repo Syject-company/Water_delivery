@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/domain/model/subscription/subscription.dart';
-import 'package:water/domain/service/subscription_service.dart';
+import 'package:water/domain/services/subscription_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/nullable.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/nullable.dart';
+import 'package:water/utils/session.dart';
 
 part 'subscriptions_event.dart';
 

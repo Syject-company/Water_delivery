@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:water/domain/model/shopping/category.dart';
-import 'package:water/util/http.dart';
+import 'package:water/utils/http.dart';
 
 class CategoryService {
   static const String _endpoint =

@@ -3,17 +3,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:water/domain/service/banner_service.dart';
-import 'package:water/domain/service/category_service.dart';
-import 'package:water/domain/service/product_service.dart';
+import 'package:water/domain/services/banner_service.dart';
+import 'package:water/domain/services/category_service.dart';
+import 'package:water/domain/services/product_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/app_resources.dart';
-import 'package:water/util/local_storage.dart';
-import 'package:water/util/preload_image.dart';
-import 'package:water/util/preload_svg.dart';
+import 'package:water/utils/local_storage.dart';
+import 'package:water/utils/preload_image.dart';
 
 part 'splash_event.dart';
-
 part 'splash_state.dart';
 
 extension BlocGetter on BuildContext {

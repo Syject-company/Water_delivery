@@ -5,9 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
-import 'package:water/domain/service/account_service.dart';
+import 'package:water/domain/services/account_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/util/session.dart';
+import 'package:water/utils/session.dart';
 
 part 'wallet_event.dart';
 part 'wallet_state.dart';

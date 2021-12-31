@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:water/ui/screens/home/faq/widgets/faq_list_item.dart';
 import 'package:water/ui/screens/home/home_navigator.dart';
 import 'package:water/ui/shared_widgets/water.dart';
-import 'package:water/util/separated_column.dart';
 
 class FAQScreen extends StatefulWidget {
   const FAQScreen({Key? key}) : super(key: key);
@@ -47,6 +46,8 @@ class _FAQScreenState extends State<FAQScreen> {
 
   Widget _buildFAQItems() {
     return SeparatedColumn(
+      includeOuterSeparators: true,
+      separator: defaultDivider,
       children: [
         FAQListItem(
           header: 'Will I be charged immediately once '
@@ -84,7 +85,6 @@ class _FAQScreenState extends State<FAQScreen> {
           body: 'Response 8',
         ),
       ],
-      includeOuterSeparators: true,
     );
   }
 }
