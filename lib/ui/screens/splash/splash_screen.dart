@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:water/bloc/splash/splash_bloc.dart';
 import 'package:water/main.dart';
-import 'package:water/ui/constants/paths.dart';
+import 'package:water/app_resources.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final VideoPlayerController _videoController =
-      VideoPlayerController.asset(Paths.splash_video);
+      VideoPlayerController.asset(AppResources.splash_video);
 
   @override
   void setState(VoidCallback fn) {

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sizer/sizer.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/app_colors.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/util/local_storage.dart' as water;
 import 'package:water/util/localization.dart';
@@ -19,6 +19,7 @@ import 'package:water/util/session.dart';
 import 'package:water/util/shopping_cart.dart';
 
 import 'locator.dart';
+import 'resources_preloader.dart';
 import 'ui/screens/router.dart';
 import 'util/local_notification.dart';
 
@@ -36,6 +37,7 @@ void main() async {
   await NotificationsUtil.ensureInitialized();
   await ShoppingCart.ensureInitialized();
   await Session.ensureInitialized();
+  await preloadResources();
   setupLocator();
 
   if (Platform.isAndroid) {

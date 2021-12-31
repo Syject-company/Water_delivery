@@ -7,7 +7,7 @@ import 'package:water/domain/service/banner_service.dart';
 import 'package:water/domain/service/category_service.dart';
 import 'package:water/domain/service/product_service.dart';
 import 'package:water/locator.dart';
-import 'package:water/ui/constants/paths.dart';
+import 'package:water/app_resources.dart';
 import 'package:water/util/local_storage.dart';
 import 'package:water/util/preload_image.dart';
 import 'package:water/util/preload_svg.dart';
@@ -53,12 +53,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         ...categories.map((category) => category.imageUri),
         ...products.map((product) => product.imageUri),
       ];
-
-      await Future.wait([
-        preloadSvg(Paths.logo_icon),
-        preloadSvg(Paths.logo_label_white),
-        preloadSvg(Paths.logo_label_colored),
-      ]);
 
       await Future.wait(imagesToPreload.map((image) {
         return preloadImage(CachedNetworkImageProvider(image));

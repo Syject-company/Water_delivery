@@ -1,6 +1,9 @@
-abstract class Paths {
+abstract class AppResources {
   // lottie
   static const String drop_logo = 'assets/lottie/drop_logo.json';
+
+  // images
+  static const String icon = 'assets/images/icon.png';
 
   // svg
   static const String logo_icon = 'assets/svg/logo_icon.svg';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/app_colors.dart';
 import 'package:water/ui/icons/app_icons.dart';
 
 class CategoryLoadingListItem extends StatelessWidget {

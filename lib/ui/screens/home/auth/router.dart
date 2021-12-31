@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:water/bloc/home/auth/forgot_password/forgot_password_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/app_colors.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'auth_screen.dart';

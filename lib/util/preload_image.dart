@@ -16,6 +16,7 @@ Future<void> preloadImage(ImageProvider provider) {
 
   late final ImageStreamListener listener;
   listener = ImageStreamListener((image, _) {
+    debugPrint('Image ${image.debugLabel} preloaded');
     completer.complete();
     stream.removeListener(listener);
   }, onError: (exception, stackTrace) {

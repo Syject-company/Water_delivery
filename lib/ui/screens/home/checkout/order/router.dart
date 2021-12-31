@@ -4,7 +4,7 @@ import 'package:water/bloc/home/cart/cart_bloc.dart';
 import 'package:water/bloc/home/checkout/payment/payment_bloc.dart';
 import 'package:water/bloc/home/profile/profile_bloc.dart';
 import 'package:water/bloc/home/promo_codes/promo_codes_bloc.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/app_colors.dart';
 import 'package:water/util/slide_with_fade_page_route.dart';
 
 import 'delivery_address/delivery_address_screen.dart';

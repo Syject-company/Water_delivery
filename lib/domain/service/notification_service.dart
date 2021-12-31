@@ -9,12 +9,13 @@ class NotificationService {
       'https://gulfaweb.azurewebsites.net/Notifications';
 
   Future<List<water.Notification>> getAll(
-      String token, [
-        String language = 'en',
-      ]) async {
+    String token, [
+    String language = 'en',
+  ]) async {
     final response = await Http.get(
       _endpoint,
       headers: {
+        HttpHeaders.cacheControlHeader: 'no-cache, no-store, must-revalidate',
         HttpHeaders.authorizationHeader: 'Bearer $token',
         HttpHeaders.acceptLanguageHeader: language,
       },

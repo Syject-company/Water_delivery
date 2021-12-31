@@ -1,9 +1,9 @@
 library water;
 
 import 'package:flutter/material.dart';
-import 'package:water/ui/constants/colors.dart';
+import 'package:water/app_colors.dart';
 
-export 'package:water/ui/constants/colors.dart';
+export 'package:water/app_colors.dart';
 export 'package:water/ui/extensions/num.dart';
 export 'package:water/ui/extensions/widget.dart';
 export 'package:water/ui/icons/app_icons.dart';

@@ -6,5 +6,6 @@ Future<void> preloadSvg(String path) async {
     ExactAssetPicture(SvgPicture.svgStringDecoder, path),
     null,
   );
+  debugPrint('SVG $path preloaded');
   return completer;
 }
