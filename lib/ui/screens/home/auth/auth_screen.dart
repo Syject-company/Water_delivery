@@ -38,7 +38,7 @@ class AuthScreen extends StatelessWidget {
           child: Column(
             children: [
               Image.asset(
-                AppResources.icon,
+                AppResources.logo,
                 width: 100.w / (isMobile ? 1.75 : 2.5),
               ),
               const SizedBox(height: 64.0),

@@ -175,10 +175,10 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedIndex: state.index,
           items: [
             WaterBottomNavigationBarItem(
-              icon: SvgPicture.asset(AppResources.logo_label_colored)
+              icon: SvgPicture.asset(AppResources.logoLabelColored)
                   .withPaddingAll(6.0),
               selectedIcon:
-                  SvgPicture.asset(AppResources.logo_label_white).withPaddingAll(6.0),
+                  SvgPicture.asset(AppResources.logoLabelWhite).withPaddingAll(6.0),
               onPressed: () {
                 context.navigation.add(
                   NavigateTo(screen: Screen.home),

@@ -6,12 +6,12 @@ import 'utils/preload_svg.dart';
 
 Future<void> preloadResources() async {
   await Future.wait([
-    preloadSvg(AppResources.logo_icon),
-    preloadSvg(AppResources.logo_label_white),
-    preloadSvg(AppResources.logo_label_colored),
+    preloadSvg(AppResources.logoIcon),
+    preloadSvg(AppResources.logoLabelWhite),
+    preloadSvg(AppResources.logoLabelColored),
   ]);
 
   await Future.wait([
-    preloadImage(const AssetImage(AppResources.icon)),
+    preloadImage(const AssetImage(AppResources.logo)),
   ]);
 }

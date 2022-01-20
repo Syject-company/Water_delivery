@@ -16,7 +16,7 @@ class WaterLogoLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      AppResources.logo_label_white,
+      AppResources.logoLabelWhite,
       width: 100.w / (isMobile ? widthFactor : widthFactor * 1.5),
       color: color,
     );

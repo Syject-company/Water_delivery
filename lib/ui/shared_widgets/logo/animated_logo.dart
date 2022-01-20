@@ -18,7 +18,7 @@ class WaterAnimatedLogo extends StatelessWidget {
 
   Widget _buildIcon(BuildContext context) {
     return Lottie.asset(
-      AppResources.drop_logo,
+      AppResources.dropLogo,
       frameRate: FrameRate.max,
       width: 100.w / (isMobile ? widthFactor : widthFactor * 1.5),
     );

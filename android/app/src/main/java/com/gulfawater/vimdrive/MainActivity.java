@@ -1,4 +1,4 @@
-package VimDrive.Gulfa.Water;
+package com.gulfawater.vimdrive;
 
 import io.flutter.embedding.android.FlutterActivity;
 

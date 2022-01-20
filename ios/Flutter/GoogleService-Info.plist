@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>VimDrive.Gulfa.Water</string>
+	<string>com.gulfawater.vimdrive</string>
 	<key>PROJECT_ID</key>
 	<string>gulfa-water-327510</string>
 	<key>STORAGE_BUCKET</key>

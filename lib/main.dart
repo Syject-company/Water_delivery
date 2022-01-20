@@ -116,7 +116,7 @@ class GulfaWaterApp extends StatelessWidget {
         );
       },
       theme: theme,
-      title: 'Gulfa Water',
+      title: 'Gulfa',
       navigatorKey: appNavigator,
       initialRoute: AppRoutes.splash,
       onGenerateRoute: RootRouter.generateRoute,

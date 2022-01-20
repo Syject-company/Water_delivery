@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final VideoPlayerController _videoController =
-      VideoPlayerController.asset(AppResources.splash_video);
+      VideoPlayerController.asset(AppResources.splashVideo);
 
   @override
   void setState(VoidCallback fn) {

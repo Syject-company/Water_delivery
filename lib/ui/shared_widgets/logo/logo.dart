@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:water/app_colors.dart';
 import 'package:water/app_resources.dart';
 import 'package:water/ui/shared_widgets/water.dart';
 
@@ -34,7 +33,7 @@ class WaterLogo extends StatelessWidget {
 
   Widget _buildIcon(BuildContext context) {
     return SvgPicture.asset(
-      AppResources.logo_icon,
+      AppResources.logoIcon,
       color: AppColors.primaryLight,
       width: 100.w / (isMobile ? iconWidthFactor : iconWidthFactor * 1.5),
     );
@@ -42,7 +41,7 @@ class WaterLogo extends StatelessWidget {
 
   Widget _buildLabel(BuildContext context) {
     return SvgPicture.asset(
-      AppResources.logo_label_colored,
+      AppResources.logoLabelColored,
       color: labelColor,
       width: 100.w / (isMobile ? labelWidthFactor : labelWidthFactor * 1.5),
     );
