@@ -41,7 +41,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
 
   Widget _buildDeliveryDate(DeliveryDate deliveryDate) {
     final locale = Localization.currentLocale(context).languageCode;
-    final formattedDayOfWeek;
+    final String formattedDayOfWeek;
     if (deliveryDate.date.isToday) {
       formattedDayOfWeek = 'text.today'.tr();
     } else if (deliveryDate.date.isTomorrow) {
@@ -57,7 +57,7 @@ class _DeliveryTimePickerState extends State<DeliveryTimePicker> {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
-        border: Border.fromBorderSide(defaultBorder),
+        border: const Border.fromBorderSide(defaultBorder),
         color: AppColors.white,
       ),
       child: Column(
@@ -145,7 +145,7 @@ class _PeriodButton extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        border: Border.fromBorderSide(defaultBorder),
+        border: const Border.fromBorderSide(defaultBorder),
         color: AppColors.white,
       ),
       height: 48.0,

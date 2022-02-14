@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +10,7 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/utils/localization.dart';
 
 class DeliveryTimeScreen extends StatefulWidget {
-  DeliveryTimeScreen({Key? key}) : super(key: key);
+  const DeliveryTimeScreen({Key? key}) : super(key: key);
 
   @override
   _DeliveryTimeScreenState createState() => _DeliveryTimeScreenState();
@@ -27,7 +25,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
       listener: (_, state) async {
         if (state is OrderDetailsCollected && state.push) {
           await orderNavigator.pushNamed(OrderRoutes.orderPayment);
-          context.order.add(BackPressed());
+          context.order.add(const BackPressed());
         }
       },
       child: Scaffold(
@@ -52,7 +50,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
           orderNavigator.pop();
         },
       ),
-      actions: [
+      actions: const [
         AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
@@ -155,7 +153,7 @@ class _DeliveryTimeScreenState extends State<DeliveryTimeScreen> {
   Widget _buildNextButton() {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: defaultBorder),
       ),
       child: Column(

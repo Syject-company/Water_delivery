@@ -7,7 +7,10 @@ import 'package:water/ui/shared_widgets/button/app_bar_back_button.dart';
 import 'package:water/ui/shared_widgets/text/text.dart';
 
 class OrderPaymentViewScreen extends StatefulWidget {
-  OrderPaymentViewScreen({required this.url});
+  const OrderPaymentViewScreen({
+    Key? key,
+    required this.url,
+  }) : super(key: key);
 
   final String url;
 

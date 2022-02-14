@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +34,7 @@ class DeliveryAddressScreen extends StatelessWidget {
           );
           await subscriptionNavigator
               .pushNamed(SubscriptionRoutes.subscriptionDuration);
-          context.subscription.add(BackPressed());
+          context.subscription.add(const BackPressed());
         }
       },
       child: Scaffold(
@@ -61,7 +59,7 @@ class DeliveryAddressScreen extends StatelessWidget {
           homeNavigator.pop();
         },
       ),
-      actions: [
+      actions: const [
         AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
@@ -116,7 +114,7 @@ class DeliveryAddressScreen extends StatelessWidget {
               );
             },
             items: cities.map((city) => city.name).toList(growable: false),
-            validator: FieldValidator(fieldName: 'Emirate').validator,
+            validator: const FieldValidator(fieldName: 'Emirate').validator,
             enableSearch: false,
           ),
           const SizedBox(height: 16.0),
@@ -130,7 +128,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                   return city.name == _cityController.text;
                 })?.districts ??
                 [],
-            validator: FieldValidator(fieldName: 'District').validator,
+            validator: const FieldValidator(fieldName: 'District').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
@@ -138,7 +136,7 @@ class DeliveryAddressScreen extends StatelessWidget {
             labelText: 'input.street'.tr(),
             hintText: 'input.street'.tr(),
             keyboardType: TextInputType.text,
-            validator: FieldValidator(fieldName: 'Street').validator,
+            validator: const FieldValidator(fieldName: 'Street').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
@@ -146,7 +144,6 @@ class DeliveryAddressScreen extends StatelessWidget {
             labelText: 'input.building'.tr(),
             hintText: 'input.building'.tr(),
             keyboardType: TextInputType.text,
-            validator: FieldValidator(fieldName: 'Building').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
@@ -154,7 +151,6 @@ class DeliveryAddressScreen extends StatelessWidget {
             labelText: 'input.floor'.tr(),
             hintText: 'input.floor'.tr(),
             keyboardType: TextInputType.number,
-            validator: FieldValidator(fieldName: 'Floor').validator,
           ),
           const SizedBox(height: 16.0),
           WaterFormInput(
@@ -162,7 +158,6 @@ class DeliveryAddressScreen extends StatelessWidget {
             labelText: 'input.apartment'.tr(),
             hintText: 'input.apartment'.tr(),
             keyboardType: TextInputType.text,
-            validator: FieldValidator(fieldName: 'Apartment').validator,
           ),
         ],
       ),
@@ -172,7 +167,7 @@ class DeliveryAddressScreen extends StatelessWidget {
   Widget _buildNextButton(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: defaultBorder),
       ),
       child: Column(
@@ -181,7 +176,7 @@ class DeliveryAddressScreen extends StatelessWidget {
           WaterButton(
             onPressed: () {
               FocusManager.instance.primaryFocus?.unfocus();
-              
+
               if (!_deliveryAddressFormKey.currentState!.validate()) {
                 return;
               }

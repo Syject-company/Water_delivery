@@ -8,7 +8,7 @@ import 'package:water/utils/debounce.dart';
 class PromoCodeInput extends StatelessWidget {
   PromoCodeInput({Key? key}) : super(key: key);
 
-  final Debounce _applyPromoCode = Debounce(Duration(seconds: 1));
+  final Debounce _applyPromoCode = Debounce(const Duration(seconds: 1));
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PromoCodeInput extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 onChanged: (code) {
                   context.promoCodes.add(
-                    ResetPromoCode(),
+                    const ResetPromoCode(),
                   );
 
                   if (code.trim().isEmpty) {

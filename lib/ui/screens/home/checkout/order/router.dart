@@ -26,7 +26,7 @@ class CheckoutRouter {
         );
       case OrderRoutes.deliveryTime:
         return SlideWithFadePageRoute(
-          builder: (_) => DeliveryTimeScreen(),
+          builder: (_) => const DeliveryTimeScreen(),
         );
       case OrderRoutes.orderPayment:
         return SlideWithFadePageRoute(
@@ -40,7 +40,7 @@ class CheckoutRouter {
               ),
               BlocProvider(create: (_) => PromoCodesBloc()),
             ],
-            child: OrderPaymentScreen(),
+            child: const OrderPaymentScreen(),
           ),
         );
       default:

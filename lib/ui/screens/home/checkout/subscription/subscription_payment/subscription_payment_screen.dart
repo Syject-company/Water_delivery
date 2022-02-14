@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,25 +16,25 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'package:water/utils/localization.dart';
 
 class SubscriptionPaymentScreen extends StatelessWidget {
-  SubscriptionPaymentScreen({Key? key}) : super(key: key);
+  const SubscriptionPaymentScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<PaymentBloc, PaymentState>(
       listener: (context, state) async {
         if (state is TopUpWallet) {
-          await showWaterDialog(context, TopUpWalletAlert());
+          await showWaterDialog(context, const TopUpWalletAlert());
         } else if (state is SuccessfulPayment) {
-          await showWaterDialog(context, SuccessfulPaymentAlert());
+          await showWaterDialog(context, const SuccessfulPaymentAlert());
           context.navigation.add(
-            navigation.NavigateTo(screen: navigation.Screen.home),
+            const navigation.NavigateTo(screen: navigation.Screen.home),
           );
           context.navigation.add(
-            navigation.BackPressed(),
+            const navigation.BackPressed(),
           );
           homeNavigator.pop();
         } else if (state is PaymentError) {
-          await showWaterDialog(context, ErrorAlert());
+          await showWaterDialog(context, const ErrorAlert());
         }
       },
       child: Scaffold(
@@ -61,7 +59,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
           subscriptionNavigator.pop();
         },
       ),
-      actions: [
+      actions: const [
         AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
@@ -121,17 +119,19 @@ class SubscriptionPaymentScreen extends StatelessWidget {
   }
 
   Widget _buildDeliveryAddress(SubscriptionDetailsCollected details) {
-    final deliveryAddress = details.address;
-    final emirate = deliveryAddress.city;
-    final district = deliveryAddress.district;
-    final street = deliveryAddress.street;
-    final building = deliveryAddress.building;
-    final floor = deliveryAddress.floor;
-    final apartment = deliveryAddress.apartment;
+    final address = details.address;
+    StringBuffer deliveryAddress = StringBuffer();
+    deliveryAddress.write('${address.city}, ');
+    deliveryAddress.write('${address.district}, ');
+    deliveryAddress.write('${address.street}, ');
+    deliveryAddress
+        .write(address.building.isNotEmpty ? '${address.building}, ' : '');
+    deliveryAddress.write(address.floor.isNotEmpty ? '${address.floor}, ' : '');
+    deliveryAddress.write(address.apartment);
 
     return Row(
       children: [
-        Icon(
+        const Icon(
           AppIcons.pin,
           size: 36.0,
           color: AppColors.secondaryText,
@@ -139,7 +139,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
-            '$emirate, $district, $street, $building, $floor, $apartment',
+            deliveryAddress.toString(),
             fontSize: 16.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w600,
@@ -165,7 +165,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
+        const Icon(
           AppIcons.time,
           size: 36.0,
           color: AppColors.secondaryText,
@@ -192,7 +192,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.update,
           size: 30.0,
           color: AppColors.secondaryText,
@@ -289,7 +289,7 @@ class SubscriptionPaymentScreen extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: defaultBorder),
       ),
       child: Column(

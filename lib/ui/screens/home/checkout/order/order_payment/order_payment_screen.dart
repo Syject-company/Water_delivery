@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +18,7 @@ import 'package:water/utils/slide_with_fade_page_route.dart';
 import 'order_payment_view/order_payment_view_screen.dart';
 
 class OrderPaymentScreen extends StatelessWidget {
-  OrderPaymentScreen({Key? key}) : super(key: key);
+  const OrderPaymentScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +32,17 @@ class OrderPaymentScreen extends StatelessWidget {
           );
 
           if (successfulPayment != null && successfulPayment) {
-            context.payment.add(
-              FinishPayment(),
-            );
+            context.payment.add(const FinishPayment());
           }
         } else if (state is SuccessfulPayment) {
-          await showWaterDialog(context, SuccessfulPaymentAlert());
+          await showWaterDialog(context, const SuccessfulPaymentAlert());
           context.navigation.add(
-            navigation.NavigateTo(screen: navigation.Screen.home),
+            const navigation.NavigateTo(screen: navigation.Screen.home),
           );
-          context.navigation.add(
-            navigation.BackPressed(),
-          );
+          context.navigation.add(const navigation.BackPressed());
           homeNavigator.pop();
         } else if (state is PaymentError) {
-          await showWaterDialog(context, ErrorAlert());
+          await showWaterDialog(context, const ErrorAlert());
         }
       },
       child: Scaffold(
@@ -73,7 +67,7 @@ class OrderPaymentScreen extends StatelessWidget {
           orderNavigator.pop();
         },
       ),
-      actions: [
+      actions: const [
         AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
@@ -114,17 +108,19 @@ class OrderPaymentScreen extends StatelessWidget {
   }
 
   Widget _buildDeliveryAddress(OrderDetailsCollected details) {
-    final deliveryAddress = details.address;
-    final emirate = deliveryAddress.city;
-    final district = deliveryAddress.district;
-    final street = deliveryAddress.street;
-    final building = deliveryAddress.building;
-    final floor = deliveryAddress.floor;
-    final apartment = deliveryAddress.apartment;
+    final address = details.address;
+    StringBuffer deliveryAddress = StringBuffer();
+    deliveryAddress.write('${address.city}, ');
+    deliveryAddress.write('${address.district}, ');
+    deliveryAddress.write('${address.street}, ');
+    deliveryAddress
+        .write(address.building.isNotEmpty ? '${address.building}, ' : '');
+    deliveryAddress.write(address.floor.isNotEmpty ? '${address.floor}, ' : '');
+    deliveryAddress.write(address.apartment);
 
     return Row(
       children: [
-        Icon(
+        const Icon(
           AppIcons.pin,
           size: 36.0,
           color: AppColors.secondaryText,
@@ -132,7 +128,7 @@ class OrderPaymentScreen extends StatelessWidget {
         const SizedBox(width: 12.0),
         Expanded(
           child: WaterText(
-            '$emirate, $district, $street, $building, $floor, $apartment',
+            deliveryAddress.toString(),
             fontSize: 16.0,
             lineHeight: 1.5,
             fontWeight: FontWeight.w600,
@@ -158,7 +154,7 @@ class OrderPaymentScreen extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
+        const Icon(
           AppIcons.time,
           size: 36.0,
           color: AppColors.secondaryText,
@@ -253,7 +249,7 @@ class OrderPaymentScreen extends StatelessWidget {
   Widget _buildBottomPanel(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: defaultBorder),
       ),
       child: Column(

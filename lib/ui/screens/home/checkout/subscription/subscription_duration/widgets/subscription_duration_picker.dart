@@ -25,7 +25,7 @@ class _SubscriptionDurationPickerState
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19.0),
-        border: Border.fromBorderSide(defaultBorder),
+        border: const Border.fromBorderSide(defaultBorder),
         color: AppColors.white,
       ),
       child: SeparatedRow(

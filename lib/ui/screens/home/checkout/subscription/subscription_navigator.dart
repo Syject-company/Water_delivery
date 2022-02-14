@@ -13,7 +13,7 @@ export 'router.dart';
 final GlobalKey<NavigatorState> subscriptionNavigator = GlobalKey();
 
 class SubscriptionNavigator extends StatelessWidget {
-  SubscriptionNavigator({Key? key}) : super(key: key);
+  const SubscriptionNavigator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +8,7 @@ import 'package:water/ui/shared_widgets/water.dart';
 import 'widgets/subscription_duration_picker.dart';
 
 class SubscriptionDurationScreen extends StatefulWidget {
-  SubscriptionDurationScreen({Key? key}) : super(key: key);
+  const SubscriptionDurationScreen({Key? key}) : super(key: key);
 
   @override
   _SubscriptionDurationScreenState createState() =>
@@ -28,7 +26,7 @@ class _SubscriptionDurationScreenState
         if (state is DeliveryTimeInput && state.push) {
           await subscriptionNavigator
               .pushNamed(SubscriptionRoutes.deliveryTime);
-          context.subscription.add(BackPressed());
+          context.subscription.add(const BackPressed());
         }
       },
       child: Scaffold(
@@ -53,7 +51,7 @@ class _SubscriptionDurationScreenState
           subscriptionNavigator.pop();
         },
       ),
-      actions: [
+      actions: const [
         AppBarWhatsappButton(),
         AppBarNotificationButton(),
       ],
@@ -127,7 +125,7 @@ class _SubscriptionDurationScreenState
   Widget _buildNextButton() {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(top: defaultBorder),
       ),
       child: Column(

@@ -13,7 +13,7 @@ export 'router.dart';
 final GlobalKey<NavigatorState> orderNavigator = GlobalKey();
 
 class OrderNavigator extends StatelessWidget {
-  OrderNavigator({Key? key}) : super(key: key);
+  const OrderNavigator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
