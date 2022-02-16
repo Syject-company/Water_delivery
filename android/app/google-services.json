@@ -1,0 +1,37 @@
+{
+  "project_info": {
+    "project_number": "420449922030",
+    "project_id": "gulfa-water-327510",
+    "storage_bucket": "gulfa-water-327510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420449922030:android:573c55b8b758bfef91bcff",
+        "android_client_info": {
+          "package_name": "com.gulfawater.vimdrive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCECpLDxxDVsfZAS1Ymc7-zk-TxsslkQcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420449922030-i3bv7i1qtjmblkfk9o824d5b2divp13k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gulfawater.vimdrive"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
